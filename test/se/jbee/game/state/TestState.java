@@ -1,5 +1,6 @@
 package se.jbee.game.state;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
@@ -70,4 +71,11 @@ public class TestState {
 		assertEquals("foo", e2.text(Component.NAME));
 	}
 	
+	@Test
+	public void allSelector() {
+		State g = State.base();
+		
+		assertArrayEquals(new int[] {0,1,2,3}, g.all(Component.COMPONENT));
+		assertArrayEquals(new int[0], g.all(42));
+	}
 }

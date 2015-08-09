@@ -75,7 +75,7 @@ public final class State implements Component {
 		int[] all = new int[8];
 		int c = 0;
 		for (int i = 0; i < size; i++) {
-			if (es[i].at(0) == type) {
+			if (es[i].at(1) == type) {
 				if (c >= all.length) {
 					all = copyOf(all, all.length*2);
 				}
