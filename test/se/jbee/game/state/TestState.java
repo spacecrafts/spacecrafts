@@ -51,4 +51,23 @@ public class TestState {
 		assertEquals(g.toString(), g2.toString());
 	}
 	
+	@Test
+	public void saveExtractEntityFromFile() throws IOException {
+		State g = State.base();
+		
+		final int someType = 10; // just something we try to extract from a save file again.
+		
+		g.defComponent(someType);
+		Entity e = g.defEntity(someType);
+		e.put(Component.NAME, codePoints("foo"));
+		
+		File f = File.createTempFile("saveExtractEntity", ".game");
+		g.save(f);
+		
+		Entity e2 = State.load(f, someType);
+		
+		assertEquals(e.num(Component.ID), e2.num(Component.ID));
+		assertEquals("foo", e2.text(Component.NAME));
+	}
+	
 }

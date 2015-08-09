@@ -3,6 +3,7 @@ package se.jbee.game.state;
 import static java.util.Arrays.copyOf;
 import static se.jbee.game.state.Entity.codePoints;
 
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -84,8 +85,12 @@ public final class State implements Component {
 		return copyOf(all, c);
 	}
 	
-	public boolean exists(int id) {
+	public boolean hasEntity(int id) {
 		return id < size && id >= 0;
+	}
+	
+	public boolean hasComponent(int type) {
+		return type == 0 || es[0].list(0)[type] > 0;
 	}
 	
 	public Entity component(int type) {
@@ -117,6 +122,35 @@ public final class State implements Component {
 			}
 		}
 		return g;
+	}
+	
+	/**
+	 * Loads the first entity with the given type.
+	 * 
+	 * This allows to peek into a file just for some specific data as the general game state. 
+	 */
+	public static Entity load(File file, int type) throws IOException {
+		try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(file), 64))) {
+			int size = in.readInt();
+			for (int i = 0; i < size; i++) {
+				in.mark(64);
+				int ez = in.readInt();
+				for (int j = 0; j < ez; j++) {
+					int c = in.readInt();
+					int l = in.readInt();
+					if (c == TYPE) {
+						int ct = in.readInt();
+						if (ct == type) {
+							in.reset();
+							return Entity.load(in);
+						}
+					} else {
+						in.skipBytes(l*4);
+					}
+				}
+			}
+		}
+		throw new NoSuchElementException("No entity of type `"+type+"` contained in file: "+file);
 	}
 	
 	@Override

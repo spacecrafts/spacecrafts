@@ -72,7 +72,7 @@ public final class Entity implements Component {
 			}
 		}
 		return e;
-	}	
+	}
 	
 	public void save(DataOutputStream out) throws IOException {
 		int c = 0;
@@ -96,7 +96,7 @@ public final class Entity implements Component {
 	}
 	
 	/*
-	 * generic
+	 * all
 	 */
 	
 	public void clear() {
@@ -159,6 +159,11 @@ public final class Entity implements Component {
 		int i = indexOf(comp);
 		return i < 0 ? EMPTY_LIST : vs[i];
 	}
+	
+	public String text(int comp) {
+		int[] text = vs[indexOf(comp)];
+		return new String(text, 0, text.length);
+	}	
 	
 	public void append(int comp, int e) {
 		int i = indexOf(comp);
