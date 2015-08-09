@@ -2,6 +2,18 @@ package se.jbee.game.scs.state;
 
 import se.jbee.game.state.Component;
 
+/**
+ * A list of ALL the components used in the game.
+ * 
+ * This is essentially a long list of all "things" and their properties that
+ * exist in the game.
+ * 
+ * !!! ATTENTION !!!
+ * The most important part is to NEVER change the value of a component as soon
+ * as there is any code using it. Each number stands for the semantics of the
+ * thing or property. Changing the number does change the meaning of stored game
+ * state!
+ */
 public interface GameComponent extends Component {
 
 	// 0-3 are defined in Component
@@ -12,6 +24,8 @@ public interface GameComponent extends Component {
 	// * = pointer to (ID of another entity)
 	// # = number (of) (a numeric value)
 	// ? = boolean (1=true, 0=false)
+	// [...] = list
+	// {...} = set
 	
 	int 
 	/*
@@ -23,97 +37,124 @@ public interface GameComponent extends Component {
 		GALAXIES = 13,// [*x,*y,*z]
 
 	PLAYER = 20,
+		NO = 21, //#
 		// SEEDS [#,#,...]
-		HOME = 21, // *x (planet)
-		STATUS = 22, // [?AI, ?ALIVE]
-		TECHNOLOGIES = 23, // [*x,*y,*z] (researched)
+		HOME = 22, // *x (planet)
+		STATUS = 23, // [?AI, ?ALIVE]
 		// TECHNOLOGY (in progress)
-		COLONIES = 24, // [*x,*y,*z]
-		ORBITS = 25, // [*x,*y,*z]
-		FLEETS = 26, // [*x,*y,*z]
-		// PLANETS (known/discovered)
-		// SOLAR_SYSTEMS (known/discovered)
-		// CLUSTERS (known/discovered)
-		// GALAXIES (known/discovered)
+		// things belong to the player:
+		PLANS = 24,
+		RELATIONS = 25, // [#,#,...] (the diplomatic points for each player, in order of game players)
+		TECHNOLOGIES = 26, // {*x,*y,*z} (researched)
+		COLONIES = 27, // {*x,*y,*z}
+		ORBITS = 28, // {*x,*y,*z}
+		FLEETS = 29, // {*x,*y,*z}
+		OFFERS = 30, // {*x,*y,*z}
+		// things known to (/discovered by) the player
+		// PLANETS {*x,*y,*z} 
+		// SOLAR_SYSTEMS {*x,*y,*z}
+		// CLUSTERS {*x,*y,*z}
+		// GALAXIES {*x,*y,*z}
+		// MODULES {*x,*y,*z}
+		// UNITS {*x,*y,*z}
+		// PARTS {*x,*y,*z} (what can be used by a player)
+		
+	PLAN = 50,
+		PARTICIPANTS = 51, // {*x,*y,... } (a set of colonies, orbits, spacecrafts, constructions) that belong to the plan
 		
 	/*
 	 * Galaxy
 	 */
-	GALAXY = 30,
+	GALAXY = 100,
 		// SEEDS [#,#,...]
-		CLUSTERS = 31, // [*x,*y,*z]
+		CLUSTERS = 101, // {*x,*y,*z}
 	
-	CLUSTER = 40,
+	CLUSTER = 110,
 		// SEEDS [#,#,...]
-		SOLAR_SYSTEMS = 41, // [*x,*y,*z]
+		SOLAR_SYSTEMS = 111, // {*x,*y,*z}
+		POSITION = 112, // [#x,#y] (in the galaxy)
 	
-	SOLAR_SYSTEM = 50,
+	SOLAR_SYSTEM = 120,
 		// SEEDS [#,#,...]
-		PLANETS = 51, // [*x,*y,*z]
+		PLANETS = 121, // {*x,*y,*z}
+		// POSITION (in the cluster)		
+		//FLEETS = {*x,*y,*z} (set of all the fleets arrived/staying in a solar system)
 	
-	PLANET = 60,
+	PLANET = 130,
 		// SEEDS [#,#,...]
 		// KIND *x
 		// COLONY *y (cross ref)
-		POSITION = 61, // [#x,#y]
+		// POSITION (in the solar system)
 	
-	KIND = 70, // of planet (mostly a description for humans)
-		PROBABILITIES = 71, // [#,#,...] of special resources			
+	KIND = 140, // of planet (mostly a description for humans)
+		PROBABILITIES = 141, // [#,#,...] of special resources			
 		
 	/*
 	 * Diplomacy and Trading
 	 */
-	OFFER = 100,
+	OFFER = 200,
 		// PLANET *x
-		// SOLAR_SYSTEMS [*x,*y,*z] (where it is offered)
-		QUANTITY = 101, // #
-		TURNS = 102, // # 
-		PRICE = 103,		
+		// SOLAR_SYSTEMS {*x,*y,*z} (where it is offered)
+		QUANTITY = 201, // #
+		TURNS = 202, // # 
+		PRICE = 203,		
 	
 	/*
 	 * Technology
 	 */
-	TECHNOLOGY = 100,
-
+	TECHNOLOGY = 300,
+		COSTS = 301, // # (number of research points required)
+		//PARTS {#x,#y,...} (what becomes known to the player when discovered given by a part-code)
 	
 	/*
 	 * Colonies and Orbits
 	 */	
-	COLONY = 200,
+	COLONY = 400,
 		// PLANET *x
-		// MODULE *x
-		WORKERS = 221, // [#farmers, #scientists, #engineers ]
+		// ORBIT *y
+		// UNIT *z
 	
-	ORBIT = 210,
+	ORBIT = 410,
 		// PLANET *x
-		// SPACECRAFT *x
+		// UNIT *x
 
 	/*
 	 * Space-crafts
 	 */
-	SPACECRAFT = 300,
-		MODULES = 301, // [*x,*y,*z]
-		// WORKSERS
+	SPACECRAFT = 500,
+		// UNIT *x
 		// CLASS *x
 		// POSITION
 
-	CLASS = 310, 
+	CLASS = 510,
+		CHARACTERISTICS = 511, // [#,#,#,..] (ideal number of properties a spacecraft needs to have to be of a certain class, like lasers, shield strength, crew; closest matches)
 
-	FLEET = 320,
-		SHIPS = 321, // [*x,*y,*z]
+	FLEET = 520,
+		SHIPS = 521, // [*x,*y,*z]
 		// POSITION	
 	
 	/*
 	 * Modules and Parts
 	 */
-	MODULE = 400,
-		SLOTS = 401,
-		PARTS = 402,
-		POPULATION = 403,
+	UNIT = 600, // a compound of modules
+		HOLDER = 601,  // *x (a reference back to a planet, orbit or spacecraft)
+		MODULES = 601, // [*x,*y,*z]
+		WORKERS = 602, // [ #farmers, #scientists, #engineers ]
+		GROWTH  = 603, // [ #food, #research-points, #production-points ] (per turn)
+		// COSTS # (total construction points required)
 		
-	PART = 410;
+	MODULE = 610,
+		SLOTS = 611,
+		PARTS = 612,
+		POPULATION = 623,
+		// COSTS # (total construction points required)		
+		
+	PART = 620,
+		CODE = 621, // # a statically unique value for all parts (e.g. used to refer to a part from technology)
+		// COSTS # (of construction points required)
 	
-
-	
+	CONSTRUCTION = 630,
+		//UNIT *x
+		PROGRESS = 631; // [#,#,..] (points for each module in the unit)
 
 }
