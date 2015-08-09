@@ -39,7 +39,10 @@ public class Game implements Runnable, GameComponent {
 	public static void init(State game) {
 		for (Field f : GameComponent.class.getDeclaredFields()) {
 			try {
-				game.defComponent(f.getInt(null)).put(NAME, codePoints(f.getName()));
+				int type = f.getInt(null);
+				if (!game.hasComponent(type)) {
+					game.defComponent(type).put(NAME, codePoints(f.getName()));
+				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

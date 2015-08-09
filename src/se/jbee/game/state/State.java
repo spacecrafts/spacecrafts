@@ -90,7 +90,8 @@ public final class State implements Component {
 	}
 	
 	public boolean hasComponent(int type) {
-		return type == 0 || es[0].list(0)[type] > 0;
+		int[] mapping = es[0].list(0);
+		return type == 0 || type < mapping.length && mapping[type] > 0;
 	}
 	
 	public Entity component(int type) {
