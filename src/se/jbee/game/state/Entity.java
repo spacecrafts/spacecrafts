@@ -38,9 +38,20 @@ public final class Entity implements Component {
 		cs[0] = ID;
 		vs[0] = new int[] { id };
 		cs[1] = TYPE;
-		vs[1] = new int[] { type };
+		vs[1] = new int[] { type < 0 ? id : type };
 		size  = 2;
 	}
+	
+	/**
+	 * This is intentionally just visible within the package as it should only be used by {@link State}! 
+	 */
+	int at(int index) {
+		return vs[index][0];
+	}	
+	
+	/*
+	 * IO
+	 */
 
 	public static Entity load(DataInputStream in) throws IOException {
 		Entity e = new Entity();
@@ -84,17 +95,31 @@ public final class Entity implements Component {
 		}
 	}
 	
-	// mutate
+	/*
+	 * generic
+	 */
 	
 	public void clear() {
 		init(vs[0][0], vs[1][0]);
 	}
 	
-	public Entity set(int comp, int num) {
-		return set(comp, new int[] { num });
+	/*
+	 * map (of primitives)
+	 */
+	
+	public int num(int comp) {
+		int i = indexOf(comp);
+		if (i < 0)
+			return 0;
+		int[] val = vs[i];
+		return val.length == 0 ? 0 : val[0];
 	}
 	
-	public Entity set(int comp, int[] listOrSetOrTxt) {
+	public Entity put(int comp, int num) {
+		return put(comp, new int[] { num });
+	}
+	
+	public Entity put(int comp, int[] listOrSetOrTxt) {
 		int i = indexOf(comp);
 		if (i < 0) {
 			i = indexOf(-1); // reuse some?
@@ -114,11 +139,31 @@ public final class Entity implements Component {
 		size++;
 		return this;
 	}
-
+	
+	public void erase(int comp) {
+		int i = indexOf(comp);
+		if (i >= 0) {
+			cs[i] = -1;
+			vs[i] = EMPTY_LIST;
+		}
+	}	
+	
+	/*
+	 * list
+	 */
+	
+	/**
+	 * this does not copy intentionally. do not mutate values received from an entity! 
+	 */
+	public int[] list(int comp) {
+		int i = indexOf(comp);
+		return i < 0 ? EMPTY_LIST : vs[i];
+	}
+	
 	public void append(int comp, int e) {
 		int i = indexOf(comp);
 		if (i < 0) {
-			set(comp, new int[] { e });
+			put(comp, new int[] { e });
 			return;
 		}
 		int[] list = vs[i];
@@ -130,7 +175,7 @@ public final class Entity implements Component {
 	public void append(int comp, int[] tail) {
 		int i = indexOf(comp);
 		if (i < 0) {
-			set(comp, tail);
+			put(comp, tail);
 			return;
 		}
 		int[] list = vs[i];
@@ -146,7 +191,7 @@ public final class Entity implements Component {
 	public void prepend(int comp, int e) {
 		int i = indexOf(comp);
 		if (i < 0) {
-			set(comp, new int[] { e });
+			put(comp, new int[] { e });
 			return;
 		}
 		int[] list = vs[i];
@@ -159,7 +204,7 @@ public final class Entity implements Component {
 	public void prepend(int comp, int[] head) {
 		int i = indexOf(comp);
 		if (i < 0) {
-			set(comp, head);
+			put(comp, head);
 			return;
 		}
 		int[] list = vs[i];
@@ -170,24 +215,23 @@ public final class Entity implements Component {
 		int[] list2 = copyOf(head, list.length+head.length);
 		arraycopy(list, 0, list2, head.length, list.length);
 		this.vs[i] = list2;
-	}	
-	
-	public void delete(int comp) {
-		int i = indexOf(comp);
-		if (i >= 0) {
-			cs[i] = -1;
-			vs[i] = EMPTY_LIST;
-		}
 	}
+	
+	/*
+	 * set
+	 */
 
 	public void insert(int comp, int[] members) {
 		append(comp, members);
 		int[] set = vs[indexOf(comp)];
 		sort(set);
 	}
-
-	public void remove(int comp, int[] elements) {
-		if (elements.length == 0)
+	
+	/**
+	 * works also for lists 
+	 */
+	public void remove(int comp, int[] members) {
+		if (members.length == 0)
 			return;
 		int i = indexOf(comp);
 		if (i < 0) {
@@ -198,13 +242,13 @@ public final class Entity implements Component {
 			return;
 		int w = 0;
 		for (int j = 0; j < listOrSet.length; j++) {
-			if (contains(elements, listOrSet[j])) {
+			if (contains(members, listOrSet[j])) {
 				listOrSet[w++] = listOrSet[j];
 			}
 		}
 		vs[i] = copyOf(listOrSet, w);
-	}	
-	
+	}		
+
 	private static boolean contains(int[] elements, int member) {
 		for (int i = 0; i < elements.length; i++)
 			if (elements[i] == member)
@@ -212,28 +256,6 @@ public final class Entity implements Component {
 		return false;
 	}
 
-	// read
-	
-	/**
-	 * This is intentionally just visible within the package as it should only be used by {@link State}! 
-	 */
-	int at(int index) {
-		return vs[index][0];
-	}
-	
-	public int[] list(int comp) {
-		int i = indexOf(comp);
-		return i < 0 ? EMPTY_LIST : vs[i];
-	}
-	
-	public int num(int comp) {
-		int i = indexOf(comp);
-		if (i < 0)
-			return 0;
-		int[] val = vs[i];
-		return val.length == 0 ? 0 : val[0];
-	}
-	
 	public int contains(int comp, int member) {
 		int i = indexOf(comp);
 		if (i < 0)
@@ -241,27 +263,55 @@ public final class Entity implements Component {
 		return Arrays.binarySearch(vs[i], member);
 	}
 	
-	public <E extends Enum<E>> void set(int comp, E flag) {
+	/*
+	 * bitset
+	 */
+	
+	public void set(int comp, int...flags) {
+		for (int flag : flags) {
+			set(comp, flag);
+		}
+	}
+
+	public void set(int comp, int flag) {
 		int i = indexOf(comp);
 		if (i < 0) {
-			set(comp, 1 << flag.ordinal());
+			put(comp, 1 << flag);
 		} else {
-			vs[i][0] |= 1 << flag.ordinal();
+			vs[i][0] |= 1 << flag;
 		}
 	}
 	
-	public <E extends Enum<E>> void unset(int comp, E flag) {
+	public void unset(int comp, int...flags) {
+		for (int flag : flags) {
+			unset(comp, flag);
+		}
+	}
+	
+	public void unset(int comp, int flag) {
 		int i = indexOf(comp);
 		if (i >= 0) {
-			vs[i][0] &= ~(1 << flag.ordinal());
+			vs[i][0] &= ~(1 << flag);
 		}
+	}
+	
+	public <E extends Enum<E>> void set(int comp, E flag) {
+		set(comp, flag.ordinal());
+	}
+	
+	public <E extends Enum<E>> void unset(int comp, E flag) {
+		unset(comp, flag.ordinal());
 	}	
 	
-	public <E extends Enum<E>> boolean is(int comp, E flag) {
+	public <E extends Enum<E>> boolean isSet(int comp, E flag) {
 		int i = indexOf(comp);
 		int ord = flag.ordinal();
 		return i >= 0 && vs[i].length > 0 && ((vs[i][0] >> ord) & 1) == 1;
-	}	
+	}
+	
+	/*
+	 * utilities and commons
+	 */
 	
 	public int indexOf(int comp) {
 		for (int i = 0; i < size; i++) {
@@ -284,7 +334,7 @@ public final class Entity implements Component {
 			if (vs[j].length == 1) {
 				b.append(vs[j][0]);
 			} else {
-				b.append(Arrays.toString(vs[j]));
+				b.append("[*").append(vs[j].length).append(']');
 			}
 		}
 		if (i < 0)

@@ -30,7 +30,7 @@ public class AI implements Runnable, GameComponent {
 
 	@Override
 	public void run() {
-		while (player.is(STATUS, Status.ALIVE)) {
+		while (player.isSet(STATUS, Status.ALIVE)) {
 			
 		}
 	}

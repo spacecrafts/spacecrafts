@@ -12,6 +12,6 @@ public class TestEntity {
 		
 		assertEquals(1, e.num(Component.ID));
 		assertEquals(2, e.size());
-		assertEquals("e0001 [2]", e.toString());
+		assertEquals("e0001 (2=1,1=1)", e.toString());
 	}
 }

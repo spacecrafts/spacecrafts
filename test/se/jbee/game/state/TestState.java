@@ -13,12 +13,12 @@ import org.junit.Test;
 
 import se.jbee.game.scs.state.GameComponent;
 
-public class TestGame {
+public class TestState {
 
 	@Test
 	public void newlyDefinedEntitiesGetAnUniqueID() {
 		State s = State.base();
-		Entity e = s.defComponent(GameComponent.GAME).set(Component.NAME, codePoints("GAME"));
+		Entity e = s.defComponent(GameComponent.GAME).put(Component.NAME, codePoints("GAME"));
 		
 		assertEquals(s.size()-1, e.num(Component.ID));
 		assertEquals(0, e.num(Component.TYPE));
@@ -35,7 +35,7 @@ public class TestGame {
 	public void freshGameHasBasicComponents() {
 		State g = State.base();
 		assertEquals(4, g.size());
-		assertEquals("e0000 COMPONENT (2=0,1=0,3=[67, 79, 77, 80, 79, 78, 69, 78, 84],0=[0, 1, 2, 3])\ne0001 TYPE (2=1,1=0,3=[84, 89, 80, 69])\ne0002 ID (2=2,1=0,3=[73, 68])\ne0003 NAME (2=3,1=0,3=[78, 65, 77, 69])\n", g.toString());
+		assertEquals("e0000 COMPONENT (2=0,1=0,3=[*9],0=[*4])\ne0001 TYPE (2=1,1=0,3=[*4])\ne0002 ID (2=2,1=0,3=[*2])\ne0003 NAME (2=3,1=0,3=[*4])\n", g.toString());
 	}
 	
 	@Test
@@ -50,4 +50,5 @@ public class TestGame {
 		assertEquals(g.size(), g2.size());
 		assertEquals(g.toString(), g2.toString());
 	}
+	
 }

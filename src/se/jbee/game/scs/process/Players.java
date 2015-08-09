@@ -26,7 +26,7 @@ import se.jbee.game.state.State;
 public final class Players implements Runnable, GameComponent {
 
 	private final State game;
-	private final State settings;
+	private final State user;
 	
 	private final List<AreaMapping> onLeftClick = new ArrayList<>();
 	private final List<AreaMapping> onRightClick = new ArrayList<>();
@@ -34,10 +34,10 @@ public final class Players implements Runnable, GameComponent {
 	private final List<KeyMapping>  onKeyPress = new ArrayList<>();
 	private final List<KeyMapping>  globalOnKeyPress = new ArrayList<>();
 	
-	public Players(State game, State settings) {
+	public Players(State game, State user) {
 		super();
 		this.game = game;
-		this.settings = settings;
+		this.user = user;
 	}
 
 	@Override

@@ -35,21 +35,25 @@ public interface GameComponent extends Component {
 		SEEDS = 11,   // [#,#,...] for any pseudo random progression
 		PLAYERS = 12, // [*x,*y,*z]
 		GALAXIES = 13,// [*x,*y,*z]
+		TURN = 14, // #
 
 	PLAYER = 20,
+		// TURN (player sets its turn to the current game turn when finished)
 		NO = 21, //#
 		// SEEDS [#,#,...]
+		// RACE *x
 		HOME = 22, // *x (planet)
 		STATUS = 23, // [?AI, ?ALIVE]
 		// TECHNOLOGY (in progress)
 		// things belong to the player:
-		PLANS = 24,
-		RELATIONS = 25, // [#,#,...] (the diplomatic points for each player, in order of game players)
-		TECHNOLOGIES = 26, // {*x,*y,*z} (researched)
-		COLONIES = 27, // {*x,*y,*z}
-		ORBITS = 28, // {*x,*y,*z}
-		FLEETS = 29, // {*x,*y,*z}
-		OFFERS = 30, // {*x,*y,*z}
+		PLANS = 31,
+		RELATIONS = 32, // [#,#,...] (the diplomatic points for each player, in order of game players)
+		TECHNOLOGIES = 33, // {*x,*y,*z} (researched)
+		ABILITIES = 34, // {*x,*y,*z} (gained from technology, etcetera)
+		COLONIES = 35, // {*x,*y,*z}
+		ORBITS = 36, // {*x,*y,*z}
+		FLEETS = 37, // {*x,*y,*z}
+		OFFERS = 38, // {*x,*y,*z}
 		// things known to (/discovered by) the player
 		// PLANETS {*x,*y,*z} 
 		// SOLAR_SYSTEMS {*x,*y,*z}
@@ -100,12 +104,14 @@ public interface GameComponent extends Component {
 		PRICE = 203,		
 	
 	/*
-	 * Technology
+	 * Technology and Abilities
 	 */
 	TECHNOLOGY = 300,
 		COSTS = 301, // # (number of research points required)
 		//PARTS {#x,#y,...} (what becomes known to the player when discovered given by a part-code)
 	
+	ABILITY = 310,
+		
 	/*
 	 * Colonies and Orbits
 	 */	
@@ -134,7 +140,7 @@ public interface GameComponent extends Component {
 		// POSITION	
 	
 	/*
-	 * Modules and Parts
+	 * Units, Modules, Parts and Constructions
 	 */
 	UNIT = 600, // a compound of modules
 		HOLDER = 601,  // *x (a reference back to a planet, orbit or spacecraft)
@@ -155,6 +161,15 @@ public interface GameComponent extends Component {
 	
 	CONSTRUCTION = 630,
 		//UNIT *x
-		PROGRESS = 631; // [#,#,..] (points for each module in the unit)
+		PROGRESS = 631, // [#,#,..] (points for each module in the unit)
 
+	/*
+	 * Race and Traits
+	 */
+	RACE = 700,
+		TRAITS = 701,
+	
+	TRAIT = 710
+		//ABILITIES {*x,*y,..}
+	;
 }

@@ -1,5 +1,9 @@
 package se.jbee.game.scs.process;
 
+import static se.jbee.game.state.Entity.codePoints;
+
+import java.lang.reflect.Field;
+
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.state.State;
 
@@ -23,13 +27,23 @@ import se.jbee.game.state.State;
 public class Game implements Runnable, GameComponent {
 
 	private final State game;
-	private final State settings;
+	private final State user;
 	
-	public Game(State game, State settings) {
+	public Game(State game, State user) {
 		super();
 		this.game = game;
-		this.settings = settings;
+		this.user = user;
 		// setup all entities and components if this is not a loaded game
+	}
+	
+	public static void init(State game) {
+		for (Field f : GameComponent.class.getDeclaredFields()) {
+			try {
+				game.defComponent(f.getInt(null)).put(NAME, codePoints(f.getName()));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	@Override

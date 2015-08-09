@@ -31,12 +31,12 @@ public final class State implements Component {
 	
 	public static State base() {
 		State g = new State();
-		g.es[0] = new Entity(0, 0).set(NAME, codePoints("COMPONENT")).set(0, new int[1]);
+		g.es[0] = new Entity(0, 0).put(NAME, codePoints("COMPONENT")).put(0, new int[1]);
 		g.size = 1;
 		// make sure TYPE, ID and NAME are available as they are used already (each entity has an ID and TYPE, these have a NAME)
-		g.defComponent(TYPE).set(NAME, codePoints("TYPE"));
-		g.defComponent(ID).set(NAME, codePoints("ID"));
-		g.defComponent(NAME).set(NAME, codePoints("NAME"));
+		g.defComponent(TYPE).put(NAME, codePoints("TYPE"));
+		g.defComponent(ID).put(NAME, codePoints("ID"));
+		g.defComponent(NAME).put(NAME, codePoints("NAME"));
 		return g;
 	}
 	
@@ -54,16 +54,13 @@ public final class State implements Component {
 		int[] typeMapping = es[0].list(0);
 		if (typeMapping.length <= type) {
 			typeMapping = copyOf(typeMapping, type+1); 
-			es[0].set(0, typeMapping);
+			es[0].put(0, typeMapping);
 		}
 		typeMapping[type] = e.num(ID); 
 		return e;
 	}
 	
 	public Entity defEntity(int type) {
-		if (type < 0) {
-			type = size;
-		}
 		Entity e = new Entity(size, type);
 		if (size >= es.length) {
 			es = copyOf(es, es.length + SIZE_1);
