@@ -1,2 +1,0 @@
-# spacecrafts
-the game
