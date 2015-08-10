@@ -71,6 +71,7 @@ public class Game implements Runnable, GameComponent {
 	public static Entity initGame(State game) {
 		Entity g = game.defEntity(GAME);
 		g.put(TURN, 0);
+		g.put(SCREEN, 0);
 		Entity p1 = game.defEntity(PLAYER);
 		g.put(PLAYERS, p1.id());
 		return g;
@@ -81,7 +82,7 @@ public class Game implements Runnable, GameComponent {
 		while (true) {
 			int turn = game1.num(TURN);
 			if (turn == 0 && players.isEmpty()) {
-				Thread player = new Thread(new Players(game, user), "Players");
+				Thread player = new Thread(new Players(game, user), "SCS Players");
 				player.setDaemon(true);
 				players.add(player);
 				player.start();

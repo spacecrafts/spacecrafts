@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import se.jbee.game.scs.gfx.Object;
 import se.jbee.game.scs.gfx.Shapes;
 
 /**
@@ -26,7 +27,7 @@ import se.jbee.game.scs.gfx.Shapes;
  * This is a thread continuously transforming abstract figures to concrete draw
  * instructions executed on the canvas.
  */
-public class Display extends Canvas implements Runnable {
+public class Display extends Canvas implements Runnable, Object {
 
 	private static final long LOOP_TIME_MS = 25;
 	
@@ -94,7 +95,15 @@ public class Display extends Canvas implements Runnable {
 			
 			List<int[]> fs = figures.get();
 			for (int[] f : fs) {
-				Shapes.planet(g, f[0], f[1], f[2], new Color(f[3]));
+				switch (f[0]) {
+				case PLANET:
+					Shapes.planet(g, f[1], f[2], f[3], new Color(f[4]));
+					break;
+				case BORDER:
+					g.setColor(Color.BLUE);
+					g.drawRect(f[1], f[2], f[3], f[4]);
+					break;
+				}
 			}
 			
 			// finally, we've completed drawing so clear up the graphics

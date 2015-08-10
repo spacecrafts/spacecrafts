@@ -36,6 +36,7 @@ public interface GameComponent extends Component {
 		PLAYERS = 12, // [*x,*y,*z]
 		GALAXIES = 13,// [*x,*y,*z]
 		TURN = 14, // #
+		SCREEN = 15,
 
 	PLAYER = 20,
 		// TURN (player sets its turn to the current game turn when finished)

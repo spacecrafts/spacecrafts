@@ -1,18 +1,25 @@
 package se.jbee.game.scs.process;
 
+import static java.util.Collections.singletonList;
+import static se.jbee.game.scs.gfx.Objects.border;
+import static se.jbee.game.scs.gfx.Objects.planet;
+
 import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.state.Change;
+import se.jbee.game.state.Change.Op;
+import se.jbee.game.state.Entity;
 import se.jbee.game.state.State;
 
 /**
@@ -49,20 +56,28 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 		super();
 		this.game = game;
 		this.user = user;
-		this.display = new Thread(new Display(figures, this, this, this), "Display");
+		this.display = new Thread(new Display(figures, this, this, this), "SCS Display");
 		this.display.setDaemon(true);
 	}
 
 	@Override
 	public void run() {
 		display.start();
-		Random rnd = new Random();
-		int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
+		//int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
+		final Entity g1 = game.entity(game.all(GAME)[0]);
 		while (true) {
-			List<int[]> l = new ArrayList<>();
-			l.add(new int[] { rnd.nextInt(1000), rnd.nextInt(600), rnd.nextInt(400)+2, colors[rnd.nextInt(colors.length)] });
-			figures.set(l);
-			try { Thread.sleep(5); } catch (Exception e) {}
+			onLeftClick.clear();
+			int screen = g1.num(SCREEN);
+			if (screen == 0) {
+				figures.set(singletonList(planet(300, 300, 300, 0xFF5014, 0)));
+				onLeftClick.add(new AreaMapping(new Ellipse2D.Float(300, 300, 300, 300), new Change(g1.id(), SCREEN, Op.PUT, 1)));
+			} else {
+				figures.set(singletonList(border(300, 300, 300, 300)));
+				onLeftClick.add(new AreaMapping(new Rectangle2D.Float(300, 300, 300, 300), new Change(g1.id(), SCREEN, Op.PUT, 0)));
+			}
+			try { synchronized (this) {
+				wait();
+			} } catch ( InterruptedException e) {}
 		}
 	}
 	
@@ -106,6 +121,9 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 			if (m.area.contains(e.getPoint())) {
 				apply(m.changeset, game);
 				e.consume();
+				synchronized (this) {
+					notify();
+				}
 				return;
 			}
 		}
@@ -120,7 +138,7 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 	static final class AreaMapping {
 		final Shape area;
 		final Change[] changeset;
-		public AreaMapping(Shape area, Change[] changeset) {
+		public AreaMapping(Shape area, Change... changeset) {
 			super();
 			this.area = area;
 			this.changeset = changeset;
@@ -130,7 +148,7 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 	static final class KeyMapping {
 		final int key;
 		final Change[] changeset;
-		public KeyMapping(int key, Change[] changeset) {
+		public KeyMapping(int key, Change... changeset) {
 			super();
 			this.key = key;
 			this.changeset = changeset;
