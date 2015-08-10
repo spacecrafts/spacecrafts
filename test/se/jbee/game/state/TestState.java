@@ -89,14 +89,20 @@ public class TestState {
 		
 		Data.load(new File("data/test.data"), s);
 		
-		assertEquals(10, s.size());
+		assertEquals(11, s.size());
 		int[] es = s.all(42);
-		assertEquals(2, es.length);
-		assertEquals(1, s.entity(es[0]).num(43));
-		assertEquals('a', s.entity(es[0]).num(44));
-		assertEquals(2, s.entity(es[1]).num(43));
-		assertEquals(3, s.entity(es[1]).num(45));
-		assertArrayEquals(new int[] {1, 2}, s.entity(es[0]).list(45));
-		assertArrayEquals(new int[] {'b', 'c'}, s.entity(es[1]).list(44));
+		assertEquals(3, es.length);
+		Entity e1 = s.entity(es[0]);
+		assertEquals(1, e1.num(43));
+		assertEquals('a', e1.num(44));
+		assertArrayEquals(new int[] {1, 2}, e1.list(45));
+		Entity e2 = s.entity(es[1]);
+		assertEquals(2, e2.num(43));
+		assertEquals(3, e2.num(45));
+		assertArrayEquals(new int[] {'b', 'c'}, e2.list(44));
+		Entity e3 = s.entity(es[2]);
+		assertEquals(4, e3.size());
+		assertEquals(3, e3.num(43));
+		assertArrayEquals(new int[] {4, 555, 66}, e3.list(45));
 	}
 }
