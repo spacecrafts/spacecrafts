@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
-import se.jbee.game.scs.gfx.Figure;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.state.Change;
 import se.jbee.game.state.State;
@@ -42,7 +41,7 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 	private final List<KeyMapping>  onKeyPress = new ArrayList<>();
 	private final List<KeyMapping>  globalOnKeyPress = new ArrayList<>();
 	
-	private final AtomicReference<List<Figure>> figures = new AtomicReference<>();
+	private final AtomicReference<List<int[]>> figures = new AtomicReference<>();
 	
 	private final Thread display;
 	
@@ -60,8 +59,8 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 		Random rnd = new Random();
 		int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
 		while (true) {
-			List<Figure> l = new ArrayList<>();
-			l.add(new Figure(rnd.nextInt(1000), rnd.nextInt(600), rnd.nextInt(400)+2, colors[rnd.nextInt(colors.length)] ));
+			List<int[]> l = new ArrayList<>();
+			l.add(new int[] { rnd.nextInt(1000), rnd.nextInt(600), rnd.nextInt(400)+2, colors[rnd.nextInt(colors.length)] });
 			figures.set(l);
 			try { Thread.sleep(5); } catch (Exception e) {}
 		}
