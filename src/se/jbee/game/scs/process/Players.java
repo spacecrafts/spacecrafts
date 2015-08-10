@@ -1,12 +1,17 @@
 package se.jbee.game.scs.process;
 
+import static java.util.Collections.singletonList;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Collections;
 import java.util.List;
 
+import se.jbee.game.scs.process.IOMapping.AreaMapping;
+import se.jbee.game.scs.process.IOMapping.AreaObject;
 import se.jbee.game.scs.screen.Screen;
 import se.jbee.game.scs.screen.Screen1;
 import se.jbee.game.scs.screen.Screen2;
@@ -44,7 +49,7 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 		super();
 		this.game = game;
 		this.user = user;
-		this.display = new Thread(new Display(mappings.objects, this, this, this), "SCS Display");
+		this.display = new Thread(new Display(mappings, this, this, this), "SCS Display");
 		this.display.setDaemon(true);
 	}
 
@@ -80,14 +85,21 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-
+		for (AreaObject m : mappings.onMouseOver) {
+			if (m.area.contains(e.getPoint())) {
+				mappings.areaObjects.set(singletonList(m.object));
+				e.consume();
+				return;
+			}
+		}
+		mappings.areaObjects.set(Collections.<int[]>emptyList());
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		switch (e.getButton()) {
-		case MouseEvent.BUTTON1: react(e, mappings.onLeftClick);
-		case MouseEvent.BUTTON2: react(e, mappings.onRightClick);
+		case MouseEvent.BUTTON1: react(e, mappings.onLeftClick); break;
+		case MouseEvent.BUTTON3: react(e, mappings.onRightClick); break;
 		}
 	}
 
@@ -98,8 +110,8 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 		}
 	}
 	
-	private void react(MouseEvent e, List<IOMapping.AreaMapping> mappings) {
-		for (IOMapping.AreaMapping m : mappings) {
+	private void react(MouseEvent e, List<AreaMapping> mappings) {
+		for (AreaMapping m : mappings) {
 			if (m.area.contains(e.getPoint())) {
 				apply(m.changeset, game);
 				e.consume();

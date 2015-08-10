@@ -19,7 +19,7 @@ public final class IOMapping {
 			this.changeset = changeset;
 		}
 	}
-
+	
 	public static final class KeyMapping {
 		final int key;
 		final Change[] changeset;
@@ -29,19 +29,31 @@ public final class IOMapping {
 			this.changeset = changeset;
 		}
 	}
+	
+	public static final class AreaObject {
+		final Shape area;
+		final int[] object;
+		public AreaObject(Shape area, int[] object) {
+			super();
+			this.area = area;
+			this.object = object;
+		}
+	}
 
 	public final List<IOMapping.AreaMapping> onLeftClick = new ArrayList<>();
 	public final List<IOMapping.AreaMapping> onRightClick = new ArrayList<>();
-	public final List<IOMapping.AreaMapping> onMouseHover = new ArrayList<>();
+	public final List<IOMapping.AreaObject> onMouseOver = new ArrayList<>();
 	public final List<IOMapping.KeyMapping>  onKeyPress = new ArrayList<>();
 	public final List<IOMapping.KeyMapping>  globalOnKeyPress = new ArrayList<>();
 	
 	public final AtomicReference<List<int[]>> objects = new AtomicReference<>(Collections.<int[]>emptyList());
+	public final AtomicReference<List<int[]>> areaObjects = new AtomicReference<>(Collections.<int[]>emptyList());
 	
 	public void clear() {
 		onLeftClick.clear();
 		onRightClick.clear();
-		onMouseHover.clear();
+		onMouseOver.clear();
 		onKeyPress.clear();
+		areaObjects.set(Collections.<int[]>emptyList());
 	}
 }

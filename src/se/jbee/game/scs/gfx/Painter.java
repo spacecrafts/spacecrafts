@@ -35,6 +35,10 @@ public class Painter implements Object {
 				gfx.setColor(Color.BLUE);
 				gfx.drawRect(f[1], f[2], f[3], f[4]);
 				break;
+			case FOCUS_BOX:
+				gfx.setColor(Color.CYAN);
+				gfx.drawRect(f[1], f[2], f[3], f[4]);
+				break;
 			}
 		}		
 	}

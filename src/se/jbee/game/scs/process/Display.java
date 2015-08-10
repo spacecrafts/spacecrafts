@@ -1,6 +1,7 @@
 package se.jbee.game.scs.process;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -12,8 +13,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,13 +30,13 @@ public class Display extends Canvas implements Runnable, Object {
 
 	private static final long LOOP_TIME_MS = 25;
 	
-	private AtomicReference<List<int[]>> objects; 
+	private final IOMapping mappings; 
 
-	public Display(AtomicReference<List<int[]>> objects, KeyListener onKey, MouseListener onMouseClick, MouseMotionListener onMouseMove) {
+	public Display(IOMapping mappings, KeyListener onKey, MouseListener onMouseClick, MouseMotionListener onMouseMove) {
 		super();
-		this.objects = objects;
+		this.mappings = mappings;
 
-		JFrame frame = new JFrame("Spacecraft");
+		JFrame frame = new JFrame("SPACECRAFTS");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setUndecorated(true); 
 		frame.setLocation(0, 0);
@@ -49,8 +48,7 @@ public class Display extends Canvas implements Runnable, Object {
 		setBounds(0,0, screen.width, screen.height);
 		panel.add(this);
 		
-		// No AWT repaint for canvas - done manually
-		setIgnoreRepaint(true);
+		setIgnoreRepaint(true); // No AWT repaint for canvas - done manually
 		
 		frame.pack();
 		frame.setResizable(false);
@@ -86,24 +84,20 @@ public class Display extends Canvas implements Runnable, Object {
 		final Dimension screen = getSize();
 		while (true) {
 			long loopStart = System.currentTimeMillis();
-			// Get hold of a graphics context for the accelerated 
-			// surface and blank it out
 			Graphics2D gfx = (Graphics2D) strategy.getDrawGraphics();
-			gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 			
 			long drawStart = System.currentTimeMillis();
-			Painter.paint(gfx, screen, objects.get());
+			Painter.paint(gfx, screen, mappings.objects.get());
+			Painter.paint(gfx, screen, mappings.areaObjects.get());
+			gfx.setColor(Color.RED);
+			gfx.drawString(""+(System.currentTimeMillis() - drawStart), 20, 20);
 			
-			System.out.println("d "+(System.currentTimeMillis() - drawStart));
-			
-			// finally, we've completed drawing so clear up the graphics
-			// and flip the buffer over
 			gfx.dispose();
 			strategy.show();
 
 			// sleep so that drawing + sleeping = loop time
 			long loopDurationMs = System.currentTimeMillis() - loopStart;
-			System.out.println("l "+loopDurationMs);
 			if (loopDurationMs < LOOP_TIME_MS) {
 				try { Thread.sleep(LOOP_TIME_MS - loopDurationMs); } catch (Exception e) {}
 			}
