@@ -78,4 +78,25 @@ public class TestState {
 		assertArrayEquals(new int[] {0,1,2,3}, g.all(Component.COMPONENT));
 		assertArrayEquals(new int[0], g.all(42));
 	}
+	
+	@Test
+	public void loadDataFile() throws IOException {
+		State s = State.base();
+		s.defComponent(42);
+		s.defComponent(43);
+		s.defComponent(44);
+		s.defComponent(45);
+		
+		Data.load(new File("data/test.data"), s);
+		
+		assertEquals(10, s.size());
+		int[] es = s.all(42);
+		assertEquals(2, es.length);
+		assertEquals(1, s.entity(es[0]).num(43));
+		assertEquals('a', s.entity(es[0]).num(44));
+		assertEquals(2, s.entity(es[1]).num(43));
+		assertEquals(3, s.entity(es[1]).num(45));
+		assertArrayEquals(new int[] {1, 2}, s.entity(es[0]).list(45));
+		assertArrayEquals(new int[] {'b', 'c'}, s.entity(es[1]).list(44));
+	}
 }

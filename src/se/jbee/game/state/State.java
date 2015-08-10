@@ -95,7 +95,12 @@ public final class State implements Component {
 	}
 	
 	public Entity component(int type) {
-		return entity(es[0].list(0)[type]);
+		if (type == 0)
+			return es[0];
+		int id = es[0].list(0)[type];
+		if (id == 0)
+			throw new NoSuchElementException("Unknown component type: "+type);
+		return entity(id);
 	}
 	
 	public Entity entity(int id) {
@@ -166,4 +171,5 @@ public final class State implements Component {
 	public int size() {
 		return size;
 	}
+	
 }

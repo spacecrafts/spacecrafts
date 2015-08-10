@@ -101,7 +101,10 @@ public interface GameComponent extends Component {
 		// SOLAR_SYSTEMS {*x,*y,*z} (where it is offered)
 		QUANTITY = 201, // #
 		TURNS = 202, // # 
-		PRICE = 203,		
+		PRICE = 203,
+		
+	PERCEPTION = 210, // like friendly, angry, enemy, ally  
+		RANGE = 211, // [#min, #max] (of diplomaty points)
 	
 	/*
 	 * Technology and Abilities
