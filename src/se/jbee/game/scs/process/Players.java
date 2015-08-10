@@ -1,24 +1,17 @@
 package se.jbee.game.scs.process;
 
-import static java.util.Collections.singletonList;
-import static se.jbee.game.scs.gfx.Objects.border;
-import static se.jbee.game.scs.gfx.Objects.planet;
-
-import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
+import se.jbee.game.scs.screen.Screen;
+import se.jbee.game.scs.screen.Screen1;
+import se.jbee.game.scs.screen.Screen2;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.state.Change;
-import se.jbee.game.state.Change.Op;
 import se.jbee.game.state.Entity;
 import se.jbee.game.state.State;
 
@@ -39,42 +32,31 @@ import se.jbee.game.state.State;
  */
 public final class Players implements Runnable, GameComponent, KeyListener, MouseListener, MouseMotionListener {
 
+	private static final Screen[] SCREENS = { new Screen1(), new Screen2() }; 
+	
 	private final State game;
 	private final State user;
 	
-	private final List<AreaMapping> onLeftClick = new ArrayList<>();
-	private final List<AreaMapping> onRightClick = new ArrayList<>();
-	private final List<AreaMapping> onMouseHover = new ArrayList<>();
-	private final List<KeyMapping>  onKeyPress = new ArrayList<>();
-	private final List<KeyMapping>  globalOnKeyPress = new ArrayList<>();
-	
-	private final AtomicReference<List<int[]>> figures = new AtomicReference<>();
-	
 	private final Thread display;
+	private final IOMapping mappings = new IOMapping();
 	
 	public Players(State game, State user) {
 		super();
 		this.game = game;
 		this.user = user;
-		this.display = new Thread(new Display(figures, this, this, this), "SCS Display");
+		this.display = new Thread(new Display(mappings.objects, this, this, this), "SCS Display");
 		this.display.setDaemon(true);
 	}
 
 	@Override
 	public void run() {
 		display.start();
-		//int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
+		
 		final Entity g1 = game.entity(game.all(GAME)[0]);
 		while (true) {
-			onLeftClick.clear();
 			int screen = g1.num(SCREEN);
-			if (screen == 0) {
-				figures.set(singletonList(planet(300, 300, 300, 0xFF5014, 0)));
-				onLeftClick.add(new AreaMapping(new Ellipse2D.Float(300, 300, 300, 300), new Change(g1.id(), SCREEN, Op.PUT, 1)));
-			} else {
-				figures.set(singletonList(border(300, 300, 300, 300)));
-				onLeftClick.add(new AreaMapping(new Rectangle2D.Float(300, 300, 300, 300), new Change(g1.id(), SCREEN, Op.PUT, 0)));
-			}
+			mappings.clear();
+			SCREENS[screen].show(game, mappings);
 			try { synchronized (this) {
 				wait();
 			} } catch ( InterruptedException e) {}
@@ -104,8 +86,8 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		switch (e.getButton()) {
-		case MouseEvent.BUTTON1: react(e, onLeftClick);
-		case MouseEvent.BUTTON2: react(e, onRightClick);
+		case MouseEvent.BUTTON1: react(e, mappings.onLeftClick);
+		case MouseEvent.BUTTON2: react(e, mappings.onRightClick);
 		}
 	}
 
@@ -116,8 +98,8 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 		}
 	}
 	
-	private void react(MouseEvent e, List<AreaMapping> mappings) {
-		for (AreaMapping m : mappings) {
+	private void react(MouseEvent e, List<IOMapping.AreaMapping> mappings) {
+		for (IOMapping.AreaMapping m : mappings) {
 			if (m.area.contains(e.getPoint())) {
 				apply(m.changeset, game);
 				e.consume();
@@ -132,26 +114,6 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 	private static void apply(Change[] changeset, State game) {
 		for (Change c : changeset) {
 			c.apply(game);
-		}
-	}
-
-	static final class AreaMapping {
-		final Shape area;
-		final Change[] changeset;
-		public AreaMapping(Shape area, Change... changeset) {
-			super();
-			this.area = area;
-			this.changeset = changeset;
-		}
-	}
-	
-	static final class KeyMapping {
-		final int key;
-		final Change[] changeset;
-		public KeyMapping(int key, Change... changeset) {
-			super();
-			this.key = key;
-			this.changeset = changeset;
 		}
 	}
 }

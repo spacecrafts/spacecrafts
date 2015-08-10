@@ -2,6 +2,7 @@ package se.jbee.game.scs.process;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -19,7 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import se.jbee.game.scs.gfx.Object;
-import se.jbee.game.scs.gfx.Shapes;
+import se.jbee.game.scs.gfx.Painter;
 
 /**
  * The screen or canvas the game is drawn on.
@@ -73,6 +74,7 @@ public class Display extends Canvas implements Runnable, Object {
 		
 		// request the focus so key events come to us
 		requestFocus();
+		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 
 		// create the buffering strategy which will allow AWT
 		// to manage our accelerated graphics
@@ -97,7 +99,7 @@ public class Display extends Canvas implements Runnable, Object {
 			for (int[] f : fs) {
 				switch (f[0]) {
 				case PLANET:
-					Shapes.planet(g, f[1], f[2], f[3], new Color(f[4]));
+					Painter.planet(g, f[1], f[2], f[3], new Color(f[4]));
 					break;
 				case BORDER:
 					g.setColor(Color.BLUE);

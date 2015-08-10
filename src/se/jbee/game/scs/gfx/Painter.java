@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
 /**
  * a utility class to draw basic shapes. 
  */
-public class Shapes {
+public class Painter {
 
 	public static void planet(Graphics2D g2d, int x0, int y0, int radius, Color c) {
 		int r = c.getRed();
