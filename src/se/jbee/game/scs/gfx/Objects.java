@@ -10,6 +10,10 @@ public final class Objects implements Object {
 
 	//int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
 	
+	public static int[] background(int no) {
+		return new int[] { BACKGROUND, no };
+	}
+	
 	public static int[] border(int x, int y, int w, int h) {
 		return new int[] { BORDER, x,y,w,h };
 	}

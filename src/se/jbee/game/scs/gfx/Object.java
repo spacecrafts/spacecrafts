@@ -4,23 +4,25 @@ public interface Object {
 
 	int
 	
-	BORDER = 1,
-	FOCUS_LINE = 2,
-	FOCUS_BOX = 3,
+	BACKGROUND = 1,
 	
-	TEXT = 4,
+	BORDER = 20,
+	FOCUS_LINE = 21,
+	FOCUS_BOX = 22,
 	
-	STAR = 10,
-	STAR_ARC = 11,
-	PLANET = 20,
-	PLANET_ARC = 21,
-	ORBIT_ARC = 22,
-	ROUTE = 23,
+	TEXT = 30,
 	
-	SLOT = 30,
-	STRUCTURE = 31,
-	RESOURCE = 32,
-	ROCK = 33
+	STAR = 40,
+	STAR_ARC = 41,
+	PLANET = 42,
+	PLANET_ARC = 43,
+	ORBIT_ARC = 44,
+	ROUTE = 45,
+	
+	SLOT = 50,
+	STRUCTURE = 51,
+	RESOURCE = 52,
+	ROCK = 53
 	
 	;
 }

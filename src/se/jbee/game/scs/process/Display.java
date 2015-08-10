@@ -1,7 +1,6 @@
 package se.jbee.game.scs.process;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -32,11 +31,11 @@ public class Display extends Canvas implements Runnable, Object {
 
 	private static final long LOOP_TIME_MS = 25;
 	
-	private AtomicReference<List<int[]>> figures; 
+	private AtomicReference<List<int[]>> objects; 
 
-	public Display(AtomicReference<List<int[]>> figures, KeyListener onKey, MouseListener onMouseClick, MouseMotionListener onMouseMove) {
+	public Display(AtomicReference<List<int[]>> objects, KeyListener onKey, MouseListener onMouseClick, MouseMotionListener onMouseMove) {
 		super();
-		this.figures = figures;
+		this.objects = objects;
 
 		JFrame frame = new JFrame("Spacecraft");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -89,33 +88,22 @@ public class Display extends Canvas implements Runnable, Object {
 			long loopStart = System.currentTimeMillis();
 			// Get hold of a graphics context for the accelerated 
 			// surface and blank it out
-			Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			Graphics2D gfx = (Graphics2D) strategy.getDrawGraphics();
+			gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			
-			g.setColor(Color.black);
-			g.fillRect(0, 0, screen.width, screen.height);
+			long drawStart = System.currentTimeMillis();
+			Painter.paint(gfx, screen, objects.get());
 			
-			List<int[]> fs = figures.get();
-			for (int[] f : fs) {
-				switch (f[0]) {
-				case PLANET:
-					Painter.planet(g, f[1], f[2], f[3], new Color(f[4]));
-					break;
-				case BORDER:
-					g.setColor(Color.BLUE);
-					g.drawRect(f[1], f[2], f[3], f[4]);
-					break;
-				}
-			}
+			System.out.println("d "+(System.currentTimeMillis() - drawStart));
 			
 			// finally, we've completed drawing so clear up the graphics
 			// and flip the buffer over
-			g.dispose();
+			gfx.dispose();
 			strategy.show();
 
 			// sleep so that drawing + sleeping = loop time
 			long loopDurationMs = System.currentTimeMillis() - loopStart;
-			System.out.println(loopDurationMs);
+			System.out.println("l "+loopDurationMs);
 			if (loopDurationMs < LOOP_TIME_MS) {
 				try { Thread.sleep(LOOP_TIME_MS - loopDurationMs); } catch (Exception e) {}
 			}
