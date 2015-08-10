@@ -61,7 +61,7 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 		int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
 		while (true) {
 			List<Figure> l = new ArrayList<>();
-			l.add(new Figure(rnd.nextInt(1000), rnd.nextInt(600), rnd.nextInt(400)+1, colors[rnd.nextInt(colors.length)] ));
+			l.add(new Figure(rnd.nextInt(1000), rnd.nextInt(600), rnd.nextInt(400)+2, colors[rnd.nextInt(colors.length)] ));
 			figures.set(l);
 			try { Thread.sleep(5); } catch (Exception e) {}
 		}
@@ -84,15 +84,15 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		switch (e.getButton()) {
-		case MouseEvent.BUTTON1: react(e, onLeftClick);
-		case MouseEvent.BUTTON2: react(e, onRightClick);
-		}
+
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		switch (e.getButton()) {
+		case MouseEvent.BUTTON1: react(e, onLeftClick);
+		case MouseEvent.BUTTON2: react(e, onRightClick);
+		}
 	}
 
 	@Override
