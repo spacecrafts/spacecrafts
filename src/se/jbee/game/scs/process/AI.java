@@ -20,17 +20,17 @@ import se.jbee.game.state.State;
 public class AI implements Runnable, GameComponent {
 
 	private final State game;
-	private final Entity player;
+	private final Entity aiPlayer;
 
-	public AI(State game, int player) {
+	public AI(State game, int aiPlayer) {
 		super();
 		this.game = game;
-		this.player = game.entity(player);
+		this.aiPlayer = game.entity(aiPlayer);
 	}
 
 	@Override
 	public void run() {
-		while (player.isSet(STATUS, Status.ALIVE)) {
+		while (aiPlayer.isSet(STATUS, Status.ALIVE)) {
 			
 		}
 	}

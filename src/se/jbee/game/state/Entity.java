@@ -115,6 +115,14 @@ public final class Entity implements Component {
 		return val.length == 0 ? 0 : val[0];
 	}
 	
+	public int id() {
+		return num(ID);
+	}
+	
+	public int type() {
+		return num(TYPE);
+	}
+	
 	public Entity put(int comp, int num) {
 		return put(comp, new int[] { num });
 	}
@@ -163,7 +171,11 @@ public final class Entity implements Component {
 	public String text(int comp) {
 		int[] text = vs[indexOf(comp)];
 		return new String(text, 0, text.length);
-	}	
+	}
+	
+	public String name() {
+		return text(NAME);
+	}
 	
 	public void append(int comp, int e) {
 		int i = indexOf(comp);

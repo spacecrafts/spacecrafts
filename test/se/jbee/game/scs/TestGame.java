@@ -12,7 +12,7 @@ public class TestGame {
 	@Test
 	public void gameInitialisation() {
 		State game = State.base();
-		Game.init(game);
+		Game.initComponents(game);
 		
 		assertTrue(game.size() > 4);
 		System.out.println(game);

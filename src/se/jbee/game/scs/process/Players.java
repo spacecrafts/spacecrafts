@@ -1,9 +1,17 @@
 package se.jbee.game.scs.process;
 
 import java.awt.Shape;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
+import se.jbee.game.scs.gfx.Figure;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.state.Change;
 import se.jbee.game.state.State;
@@ -23,7 +31,7 @@ import se.jbee.game.state.State;
  * The currently active player is not stored within this process but part of the
  * game state.
  */
-public final class Players implements Runnable, GameComponent {
+public final class Players implements Runnable, GameComponent, KeyListener, MouseListener, MouseMotionListener {
 
 	private final State game;
 	private final State user;
@@ -34,16 +42,80 @@ public final class Players implements Runnable, GameComponent {
 	private final List<KeyMapping>  onKeyPress = new ArrayList<>();
 	private final List<KeyMapping>  globalOnKeyPress = new ArrayList<>();
 	
+	private final AtomicReference<List<Figure>> figures = new AtomicReference<>();
+	
+	private final Thread display;
+	
 	public Players(State game, State user) {
 		super();
 		this.game = game;
 		this.user = user;
+		this.display = new Thread(new Display(figures, this, this, this), "Display");
+		this.display.setDaemon(true);
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
+		display.start();
+		Random rnd = new Random();
+		int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
+		while (true) {
+			List<Figure> l = new ArrayList<>();
+			l.add(new Figure(rnd.nextInt(1000), rnd.nextInt(600), rnd.nextInt(400)+1, colors[rnd.nextInt(colors.length)] ));
+			figures.set(l);
+			try { Thread.sleep(5); } catch (Exception e) {}
+		}
+	}
+	
+	@Override
+	public void mouseDragged(MouseEvent e) { /* not used */ }
+	@Override
+	public void mousePressed(MouseEvent e) { /* not used */ }
+	@Override
+	public void mouseReleased(MouseEvent e) { /* not used */ }
+	@Override
+	public void mouseEntered(MouseEvent e) { /* not used */ }
+	@Override
+	public void mouseExited(MouseEvent e) { /* not used */ }
+	@Override
+	public void keyPressed(KeyEvent e) { /* not used */ }
+	@Override
+	public void keyReleased(KeyEvent e) { /* not used */ }
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		switch (e.getButton()) {
+		case MouseEvent.BUTTON1: react(e, onLeftClick);
+		case MouseEvent.BUTTON2: react(e, onRightClick);
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		if (e.getKeyChar() == 27) {
+			System.exit(0);
+		}
+	}
+	
+	private void react(MouseEvent e, List<AreaMapping> mappings) {
+		for (AreaMapping m : mappings) {
+			if (m.area.contains(e.getPoint())) {
+				apply(m.changeset, game);
+				e.consume();
+				return;
+			}
+		}
+	}
+	
+	private static void apply(Change[] changeset, State game) {
+		for (Change c : changeset) {
+			c.apply(game);
+		}
 	}
 
 	static final class AreaMapping {

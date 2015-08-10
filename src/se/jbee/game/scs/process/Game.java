@@ -3,8 +3,11 @@ package se.jbee.game.scs.process;
 import static se.jbee.game.state.Entity.codePoints;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.state.Entity;
 import se.jbee.game.state.State;
 
 /**
@@ -26,17 +29,33 @@ import se.jbee.game.state.State;
  */
 public class Game implements Runnable, GameComponent {
 
+	public static void main(String[] args) {
+		Game g = new Game(State.base(), State.base());
+		g.run();
+	}
+	
+	
 	private final State game;
 	private final State user;
+	
+	private final Entity game1;
+	
+	private final List<Thread> players = new ArrayList<>();
 	
 	public Game(State game, State user) {
 		super();
 		this.game = game;
 		this.user = user;
-		// setup all entities and components if this is not a loaded game
+		initComponents(game);
+		int[] gameId = game.all(GAME);
+		this.game1 = gameId.length == 0 ? initGame(game) : game.entity(gameId[0]);
 	}
 	
-	public static void init(State game) {
+	/**
+	 * This is also done for loaded game so that one can be sure that the
+	 * current code has all the components.
+	 */
+	public static void initComponents(State game) {
 		for (Field f : GameComponent.class.getDeclaredFields()) {
 			try {
 				int type = f.getInt(null);
@@ -48,11 +67,26 @@ public class Game implements Runnable, GameComponent {
 			}
 		}
 	}
+	
+	public static Entity initGame(State game) {
+		Entity g = game.defEntity(GAME);
+		g.put(TURN, 0);
+		Entity p1 = game.defEntity(PLAYER);
+		g.put(PLAYERS, p1.id());
+		return g;
+	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
+		while (true) {
+			int turn = game1.num(TURN);
+			if (turn == 0 && players.isEmpty()) {
+				Thread player = new Thread(new Players(game, user), "Players");
+				player.setDaemon(true);
+				players.add(player);
+				player.start();
+			}
+		}
 	}
 
 }
