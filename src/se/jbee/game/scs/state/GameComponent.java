@@ -66,6 +66,8 @@ public interface GameComponent extends Component {
 		
 	PLAN = 50,
 		PARTICIPANTS = 51, // {*x,*y,... } (a set of colonies, orbits, spacecrafts, constructions) that belong to the plan
+	
+	MISSION = 60,
 		
 	/*
 	 * Galaxy
@@ -142,6 +144,8 @@ public interface GameComponent extends Component {
 	FLEET = 520,
 		SHIPS = 521, // [*x,*y,*z]
 		// POSITION	
+		
+	COMMANDER = 530,
 	
 	/*
 	 * Units, Modules, Parts and Constructions

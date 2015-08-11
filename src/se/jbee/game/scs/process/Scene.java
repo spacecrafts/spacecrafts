@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import se.jbee.game.state.Change;
 
-public final class IOMapping {
+public final class Scene {
 
 	public static final class AreaMapping {
 		final Shape area;
@@ -32,19 +32,22 @@ public final class IOMapping {
 	
 	public static final class AreaObject {
 		final Shape area;
-		final int[] object;
+		final List<int[]> objects;
 		public AreaObject(Shape area, int[] object) {
+			this(area, Collections.singletonList(object));
+		}
+		public AreaObject(Shape area, List<int[]> objects) {
 			super();
 			this.area = area;
-			this.object = object;
+			this.objects = objects;
 		}
 	}
 
-	public final List<IOMapping.AreaMapping> onLeftClick = new ArrayList<>();
-	public final List<IOMapping.AreaMapping> onRightClick = new ArrayList<>();
-	public final List<IOMapping.AreaObject> onMouseOver = new ArrayList<>();
-	public final List<IOMapping.KeyMapping>  onKeyPress = new ArrayList<>();
-	public final List<IOMapping.KeyMapping>  globalOnKeyPress = new ArrayList<>();
+	public final List<AreaMapping> onLeftClick = new ArrayList<>();
+	public final List<AreaMapping> onRightClick = new ArrayList<>();
+	public final List<AreaObject> onMouseOver = new ArrayList<>();
+	public final List<KeyMapping>  onKeyPress = new ArrayList<>();
+	public final List<KeyMapping>  globalOnKeyPress = new ArrayList<>();
 	
 	public final AtomicReference<List<int[]>> objects = new AtomicReference<>(Collections.<int[]>emptyList());
 	public final AtomicReference<List<int[]>> areaObjects = new AtomicReference<>(Collections.<int[]>emptyList());

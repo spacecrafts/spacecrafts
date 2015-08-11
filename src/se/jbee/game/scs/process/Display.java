@@ -1,12 +1,10 @@
 package se.jbee.game.scs.process;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
-import java.awt.RenderingHints;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -18,7 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import se.jbee.game.scs.gfx.Object;
-import se.jbee.game.scs.gfx.Painter;
+import se.jbee.game.scs.gfx.Renderer;
+import se.jbee.game.scs.gfx.Renderer1;
 
 /**
  * The screen or canvas the game is drawn on.
@@ -30,11 +29,11 @@ public class Display extends Canvas implements Runnable, Object {
 
 	private static final long LOOP_TIME_MS = 25;
 	
-	private final IOMapping mappings; 
+	private final Scene scene; 
 
-	public Display(IOMapping mappings, KeyListener onKey, MouseListener onMouseClick, MouseMotionListener onMouseMove) {
+	public Display(Scene scene, KeyListener onKey, MouseListener onMouseClick, MouseMotionListener onMouseMove) {
 		super();
-		this.mappings = mappings;
+		this.scene = scene;
 
 		JFrame frame = new JFrame("SPACECRAFTS");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -62,19 +61,15 @@ public class Display extends Canvas implements Runnable, Object {
 			}
 		});
 		
-		// add a key input system (defined below) to our canvas
-		// so we can respond to key pressed
 		//disableEvents(eventsToDisable);
 		addKeyListener(onKey);
 		addMouseListener(onMouseClick);
 		addMouseMotionListener(onMouseMove);
 		
-		// request the focus so key events come to us
-		requestFocus();
+		
+		requestFocus(); // request the focus so key events come to us
 		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 
-		// create the buffering strategy which will allow AWT
-		// to manage our accelerated graphics
 		createBufferStrategy(2);
 	}
 
@@ -82,16 +77,12 @@ public class Display extends Canvas implements Runnable, Object {
 	public void run() {
 		final BufferStrategy strategy = getBufferStrategy();
 		final Dimension screen = getSize();
+		final Renderer renderer = new Renderer1();
 		while (true) {
 			long loopStart = System.currentTimeMillis();
 			Graphics2D gfx = (Graphics2D) strategy.getDrawGraphics();
-			gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 			
-			long drawStart = System.currentTimeMillis();
-			Painter.paint(gfx, screen, mappings.objects.get());
-			Painter.paint(gfx, screen, mappings.areaObjects.get());
-			gfx.setColor(Color.RED);
-			gfx.drawString(""+(System.currentTimeMillis() - drawStart), 20, 20);
+			renderer.render(scene, screen, gfx);
 			
 			gfx.dispose();
 			strategy.show();

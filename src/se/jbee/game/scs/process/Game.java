@@ -71,7 +71,7 @@ public class Game implements Runnable, GameComponent {
 	public static Entity initGame(State game) {
 		Entity g = game.defEntity(GAME);
 		g.put(TURN, 0);
-		g.put(SCREEN, 0);
+		g.put(SCREEN, 1);
 		Entity p1 = game.defEntity(PLAYER);
 		g.put(PLAYERS, p1.id());
 		return g;

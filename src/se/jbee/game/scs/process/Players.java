@@ -1,7 +1,5 @@
 package se.jbee.game.scs.process;
 
-import static java.util.Collections.singletonList;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -10,8 +8,8 @@ import java.awt.event.MouseMotionListener;
 import java.util.Collections;
 import java.util.List;
 
-import se.jbee.game.scs.process.IOMapping.AreaMapping;
-import se.jbee.game.scs.process.IOMapping.AreaObject;
+import se.jbee.game.scs.process.Scene.AreaMapping;
+import se.jbee.game.scs.process.Scene.AreaObject;
 import se.jbee.game.scs.screen.Screen;
 import se.jbee.game.scs.screen.Screen1;
 import se.jbee.game.scs.screen.Screen2;
@@ -42,26 +40,27 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 	private final State game;
 	private final State user;
 	
-	private final Thread display;
-	private final IOMapping mappings = new IOMapping();
+	private final Display display;
+	private final Scene mappings = new Scene();
 	
 	public Players(State game, State user) {
 		super();
 		this.game = game;
 		this.user = user;
-		this.display = new Thread(new Display(mappings, this, this, this), "SCS Display");
-		this.display.setDaemon(true);
+		this.display = new Display(mappings, this, this, this);
 	}
 
 	@Override
 	public void run() {
-		display.start();
+		Thread displayThread = new Thread(display, "SCS Display");
+		displayThread.setDaemon(true);
+		displayThread.start();
 		
 		final Entity g1 = game.entity(game.all(GAME)[0]);
 		while (true) {
-			int screen = g1.num(SCREEN);
+			int screenNo = g1.num(SCREEN);
 			mappings.clear();
-			SCREENS[screen].show(game, mappings);
+			SCREENS[screenNo].show(game, display.getSize(), mappings);
 			try { synchronized (this) {
 				wait();
 			} } catch ( InterruptedException e) {}
@@ -87,7 +86,7 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 	public void mouseMoved(MouseEvent e) {
 		for (AreaObject m : mappings.onMouseOver) {
 			if (m.area.contains(e.getPoint())) {
-				mappings.areaObjects.set(singletonList(m.object));
+				mappings.areaObjects.set(m.objects);
 				e.consume();
 				return;
 			}
