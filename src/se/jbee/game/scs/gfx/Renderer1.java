@@ -30,11 +30,13 @@ public class Renderer1 implements Renderer, Object {
 	// make horizontal scratch: 300, 1000, 1000, 80, 42, 0.2f (has been caused by using a rectange that had another shape)
 	// wood-like: 100, 2000, 200, 80, 42, 0.2f
 	
-	private static final BufferedImage ROUGH_STAR = SimplexNoise.image(200, 2000, 500, 80, 666, 0.15f);
-	private static final BufferedImage FINE_STAR = SimplexNoise.image(200, 2000, 50, 60, 700, 0.15f);
+	private static final BufferedImage SPACE = SimplexNoise.image(500, 500, 20, 60, 45, 0.3f, 0.99f, 0xFFFFFF0F);
 	
-	private static final BufferedImage ROUGH_PLANET = SimplexNoise.image(500, 500, 500, 60, 7000, 0.15f);
-	private static final BufferedImage FINE_PLANET = SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f);
+	private static final BufferedImage ROUGH_STAR = SimplexNoise.image(200, 2000, 500, 80, 666, 0.15f, 0f, 0xFFFFFFFF);
+	private static final BufferedImage FINE_STAR = SimplexNoise.image(200, 2000, 50, 60, 700, 0.15f, 0f, 0xFFFFFFFF);
+	
+	private static final BufferedImage ROUGH_PLANET = SimplexNoise.image(500, 500, 500, 60, 7000, 0.15f, 0f, 0xFFFFFFFF);
+	private static final BufferedImage FINE_PLANET = SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f, 0f, 0xFFFFFFFF);
 
 	@Override
 	public void render(Scene scene, Dimension screen, Graphics2D gfx) {
@@ -56,10 +58,10 @@ public class Renderer1 implements Renderer, Object {
 			case BACKGROUND:
 				if (f[1] == 0) {
 					gfx.setPaint(new GradientPaint(0, 0, new Color(0xA15FE3), 0, screen.height, new Color(0xE1AFF8)));
+					gfx.fillRect(0, 0, screen.width, screen.height);
 				} else {
-					gfx.setColor(Color.black);
+					space(gfx, 0, 0, screen.width, screen.height);
 				}
-				gfx.fillRect(0, 0, screen.width, screen.height);
 //				gfx.setColor(Color.WHITE);
 //				gfx.setFont(new Font(Font.MONOSPACED, 0, 100));
 //				gfx.drawString("STARCRAFTS", 300, (screen.height-100)/2);
@@ -80,6 +82,13 @@ public class Renderer1 implements Renderer, Object {
 				break;
 			}
 		}
+	}
+	
+	private static void space(Graphics2D gfx, int x0, int y0, int w, int h) {
+		gfx.setColor(Color.black);
+		gfx.fillRect(x0, y0, w, h);
+		gfx.setPaint(new TexturePaint(SPACE, new Rectangle(x0, y0, 500, 500)));
+		gfx.fillRect(x0, y0, w, h);
 	}
 	
 	private static void stararc(Graphics2D gfx, int x0, int y0, int radius, Color c) {

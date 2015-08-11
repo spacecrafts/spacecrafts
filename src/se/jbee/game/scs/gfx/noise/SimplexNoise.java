@@ -38,7 +38,7 @@ public class SimplexNoise {
 		return res;
 	}
 
-	public static BufferedImage image(int w, int h, int size, int depth, int seed, float alpha) {
+	public static BufferedImage image(int w, int h, int size, int depth, int seed, float alpha, float limit, int rgbMask) {
 		SimplexNoise noise =new SimplexNoise(size,depth/100f, seed);
 		BufferedImage image = new BufferedImage(w,h, BufferedImage.TYPE_INT_ARGB);
 	
@@ -48,9 +48,12 @@ public class SimplexNoise {
 			for (int x = 0; x < w; x++) {
 				// the noiseAt results in -1.0 to 1.0; the below does shift it to 0.0 to 1.0
 				float rgb = 0.5f*(1f+(float)noise.noiseAt(x, y));
-				rgb = min(1, max(0, rgb));
+				rgb = min(1f, max(0f, rgb));
+				if (rgb < limit) {
+					rgb = 0;
+				}
 				Color c = new Color(rgb, rgb, rgb, alpha);
-				pixels[k++] = c.getRGB();
+				pixels[k++] = c.getRGB() & rgbMask;
 			}
 		}
 		image.getRaster().setDataElements(0,  0,  w, h, pixels);
