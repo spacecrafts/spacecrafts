@@ -18,7 +18,7 @@ public class Screen1 implements Screen, GameComponent {
 	public void show(State game, Dimension screen, Scene scene) {
 		Entity g1 = game.entity(game.all(GAME)[0]);
 		
-		scene.show(background(0));
+		scene.place(background(0));
 		scene.bindLeftClick(new Ellipse2D.Float(300, 300, 300, 300), new Change(g1.id(), SCREEN, Op.PUT, 1));
 
 	}

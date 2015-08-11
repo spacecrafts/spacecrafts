@@ -29,6 +29,10 @@ public final class Objects implements Object {
 	public static int[] star(int x, int y, int r, int c, int nrand) {
 		return new int[] { STAR, x,y,r,c,nrand };
 	}
+	
+	public static int[] starArc(int x, int y, int r, int c, int nrand) {
+		return new int[] { STAR_ARC, x,y,r,c,nrand };
+	}	
 
 	public static int[] planet(int x, int y, int r, int c, int nrand) {
 		return new int[] { PLANET, x,y,r,c,nrand };

@@ -79,7 +79,7 @@ public final class Scene {
 		return ready.get();
 	}
 	
-	public Scene show(int[] object) {
+	public Scene place(int[] object) {
 		nextObjects.add(object);
 		return this;
 	}
