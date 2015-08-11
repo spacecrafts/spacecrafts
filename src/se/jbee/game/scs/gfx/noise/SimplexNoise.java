@@ -46,6 +46,7 @@ public class SimplexNoise {
 		int k = 0;
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
+				// the noiseAt results in -1.0 to 1.0; the below does shift it to 0.0 to 1.0
 				float rgb = 0.5f*(1f+(float)noise.noiseAt(x, y));
 				rgb = min(1, max(0, rgb));
 				Color c = new Color(rgb, rgb, rgb, 0.15f);

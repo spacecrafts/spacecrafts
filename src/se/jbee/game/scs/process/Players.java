@@ -41,13 +41,13 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 	private final State user;
 	
 	private final Display display;
-	private final Scene mappings = new Scene();
+	private final Scene scene = new Scene();
 	
 	public Players(State game, State user) {
 		super();
 		this.game = game;
 		this.user = user;
-		this.display = new Display(mappings, this, this, this);
+		this.display = new Display(scene, this, this, this);
 	}
 
 	@Override
@@ -59,8 +59,9 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 		final Entity g1 = game.entity(game.all(GAME)[0]);
 		while (true) {
 			int screenNo = g1.num(SCREEN);
-			mappings.clear();
-			SCREENS[screenNo].show(game, display.getSize(), mappings);
+			scene.startOver();
+			SCREENS[screenNo].show(game, display.getSize(), scene);
+			scene.ready();
 			try { synchronized (this) {
 				wait();
 			} } catch ( InterruptedException e) {}
@@ -84,21 +85,25 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		for (AreaObject m : mappings.onMouseOver) {
+		if (!scene.isReady())
+			return;
+		for (AreaObject m : scene.onMouseOver) {
 			if (m.area.contains(e.getPoint())) {
-				mappings.areaObjects.set(m.objects);
+				scene.areaObjects.set(m.objects);
 				e.consume();
 				return;
 			}
 		}
-		mappings.areaObjects.set(Collections.<int[]>emptyList());
+		scene.areaObjects.set(Collections.<int[]>emptyList());
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (!scene.isReady())
+			return;
 		switch (e.getButton()) {
-		case MouseEvent.BUTTON1: react(e, mappings.onLeftClick); break;
-		case MouseEvent.BUTTON3: react(e, mappings.onRightClick); break;
+		case MouseEvent.BUTTON1: react(e, scene.onLeftClick); break;
+		case MouseEvent.BUTTON3: react(e, scene.onRightClick); break;
 		}
 	}
 
