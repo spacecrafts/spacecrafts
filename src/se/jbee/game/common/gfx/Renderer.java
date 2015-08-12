@@ -1,9 +1,9 @@
-package se.jbee.game.scs.gfx;
+package se.jbee.game.common.gfx;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
-import se.jbee.game.scs.process.Scene;
+import se.jbee.game.common.process.Scene;
 
 public interface Renderer {
 

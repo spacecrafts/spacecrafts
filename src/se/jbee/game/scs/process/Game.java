@@ -1,14 +1,14 @@
 package se.jbee.game.scs.process;
 
-import static se.jbee.game.state.Entity.codePoints;
+import static se.jbee.game.common.state.Entity.codePoints;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.jbee.game.common.state.Entity;
+import se.jbee.game.common.state.State;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.state.Entity;
-import se.jbee.game.state.State;
 
 /**
  * The game process it the master process. 
@@ -71,7 +71,7 @@ public class Game implements Runnable, GameComponent {
 	public static Entity initGame(State game) {
 		Entity g = game.defEntity(GAME);
 		g.put(TURN, 0);
-		g.put(SCREEN, 1);
+		g.put(SCREEN, 0);
 		Entity p1 = game.defEntity(PLAYER);
 		g.put(PLAYERS, p1.id());
 		return g;

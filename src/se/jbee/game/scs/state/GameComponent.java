@@ -1,6 +1,6 @@
 package se.jbee.game.scs.state;
 
-import se.jbee.game.state.Component;
+import se.jbee.game.common.state.Component;
 
 /**
  * A list of ALL the components used in the game.
@@ -27,7 +27,14 @@ public interface GameComponent extends Component {
 	// [...] = list
 	// {...} = set
 	
-	int 
+	int
+	
+	/*
+	 * User/Settings
+	 */
+	USER = 1000,
+		SAVEGAME_DIR = 1001, // the directory where to store savegames
+	
 	/*
 	 * Game and Players
 	 */
@@ -37,6 +44,8 @@ public interface GameComponent extends Component {
 		GALAXIES = 13,// [*x,*y,*z]
 		TURN = 14, // #
 		SCREEN = 15,
+		RETURN_SCREEN = 16, // the screen one goes back to from e.g. load/save dialog screen
+		SAVEGAME =17, // name of the game to save/saved
 
 	PLAYER = 20,
 		// TURN (player sets its turn to the current game turn when finished)

@@ -10,8 +10,8 @@ public final class Objects implements Object {
 
 	//int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
 	
-	public static int[] background(int no) {
-		return new int[] { BACKGROUND, no };
+	public static int[] background(int x, int y, int w, int h, int no) {
+		return new int[] { BACKGROUND, x,y,w,h, no };
 	}
 	
 	public static int[] border(int x, int y, int w, int h) {
@@ -38,4 +38,7 @@ public final class Objects implements Object {
 		return new int[] { PLANET, x,y,r,c,nrand };
 	}	
 	
+	public static int[] text(int x, int y, int size, int ntext) {
+		return new int[] { TEXT, x,y, size, ntext };
+	}
 }

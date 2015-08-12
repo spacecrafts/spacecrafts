@@ -15,8 +15,9 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import se.jbee.game.common.gfx.Renderer;
+import se.jbee.game.common.process.Scene;
 import se.jbee.game.scs.gfx.Object;
-import se.jbee.game.scs.gfx.Renderer;
 import se.jbee.game.scs.gfx.Renderer1;
 
 /**

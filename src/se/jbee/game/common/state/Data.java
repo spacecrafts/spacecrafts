@@ -1,4 +1,4 @@
-package se.jbee.game.state;
+package se.jbee.game.common.state;
 
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.copyOf;

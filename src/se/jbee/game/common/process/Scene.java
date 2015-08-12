@@ -1,4 +1,4 @@
-package se.jbee.game.scs.process;
+package se.jbee.game.common.process;
 
 import java.awt.Shape;
 import java.util.ArrayList;
@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import se.jbee.game.state.Change;
+import se.jbee.game.common.state.Change;
 
 public final class Scene {
 
 	public static final class AreaMapping {
-		final Shape area;
-		final Change[] changeset;
+		public final Shape area;
+		public final Change[] changeset;
 		public AreaMapping(Shape area, Change... changeset) {
 			super();
 			this.area = area;
@@ -23,8 +23,8 @@ public final class Scene {
 	}
 	
 	public static final class KeyMapping {
-		final int key;
-		final Change[] changeset;
+		public final int key;
+		public final Change[] changeset;
 		public KeyMapping(int key, Change... changeset) {
 			super();
 			this.key = key;
@@ -33,8 +33,8 @@ public final class Scene {
 	}
 	
 	public static final class AreaObject {
-		final Shape area;
-		final List<int[]> objects;
+		public final Shape area;
+		public final List<int[]> objects;
 		public AreaObject(Shape area, int[] object) {
 			this(area, Collections.singletonList(object));
 		}
@@ -96,6 +96,11 @@ public final class Scene {
 	
 	public Scene bind(Shape area, int[]...objects) {
 		onMouseOver.add(new AreaObject(area, Arrays.asList(objects)));
+		return this;
+	}
+
+	public Scene bindKey(char key, Change... changeset) {
+		onKeyPress.add(new KeyMapping(key, changeset));
 		return this;
 	}
 }

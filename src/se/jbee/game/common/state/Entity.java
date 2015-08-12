@@ -1,4 +1,4 @@
-package se.jbee.game.state;
+package se.jbee.game.common.state;
 
 import static java.lang.System.arraycopy;
 import static java.util.Arrays.copyOf;
@@ -106,6 +106,10 @@ public final class Entity implements Component {
 	/*
 	 * map (of primitives)
 	 */
+	
+	public boolean has(int comp) {
+		return indexOf(comp) >= 0;
+	}
 	
 	public int num(int comp) {
 		int i = indexOf(comp);

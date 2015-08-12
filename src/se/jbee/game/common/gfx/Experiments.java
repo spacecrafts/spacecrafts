@@ -1,4 +1,4 @@
-package se.jbee.game.scs.gfx;
+package se.jbee.game.common.gfx;
 
 import java.awt.Color;
 import java.awt.GradientPaint;

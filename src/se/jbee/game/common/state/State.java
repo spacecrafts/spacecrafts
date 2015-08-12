@@ -1,7 +1,7 @@
-package se.jbee.game.state;
+package se.jbee.game.common.state;
 
 import static java.util.Arrays.copyOf;
-import static se.jbee.game.state.Entity.codePoints;
+import static se.jbee.game.common.state.Entity.codePoints;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -69,6 +69,10 @@ public final class State implements Component {
 		es[size] = e;
 		size++;
 		return e;
+	}
+	
+	public Entity single(int type) {
+		return entity(all(type)[0]);
 	}
 	
 	public int[] all(int type) {

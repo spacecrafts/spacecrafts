@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import se.jbee.game.common.state.Component;
+import se.jbee.game.common.state.Entity;
+
 public class TestEntity {
 
 	@Test

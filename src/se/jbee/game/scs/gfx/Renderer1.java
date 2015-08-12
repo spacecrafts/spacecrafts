@@ -19,8 +19,9 @@ import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import se.jbee.game.scs.gfx.noise.SimplexNoise;
-import se.jbee.game.scs.process.Scene;
+import se.jbee.game.common.gfx.Renderer;
+import se.jbee.game.common.gfx.SimplexNoise;
+import se.jbee.game.common.process.Scene;
 
 /**
  * The first {@link Renderer} I do.
@@ -44,41 +45,57 @@ public class Renderer1 implements Renderer, Object {
 		
 		antialias(gfx);
 		textAntialias(gfx);
-		render(screen, gfx, scene.objects.get());
-		render(screen, gfx, scene.areaObjects.get());
+		render(gfx, scene.objects.get());
+		render(gfx, scene.areaObjects.get());
 		
 		gfx.setFont(new Font(Font.MONOSPACED, 0 , 12));
 		gfx.setColor(Color.WHITE);
 		gfx.drawString(""+(System.currentTimeMillis() - drawStart), 20, 20);
 	}
 
-	private static void render(Dimension screen, Graphics2D gfx, List<int[]> objects) {
-		for (int[] f : objects) {
-			switch (f[0]) {
+	private static void render(Graphics2D gfx, List<int[]> objects) {
+		for (int i = 0; i < objects.size(); i++) {
+			int[] obj = objects.get(i);
+			switch (obj[0]) {
 			case BACKGROUND:
-				if (f[1] == 0) {
-					gfx.setPaint(new GradientPaint(0, 0, new Color(0xA15FE3), 0, screen.height, new Color(0xE1AFF8)));
-					gfx.fillRect(0, 0, screen.width, screen.height);
+				if (obj[5] == 0) {
+					gfx.setPaint(new GradientPaint(0, 0, new Color(0xA15FE3), 0, obj[4], new Color(0xE1AFF8)));
+					gfx.fillRect(obj[1], obj[2], obj[3], obj[4]);
 				} else {
-					space(gfx, 0, 0, screen.width, screen.height);
+					space(gfx, obj[1], obj[2], obj[3], obj[4]);
 				}
 //				gfx.setColor(Color.WHITE);
 //				gfx.setFont(new Font(Font.MONOSPACED, 0, 100));
 //				gfx.drawString("STARCRAFTS", 300, (screen.height-100)/2);
 				break;
+			case TEXT:
+				gfx.setColor(new Color(0x8899FF));
+				gfx.setFont(Fonts.light(obj[3]));
+				String str = "";
+				int xt = obj[1];
+				for (int j = 0; j < obj[4]; j++) {
+					if (j > 0) {
+						xt += gfx.getFontMetrics().stringWidth(str);
+						xt += gfx.getFontMetrics().stringWidth(" ");
+					}
+					int[] text = objects.get(++i);
+					str = new String(text, 0, text.length);
+					gfx.drawString(str, xt, obj[2]);
+				}
+				break;
 			case PLANET:
-				planet(gfx, f[1], f[2], f[3], new Color(f[4]));
+				planet(gfx, obj[1], obj[2], obj[3], new Color(obj[4]));
 				break;
 			case STAR_ARC:
-				stararc(gfx, f[1], f[2], f[3], new Color(f[4]));
+				stararc(gfx, obj[1], obj[2], obj[3], new Color(obj[4]));
 				break;
 			case BORDER:
-				gfx.setColor(Color.DARK_GRAY);
-				gfx.drawRect(f[1], f[2], f[3], f[4]);
+				gfx.setColor(new Color(0x8899FF));
+				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
 			case FOCUS_BOX:
 				gfx.setColor(new Color(0x8899FF));
-				gfx.drawRect(f[1], f[2], f[3], f[4]);
+				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
 			}
 		}

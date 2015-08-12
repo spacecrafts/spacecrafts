@@ -1,4 +1,4 @@
-package se.jbee.game.scs.gfx.noise;
+package se.jbee.game.common.gfx;
 
 import java.util.Random;
 
