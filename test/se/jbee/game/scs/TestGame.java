@@ -6,13 +6,14 @@ import org.junit.Test;
 
 import se.jbee.game.common.state.State;
 import se.jbee.game.scs.process.Game;
+import se.jbee.game.scs.state.GameComponent;
 
 public class TestGame {
 
 	@Test
 	public void gameInitialisation() {
 		State game = State.base();
-		Game.initComponents(game);
+		Game.initComponents(game, GameComponent.class);
 		
 		assertTrue(game.size() > 4);
 		System.out.println(game);

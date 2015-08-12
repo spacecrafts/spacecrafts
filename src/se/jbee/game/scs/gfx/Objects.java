@@ -38,7 +38,9 @@ public final class Objects implements Object {
 		return new int[] { PLANET, x,y,r,c,nrand };
 	}	
 	
-	public static int[] text(int x, int y, int size, int ntext) {
-		return new int[] { TEXT, x,y, size, ntext };
+	// TODO text has to define the bounding box and the alignment within so that the rendering can use text measure to move text to the correct position if this is desired.
+	// there should be different placement methods: absolute (simply pick x,y) box (use the box x,y,w,h and alsignment)
+	public static int[] text(int x, int y, int type, int size, int color, int ntext) {
+		return new int[] { TEXT, x,y, type, size, color, ntext };
 	}
 }

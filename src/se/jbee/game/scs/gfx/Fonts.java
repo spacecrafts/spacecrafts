@@ -5,13 +5,28 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-public class Fonts {
+public final class Fonts {
 
+	public static final int
+		TYPE_REGULAR = 0,
+		TYPE_LIGHT = 1,
+		TYPE_CAPS = 2;
+	
 	private static final Font ROBOTO_LIGHT = loadFont("font/Roboto-Light.ttf");
 	private static final Font ROBOTO = loadFont("font/Roboto-Regular.ttf");
+	private static final Font SPLASH = loadFont("font/mexcellent 3d.ttf");
 	
 	private final static Font[] ROBOTO_LIGHT_X = new Font[64];
 	private final static Font[] ROBOTO_X = new Font[64];
+	
+	public static Font fromType(int type, int size) {
+		switch (type) {
+		default:
+		case TYPE_REGULAR : return regular(size);
+		case TYPE_LIGHT   : return light(size);
+		case TYPE_CAPS    : return caps(size);
+		}
+	}
 	
 	public static Font regular(int size) {
 		return derive(size, ROBOTO, ROBOTO_X);
@@ -19,6 +34,10 @@ public class Fonts {
 	
 	public static Font light(int size) {
 		return derive(size, ROBOTO_LIGHT, ROBOTO_LIGHT_X);
+	}
+	
+	public static Font caps(int size) {
+		return SPLASH.deriveFont(0, size);
 	}
 
 	private static Font derive(int size, Font base, Font[] cache) {

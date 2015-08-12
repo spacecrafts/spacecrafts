@@ -2,13 +2,16 @@ package se.jbee.game.scs.process;
 
 import static se.jbee.game.common.state.Entity.codePoints;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.jbee.game.common.state.Component;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.scs.state.UserComponent;
 
 /**
  * The game process it the master process. 
@@ -27,7 +30,7 @@ import se.jbee.game.scs.state.GameComponent;
  * - unroll previously undiscovered galaxies/clusters/solar systems
  * - ...
  */
-public class Game implements Runnable, GameComponent {
+public class Game implements Runnable, GameComponent, UserComponent {
 
 	public static void main(String[] args) {
 		Game g = new Game(State.base(), State.base());
@@ -46,17 +49,19 @@ public class Game implements Runnable, GameComponent {
 		super();
 		this.game = game;
 		this.user = user;
-		initComponents(game);
+		initComponents(game, GameComponent.class);
 		int[] gameId = game.all(GAME);
 		this.game1 = gameId.length == 0 ? initGame(game) : game.entity(gameId[0]);
+		initComponents(user, UserComponent.class);
+		initUser(user);
 	}
 	
 	/**
 	 * This is also done for loaded game so that one can be sure that the
 	 * current code has all the components.
 	 */
-	public static void initComponents(State game) {
-		for (Field f : GameComponent.class.getDeclaredFields()) {
+	public static void initComponents(State game, Class<? extends Component> components) {
+		for (Field f : components.getDeclaredFields()) {
 			try {
 				int type = f.getInt(null);
 				if (!game.hasComponent(type)) {
@@ -75,6 +80,17 @@ public class Game implements Runnable, GameComponent {
 		Entity p1 = game.defEntity(PLAYER);
 		g.put(PLAYERS, p1.id());
 		return g;
+	}
+	
+	public static void initUser(State user) {
+		if (!user.hasComponent(USER)) {
+			user.defComponent(USER);
+			user.defComponent(SAVEGAME_DIR);
+		}
+		if (user.all(USER).length == 0) {
+			Entity u1 = user.defEntity(USER);
+			u1.put(SAVEGAME_DIR, codePoints(System.getProperty("user.home")+File.separator+"spacecrafts"));
+		}
 	}
 
 	@Override

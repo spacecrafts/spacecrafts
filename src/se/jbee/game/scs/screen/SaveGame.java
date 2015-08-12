@@ -14,6 +14,8 @@ import se.jbee.game.common.state.Change;
 import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
+import se.jbee.game.scs.gfx.Colors;
+import se.jbee.game.scs.gfx.Fonts;
 import se.jbee.game.scs.state.GameComponent;
 
 public class SaveGame implements Screen, GameComponent {
@@ -27,34 +29,35 @@ public class SaveGame implements Screen, GameComponent {
 		
 		Entity game1 = game.single(GAME);
 		if (game1.has(RETURN_SCREEN)) {
-			scene.place(background(x0-1, y0-1, w+3, h+3, 1));
+			scene.place(background(x0-1, y0-1, w+3, h+3, 2));
 		} else {
-			scene.place(background(0, 0, screen.width, screen.height, 1));
+			scene.place(background(0, 0, screen.width, screen.height, 2));
 		}
 		
 		scene.place(border(x0, y0, w, h));
 		scene.place(border(x0+20, y0+20, w*2/3-40, h*2/3-40));
-		scene.place(text(x0, y0-5, 32, 1));
-		scene.place(codePoints("Save"));
-		
-		scene.place(text(x0+(w*2/3), y0+h, h/3, 1));
+	
+		scene.place(text(x0+(w*2/3), y0+h, Fonts.TYPE_REGULAR, h/3, Colors.NORMAL_TEXT, 1));
 		scene.place(codePoints(String.valueOf(game1.num(TURN))));
 		
-		scene.place(text(x0+20, y0+h-20, h/6, 1));
+		int inputSize = h/7;
 		int[] savegame = game1.list(SAVEGAME);
+		scene.place(text(x0+20, y0+h-20, Fonts.TYPE_LIGHT, inputSize, Colors.NORMAL_TEXT, 1));
+		scene.place(codePoints(">"));
+		scene.place(text(x0+20+50, y0+h-20, Fonts.TYPE_LIGHT, inputSize, Colors.HIGHLIGHT_TEXT, 1));
 		scene.place(savegame);
 		
+		int gid = game1.id();
 		if (savegame.length < 12) {
 			for (char c = 'a'; c <= 'z'; c++) {
-				scene.bindKey(c, new Change(game1.id(), SAVEGAME, Op.APPEND, c));
+				scene.bindKey(c, new Change(gid, SAVEGAME, Op.APPEND, c));
 			}
 		}
 		if (savegame.length > 0) {
-			scene.bindKey('\b', new Change(game1.id(), SAVEGAME, Op.PUT, copyOf(savegame, savegame.length-1) ));
-			int rs = game1.num(RETURN_SCREEN);
-			System.out.println(rs);
-			scene.bindKey('\n', new Change(game1.id(), SCREEN, Op.PUT, rs));
+			scene.bindKey('\b', new Change(gid, SAVEGAME, Op.PUT, copyOf(savegame, savegame.length-1) ));
+			scene.bindKey('\n', new Change(gid, SCREEN, Op.PUT, 2));
 		}
+		scene.bindKey((char)27, new Change(gid, SCREEN, Op.PUT, game1.num(RETURN_SCREEN)), new Change(gid, RETURN_SCREEN, Op.ERASE));
 	}
 
 }

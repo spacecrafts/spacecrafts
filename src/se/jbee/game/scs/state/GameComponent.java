@@ -30,12 +30,6 @@ public interface GameComponent extends Component {
 	int
 	
 	/*
-	 * User/Settings
-	 */
-	USER = 1000,
-		SAVEGAME_DIR = 1001, // the directory where to store savegames
-	
-	/*
 	 * Game and Players
 	 */
 	GAME = 10,
@@ -45,7 +39,8 @@ public interface GameComponent extends Component {
 		TURN = 14, // #
 		SCREEN = 15,
 		RETURN_SCREEN = 16, // the screen one goes back to from e.g. load/save dialog screen
-		SAVEGAME =17, // name of the game to save/saved
+		SAVEGAME = 17, // name of the game to save/saved
+		ACTION = 18, // 1 = save
 
 	PLAYER = 20,
 		// TURN (player sets its turn to the current game turn when finished)

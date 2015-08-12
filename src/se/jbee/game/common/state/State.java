@@ -114,6 +114,11 @@ public final class State implements Component {
 	}
 	
 	public void save(File file) throws IOException {
+		if (!file.getParentFile().exists()) {
+			if (!file.getParentFile().mkdirs()) {
+				throw new IOException("Could not create path: "+file.getParentFile());
+			}
+		}
 		try (DataOutputStream out = new DataOutputStream(new FileOutputStream(file))) {
 			out.writeInt(size);
 			for (int i = 0; i < size; i++) {

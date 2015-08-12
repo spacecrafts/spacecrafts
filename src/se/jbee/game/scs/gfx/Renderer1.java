@@ -58,8 +58,12 @@ public class Renderer1 implements Renderer, Object {
 			int[] obj = objects.get(i);
 			switch (obj[0]) {
 			case BACKGROUND:
-				if (obj[5] == 0) {
+				int bgtype = obj[5];
+				if (bgtype == 0) {
 					gfx.setPaint(new GradientPaint(0, 0, new Color(0xA15FE3), 0, obj[4], new Color(0xE1AFF8)));
+					gfx.fillRect(obj[1], obj[2], obj[3], obj[4]);
+				} else if (bgtype == 2) {
+					gfx.setColor(Color.black);
 					gfx.fillRect(obj[1], obj[2], obj[3], obj[4]);
 				} else {
 					space(gfx, obj[1], obj[2], obj[3], obj[4]);
@@ -69,11 +73,11 @@ public class Renderer1 implements Renderer, Object {
 //				gfx.drawString("STARCRAFTS", 300, (screen.height-100)/2);
 				break;
 			case TEXT:
-				gfx.setColor(new Color(0x8899FF));
-				gfx.setFont(Fonts.light(obj[3]));
+				gfx.setFont(Fonts.fromType(obj[3], obj[4]));
+				gfx.setColor(Colors.fromType(obj[5]));
 				String str = "";
 				int xt = obj[1];
-				for (int j = 0; j < obj[4]; j++) {
+				for (int j = 0; j < obj[6]; j++) {
 					if (j > 0) {
 						xt += gfx.getFontMetrics().stringWidth(str);
 						xt += gfx.getFontMetrics().stringWidth(" ");
@@ -94,7 +98,7 @@ public class Renderer1 implements Renderer, Object {
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
 			case FOCUS_BOX:
-				gfx.setColor(new Color(0x8899FF));
+				gfx.setColor(new Color(0xFFFFFF));
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
 			}

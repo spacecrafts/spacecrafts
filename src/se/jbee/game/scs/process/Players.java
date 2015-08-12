@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,10 +20,12 @@ import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
 import se.jbee.game.scs.screen.LoadGame;
 import se.jbee.game.scs.screen.SaveGame;
+import se.jbee.game.scs.screen.SavingGame;
 import se.jbee.game.scs.screen.SolarSystem;
 import se.jbee.game.scs.screen.SplashScreen;
 import se.jbee.game.scs.screen.UserSettings;
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.scs.state.UserComponent;
 
 /**
  * The {@link Players} process takes the role of the currently active human
@@ -38,18 +42,18 @@ import se.jbee.game.scs.state.GameComponent;
  * The currently active player is not stored within this process but part of the
  * game state.
  */
-public final class Players implements Runnable, GameComponent, KeyListener, MouseListener, MouseMotionListener {
+public final class Players implements Runnable, GameComponent, UserComponent, KeyListener, MouseListener, MouseMotionListener {
 
-	private static final Screen[] SCREENS = { new SplashScreen(), new SaveGame(), new LoadGame(), new UserSettings(), new SolarSystem() }; 
-	
+	private static final Screen[] SCREENS = { new SplashScreen(), new SaveGame(), new SavingGame(), new LoadGame(), new UserSettings(), new SolarSystem() }; 
+
 	private final State game;
 	private final State user;
-	
+
 	private final Display display;
 	private final Scene scene = new Scene();
-	
+
 	private int ignoredKeyCode = 0;
-	
+
 	public Players(State game, State user) {
 		super();
 		this.game = game;
@@ -62,19 +66,40 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 		Thread displayThread = new Thread(display, "SCS Display");
 		displayThread.setDaemon(true);
 		displayThread.start();
-		
+
 		final Entity g1 = game.single(GAME);
 		while (true) {
+			ignoredKeyCode = 0;
 			int screenNo = g1.num(SCREEN);
 			scene.startOver();
 			SCREENS[screenNo].show(user, game, display.getSize(), scene);
 			scene.ready();
-			try { synchronized (this) {
-				wait();
-			} } catch ( InterruptedException e) {}
+			if (g1.has(ACTION)) {
+				int action = g1.num(ACTION);
+				if (action == 1) {
+					saveGame();
+				}
+				g1.erase(ACTION);
+			} else {
+				try { synchronized (this) {
+					wait();
+				} } catch ( InterruptedException e) {}
+			}
 		}
 	}
-	
+
+	private void saveGame() {
+		Entity game1 = game.single(GAME);
+		File file = new File(user.single(USER).text(SAVEGAME_DIR), game1.text(SAVEGAME)+".game");
+		game1.erase(SAVEGAME);
+		try {
+			game.save(file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void mouseDragged(MouseEvent e) { /* not used */ }
 	@Override
@@ -114,15 +139,12 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 
 	@Override
 	public void keyReleased(KeyEvent e) { 
-		ignoredKeyCode = 0;
+		
 	}
-	
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		char keyChar = e.getKeyChar();
-		if (keyChar == 27) {
-			System.exit(0);
-		}
 		if (!scene.isReady() || e.getKeyCode() == ignoredKeyCode)
 			return;
 		ignoredKeyCode = e.getKeyCode();
@@ -133,8 +155,12 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 				return;
 			}
 		}
+		// during development...
+		if (keyChar == 27) {
+			System.exit(0);
+		}		
 	}
-	
+
 	private void react(MouseEvent e, List<AreaMapping> mappings) {
 		for (AreaMapping m : mappings) {
 			if (m.area.contains(e.getPoint())) {
@@ -152,7 +178,7 @@ public final class Players implements Runnable, GameComponent, KeyListener, Mous
 		}
 		return;
 	}
-	
+
 	private static void apply(Change[] changeset, State game) {
 		for (Change c : changeset) {
 			c.apply(game);

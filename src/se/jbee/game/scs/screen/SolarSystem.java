@@ -1,5 +1,6 @@
 package se.jbee.game.scs.screen;
 
+import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.focusBox;
 import static se.jbee.game.scs.gfx.Objects.planet;
@@ -15,6 +16,8 @@ import se.jbee.game.common.state.Change;
 import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
+import se.jbee.game.scs.gfx.Colors;
+import se.jbee.game.scs.gfx.Fonts;
 import se.jbee.game.scs.state.GameComponent;
 
 public class SolarSystem implements Screen, GameComponent {
@@ -31,10 +34,10 @@ public class SolarSystem implements Screen, GameComponent {
 
 		scene.place(planet(700, 400, 200, 0xFF5014, 0));
 		scene.place(planet(100, 300, 400, 0x44FF99, 0));
-		scene.place(text(690, 380, 24, 1));
-		scene.place(Entity.codePoints("Mars"));
-		scene.place(text(90, 280, 24, 1));
-		scene.place(Entity.codePoints("Uranus"));
+		scene.place(text(690, 380, Fonts.TYPE_REGULAR, 24, Colors.NORMAL_TEXT, 1));
+		scene.place(codePoints("Mars"));
+		scene.place(text(90, 280, Fonts.TYPE_REGULAR, 24, Colors.NORMAL_TEXT, 1));
+		scene.place(codePoints("Uranus"));
 		
 		scene.bindLeftClick(area, new Change(g1.id(), SCREEN, Op.PUT, 0));
 		scene.bind(area, focusBox(690, 390, 220, 220));
