@@ -10,6 +10,12 @@ import java.util.List;
 import se.jbee.game.common.state.Component;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
+import se.jbee.game.scs.screen.LoadGame;
+import se.jbee.game.scs.screen.SaveGame;
+import se.jbee.game.scs.screen.SavingGame;
+import se.jbee.game.scs.screen.SolarSystem;
+import se.jbee.game.scs.screen.SplashScreen;
+import se.jbee.game.scs.screen.UserSettings;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
 
@@ -98,7 +104,9 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		while (true) {
 			int turn = game1.num(TURN);
 			if (turn == 0 && players.isEmpty()) {
-				Thread player = new Thread(new Players(game, user), "SCS Players");
+				Thread player = new Thread(new Players(game, user, 
+						SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, UserSettings.class, SolarSystem.class						
+						), "SCS Players");
 				player.setDaemon(true);
 				players.add(player);
 				player.start();

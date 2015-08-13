@@ -1,5 +1,7 @@
 package se.jbee.game.scs.process;
 
+import static java.lang.Math.max;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -15,15 +17,12 @@ import se.jbee.game.common.process.Scene.AreaMapping;
 import se.jbee.game.common.process.Scene.AreaObject;
 import se.jbee.game.common.process.Scene.KeyMapping;
 import se.jbee.game.common.screen.Screen;
+import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Change;
+import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
-import se.jbee.game.scs.screen.LoadGame;
-import se.jbee.game.scs.screen.SaveGame;
-import se.jbee.game.scs.screen.SavingGame;
-import se.jbee.game.scs.screen.SolarSystem;
-import se.jbee.game.scs.screen.SplashScreen;
-import se.jbee.game.scs.screen.UserSettings;
+import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
 
@@ -44,22 +43,28 @@ import se.jbee.game.scs.state.UserComponent;
  */
 public final class Players implements Runnable, GameComponent, UserComponent, KeyListener, MouseListener, MouseMotionListener {
 
-	private static final Screen[] SCREENS = { new SplashScreen(), new SaveGame(), new SavingGame(), new LoadGame(), new UserSettings(), new SolarSystem() }; 
-
 	private final State game;
 	private final State user;
 
 	private final Display display;
 	private final Scene scene = new Scene();
 
+	private final Screen[] screens;
+	
 	private int ignoredKeyCode = 0;
 
-	public Players(State game, State user) {
+	@SafeVarargs
+	public Players(State game, State user, Class<? extends Screen>... screens) {
 		super();
 		this.game = game;
 		this.user = user;
 		this.display = new Display(scene, this, this, this);
-	}
+		this.screens = initScreens(screens);
+		int gameId = game.single(GAME).id();
+		scene.bindGlobalKey((char)27, //ESC
+				new Change(gameId, RETURN_SCREEN, Op.COPY, gameId, SCREEN),
+				new Change(gameId, SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
+	} 
 
 	@Override
 	public void run() {
@@ -72,7 +77,7 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 			ignoredKeyCode = 0;
 			int screenNo = g1.num(SCREEN);
 			scene.startOver();
-			SCREENS[screenNo].show(user, game, display.getSize(), scene);
+			screens[screenNo].show(user, game, display.getSize(), scene);
 			scene.ready();
 			if (g1.has(ACTION)) {
 				doAction(g1);
@@ -95,7 +100,26 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 		}
 		g1.erase(ACTION);
 	}
-
+	
+	private Screen[] initScreens(Class<? extends Screen>... screenTypes) {
+		int max = 0;
+		for (Class<?> c : screenTypes) {
+			ScreenNo no = c.getAnnotation(ScreenNo.class);
+			max = max(max, no.value());
+		}
+		Screen[] screens = new Screen[max+1];
+		for (int i = 0; i < screenTypes.length; i++) {
+			try {
+				Class<? extends Screen> screen = screenTypes[i];
+				ScreenNo no = screen.getAnnotation(ScreenNo.class);				
+				screens[no.value()] = screen.newInstance();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return screens;
+	}
+	
 	private void saveGame() {
 		Entity game1 = game.single(GAME);
 		File file = new File(user.single(USER).text(SAVEGAME_DIR), game1.text(SAVEGAME)+".game");
@@ -127,12 +151,12 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 			return;
 		for (AreaObject m : scene.onMouseOver) {
 			if (m.area.contains(e.getPoint())) {
-				scene.areaObjects.set(m.objects);
+				scene.accentuate(m.objects);
 				e.consume();
 				return;
 			}
 		}
-		scene.areaObjects.set(Collections.<int[]>emptyList());
+		scene.accentuate(Collections.<int[]>emptyList());
 	}
 
 	@Override
@@ -152,17 +176,24 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		char keyChar = e.getKeyChar();
 		if (!scene.isReady() || e.getKeyCode() == ignoredKeyCode)
 			return;
 		ignoredKeyCode = e.getKeyCode();
-		for (KeyMapping m : scene.onKeyPress) {
+		if (!react(e, scene.onKeyPress)) {
+			react(e, scene.globalOnKeyPress);
+		}
+	}
+
+	private boolean react(KeyEvent e, List<KeyMapping> mappings) {
+		final char keyChar = e.getKeyChar();
+		for (KeyMapping m : mappings) {
 			if (keyChar == m.key) {
 				e.consume();
 				reactWith(m.changeset);
-				return;
+				return true;
 			}
 		}
+		return false;
 	}
 
 	private void react(MouseEvent e, List<AreaMapping> mappings) {

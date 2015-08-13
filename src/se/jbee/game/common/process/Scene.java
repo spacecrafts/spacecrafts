@@ -52,11 +52,32 @@ public final class Scene {
 	public final List<KeyMapping>  globalOnKeyPress = new ArrayList<>();
 	
 	public final AtomicReference<List<int[]>> objects = new AtomicReference<>(Collections.<int[]>emptyList());
-	public final AtomicReference<List<int[]>> areaObjects = new AtomicReference<>(Collections.<int[]>emptyList());
+	private final AtomicReference<List<int[]>> accents = new AtomicReference<>(Collections.<int[]>emptyList());
 	
 	private List<int[]> nextObjects;
 	private List<int[]> nextAreaObjects;
 	private AtomicBoolean ready = new AtomicBoolean(false);
+	
+	/**
+	 * The frame tracks any changes to the stage so that displaying device can
+	 * skip repaint as long as the frame has not changed.
+	 */
+	private int frame = 0;
+	
+	public int frame() {
+		return frame;
+	}
+	
+	public List<int[]> accents() {
+		return accents.get();
+	}
+	
+	public void accentuate(List<int[]> objects) {
+		List<int[]> old = accents.getAndSet(objects);
+		if (!old.isEmpty() || !objects.isEmpty()) {
+			frame++;
+		}
+	}
 	
 	public void startOver() {
 		ready.set(false);
@@ -64,14 +85,15 @@ public final class Scene {
 		onRightClick.clear();
 		onMouseOver.clear();
 		onKeyPress.clear();
-		areaObjects.set(Collections.<int[]>emptyList());
+		accents.set(Collections.<int[]>emptyList());
 		nextObjects = new ArrayList<int[]>();
 		nextAreaObjects = new ArrayList<int[]>();
 	}
 	
 	public void ready() {
 		objects.set(nextObjects);
-		areaObjects.set(nextAreaObjects);
+		accents.set(nextAreaObjects);
+		frame++;
 		ready.set(true);
 	}
 	
@@ -103,4 +125,10 @@ public final class Scene {
 		onKeyPress.add(new KeyMapping(key, changeset));
 		return this;
 	}
+	
+	public Scene bindGlobalKey(char key, Change... changeset) {
+		globalOnKeyPress.add(new KeyMapping(key, changeset));
+		return this;
+	}
+
 }

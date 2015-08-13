@@ -38,6 +38,7 @@ public class Renderer1 implements Renderer, Gfx {
 	private static final BufferedImage ROUGH_PLANET = SimplexNoise.image(500, 500, 500, 60, 7000, 0.15f, 0f, 0xFFFFFFFF);
 	private static final BufferedImage FINE_PLANET = SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f, 0f, 0xFFFFFFFF);
 
+	private int frameDone = -1;
 
 	private int[] spaceback;
 	private int spaceback_w;
@@ -50,8 +51,13 @@ public class Renderer1 implements Renderer, Gfx {
 		
 		antialias(gfx);
 		textAntialias(gfx);
-		render(palette, gfx, scene.objects.get());
-		render(palette, gfx, scene.areaObjects.get());
+		
+		int frame = scene.frame();
+		if (frame != frameDone) {
+			frameDone = frame;
+			render(palette, gfx, scene.objects.get());
+			render(palette, gfx, scene.accents());
+		}
 		
 		gfx.setColor(Color.BLACK);
 		gfx.fillRect(0, 0, 50, 50);

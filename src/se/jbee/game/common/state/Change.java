@@ -8,7 +8,7 @@ import java.util.Arrays;
  */
 public final class Change {
 
-	public static enum Op { /* map*/ PUT, ERASE, /* set */ INSERT, REMOVE, /* list */ APPEND, PREPEND, /* bitset */ SETBITS, UNSETBITS, /* all */ CLEAR }
+	public static enum Op { /* map*/ PUT, ERASE, /* set */ INSERT, REMOVE, /* list */ APPEND, PREPEND, /* bitset */ SETBITS, UNSETBITS, /* all */ CLEAR, COPY }
 	
 	public final int entity;   // which entity is manipulated
 	public final int comp;     // component of the entity that is manipulated (if not clearing all)
@@ -39,6 +39,7 @@ public final class Change {
 		case SETBITS   : e.set(comp, value); break;
 		case UNSETBITS : e.unset(comp, value); break;
 		case CLEAR     : e.clear(); break;
+		case COPY      : e.put(comp, game.entity(value[0]).list(value[1])); break;
 		}
 	}
 	

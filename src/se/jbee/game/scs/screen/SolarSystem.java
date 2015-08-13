@@ -12,6 +12,7 @@ import java.awt.Rectangle;
 
 import se.jbee.game.common.process.Scene;
 import se.jbee.game.common.screen.Screen;
+import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Change;
 import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
@@ -19,7 +20,8 @@ import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
-public class SolarSystem implements Screen, GameComponent, Gfx {
+@ScreenNo(GameScreen.SCREEN_SOLAR_SYSTEM)
+public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Scene scene) {
@@ -38,11 +40,11 @@ public class SolarSystem implements Screen, GameComponent, Gfx {
 		scene.place(text(90, 280, FONT_REGULAR, 24, COLOR_TEXT_NORMAL, 1));
 		scene.place(codePoints("Uranus"));
 		
-		scene.bindLeftClick(area, new Change(g1.id(), SCREEN, Op.PUT, 0));
+		scene.bindLeftClick(area, new Change(g1.id(), SCREEN, Op.PUT, SCREEN_MAIN));
 		scene.bind(area, focusBox(690, 390, 220, 220));
 		
 		area = new Rectangle(90, 290, 420, 420);
-		scene.bindLeftClick(area, new Change(g1.id(), SCREEN, Op.PUT, 0));
+		scene.bindLeftClick(area, new Change(g1.id(), SCREEN, Op.PUT, SCREEN_MAIN));
 		scene.bind(area, focusBox(90, 290, 420, 420));
 		
 	}

@@ -10,6 +10,7 @@ import java.awt.Dimension;
 
 import se.jbee.game.common.process.Scene;
 import se.jbee.game.common.screen.Screen;
+import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Change;
 import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
@@ -17,7 +18,8 @@ import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
-public class SaveGame implements Screen, GameComponent, Gfx {
+@ScreenNo(GameScreen.SCREEN_SAVE_GAME)
+public class SaveGame implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Scene scene) {
@@ -54,7 +56,7 @@ public class SaveGame implements Screen, GameComponent, Gfx {
 		}
 		if (savegame.length > 0) {
 			scene.bindKey('\b', new Change(gid, SAVEGAME, Op.PUT, copyOf(savegame, savegame.length-1) ));
-			scene.bindKey('\n', new Change(gid, SCREEN, Op.PUT, 2));
+			scene.bindKey('\n', new Change(gid, SCREEN, Op.PUT, SCREEN_SAVING_GAME));
 		}
 		scene.bindKey((char)27, new Change(gid, SCREEN, Op.PUT, game1.num(RETURN_SCREEN)), new Change(gid, RETURN_SCREEN, Op.ERASE));
 	}

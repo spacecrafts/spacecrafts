@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 
 import se.jbee.game.common.process.Scene;
 import se.jbee.game.common.screen.Screen;
+import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Change;
 import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
@@ -16,9 +17,11 @@ import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
-public class SplashScreen implements Screen, GameComponent, Gfx {
+@ScreenNo(GameScreen.SCREEN_MAIN)
+public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 
 	private static final int[] 
+			BACK = codePoints("BACK"),
 			EXIT = codePoints("EXIT"),
 			SAVE = codePoints("SAVE"),
 			LOAD = codePoints("LOAD");
@@ -48,7 +51,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx {
 		scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		scene.place(LOAD);
 		scene.bind(load, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), LOAD);
-		Change[] loadChangeset = { new Change(g1.id(), SCREEN, Op.PUT, 5), new Change(g1.id(), RETURN_SCREEN, Op.PUT, 0) };
+		Change[] loadChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SOLAR_SYSTEM), new Change(g1.id(), RETURN_SCREEN, Op.PUT, SCREEN_MAIN) };
 		scene.bindLeftClick(load, loadChangeset);
 		scene.bindKey('l', loadChangeset);
 		
@@ -58,7 +61,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx {
 		scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		scene.place(SAVE);
 		scene.bind(save, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), SAVE);
-		Change[] saveChangeset = { new Change(g1.id(), SCREEN, Op.PUT, 1), new Change(g1.id(), RETURN_SCREEN, Op.PUT, 0) };
+		Change[] saveChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SAVE_GAME), new Change(g1.id(), RETURN_SCREEN, Op.PUT, SCREEN_MAIN) };
 		scene.bindLeftClick(save, saveChangeset);
 		scene.bindKey('s', saveChangeset);
 		
@@ -71,6 +74,18 @@ public class SplashScreen implements Screen, GameComponent, Gfx {
 		Change exitChange = new Change(g1.id(), ACTION, Op.PUT, ACTION_EXIT);
 		scene.bindLeftClick(exit, exitChange);
 		scene.bindKey((char)27, exitChange);
+		
+		if (g1.has(RETURN_SCREEN)) {
+			// back
+			y0 += 10*diameter;
+			Rectangle back = new Rectangle(x0,y0,w,h);
+			scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
+			scene.place(BACK);
+			scene.bind(back, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), BACK);
+			Change backChange = new Change(g1.id(), SCREEN, Op.PUT, g1.num(RETURN_SCREEN));
+			scene.bindLeftClick(back, backChange);
+			scene.bindKey('b', backChange);			
+		}
 	}
 
 }

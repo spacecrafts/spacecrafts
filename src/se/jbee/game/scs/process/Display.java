@@ -31,7 +31,7 @@ import se.jbee.game.scs.gfx.Renderer1;
  */
 public class Display extends Canvas implements Runnable, Gfx {
 
-	private static final long LOOP_TIME_MS = 25;
+	private static final long FRAME_DELAY_MS = 15;
 	
 	private final Scene scene; 
 
@@ -93,9 +93,9 @@ public class Display extends Canvas implements Runnable, Gfx {
 			strategy.show();
 
 			// sleep so that drawing + sleeping = loop time
-			long loopDurationMs = System.currentTimeMillis() - loopStart;
-			if (loopDurationMs < LOOP_TIME_MS) {
-				try { Thread.sleep(LOOP_TIME_MS - loopDurationMs); } catch (Exception e) {}
+			long cycleTimeMs = System.currentTimeMillis() - loopStart;
+			if (cycleTimeMs < FRAME_DELAY_MS) {
+				try { Thread.sleep(FRAME_DELAY_MS - cycleTimeMs); } catch (Exception e) {}
 			}
 		}		
 	}

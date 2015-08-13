@@ -9,11 +9,13 @@ import java.awt.Dimension;
 
 import se.jbee.game.common.process.Scene;
 import se.jbee.game.common.screen.Screen;
+import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
+@ScreenNo(GameScreen.SCREEN_SAVING_GAME)
 public class SavingGame implements Screen, GameComponent, Gfx {
 
 	@Override

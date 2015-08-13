@@ -4,8 +4,10 @@ import java.awt.Dimension;
 
 import se.jbee.game.common.process.Scene;
 import se.jbee.game.common.screen.Screen;
+import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.State;
 
+@ScreenNo(GameScreen.SCREEN_USER_SETTINGS)
 public class UserSettings implements Screen {
 
 	@Override
