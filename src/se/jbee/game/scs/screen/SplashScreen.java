@@ -13,11 +13,10 @@ import se.jbee.game.common.state.Change;
 import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
-import se.jbee.game.scs.gfx.Colors;
-import se.jbee.game.scs.gfx.Fonts;
+import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
-public class SplashScreen implements Screen, GameComponent {
+public class SplashScreen implements Screen, GameComponent, Gfx {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Scene scene) {
@@ -29,7 +28,7 @@ public class SplashScreen implements Screen, GameComponent {
 		while (title.length()*5*diameter > screen.width) {
 			diameter--;
 		}
-		scene.place(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/4-(5*diameter), Fonts.TYPE_CAPS, diameter, Colors.HIGHLIGHT_TEXT, 1));
+		scene.place(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/4-(5*diameter), FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1));
 		scene.place(codePoints(title));
 		
 		int w = screen.width/6;
@@ -41,9 +40,9 @@ public class SplashScreen implements Screen, GameComponent {
 		
 		// save
 		Rectangle save = new Rectangle(x0,y0,w,h);
-		scene.place(text(x0, y0, Fonts.TYPE_CAPS, diameter, Colors.NORMAL_TEXT, 1));
+		scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		scene.place(codePoints("SAVE"));
-		scene.bind(save, text(x0, y0, Fonts.TYPE_CAPS, diameter, Colors.HIGHLIGHT_TEXT, 1), codePoints("SAVE"));
+		scene.bind(save, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), codePoints("SAVE"));
 		Change[] saveChangeset = { new Change(g1.id(), SCREEN, Op.PUT, 1), new Change(g1.id(), RETURN_SCREEN, Op.PUT, 0) };
 		scene.bindLeftClick(save, saveChangeset);
 		scene.bindKey('s', saveChangeset);
@@ -51,10 +50,10 @@ public class SplashScreen implements Screen, GameComponent {
 		// exit
 		y0 += 10*diameter;
 		Rectangle exit = new Rectangle(x0,y0,w,h);
-		scene.place(text(x0, y0, Fonts.TYPE_CAPS, diameter, Colors.NORMAL_TEXT, 1));
+		scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		scene.place(codePoints("EXIT"));
-		scene.bind(exit, text(x0, y0, Fonts.TYPE_CAPS, diameter, Colors.HIGHLIGHT_TEXT, 1), codePoints("EXIT"));
-		Change exitChange = new Change(g1.id(), ACTION, Op.PUT, 0);
+		scene.bind(exit, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), codePoints("EXIT"));
+		Change exitChange = new Change(g1.id(), ACTION, Op.PUT, ACTION_EXIT);
 		scene.bindLeftClick(exit, exitChange);
 		scene.bindKey((char)27, exitChange);
 	}

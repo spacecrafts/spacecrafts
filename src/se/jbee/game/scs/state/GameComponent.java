@@ -27,6 +27,16 @@ public interface GameComponent extends Component {
 	// [...] = list
 	// {...} = set
 	
+	/**
+	 * Actions
+	 */
+	int 
+	ACTION_EXIT = 0,
+	ACTION_SAVE = 1;	
+	
+	/**
+	 * Components
+	 */
 	int
 	
 	/*

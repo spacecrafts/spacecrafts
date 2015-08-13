@@ -7,11 +7,6 @@ import java.io.InputStream;
 
 public final class Fonts {
 
-	public static final int
-		TYPE_REGULAR = 0,
-		TYPE_LIGHT = 1,
-		TYPE_CAPS = 2;
-	
 	private static final Font ROBOTO_LIGHT = loadFont("font/Roboto-Light.ttf");
 	private static final Font ROBOTO = loadFont("font/Roboto-Regular.ttf");
 	
@@ -21,8 +16,8 @@ public final class Fonts {
 	public static Font fromType(int type, int size) {
 		switch (type) {
 		default:
-		case TYPE_REGULAR : return regular(size);
-		case TYPE_LIGHT   : return light(size);
+		case Gfx.FONT_REGULAR : return regular(size);
+		case Gfx.FONT_LIGHT   : return light(size);
 		}
 	}
 	

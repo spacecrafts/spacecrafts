@@ -11,11 +11,10 @@ import se.jbee.game.common.process.Scene;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
-import se.jbee.game.scs.gfx.Colors;
-import se.jbee.game.scs.gfx.Fonts;
+import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
-public class SavingGame implements Screen, GameComponent {
+public class SavingGame implements Screen, GameComponent, Gfx {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Scene scene) {
@@ -28,7 +27,7 @@ public class SavingGame implements Screen, GameComponent {
 
 		scene.place(background(x0-1, y0-1, w+3, h+3, 2));
 		scene.place(border(x0, y0, w, h));
-		scene.place(text(x0+20, y0+h/2, Fonts.TYPE_LIGHT, 48, Colors.HIGHLIGHT_TEXT, 3));
+		scene.place(text(x0+20, y0+h/2, FONT_LIGHT, 48, COLOR_TEXT_HIGHLIGHT, 3));
 		scene.place(codePoints("saving"));
 		scene.place(game1.list(SAVEGAME));
 		scene.place(codePoints("..."));
@@ -36,7 +35,7 @@ public class SavingGame implements Screen, GameComponent {
 		// setup return to screen, done after action
 		game1.put(SCREEN, game1.num(RETURN_SCREEN));
 		game1.erase(RETURN_SCREEN);
-		game1.put(ACTION, 1);
+		game1.put(ACTION, ACTION_SAVE);
 	}
 
 }

@@ -75,19 +75,25 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 			SCREENS[screenNo].show(user, game, display.getSize(), scene);
 			scene.ready();
 			if (g1.has(ACTION)) {
-				int action = g1.num(ACTION);
-				if (action == 0) {
-					System.exit(0);
-				} else if (action == 1) {
-					saveGame();
-				}
-				g1.erase(ACTION);
+				doAction(g1);
 			} else {
 				try { synchronized (this) {
 					wait();
 				} } catch ( InterruptedException e) {}
 			}
 		}
+	}
+
+	private void doAction(final Entity g1) {
+		int action = g1.num(ACTION);
+		switch(action) {
+		case ACTION_EXIT:
+			// TODO create an auto-save (this way one slips asking annoying "Really?" dialogs
+			System.exit(0);
+		case ACTION_SAVE:
+			saveGame();
+		}
+		g1.erase(ACTION);
 	}
 
 	private void saveGame() {

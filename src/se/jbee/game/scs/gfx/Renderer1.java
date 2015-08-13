@@ -5,7 +5,6 @@ import static java.lang.Math.min;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
@@ -48,7 +47,9 @@ public class Renderer1 implements Renderer, Gfx {
 		render(gfx, scene.objects.get());
 		render(gfx, scene.areaObjects.get());
 		
-		gfx.setFont(new Font(Font.MONOSPACED, 0 , 12));
+		gfx.setColor(Color.BLACK);
+		gfx.fillRect(0, 0, 50, 50);
+		gfx.setFont(Fonts.fromType(Gfx.FONT_REGULAR, 12));
 		gfx.setColor(Color.WHITE);
 		gfx.drawString(""+(System.currentTimeMillis() - drawStart), 20, 20);
 	}
@@ -74,7 +75,7 @@ public class Renderer1 implements Renderer, Gfx {
 				break;
 			case OBJ_TEXT:
 				gfx.setColor(Colors.fromType(obj[5]));
-				if (obj[3] == Fonts.TYPE_CAPS) {
+				if (obj[3] == Gfx.FONT_DOTS) {
 					SCSFont.draw(gfx, obj[1], obj[2], obj[4], objects.get(++i));
 				} else {
 					gfx.setFont(Fonts.fromType(obj[3], obj[4]));

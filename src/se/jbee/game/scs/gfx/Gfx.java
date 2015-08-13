@@ -6,6 +6,21 @@ package se.jbee.game.scs.gfx;
 public interface Gfx {
 
 	/**
+	 * Fonts
+	 */
+	int
+	FONT_REGULAR = 0,
+	FONT_LIGHT = 1,
+	FONT_DOTS = 2;
+	
+	/**
+	 * Colors
+	 */
+	int
+	COLOR_TEXT_HIGHLIGHT = 1,
+	COLOR_TEXT_NORMAL = 2;
+	
+	/**
 	 * Objects
 	 */
 	int
