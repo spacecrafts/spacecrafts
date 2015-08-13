@@ -16,11 +16,11 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.TexturePaint;
 import java.util.List;
-import java.util.Random;
 
 import se.jbee.game.common.gfx.Palette;
 import se.jbee.game.common.gfx.Renderer;
 import se.jbee.game.common.process.Scene;
+import se.jbee.game.scs.gfx.bg.Space;
 
 /**
  * The first {@link Renderer} I do.
@@ -30,32 +30,28 @@ public class Renderer1 implements Renderer, Gfx {
 	// make horizontal scratch: 300, 1000, 1000, 80, 42, 0.2f (has been caused by using a rectange that had another shape)
 	// wood-like: 100, 2000, 200, 80, 42, 0.2f
 	
+	private final Space bgSpace=new Space();
+	
 	private int frameDone = -1;
 
-	private int[] spaceback;
-	private int spaceback_w;
-	private int spaceback_h;
-	private int spaceback_seed;
-	
 	@Override
 	public void render(Scene scene, Dimension screen, Palette palette, Graphics2D gfx) {
-		long drawStart = System.currentTimeMillis();
-		
-		antialias(gfx);
-		textAntialias(gfx);
-		
 		int frame = scene.frame();
 		if (frame != frameDone) {
 			frameDone = frame;
+			long drawStart = System.currentTimeMillis();
+
+			antialias(gfx);
+			textAntialias(gfx);
+			
 			render(palette, gfx, scene.objects.get());
 			render(palette, gfx, scene.accents());
+			
+			gfx.setFont(palette.font(FONT_REGULAR, 12));
+			gfx.setColor(Color.WHITE);
+			gfx.drawString(""+(System.currentTimeMillis() - drawStart), 20, 20);
 		}
 		
-		gfx.setColor(Color.BLACK);
-		gfx.fillRect(0, 0, 50, 50);
-		gfx.setFont(palette.font(FONT_REGULAR, 12));
-		gfx.setColor(Color.WHITE);
-		gfx.drawString(""+(System.currentTimeMillis() - drawStart), 20, 20);
 	}
 
 	private void render(Palette palette, Graphics2D gfx, List<int[]> objects) {
@@ -71,7 +67,7 @@ public class Renderer1 implements Renderer, Gfx {
 					gfx.setColor(Color.black);
 					gfx.fillRect(obj[1], obj[2], obj[3], obj[4]);
 				} else {
-					space(gfx, obj[1], obj[2], obj[3], obj[4]);
+					bgSpace.space(gfx, obj[1], obj[2], obj[3], obj[4]);
 				}
 				break;
 			case OBJ_TEXT:
@@ -104,42 +100,10 @@ public class Renderer1 implements Renderer, Gfx {
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
 			case OBJ_FOCUS_BOX:
-				gfx.setColor(new Color(0xFFFFFF));
+				gfx.setColor(palette.color(COLOR_TEXT_NORMAL));
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
 			}
-		}
-	}
-	
-	private static int[] makeSpace(int w, int h, int seed) {
-		Random rnd = new Random(seed);
-		int[] space = new int[w*2];
-		int j = 0;
-		for (int i = 0; i < w/2; i++) {
-			space[j++] = rnd.nextInt(119); // b(lue)
-			space[j++] = rnd.nextInt(70); // a
-			space[j++] = rnd.nextInt(w); // x
-			space[j++] = rnd.nextInt(h); // y
-		}
-		return space;
-	}
-	
-	private void space(Graphics2D gfx, int x0, int y0, int w, int h) {
-		gfx.setColor(Color.black);
-		gfx.fillRect(x0, y0, w, h);
-		if (w != spaceback_w || h != spaceback_h) {
-			spaceback = makeSpace(w, h, 42);
-			spaceback_w = w;
-			spaceback_h = h;
-		}
-		int j = 0;
-		int[] sp = spaceback;
-		for (int i = 0; i < w/2; i++) {
-			gfx.setColor(new Color(238, 238, 119 + sp[j++], sp[j++]));
-			int x = sp[j++];
-			int y = sp[j++];
-			gfx.drawLine(x-1, y, x+1, y);
-			gfx.drawLine(x, y-1, x, y+1);
 		}
 	}
 	

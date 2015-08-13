@@ -38,7 +38,7 @@ public class SimplexNoise {
 		return res;
 	}
 
-	public static BufferedImage image(int w, int h, int size, int depth, int seed, float alpha, float limit, int rgbMask) {
+	public static BufferedImage image(int w, int h, int size, int depth, int seed, float alpha, float limit) {
 		SimplexNoise noise =new SimplexNoise(size,depth/100f, seed);
 		BufferedImage image = new BufferedImage(w,h, BufferedImage.TYPE_INT_ARGB);
 	
@@ -53,7 +53,7 @@ public class SimplexNoise {
 					rgb = 0;
 				}
 				Color c = new Color(rgb, rgb, rgb, alpha);
-				pixels[k++] = c.getRGB() & rgbMask;
+				pixels[k++] = c.getRGB();
 			}
 		}
 		image.getRaster().setDataElements(0,  0,  w, h, pixels);

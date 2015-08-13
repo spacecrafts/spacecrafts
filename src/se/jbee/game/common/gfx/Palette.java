@@ -15,15 +15,26 @@ public final class Palette {
 
 	private final Color[] colors;
 	private final Font[][] fonts;
-	private final BufferedImage[] backgrounds;
-	private final Supplier<BufferedImage>[] backgroundFactories;
+	private final BufferedImage[] bgs;
+	private final Supplier<BufferedImage>[] layzBgs;
 	
-	public Palette(Color[] colors, Font[][] fonts, Supplier<BufferedImage>[] backgroundFactories) {
+	public Palette(Color[] colors, Font[][] fonts, final Supplier<BufferedImage>[] lazyBgs) {
 		super();
 		this.colors = colors;
 		this.fonts = fonts;
-		this.backgrounds = new BufferedImage[backgroundFactories.length];;
-		this.backgroundFactories = backgroundFactories;
+		this.bgs = new BufferedImage[lazyBgs.length];;
+		this.layzBgs = lazyBgs;
+		Thread loader = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				for (int i = 0; i < lazyBgs.length; i++) {
+					bgs[i] = lazyBgs[i].get();
+				}
+			}
+		});
+		loader.setDaemon(true);
+		loader.start();
 	}
 	
 	public Color color(int type) {
@@ -45,10 +56,10 @@ public final class Palette {
 	}
 	
 	public BufferedImage background(int type) {
-		BufferedImage bg = backgrounds[type];
+		BufferedImage bg = bgs[type];
 		if (bg == null) {
-			bg = backgroundFactories[type].get();
-			backgrounds[type] = bg;
+			bg = layzBgs[type].get();
+			bgs[type] = bg;
 		}
 		return bg;
 	}

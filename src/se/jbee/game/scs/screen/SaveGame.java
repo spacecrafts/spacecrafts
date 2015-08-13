@@ -48,6 +48,7 @@ public class SaveGame implements Screen, GameComponent, Gfx, GameScreen {
 		scene.place(text(x0+20+50, y0+h-20, FONT_LIGHT, inputSize, COLOR_TEXT_HIGHLIGHT, 1));
 		scene.place(savegame);
 		
+		// keyboard input
 		int gid = game1.id();
 		if (savegame.length < 12) {
 			for (char c = 'a'; c <= 'z'; c++) {
@@ -58,6 +59,8 @@ public class SaveGame implements Screen, GameComponent, Gfx, GameScreen {
 			scene.bindKey('\b', new Change(gid, SAVEGAME, Op.PUT, copyOf(savegame, savegame.length-1) ));
 			scene.bindKey('\n', new Change(gid, SCREEN, Op.PUT, SCREEN_SAVING_GAME));
 		}
+		
+		// cancel
 		scene.bindKey((char)27, new Change(gid, SCREEN, Op.PUT, game1.num(RETURN_SCREEN)), new Change(gid, RETURN_SCREEN, Op.ERASE));
 	}
 

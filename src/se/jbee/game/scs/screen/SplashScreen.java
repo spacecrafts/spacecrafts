@@ -75,8 +75,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		scene.bindLeftClick(exit, exitChange);
 		scene.bindKey((char)27, exitChange);
 		
-		if (g1.has(RETURN_SCREEN)) {
-			// back
+		// back
+		if (g1.has(RETURN_SCREEN) && g1.num(RETURN_SCREEN) != SCREEN_MAIN) {
 			y0 += 10*diameter;
 			Rectangle back = new Rectangle(x0,y0,w,h);
 			scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1)); //TODO other color

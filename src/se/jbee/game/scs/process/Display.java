@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -86,6 +87,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 		final Dimension screen = getSize();
 		final Renderer renderer = new Renderer1();
 		final Palette palette = initPalette();
+		final Toolkit toolkit = Toolkit.getDefaultToolkit();
 		while (true) {
 			long loopStart = System.currentTimeMillis();
 			Graphics2D gfx = (Graphics2D) strategy.getDrawGraphics();
@@ -94,6 +96,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 			
 			gfx.dispose();
 			strategy.show();
+			toolkit.sync();
 
 			// sleep so that drawing + sleeping = loop time
 			long cycleTimeMs = System.currentTimeMillis() - loopStart;
@@ -109,11 +112,10 @@ public class Display extends Canvas implements Runnable, Gfx {
 		fonts[FONT_REGULAR][0] = Palette.loadFont("font/Roboto-Regular.ttf");
 		fonts[FONT_LIGHT][0] = Palette.loadFont("font/Roboto-Light.ttf");
 		Supplier<BufferedImage>[] backgrounds = (Supplier<BufferedImage>[]) new Supplier<?>[] { 
-			null,
-			() -> { return SimplexNoise.image(200, 2000, 500, 80, 666, 0.15f, 0f, 0xFFFFFFFF); },
-			() -> { return SimplexNoise.image(200, 2000, 50, 60, 700, 0.15f, 0f, 0xFFFFFFFF); },
-			() -> { return SimplexNoise.image(500, 500, 500, 60, 7000, 0.15f, 0f, 0xFFFFFFFF); },
-			() -> { return SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f, 0f, 0xFFFFFFFF); }
+			() -> { return SimplexNoise.image(200, 2000, 500, 80, 666, 0.15f, 0f); },
+			() -> { return SimplexNoise.image(200, 2000, 50, 60, 700, 0.15f, 0f); },
+			() -> { return SimplexNoise.image(500, 500, 500, 60, 7000, 0.15f, 0f); },
+			() -> { return SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f, 0f); }
 		};
 		final Palette palette = new Palette(colors, fonts, backgrounds);
 		return palette;
