@@ -118,10 +118,10 @@ public class Renderer1 implements Renderer, Gfx {
 		int[] space = new int[w*2];
 		int j = 0;
 		for (int i = 0; i < w/2; i++) {
-			space[j++] = rnd.nextInt(180); // a
+			space[j++] = rnd.nextInt(119); // b(lue)
+			space[j++] = rnd.nextInt(70); // a
 			space[j++] = rnd.nextInt(w); // x
 			space[j++] = rnd.nextInt(h); // y
-			space[j++] = rnd.nextInt(100) > 80 ? 2 : 1; // d (80% 1x1, 20% 2x2)
 		}
 		return space;
 	}
@@ -137,8 +137,11 @@ public class Renderer1 implements Renderer, Gfx {
 		int j = 0;
 		int[] sp = spaceback;
 		for (int i = 0; i < w/2; i++) {
-			gfx.setColor(new Color(255,255,200, sp[j++]));
-			gfx.fillRect(sp[j++], sp[j++], sp[j], sp[j++]);
+			gfx.setColor(new Color(238, 238, 119 + sp[j++], sp[j++]));
+			int x = sp[j++];
+			int y = sp[j++];
+			gfx.drawLine(x-1, y, x+1, y);
+			gfx.drawLine(x, y-1, x, y+1);
 		}
 	}
 	

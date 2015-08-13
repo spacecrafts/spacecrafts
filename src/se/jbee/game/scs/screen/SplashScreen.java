@@ -33,7 +33,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx {
 		while (title.length()*5*diameter > screen.width) {
 			diameter--;
 		}
-		scene.place(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/3-(5*diameter), FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1));
+		scene.place(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/3-(5*diameter), FONT_DOTS, diameter, 3, 1));
 		scene.place(codePoints(title));
 		
 		int w = Math.max(200, screen.width/8);

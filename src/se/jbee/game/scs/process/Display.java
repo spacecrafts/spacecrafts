@@ -101,7 +101,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 	}
 
 	private Palette initPalette() {
-		Color[] colors = { new Color(0x8899FF), Color.WHITE, new Color(0x8899FF) }; 
+		Color[] colors = { new Color(0x8899FF), Color.WHITE, new Color(0x8899FF), new Color(238, 238, 119) }; 
 		Font[][] fonts = new Font[2][64];
 		fonts[FONT_REGULAR][0] = Palette.loadFont("font/Roboto-Regular.ttf");
 		fonts[FONT_LIGHT][0] = Palette.loadFont("font/Roboto-Light.ttf");
