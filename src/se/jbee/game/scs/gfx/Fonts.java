@@ -14,7 +14,6 @@ public final class Fonts {
 	
 	private static final Font ROBOTO_LIGHT = loadFont("font/Roboto-Light.ttf");
 	private static final Font ROBOTO = loadFont("font/Roboto-Regular.ttf");
-	private static final Font SPLASH = loadFont("font/mexcellent 3d.ttf");
 	
 	private final static Font[] ROBOTO_LIGHT_X = new Font[64];
 	private final static Font[] ROBOTO_X = new Font[64];
@@ -24,7 +23,6 @@ public final class Fonts {
 		default:
 		case TYPE_REGULAR : return regular(size);
 		case TYPE_LIGHT   : return light(size);
-		case TYPE_CAPS    : return caps(size);
 		}
 	}
 	
@@ -36,10 +34,6 @@ public final class Fonts {
 		return derive(size, ROBOTO_LIGHT, ROBOTO_LIGHT_X);
 	}
 	
-	public static Font caps(int size) {
-		return SPLASH.deriveFont(0, size);
-	}
-
 	private static Font derive(int size, Font base, Font[] cache) {
 		if (size >= cache.length) {
 			return base.deriveFont(0, size);

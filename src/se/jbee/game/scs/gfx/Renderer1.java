@@ -26,7 +26,7 @@ import se.jbee.game.common.process.Scene;
 /**
  * The first {@link Renderer} I do.
  */
-public class Renderer1 implements Renderer, Object {
+public class Renderer1 implements Renderer, Gfx {
 
 	// make horizontal scratch: 300, 1000, 1000, 80, 42, 0.2f (has been caused by using a rectange that had another shape)
 	// wood-like: 100, 2000, 200, 80, 42, 0.2f
@@ -57,7 +57,7 @@ public class Renderer1 implements Renderer, Object {
 		for (int i = 0; i < objects.size(); i++) {
 			int[] obj = objects.get(i);
 			switch (obj[0]) {
-			case BACKGROUND:
+			case OBJ_BACKGROUND:
 				int bgtype = obj[5];
 				if (bgtype == 0) {
 					gfx.setPaint(new GradientPaint(0, 0, new Color(0xA15FE3), 0, obj[4], new Color(0xE1AFF8)));
@@ -72,32 +72,36 @@ public class Renderer1 implements Renderer, Object {
 //				gfx.setFont(new Font(Font.MONOSPACED, 0, 100));
 //				gfx.drawString("STARCRAFTS", 300, (screen.height-100)/2);
 				break;
-			case TEXT:
-				gfx.setFont(Fonts.fromType(obj[3], obj[4]));
+			case OBJ_TEXT:
 				gfx.setColor(Colors.fromType(obj[5]));
-				String str = "";
-				int xt = obj[1];
-				for (int j = 0; j < obj[6]; j++) {
-					if (j > 0) {
-						xt += gfx.getFontMetrics().stringWidth(str);
-						xt += gfx.getFontMetrics().stringWidth(" ");
+				if (obj[3] == Fonts.TYPE_CAPS) {
+					SCSFont.draw(gfx, obj[1], obj[2], obj[4], objects.get(++i));
+				} else {
+					gfx.setFont(Fonts.fromType(obj[3], obj[4]));
+					String str = "";
+					int xt = obj[1];
+					for (int j = 0; j < obj[6]; j++) {
+						if (j > 0) {
+							xt += gfx.getFontMetrics().stringWidth(str);
+							xt += gfx.getFontMetrics().stringWidth(" ");
+						}
+						int[] text = objects.get(++i);
+						str = new String(text, 0, text.length);
+						gfx.drawString(str, xt, obj[2]);
 					}
-					int[] text = objects.get(++i);
-					str = new String(text, 0, text.length);
-					gfx.drawString(str, xt, obj[2]);
 				}
 				break;
-			case PLANET:
+			case OBJ_PLANET:
 				planet(gfx, obj[1], obj[2], obj[3], new Color(obj[4]));
 				break;
-			case STAR_ARC:
+			case OBJ_STAR_ARC:
 				stararc(gfx, obj[1], obj[2], obj[3], new Color(obj[4]));
 				break;
-			case BORDER:
+			case OBJ_BORDER:
 				gfx.setColor(new Color(0x8899FF));
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
-			case FOCUS_BOX:
+			case OBJ_FOCUS_BOX:
 				gfx.setColor(new Color(0xFFFFFF));
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;

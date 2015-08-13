@@ -2,8 +2,6 @@ package se.jbee.game.scs.screen;
 
 import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
-import static se.jbee.game.scs.gfx.Objects.border;
-import static se.jbee.game.scs.gfx.Objects.focusBox;
 import static se.jbee.game.scs.gfx.Objects.text;
 
 import java.awt.Dimension;
@@ -26,18 +24,24 @@ public class SplashScreen implements Screen, GameComponent {
 		Entity g1 = game.single(GAME);
 		
 		scene.place(background(0,0, screen.width, screen.height, 1));
-		scene.place(text(450, screen.height/2-128, Fonts.TYPE_CAPS, 128, Colors.HIGHLIGHT_TEXT, 1));
-		scene.place(codePoints("SPACECRAFTS"));
+		int diameter = 20;
+		String title = "SPACECRAFTS";
+		while (title.length()*5*diameter > screen.width) {
+			diameter--;
+		}
+		scene.place(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/3-(5*diameter), Fonts.TYPE_CAPS, diameter, Colors.HIGHLIGHT_TEXT, 1));
+		scene.place(codePoints(title));
 		
-		int w = 200;
-		int h = 40;
+		int w = screen.width/6;
+		diameter = w/(4*5);
+		w = 4*5*diameter-diameter;
+		int h = diameter*5;
 		int x0 = (screen.width-w)/2;
 		int y0 = screen.height/2;
-		scene.place(border(x0, y0, w, h));
 		Rectangle save = new Rectangle(x0,y0,w,h);
-		scene.bind(save, focusBox(x0-3, y0-3, w+6, h+6));
-		scene.place(text(x0+20, y0+28, Fonts.TYPE_REGULAR, 24, Colors.NORMAL_TEXT, 1));
-		scene.place(codePoints("SAVE GAME"));
+		scene.place(text(x0, y0, Fonts.TYPE_CAPS, diameter, Colors.NORMAL_TEXT, 1));
+		scene.place(codePoints("SAVE"));
+		scene.bind(save, text(x0, y0, Fonts.TYPE_CAPS, diameter, Colors.HIGHLIGHT_TEXT, 1), codePoints("SAVE"));
 		
 		scene.bindLeftClick(save, new Change(g1.id(), SCREEN, Op.PUT, 1), new Change(g1.id(), RETURN_SCREEN, Op.PUT, 0));
 	}

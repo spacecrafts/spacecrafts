@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 import se.jbee.game.common.gfx.Renderer;
 import se.jbee.game.common.process.Scene;
-import se.jbee.game.scs.gfx.Object;
+import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Renderer1;
 
 /**
@@ -26,7 +26,7 @@ import se.jbee.game.scs.gfx.Renderer1;
  * This is a thread continuously transforming abstract figures to concrete draw
  * instructions executed on the canvas.
  */
-public class Display extends Canvas implements Runnable, Object {
+public class Display extends Canvas implements Runnable, Gfx {
 
 	private static final long LOOP_TIME_MS = 25;
 	
