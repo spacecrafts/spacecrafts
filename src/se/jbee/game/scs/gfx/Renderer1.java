@@ -15,13 +15,11 @@ import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.TexturePaint;
-import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Random;
 
 import se.jbee.game.common.gfx.Palette;
 import se.jbee.game.common.gfx.Renderer;
-import se.jbee.game.common.gfx.SimplexNoise;
 import se.jbee.game.common.process.Scene;
 
 /**
@@ -32,12 +30,6 @@ public class Renderer1 implements Renderer, Gfx {
 	// make horizontal scratch: 300, 1000, 1000, 80, 42, 0.2f (has been caused by using a rectange that had another shape)
 	// wood-like: 100, 2000, 200, 80, 42, 0.2f
 	
-	private static final BufferedImage ROUGH_STAR = SimplexNoise.image(200, 2000, 500, 80, 666, 0.15f, 0f, 0xFFFFFFFF);
-	private static final BufferedImage FINE_STAR = SimplexNoise.image(200, 2000, 50, 60, 700, 0.15f, 0f, 0xFFFFFFFF);
-	
-	private static final BufferedImage ROUGH_PLANET = SimplexNoise.image(500, 500, 500, 60, 7000, 0.15f, 0f, 0xFFFFFFFF);
-	private static final BufferedImage FINE_PLANET = SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f, 0f, 0xFFFFFFFF);
-
 	private int frameDone = -1;
 
 	private int[] spaceback;
@@ -102,10 +94,10 @@ public class Renderer1 implements Renderer, Gfx {
 				}
 				break;
 			case OBJ_PLANET:
-				planet(gfx, obj[1], obj[2], obj[3], new Color(obj[4]));
+				planet(palette, gfx, obj[1], obj[2], obj[3], new Color(obj[4]));
 				break;
 			case OBJ_STAR_ARC:
-				stararc(gfx, obj[1], obj[2], obj[3], new Color(obj[4]));
+				stararc(palette, gfx, obj[1], obj[2], obj[3], new Color(obj[4]));
 				break;
 			case OBJ_BORDER:
 				gfx.setColor(new Color(0x8899FF));
@@ -151,12 +143,12 @@ public class Renderer1 implements Renderer, Gfx {
 		}
 	}
 	
-	private static void stararc(Graphics2D gfx, int x0, int y0, int radius, Color c) {
+	private static void stararc(Palette palette, Graphics2D gfx, int x0, int y0, int radius, Color c) {
 		gfx.setColor(c);
 		gfx.fillArc(x0, y0, radius, radius, 150, 60);
 		
 		// texture
-		gfx.setPaint(new TexturePaint(FINE_STAR, new Rectangle(x0, y0, 200, 2000)));
+		gfx.setPaint(new TexturePaint(palette.background(BACK_STAR_NARROW), new Rectangle(x0, y0, 200, 2000)));
 		gfx.fillArc(x0, y0, radius, radius, 150, 60);			
 
 		// 3d effect (as darkening)
@@ -173,11 +165,11 @@ public class Renderer1 implements Renderer, Gfx {
 		gfx.setPaint(paint);
 		gfx.fillArc(x0, y0, radius, radius, 150, 60);
 		
-		gfx.setPaint(new TexturePaint(ROUGH_STAR, new Rectangle(x0, y0, 200, 2000)));
+		gfx.setPaint(new TexturePaint(palette.background(BACK_STAR_WIDE), new Rectangle(x0, y0, 200, 2000)));
 		gfx.fillArc(x0, y0, radius, radius, 150, 60);
 	}
 
-	public static void planet(Graphics2D gfx, int x0, int y0, int radius, Color c) {
+	public static void planet(Palette palette, Graphics2D gfx, int x0, int y0, int radius, Color c) {
 		int r = c.getRed();
 		int g = c.getGreen();
 		int b = c.getGreen();
@@ -190,8 +182,8 @@ public class Renderer1 implements Renderer, Gfx {
 		drawCircle(gfx, x0-1, y0, radius+1, paint);
 		
 		// texture
-		drawCircle(gfx, x0, y0, radius, new TexturePaint(ROUGH_PLANET, new Rectangle(x0, y0, 500, 500)));
-		drawCircle(gfx, x0, y0, radius, new TexturePaint(FINE_PLANET, new Rectangle(x0-(radius/50), y0, 500, 500)));
+		drawCircle(gfx, x0, y0, radius, new TexturePaint(palette.background(BACK_PLANET_WIDE), new Rectangle(x0, y0, 500, 500)));
+		drawCircle(gfx, x0, y0, radius, new TexturePaint(palette.background(BACK_PLANET_NARROW), new Rectangle(x0-(radius/50), y0, 500, 500)));
 		
         // star-light
         Color lc = new Color(min(255,r+50),min(255,g+50),max(0,b-50), 100);

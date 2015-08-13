@@ -22,6 +22,15 @@ public interface Gfx {
 	COLOR_TEXT_NORMAL = 2;
 	
 	/**
+	 * Backgrounds
+	 */
+	int
+	BACK_STAR_WIDE = 1,
+	BACK_STAR_NARROW = 2,
+	BACK_PLANET_WIDE = 3,
+	BACK_PLANET_NARROW = 4;
+	
+	/**
 	 * Objects
 	 */
 	int

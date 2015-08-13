@@ -2,9 +2,11 @@ package se.jbee.game.common.gfx;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.function.Supplier;
 
 /**
  * A utility to manage graphic related resources like colors and fonts.
@@ -13,11 +15,15 @@ public final class Palette {
 
 	private final Color[] colors;
 	private final Font[][] fonts;
+	private final BufferedImage[] backgrounds;
+	private final Supplier<BufferedImage>[] backgroundFactories;
 	
-	public Palette(Color[] colors, Font[][] fonts) {
+	public Palette(Color[] colors, Font[][] fonts, Supplier<BufferedImage>[] backgroundFactories) {
 		super();
 		this.colors = colors;
 		this.fonts = fonts;
+		this.backgrounds = new BufferedImage[backgroundFactories.length];;
+		this.backgroundFactories = backgroundFactories;
 	}
 	
 	public Color color(int type) {
@@ -36,6 +42,15 @@ public final class Palette {
 			sizes[size] = f;
 		}
 		return f;		
+	}
+	
+	public BufferedImage background(int type) {
+		BufferedImage bg = backgrounds[type];
+		if (bg == null) {
+			bg = backgroundFactories[type].get();
+			backgrounds[type] = bg;
+		}
+		return bg;
 	}
 	
 	public static Font loadFont(String file) {

@@ -13,12 +13,15 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.util.function.Supplier;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import se.jbee.game.common.gfx.Palette;
 import se.jbee.game.common.gfx.Renderer;
+import se.jbee.game.common.gfx.SimplexNoise;
 import se.jbee.game.common.process.Scene;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Renderer1;
@@ -105,7 +108,14 @@ public class Display extends Canvas implements Runnable, Gfx {
 		Font[][] fonts = new Font[2][64];
 		fonts[FONT_REGULAR][0] = Palette.loadFont("font/Roboto-Regular.ttf");
 		fonts[FONT_LIGHT][0] = Palette.loadFont("font/Roboto-Light.ttf");
-		final Palette palette = new Palette(colors, fonts);
+		Supplier<BufferedImage>[] backgrounds = (Supplier<BufferedImage>[]) new Supplier<?>[] { 
+			null,
+			() -> { return SimplexNoise.image(200, 2000, 500, 80, 666, 0.15f, 0f, 0xFFFFFFFF); },
+			() -> { return SimplexNoise.image(200, 2000, 50, 60, 700, 0.15f, 0f, 0xFFFFFFFF); },
+			() -> { return SimplexNoise.image(500, 500, 500, 60, 7000, 0.15f, 0f, 0xFFFFFFFF); },
+			() -> { return SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f, 0f, 0xFFFFFFFF); }
+		};
+		final Palette palette = new Palette(colors, fonts, backgrounds);
 		return palette;
 	}
 		

@@ -79,12 +79,12 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 			// back
 			y0 += 10*diameter;
 			Rectangle back = new Rectangle(x0,y0,w,h);
-			scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
+			scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1)); //TODO other color
 			scene.place(BACK);
 			scene.bind(back, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), BACK);
 			Change backChange = new Change(g1.id(), SCREEN, Op.PUT, g1.num(RETURN_SCREEN));
 			scene.bindLeftClick(back, backChange);
-			scene.bindKey('b', backChange);			
+			scene.bindKey(' ', backChange);			
 		}
 	}
 
