@@ -17,6 +17,7 @@ import java.awt.RenderingHints;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Random;
 
 import se.jbee.game.common.gfx.Palette;
 import se.jbee.game.common.gfx.Renderer;
@@ -31,14 +32,18 @@ public class Renderer1 implements Renderer, Gfx {
 	// make horizontal scratch: 300, 1000, 1000, 80, 42, 0.2f (has been caused by using a rectange that had another shape)
 	// wood-like: 100, 2000, 200, 80, 42, 0.2f
 	
-	private static final BufferedImage SPACE = SimplexNoise.image(500, 500, 20, 60, 45, 0.3f, 0.99f, 0xFFFFFF0F);
-	
 	private static final BufferedImage ROUGH_STAR = SimplexNoise.image(200, 2000, 500, 80, 666, 0.15f, 0f, 0xFFFFFFFF);
 	private static final BufferedImage FINE_STAR = SimplexNoise.image(200, 2000, 50, 60, 700, 0.15f, 0f, 0xFFFFFFFF);
 	
 	private static final BufferedImage ROUGH_PLANET = SimplexNoise.image(500, 500, 500, 60, 7000, 0.15f, 0f, 0xFFFFFFFF);
 	private static final BufferedImage FINE_PLANET = SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f, 0f, 0xFFFFFFFF);
 
+
+	private int[] spaceback;
+	private int spaceback_w;
+	private int spaceback_h;
+	private int spaceback_seed;
+	
 	@Override
 	public void render(Scene scene, Dimension screen, Palette palette, Graphics2D gfx) {
 		long drawStart = System.currentTimeMillis();
@@ -55,7 +60,7 @@ public class Renderer1 implements Renderer, Gfx {
 		gfx.drawString(""+(System.currentTimeMillis() - drawStart), 20, 20);
 	}
 
-	private static void render(Palette palette, Graphics2D gfx, List<int[]> objects) {
+	private void render(Palette palette, Graphics2D gfx, List<int[]> objects) {
 		for (int i = 0; i < objects.size(); i++) {
 			int[] obj = objects.get(i);
 			switch (obj[0]) {
@@ -70,9 +75,6 @@ public class Renderer1 implements Renderer, Gfx {
 				} else {
 					space(gfx, obj[1], obj[2], obj[3], obj[4]);
 				}
-//				gfx.setColor(Color.WHITE);
-//				gfx.setFont(new Font(Font.MONOSPACED, 0, 100));
-//				gfx.drawString("STARCRAFTS", 300, (screen.height-100)/2);
 				break;
 			case OBJ_TEXT:
 				gfx.setColor(palette.color(obj[5]));
@@ -111,18 +113,36 @@ public class Renderer1 implements Renderer, Gfx {
 		}
 	}
 	
-	private static void space(Graphics2D gfx, int x0, int y0, int w, int h) {
+	private static int[] makeSpace(int w, int h, int seed) {
+		Random rnd = new Random(seed);
+		int[] space = new int[w*2];
+		int j = 0;
+		for (int i = 0; i < w/2; i++) {
+			space[j++] = rnd.nextInt(180); // a
+			space[j++] = rnd.nextInt(w); // x
+			space[j++] = rnd.nextInt(h); // y
+			space[j++] = rnd.nextInt(100) > 80 ? 2 : 1; // d (80% 1x1, 20% 2x2)
+		}
+		return space;
+	}
+	
+	private void space(Graphics2D gfx, int x0, int y0, int w, int h) {
 		gfx.setColor(Color.black);
 		gfx.fillRect(x0, y0, w, h);
-		gfx.setPaint(new TexturePaint(SPACE, new Rectangle(x0, y0, 500, 500)));
-		gfx.fillRect(x0, y0, w, h);
+		if (w != spaceback_w || h != spaceback_h) {
+			spaceback = makeSpace(w, h, 42);
+			spaceback_w = w;
+			spaceback_h = h;
+		}
+		int j = 0;
+		int[] sp = spaceback;
+		for (int i = 0; i < w/2; i++) {
+			gfx.setColor(new Color(255,255,200, sp[j++]));
+			gfx.fillRect(sp[j++], sp[j++], sp[j], sp[j++]);
+		}
 	}
 	
 	private static void stararc(Graphics2D gfx, int x0, int y0, int radius, Color c) {
-		int r = c.getRed();
-		int g = c.getGreen();
-		int b = c.getBlue();
-		
 		gfx.setColor(c);
 		gfx.fillArc(x0, y0, radius, radius, 150, 60);
 		

@@ -18,6 +18,11 @@ import se.jbee.game.scs.state.GameComponent;
 
 public class SplashScreen implements Screen, GameComponent, Gfx {
 
+	private static final int[] 
+			EXIT = codePoints("EXIT"),
+			SAVE = codePoints("SAVE"),
+			LOAD = codePoints("LOAD");
+
 	@Override
 	public void show(State user, State game, Dimension screen, Scene scene) {
 		Entity g1 = game.single(GAME);
@@ -28,21 +33,31 @@ public class SplashScreen implements Screen, GameComponent, Gfx {
 		while (title.length()*5*diameter > screen.width) {
 			diameter--;
 		}
-		scene.place(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/4-(5*diameter), FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1));
+		scene.place(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/3-(5*diameter), FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1));
 		scene.place(codePoints(title));
 		
-		int w = screen.width/6;
+		int w = Math.max(200, screen.width/8);
 		diameter = w/(4*5);
 		w = 4*5*diameter-diameter;
 		int h = diameter*5;
 		int x0 = (screen.width-w)/2;
-		int y0 = screen.height/2;
+		int y0 = screen.height/3+screen.height/8;
+
+		// load
+		Rectangle load = new Rectangle(x0,y0,w,h);
+		scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
+		scene.place(LOAD);
+		scene.bind(load, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), LOAD);
+		Change[] loadChangeset = { new Change(g1.id(), SCREEN, Op.PUT, 5), new Change(g1.id(), RETURN_SCREEN, Op.PUT, 0) };
+		scene.bindLeftClick(load, loadChangeset);
+		scene.bindKey('l', loadChangeset);
 		
 		// save
+		y0 += 10*diameter;
 		Rectangle save = new Rectangle(x0,y0,w,h);
 		scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
-		scene.place(codePoints("SAVE"));
-		scene.bind(save, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), codePoints("SAVE"));
+		scene.place(SAVE);
+		scene.bind(save, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), SAVE);
 		Change[] saveChangeset = { new Change(g1.id(), SCREEN, Op.PUT, 1), new Change(g1.id(), RETURN_SCREEN, Op.PUT, 0) };
 		scene.bindLeftClick(save, saveChangeset);
 		scene.bindKey('s', saveChangeset);
@@ -51,8 +66,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx {
 		y0 += 10*diameter;
 		Rectangle exit = new Rectangle(x0,y0,w,h);
 		scene.place(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
-		scene.place(codePoints("EXIT"));
-		scene.bind(exit, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), codePoints("EXIT"));
+		scene.place(EXIT);
+		scene.bind(exit, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), EXIT);
 		Change exitChange = new Change(g1.id(), ACTION, Op.PUT, ACTION_EXIT);
 		scene.bindLeftClick(exit, exitChange);
 		scene.bindKey((char)27, exitChange);
