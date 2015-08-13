@@ -29,7 +29,7 @@ public class SplashScreen implements Screen, GameComponent {
 		while (title.length()*5*diameter > screen.width) {
 			diameter--;
 		}
-		scene.place(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/3-(5*diameter), Fonts.TYPE_CAPS, diameter, Colors.HIGHLIGHT_TEXT, 1));
+		scene.place(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/4-(5*diameter), Fonts.TYPE_CAPS, diameter, Colors.HIGHLIGHT_TEXT, 1));
 		scene.place(codePoints(title));
 		
 		int w = screen.width/6;
@@ -38,12 +38,25 @@ public class SplashScreen implements Screen, GameComponent {
 		int h = diameter*5;
 		int x0 = (screen.width-w)/2;
 		int y0 = screen.height/2;
+		
+		// save
 		Rectangle save = new Rectangle(x0,y0,w,h);
 		scene.place(text(x0, y0, Fonts.TYPE_CAPS, diameter, Colors.NORMAL_TEXT, 1));
 		scene.place(codePoints("SAVE"));
 		scene.bind(save, text(x0, y0, Fonts.TYPE_CAPS, diameter, Colors.HIGHLIGHT_TEXT, 1), codePoints("SAVE"));
+		Change[] saveChangeset = { new Change(g1.id(), SCREEN, Op.PUT, 1), new Change(g1.id(), RETURN_SCREEN, Op.PUT, 0) };
+		scene.bindLeftClick(save, saveChangeset);
+		scene.bindKey('s', saveChangeset);
 		
-		scene.bindLeftClick(save, new Change(g1.id(), SCREEN, Op.PUT, 1), new Change(g1.id(), RETURN_SCREEN, Op.PUT, 0));
+		// exit
+		y0 += 10*diameter;
+		Rectangle exit = new Rectangle(x0,y0,w,h);
+		scene.place(text(x0, y0, Fonts.TYPE_CAPS, diameter, Colors.NORMAL_TEXT, 1));
+		scene.place(codePoints("EXIT"));
+		scene.bind(exit, text(x0, y0, Fonts.TYPE_CAPS, diameter, Colors.HIGHLIGHT_TEXT, 1), codePoints("EXIT"));
+		Change exitChange = new Change(g1.id(), ACTION, Op.PUT, 0);
+		scene.bindLeftClick(exit, exitChange);
+		scene.bindKey((char)27, exitChange);
 	}
 
 }

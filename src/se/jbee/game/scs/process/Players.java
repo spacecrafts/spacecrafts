@@ -76,7 +76,9 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 			scene.ready();
 			if (g1.has(ACTION)) {
 				int action = g1.num(ACTION);
-				if (action == 1) {
+				if (action == 0) {
+					System.exit(0);
+				} else if (action == 1) {
 					saveGame();
 				}
 				g1.erase(ACTION);
@@ -155,10 +157,6 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 				return;
 			}
 		}
-		// during development...
-		if (keyChar == 27) {
-			System.exit(0);
-		}		
 	}
 
 	private void react(MouseEvent e, List<AreaMapping> mappings) {
