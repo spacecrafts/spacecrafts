@@ -18,6 +18,7 @@ import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import se.jbee.game.common.gfx.Palette;
 import se.jbee.game.common.gfx.Renderer;
 import se.jbee.game.common.gfx.SimplexNoise;
 import se.jbee.game.common.process.Scene;
@@ -39,22 +40,22 @@ public class Renderer1 implements Renderer, Gfx {
 	private static final BufferedImage FINE_PLANET = SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f, 0f, 0xFFFFFFFF);
 
 	@Override
-	public void render(Scene scene, Dimension screen, Graphics2D gfx) {
+	public void render(Scene scene, Dimension screen, Palette palette, Graphics2D gfx) {
 		long drawStart = System.currentTimeMillis();
 		
 		antialias(gfx);
 		textAntialias(gfx);
-		render(gfx, scene.objects.get());
-		render(gfx, scene.areaObjects.get());
+		render(palette, gfx, scene.objects.get());
+		render(palette, gfx, scene.areaObjects.get());
 		
 		gfx.setColor(Color.BLACK);
 		gfx.fillRect(0, 0, 50, 50);
-		gfx.setFont(Fonts.fromType(Gfx.FONT_REGULAR, 12));
+		gfx.setFont(palette.font(FONT_REGULAR, 12));
 		gfx.setColor(Color.WHITE);
 		gfx.drawString(""+(System.currentTimeMillis() - drawStart), 20, 20);
 	}
 
-	private static void render(Graphics2D gfx, List<int[]> objects) {
+	private static void render(Palette palette, Graphics2D gfx, List<int[]> objects) {
 		for (int i = 0; i < objects.size(); i++) {
 			int[] obj = objects.get(i);
 			switch (obj[0]) {
@@ -74,11 +75,11 @@ public class Renderer1 implements Renderer, Gfx {
 //				gfx.drawString("STARCRAFTS", 300, (screen.height-100)/2);
 				break;
 			case OBJ_TEXT:
-				gfx.setColor(Colors.fromType(obj[5]));
-				if (obj[3] == Gfx.FONT_DOTS) {
+				gfx.setColor(palette.color(obj[5]));
+				if (obj[3] == FONT_DOTS) {
 					SCSFont.draw(gfx, obj[1], obj[2], obj[4], objects.get(++i));
 				} else {
-					gfx.setFont(Fonts.fromType(obj[3], obj[4]));
+					gfx.setFont(palette.font(obj[3], obj[4]));
 					String str = "";
 					int xt = obj[1];
 					for (int j = 0; j < obj[6]; j++) {

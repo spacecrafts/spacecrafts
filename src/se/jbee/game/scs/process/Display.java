@@ -1,8 +1,10 @@
 package se.jbee.game.scs.process;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyListener;
@@ -15,6 +17,7 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import se.jbee.game.common.gfx.Palette;
 import se.jbee.game.common.gfx.Renderer;
 import se.jbee.game.common.process.Scene;
 import se.jbee.game.scs.gfx.Gfx;
@@ -79,11 +82,12 @@ public class Display extends Canvas implements Runnable, Gfx {
 		final BufferStrategy strategy = getBufferStrategy();
 		final Dimension screen = getSize();
 		final Renderer renderer = new Renderer1();
+		final Palette palette = initPalette();
 		while (true) {
 			long loopStart = System.currentTimeMillis();
 			Graphics2D gfx = (Graphics2D) strategy.getDrawGraphics();
 			
-			renderer.render(scene, screen, gfx);
+			renderer.render(scene, screen, palette, gfx);
 			
 			gfx.dispose();
 			strategy.show();
@@ -94,6 +98,15 @@ public class Display extends Canvas implements Runnable, Gfx {
 				try { Thread.sleep(LOOP_TIME_MS - loopDurationMs); } catch (Exception e) {}
 			}
 		}		
+	}
+
+	private Palette initPalette() {
+		Color[] colors = { new Color(0x8899FF), Color.WHITE, new Color(0x8899FF) }; 
+		Font[][] fonts = new Font[2][64];
+		fonts[FONT_REGULAR][0] = Palette.loadFont("font/Roboto-Regular.ttf");
+		fonts[FONT_LIGHT][0] = Palette.loadFont("font/Roboto-Light.ttf");
+		final Palette palette = new Palette(colors, fonts);
+		return palette;
 	}
 		
 }

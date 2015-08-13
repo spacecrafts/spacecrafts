@@ -1,7 +1,8 @@
 package se.jbee.game.scs.gfx;
 
 /**
- * Contains all the constants used in the context of game specific graphics. 
+ * Contains all the type-like constants used in the context of game specific
+ * graphics.
  */
 public interface Gfx {
 

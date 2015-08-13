@@ -7,5 +7,5 @@ import se.jbee.game.common.process.Scene;
 
 public interface Renderer {
 
-	void render(Scene scene, Dimension screen, Graphics2D gfx);
+	void render(Scene scene, Dimension screen, Palette palette, Graphics2D gfx);
 }
