@@ -2,7 +2,6 @@ package se.jbee.game.scs.process;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -37,12 +36,10 @@ public class Display extends Canvas implements Runnable, Gfx {
 
 	private static final long FRAME_DELAY_MS = 15;
 	
-	private final Stage scene; 
+	private Stage stage; 
 
-	public Display(Stage scene, KeyListener onKey, MouseListener onMouseClick, MouseMotionListener onMouseMove) {
+	public Display() { 
 		super();
-		this.scene = scene;
-
 		JFrame frame = new JFrame("SPACECRAFTS");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setUndecorated(true); 
@@ -69,16 +66,20 @@ public class Display extends Canvas implements Runnable, Gfx {
 			}
 		});
 		
-		//disableEvents(eventsToDisable);
-		addKeyListener(onKey);
-		addMouseListener(onMouseClick);
-		addMouseMotionListener(onMouseMove);
-		
-		
 		requestFocus(); // request the focus so key events come to us
-		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 
 		createBufferStrategy(2);
+	}
+	
+	public <T extends KeyListener & MouseMotionListener & MouseListener> void setInputHandler(T handler) {
+		//disableEvents(eventsToDisable);
+		addKeyListener(handler);
+		addMouseListener(handler);
+		addMouseMotionListener(handler);
+	}
+	
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 
 	@Override
@@ -92,7 +93,10 @@ public class Display extends Canvas implements Runnable, Gfx {
 			long loopStart = System.currentTimeMillis();
 			Graphics2D gfx = (Graphics2D) strategy.getDrawGraphics();
 			
-			renderer.render(scene, screen, palette, gfx);
+			Stage currentStage = stage;
+			if (currentStage != null) {
+				renderer.render(currentStage, screen, palette, gfx);
+			}
 			
 			gfx.dispose();
 			strategy.show();

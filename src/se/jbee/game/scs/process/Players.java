@@ -3,6 +3,7 @@ package se.jbee.game.scs.process;
 import static java.lang.Math.max;
 
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -20,10 +21,14 @@ import se.jbee.game.common.process.Stage.KeyMapping;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Change;
-import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
-import se.jbee.game.scs.screen.GameScreen;
+import se.jbee.game.scs.screen.LoadGame;
+import se.jbee.game.scs.screen.SaveGame;
+import se.jbee.game.scs.screen.SavingGame;
+import se.jbee.game.scs.screen.SolarSystem;
+import se.jbee.game.scs.screen.SplashScreen;
+import se.jbee.game.scs.screen.UserSettings;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
 
@@ -46,42 +51,35 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 
 	private final State game;
 	private final State user;
-
-	private final Display display;
-	private final Stage scene = new Stage();
-
+	private final Stage stage;
 	private final Screen[] screens;
 	
 	private int ignoredKeyCode = 0;
 
-	@SafeVarargs
-	public Players(State game, State user, Class<? extends Screen>... screens) {
+	public Players(State game, State user, Stage stage) {
 		super();
 		this.game = game;
 		this.user = user;
-		this.display = new Display(scene, this, this, this);
-		this.screens = initScreens(screens);
-		int gameId = game.single(GAME).id();
-		scene.onGlobalKey((char)27, //ESC
-				new Change(gameId, RETURN_SCREEN, Op.COPY, gameId, SCREEN),
-				new Change(gameId, SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
+		this.stage = stage;
+		this.screens = initScreens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, UserSettings.class, SolarSystem.class);
 	} 
 
 	@Override
 	public void run() {
-		Thread displayThread = new Thread(display, "SCS Display");
-		displayThread.setDaemon(true);
-		displayThread.start();
-
-		final Entity g1 = game.single(GAME);
+		final Entity gamE = game.single(GAME);
+		final Entity u1 = user.single(USER);
 		while (true) {
 			ignoredKeyCode = 0;
-			int screenNo = g1.num(SCREEN);
-			scene.startOver();
-			screens[screenNo].show(user, game, display.getSize(), scene);
-			scene.ready();
-			if (g1.has(ACTION)) {
-				doAction(g1);
+			int[] resolution = u1.list(RESOLUTION);
+			int screenNo = gamE.num(SCREEN);
+			stage.startOver();
+			screens[screenNo].show(user, game, new Dimension(resolution[0], resolution[1]), stage);
+			stage.ready();
+			if (gamE.has(ACTION)) {
+				if (!doAction(gamE)) {
+					System.out.println("Shuting down human players interface");
+					return; // this is dirty but how to exit this loop on load but also have action handling extracted to method?
+				}
 			} else {
 				try { synchronized (this) {
 					wait();
@@ -90,19 +88,19 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 		}
 	}
 
-	private void doAction(final Entity g1) {
-		int action = g1.num(ACTION);
+	private boolean doAction(final Entity gamE) {
+		int action = gamE.num(ACTION);
 		switch(action) {
-		case ACTION_EXIT:
-			// TODO create an auto-save (this way one slips asking annoying "Really?" dialogs
-			System.exit(0);
-		case ACTION_SAVE:
-			saveGame();
+		case ACTION_EXIT: autosaveGame(); System.exit(0); break;
+		case ACTION_SAVE: saveGame(); break;
+		case ACTION_LOAD: autosaveGame(); return false; // this effectively terminates this thread as loop above is left
 		}
-		g1.erase(ACTION);
+		gamE.erase(ACTION);
+		return true;
 	}
 	
-	private Screen[] initScreens(Class<? extends Screen>... screenTypes) {
+	@SafeVarargs
+	private final static Screen[] initScreens(Class<? extends Screen>... screenTypes) {
 		int max = 0;
 		for (Class<?> c : screenTypes) {
 			ScreenNo no = c.getAnnotation(ScreenNo.class);
@@ -121,10 +119,15 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 		return screens;
 	}
 	
+	private void autosaveGame() {
+		//TODO actually do it
+	}
+	
 	private void saveGame() {
-		Entity game1 = game.single(GAME);
-		File file = new File(user.single(USER).text(SAVEGAME_DIR), game1.text(SAVEGAME)+".game");
-		game1.erase(SAVEGAME);
+		Entity gamE = game.single(GAME);
+		File file = new File(user.single(USER).text(SAVEGAME_DIR), gamE.text(SAVEGAME)+".game");
+		gamE.erase(ACTION);
+		gamE.erase(SAVEGAME);
 		try {
 			game.save(file);
 		} catch (IOException e) {
@@ -148,11 +151,11 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if (!scene.isReady())
+		if (!stage.isReady())
 			return;
-		for (AreaObject m : scene.onMouseOver) {
+		for (AreaObject m : stage.onMouseOver) {
 			if (m.area.contains(e.getPoint())) {
-				scene.accentuate(m.objects);
+				stage.accentuate(m.objects);
 				if (m.cursor >= 0) {
 					e.getComponent().setCursor(Cursor.getPredefinedCursor(m.cursor));
 				}
@@ -161,16 +164,16 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 			}
 		}
 		e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		scene.accentuate(Collections.<int[]>emptyList());
+		stage.accentuate(Collections.<int[]>emptyList());
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (!scene.isReady())
+		if (!stage.isReady())
 			return;
 		switch (e.getButton()) {
-		case MouseEvent.BUTTON1: react(e, scene.onLeftClick); break;
-		case MouseEvent.BUTTON3: react(e, scene.onRightClick); break;
+		case MouseEvent.BUTTON1: react(e, stage.onLeftClick); break;
+		case MouseEvent.BUTTON3: react(e, stage.onRightClick); break;
 		}
 	}
 
@@ -181,11 +184,11 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (!scene.isReady() || e.getKeyCode() == ignoredKeyCode)
+		if (!stage.isReady() || e.getKeyCode() == ignoredKeyCode)
 			return;
 		ignoredKeyCode = e.getKeyCode();
-		if (!react(e, scene.onKeyPress)) {
-			react(e, scene.globalOnKeyPress);
+		if (!react(e, stage.onKeyPress)) {
+			react(e, stage.globalOnKeyPress);
 		}
 	}
 

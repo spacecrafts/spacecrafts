@@ -32,7 +32,8 @@ public interface GameComponent extends Component {
 	 */
 	int 
 	ACTION_EXIT = 0,
-	ACTION_SAVE = 1;	
+	ACTION_SAVE = 1,	
+	ACTION_LOAD = 2;
 	
 	
 	/**

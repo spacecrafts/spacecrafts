@@ -11,7 +11,8 @@ public interface UserComponent extends Component {
 	 * User/Settings
 	 */
 	USER = 1000,
-		SAVEGAME_DIR = 1001 // the directory where to store savegames
+		RESOLUTION = 1001, // [#w, #h]
+		SAVEGAME_DIR = 1002 // the directory where to store savegames
 		
 		;
 }

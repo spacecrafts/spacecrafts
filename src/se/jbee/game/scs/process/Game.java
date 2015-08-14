@@ -2,20 +2,18 @@ package se.jbee.game.scs.process;
 
 import static se.jbee.game.common.state.Entity.codePoints;
 
+import java.awt.Dimension;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
+import se.jbee.game.common.process.Stage;
+import se.jbee.game.common.state.Change;
+import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Component;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
-import se.jbee.game.scs.screen.LoadGame;
-import se.jbee.game.scs.screen.SaveGame;
-import se.jbee.game.scs.screen.SavingGame;
-import se.jbee.game.scs.screen.SolarSystem;
-import se.jbee.game.scs.screen.SplashScreen;
-import se.jbee.game.scs.screen.UserSettings;
+import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
 
@@ -39,28 +37,69 @@ import se.jbee.game.scs.state.UserComponent;
 public class Game implements Runnable, GameComponent, UserComponent {
 
 	public static void main(String[] args) {
-		Game g = new Game(State.base(), State.base());
-		g.run();
+		new Game().run();
 	}
 	
-	
-	private final State game;
-	private final State user;
-	
-	private final Entity game1;
-	
-	private final List<Thread> players = new ArrayList<>();
-	
-	public Game(State game, State user) {
-		super();
-		this.game = game;
-		this.user = user;
-		initComponents(game, GameComponent.class);
-		int[] gameId = game.all(GAME);
-		this.game1 = gameId.length == 0 ? initGame(game) : game.entity(gameId[0]);
+	@Override
+	public void run() {
+		final State user = State.base();
 		initComponents(user, UserComponent.class);
-		initUser(user);
-	}
+		initUser(user);		
+		
+		State game = State.base();
+		initComponents(game, GameComponent.class);
+		Entity gamE = initGame(game);
+		
+		Display display = new Display();
+		Dimension size = display.getSize();
+		user.single(USER).put(RESOLUTION, new int[] {size.width, size.height});
+		Thread gameDisplay = daemon(display, "SCS Display");
+
+		boolean init = true;
+		
+		while (true) {
+			long loopStart = System.currentTimeMillis();
+			
+			if (init) {
+				System.out.println("Starting a new game...");
+
+				Stage stage = newStage(game);
+				Players players = new Players(game, user, stage);
+				Thread humanPlayers = daemon(players, "SCS Players");
+
+				display.setStage(stage);
+				display.setInputHandler(players);
+				
+				humanPlayers.start();
+				if (gameDisplay.getState() == java.lang.Thread.State.NEW) {
+					gameDisplay.start();
+				}
+				init = false;
+				System.out.println(Thread.activeCount()+" threads running...");
+			}
+			
+			// should another game be loaded?
+			if (gamE.num(ACTION) == GameComponent.ACTION_LOAD) {
+				System.out.println("Loading game...");
+				try {
+					game = State.load(new File(user.single(USER).text(UserComponent.SAVEGAME_DIR), gamE.text(SAVEGAME)));
+					gamE = game.single(GAME);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				init = true;
+			} else {
+				//TODO all players done? -> advance to next turn, wake-up players (incl. AI)
+			}
+			
+			// sleep so that drawing + sleeping = loop time
+			long cycleTimeMs = System.currentTimeMillis() - loopStart;
+			if (cycleTimeMs < 10) {
+				try { Thread.sleep(10 - cycleTimeMs); } catch (Exception e) {}
+			}
+		}
+	}	
 	
 	/**
 	 * This is also done for loaded game so that one can be sure that the
@@ -99,19 +138,18 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		}
 	}
 
-	@Override
-	public void run() {
-		while (true) {
-			int turn = game1.num(TURN);
-			if (turn == 0 && players.isEmpty()) {
-				Thread player = new Thread(new Players(game, user, 
-						SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, UserSettings.class, SolarSystem.class						
-						), "SCS Players");
-				player.setDaemon(true);
-				players.add(player);
-				player.start();
-			}
-		}
+	private static Stage newStage(State game) {
+		int gameId = game.single(GAME).id();
+		Stage stage = new Stage();
+		stage.onGlobalKey((char)27, //ESC
+				new Change(gameId, RETURN_SCREEN, Op.COPY, gameId, SCREEN),
+				new Change(gameId, SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
+		return stage;
 	}
 
+	private static Thread daemon(Runnable r, String name) {
+		Thread t = new Thread(r, name);
+		t.setDaemon(true);
+		return t;
+	}
 }

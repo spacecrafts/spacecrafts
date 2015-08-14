@@ -51,7 +51,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(LOAD);
 		stage.in(load, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), LOAD);
-		Change[] loadChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SOLAR_SYSTEM), new Change(g1.id(), RETURN_SCREEN, Op.PUT, SCREEN_MAIN) };
+		Change[] loadChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_LOAD_GAME), new Change(g1.id(), RETURN_SCREEN, Op.PUT, SCREEN_MAIN) };
 		stage.onLeftClickIn(load, loadChangeset);
 		stage.onKey('l', loadChangeset);
 		

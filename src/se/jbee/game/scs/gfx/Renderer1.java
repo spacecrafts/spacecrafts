@@ -95,7 +95,7 @@ public class Renderer1 implements Renderer, Gfx {
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
 			case OBJ_FOCUS_BOX:
-				gfx.setColor(palette.color(COLOR_TEXT_NORMAL));
+				gfx.setColor(palette.color(COLOR_TEXT_HIGHLIGHT));
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
 			}
