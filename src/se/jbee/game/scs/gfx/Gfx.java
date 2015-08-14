@@ -25,10 +25,10 @@ public interface Gfx {
 	 * Backgrounds
 	 */
 	int
-	BACK_STAR_WIDE = 0,
-	BACK_STAR_NARROW = 1,
-	BACK_PLANET_WIDE = 2,
-	BACK_PLANET_NARROW = 3;
+	BG_STAR_WIDE = 0,
+	BG_STAR_NARROW = 1,
+	BG_PLANET_WIDE = 2,
+	BG_PLANET_NARROW = 3;
 	
 	/**
 	 * Objects

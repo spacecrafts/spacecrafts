@@ -7,8 +7,8 @@ import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.State;
 
-@ScreenNo(GameScreen.SCREEN_USER_SETTINGS)
-public class UserSettings implements Screen {
+@ScreenNo(GameScreen.SCREEN_ORBIT)
+public class Orbit implements Screen {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {

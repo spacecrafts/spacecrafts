@@ -2,6 +2,7 @@ package se.jbee.game.scs.process;
 
 import static java.lang.Math.max;
 
+import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -12,10 +13,10 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import se.jbee.game.common.process.Scene;
-import se.jbee.game.common.process.Scene.AreaMapping;
-import se.jbee.game.common.process.Scene.AreaObject;
-import se.jbee.game.common.process.Scene.KeyMapping;
+import se.jbee.game.common.process.Stage;
+import se.jbee.game.common.process.Stage.AreaMapping;
+import se.jbee.game.common.process.Stage.AreaObject;
+import se.jbee.game.common.process.Stage.KeyMapping;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Change;
@@ -47,7 +48,7 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 	private final State user;
 
 	private final Display display;
-	private final Scene scene = new Scene();
+	private final Stage scene = new Stage();
 
 	private final Screen[] screens;
 	
@@ -61,7 +62,7 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 		this.display = new Display(scene, this, this, this);
 		this.screens = initScreens(screens);
 		int gameId = game.single(GAME).id();
-		scene.bindGlobalKey((char)27, //ESC
+		scene.onGlobalKey((char)27, //ESC
 				new Change(gameId, RETURN_SCREEN, Op.COPY, gameId, SCREEN),
 				new Change(gameId, SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
 	} 
@@ -152,10 +153,14 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 		for (AreaObject m : scene.onMouseOver) {
 			if (m.area.contains(e.getPoint())) {
 				scene.accentuate(m.objects);
+				if (m.cursor >= 0) {
+					e.getComponent().setCursor(Cursor.getPredefinedCursor(m.cursor));
+				}
 				e.consume();
 				return;
 			}
 		}
+		e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		scene.accentuate(Collections.<int[]>emptyList());
 	}
 

@@ -34,11 +34,11 @@ public interface GameComponent extends Component {
 	ACTION_EXIT = 0,
 	ACTION_SAVE = 1;	
 	
+	
 	/**
 	 * Components
 	 */
 	int
-	
 	/*
 	 * Game and Players
 	 */
@@ -51,24 +51,26 @@ public interface GameComponent extends Component {
 		RETURN_SCREEN = 16, // the screen one goes back to from e.g. load/save dialog screen
 		SAVEGAME = 17, // name of the game to save/saved
 		ACTION = 18, // 1 = save
+		RENAME = 19, // [*entity, *comp, #font, #size, #x, #y, #w, #h]
+		PAGE = 20, // # (used for paging)
 
-	PLAYER = 20,
+	PLAYER = 30,
 		// TURN (player sets its turn to the current game turn when finished)
-		NO = 21, //#
+		NO = 31, //#
 		// SEEDS [#,#,...]
 		// RACE *x
-		HOME = 22, // *x (planet)
-		STATUS = 23, // [?AI, ?ALIVE]
+		HOME = 32, // *x (planet)
+		STATUS = 33, // [?AI, ?ALIVE]
 		// TECHNOLOGY (in progress)
 		// things belong to the player:
-		PLANS = 31,
-		RELATIONS = 32, // [#,#,...] (the diplomatic points for each player, in order of game players)
-		TECHNOLOGIES = 33, // {*x,*y,*z} (researched)
-		ABILITIES = 34, // {*x,*y,*z} (gained from technology, etcetera)
-		COLONIES = 35, // {*x,*y,*z}
-		ORBITS = 36, // {*x,*y,*z}
-		FLEETS = 37, // {*x,*y,*z}
-		OFFERS = 38, // {*x,*y,*z}
+		PLANS = 41,
+		RELATIONS = 42, // [#,#,...] (the diplomatic points for each player, in order of game players)
+		TECHNOLOGIES = 43, // {*x,*y,*z} (researched)
+		ABILITIES = 44, // {*x,*y,*z} (gained from technology, etcetera)
+		COLONIES = 45, // {*x,*y,*z}
+		ORBITS = 46, // {*x,*y,*z}
+		FLEETS = 47, // {*x,*y,*z}
+		OFFERS = 48, // {*x,*y,*z}
 		// things known to (/discovered by) the player
 		// PLANETS {*x,*y,*z} 
 		// SOLAR_SYSTEMS {*x,*y,*z}
@@ -78,10 +80,10 @@ public interface GameComponent extends Component {
 		// UNITS {*x,*y,*z}
 		// PARTS {*x,*y,*z} (what can be used by a player)
 		
-	PLAN = 50,
-		PARTICIPANTS = 51, // {*x,*y,... } (a set of colonies, orbits, spacecrafts, constructions) that belong to the plan
+	PLAN = 60,
+		PARTICIPANTS = 61, // {*x,*y,... } (a set of colonies, orbits, spacecrafts, constructions) that belong to the plan
 	
-	MISSION = 60,
+	MISSION = 70,
 		
 	/*
 	 * Galaxy

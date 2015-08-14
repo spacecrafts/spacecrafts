@@ -7,23 +7,27 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Random;
 
-public class Space {
+import se.jbee.game.common.gfx.Backdrop;
+import se.jbee.game.common.gfx.Palette;
 
-	private int[] spaceback;
-	private int spaceback_w;
-	private int spaceback_h;
-	private int spaceback_seed;
-	
-	public void space(Graphics2D gfx, int x0, int y0, int w, int h) {
+public class Space implements Backdrop {
+
+	private int _w;
+	private int _h;
+	private int _seed;
+	private int[] precomputed;
+
+	@Override
+	public void paint(Palette palette, Graphics2D gfx, int x0, int y0, int w, int h, int... rand) {
 		gfx.setColor(Color.black);
 		gfx.fillRect(x0, y0, w, h);
-		if (w != spaceback_w || h != spaceback_h) {
-			spaceback = makeSpace(w, h, 42);
-			spaceback_w = w;
-			spaceback_h = h;
+		if (w != _w || h != _h) {
+			precomputed = makeSpace(w, h, 42);
+			_w = w;
+			_h = h;
 		}
 		int j = 0;
-		int[] sp = spaceback;
+		int[] sp = precomputed;
 		for (int i = 0; i < w/2; i++) {
 			int r = sp[j++];
 			int g = sp[j++];
@@ -38,7 +42,10 @@ public class Space {
 				gfx.drawLine(x-1, y-1, x+1, y+1);
 				gfx.drawLine(x+1, y-1, x-1, y+1);
 			}
-			if (a > 65) {
+			if (a >= 64) {
+				if (a < 66) {
+					a /= 2;
+				}
 				gfx.setColor(new Color(255, 255, 255, a));
 				int n = a > 68 ? 2 : 1;
 				if (a % 2 == 0) {
@@ -47,6 +54,16 @@ public class Space {
 				} else {
 					gfx.drawLine(x-n, y, x+n, y);
 					gfx.drawLine(x, y-2, x, y+n);
+				}
+				if (a >= 68) {
+					gfx.setColor(new Color(238, 238, 255, 120));
+					if (a % 2 == 0) {
+						gfx.drawLine(x-n, y, x+n, y);
+						gfx.drawLine(x, y-2, x, y+n);
+					} else {
+						gfx.drawLine(x-n, y-n, x+n, y+n);
+						gfx.drawLine(x+n, y-n, x-n, y+n);
+					}					
 				}
 			}
 		}

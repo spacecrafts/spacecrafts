@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import se.jbee.game.common.gfx.Palette;
 import se.jbee.game.common.gfx.Renderer;
 import se.jbee.game.common.gfx.SimplexNoise;
-import se.jbee.game.common.process.Scene;
+import se.jbee.game.common.process.Stage;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Renderer1;
 
@@ -37,9 +37,9 @@ public class Display extends Canvas implements Runnable, Gfx {
 
 	private static final long FRAME_DELAY_MS = 15;
 	
-	private final Scene scene; 
+	private final Stage scene; 
 
-	public Display(Scene scene, KeyListener onKey, MouseListener onMouseClick, MouseMotionListener onMouseMove) {
+	public Display(Stage scene, KeyListener onKey, MouseListener onMouseClick, MouseMotionListener onMouseMove) {
 		super();
 		this.scene = scene;
 

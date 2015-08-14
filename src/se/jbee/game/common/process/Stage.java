@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import se.jbee.game.common.state.Change;
 
-public final class Scene {
+public final class Stage {
 
 	public static final class AreaMapping {
 		public final Shape area;
@@ -34,13 +34,15 @@ public final class Scene {
 	
 	public static final class AreaObject {
 		public final Shape area;
+		public final int cursor;
 		public final List<int[]> objects;
-		public AreaObject(Shape area, int[] object) {
-			this(area, Collections.singletonList(object));
+		public AreaObject(Shape area, int cursor, int[] object) {
+			this(area, cursor, Collections.singletonList(object));
 		}
-		public AreaObject(Shape area, List<int[]> objects) {
+		public AreaObject(Shape area, int cursor, List<int[]> objects) {
 			super();
 			this.area = area;
+			this.cursor = cursor;
 			this.objects = objects;
 		}
 	}
@@ -101,32 +103,36 @@ public final class Scene {
 		return ready.get();
 	}
 	
-	public Scene place(int[] object) {
+	public Stage enter(int[] object) {
 		nextObjects.add(object);
 		return this;
 	}
 	
-	public Scene bindLeftClick(Shape area, Change... changeset) {
+	public Stage onLeftClickIn(Shape area, Change... changeset) {
 		onLeftClick.add(new AreaMapping(area, changeset));
 		return this;
 	}
 	
-	public Scene bindRightClick(Shape area, Change... changeset) {
+	public Stage onRightClickIn(Shape area, Change... changeset) {
 		onRightClick.add(new AreaMapping(area, changeset));
 		return this;
 	}
 	
-	public Scene bind(Shape area, int[]...objects) {
-		onMouseOver.add(new AreaObject(area, Arrays.asList(objects)));
+	public Stage in(Shape area, int[]...objects) {
+		return in(area, -1, objects);
+	}
+	
+	public Stage in(Shape area, int cursor, int[]...objects) {
+		onMouseOver.add(new AreaObject(area, cursor, Arrays.asList(objects)));
 		return this;
 	}
 
-	public Scene bindKey(char key, Change... changeset) {
+	public Stage onKey(char key, Change... changeset) {
 		onKeyPress.add(new KeyMapping(key, changeset));
 		return this;
 	}
 	
-	public Scene bindGlobalKey(char key, Change... changeset) {
+	public Stage onGlobalKey(char key, Change... changeset) {
 		globalOnKeyPress.add(new KeyMapping(key, changeset));
 		return this;
 	}
