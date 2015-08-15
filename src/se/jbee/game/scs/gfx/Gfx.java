@@ -19,7 +19,9 @@ public interface Gfx {
 	 */
 	int
 	COLOR_TEXT_HIGHLIGHT = 1,
-	COLOR_TEXT_NORMAL = 2;
+	COLOR_TEXT_NORMAL = 2,
+	COLOR_TEXT_SPECIAL = 3,
+	COLOR_SLOT_BORDER = 4;
 	
 	/**
 	 * Backgrounds
@@ -35,7 +37,9 @@ public interface Gfx {
 	PAINT_STAR_WIDE = 0,
 	PAINT_STAR_NARROW = 1,
 	PAINT_PLANET_WIDE = 2,
-	PAINT_PLANET_NARROW = 3;
+	PAINT_PLANET_NARROW = 3,
+	PAINT_PLANET_CLIP_WIDE = 4,
+	PAINT_PLANET_CLIP_NARROW = 5;
 	
 	/**
 	 * Objects
@@ -50,9 +54,9 @@ public interface Gfx {
 	OBJ_TEXT = 30,
 	
 	OBJ_STAR = 40,
-	OBJ_STAR_ARC = 41,
+	OBJ_STAR_CLIP = 41,
 	OBJ_PLANET = 42,
-	OBJ_PLANET_ARC = 43,
+	OBJ_PLANET_CLIP = 43,
 	OBJ_ORBIT_ARC = 44,
 	OBJ_ROUTE = 45,
 	

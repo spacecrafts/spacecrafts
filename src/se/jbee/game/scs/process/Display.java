@@ -111,7 +111,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 	}
 
 	private Palette initPalette() {
-		Color[] colors = { new Color(0x8899FF), Color.WHITE, new Color(0x8899FF), new Color(238, 238, 119) }; 
+		Color[] colors = { new Color(0x8899FF), Color.WHITE, new Color(0x8899FF), new Color(238, 238, 119), new Color(0x223355) }; 
 		Font[][] fonts = new Font[2][64];
 		fonts[FONT_REGULAR][0] = Palette.loadFont("font/Roboto-Regular.ttf");
 		fonts[FONT_LIGHT][0] = Palette.loadFont("font/Roboto-Light.ttf");
@@ -119,7 +119,9 @@ public class Display extends Canvas implements Runnable, Gfx {
 			() -> { return SimplexNoise.image(200, 2000, 500, 80, 666, 0.15f, 0f); },
 			() -> { return SimplexNoise.image(200, 2000, 50, 60, 700, 0.15f, 0f); },
 			() -> { return SimplexNoise.image(500, 500, 500, 60, 7000, 0.15f, 0f); },
-			() -> { return SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f, 0f); }
+			() -> { return SimplexNoise.image(500, 500, 100, 40, 6000, 0.15f, 0f); },
+			() -> { return SimplexNoise.image(200, 2000, 500, 60, 7000, 0.25f, 0f); },
+			() -> { return SimplexNoise.image(200, 2000, 100, 40, 6000, 0.25f, 0f); }
 		};
 		final Palette palette = new Palette(colors, fonts, backgrounds);
 		return palette;

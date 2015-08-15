@@ -30,17 +30,22 @@ public final class Objects implements Gfx {
 		return new int[] { OBJ_STAR, x,y,r,c,nrand };
 	}
 	
-	public static int[] starArc(int x, int y, int r, int c, int nrand) {
-		return new int[] { OBJ_STAR_ARC, x,y,r,c,nrand };
+	public static int[] starClip(int x, int y, int r, int c, int nrand) {
+		return new int[] { OBJ_STAR_CLIP, x,y,r,c,nrand };
 	}	
 
 	public static int[] planet(int x, int y, int r, int c, int nrand) {
 		return new int[] { OBJ_PLANET, x,y,r,c,nrand };
-	}	
+	}
+	
+	public static int[] planetClip(int x, int y, int r, int c, int nrand) {
+		return new int[] { OBJ_PLANET_CLIP, x,y,r,c,nrand };
+	}		
 	
 	// TODO text has to define the bounding box and the alignment within so that the rendering can use text measure to move text to the correct position if this is desired.
 	// there should be different placement methods: absolute (simply pick x,y) box (use the box x,y,w,h and alsignment)
 	public static int[] text(int x, int y, int type, int size, int color, int ntext) {
 		return new int[] { OBJ_TEXT, x,y, type, size, color, ntext };
 	}
+
 }

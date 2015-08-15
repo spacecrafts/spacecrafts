@@ -54,6 +54,7 @@ public interface GameComponent extends Component {
 		ACTION = 18, // 1 = save
 		RENAME = 19, // [*entity, *comp, #font, #size, #x, #y, #w, #h]
 		PAGE = 20, // # (used for paging)
+		SCREEN_ENTITY = 21, // {*a,..} (e.g. the colony in the colony screen, the player in the galaxy screen; the appearance of each screen might be linked to a set of entities; their type is usually an expected one)  
 
 	PLAYER = 30,
 		// TURN (player sets its turn to the current game turn when finished)

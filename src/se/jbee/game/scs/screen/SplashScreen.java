@@ -37,7 +37,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		while (title.length()*5*diameter > screen.width) {
 			diameter--;
 		}
-		stage.enter(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/4-(5*diameter), FONT_DOTS, diameter, 3, 1));
+		stage.enter(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/4-(5*diameter), FONT_DOTS, diameter, COLOR_TEXT_SPECIAL, 1));
 		stage.enter(codePoints(title));
 		
 		int w = Math.max(200, screen.width/8);
@@ -47,6 +47,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		int x0 = (screen.width-w)/2;
 		int y0 = screen.height/4+screen.height/8;
 
+		// open
 		Rectangle open = new Rectangle(x0,y0,w,h);
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(OPEN);
@@ -56,7 +57,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.onKey('o', openChangeset);
 		
 		// load
-		y0 += 10*diameter;
+		y0 += 8*diameter;
 		Rectangle load = new Rectangle(x0,y0,w,h);
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(LOAD);
@@ -66,7 +67,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.onKey('l', loadChangeset);
 		
 		// save
-		y0 += 10*diameter;
+		y0 += 8*diameter;
 		Rectangle save = new Rectangle(x0,y0,w,h);
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(SAVE);
@@ -77,7 +78,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		
 		// back
 		if (g1.has(RETURN_SCREEN) && g1.num(RETURN_SCREEN) != SCREEN_MAIN) {
-			y0 += 10*diameter;
+			y0 += 8*diameter;
 			Rectangle back = new Rectangle(x0,y0,w,h);
 			stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1)); //TODO other color
 			stage.enter(BACK);
@@ -88,7 +89,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		}
 		
 		// exit
-		y0 += 10*diameter;
+		y0 += 8*diameter;
 		Rectangle exit = new Rectangle(x0,y0,w,h);
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(EXIT);

@@ -23,8 +23,9 @@ public class Renderer1 implements Renderer, Gfx {
 	// wood-like: 100, 2000, 200, 80, 42, 0.2f
 	
 	private final Backdrop space = new Space();
-	private final Backdrop star  = new Star();
-	private final Backdrop planet = new Planet();
+	private final Backdrop starClip  = Star.CLIP;
+	private final Backdrop planet = Planet.CIRCLE;
+	private final Backdrop planetClip = Planet.CLIP;
 	
 	private int frameDone = -1;
 
@@ -45,7 +46,6 @@ public class Renderer1 implements Renderer, Gfx {
 			gfx.setColor(Color.WHITE);
 			gfx.drawString(""+(System.currentTimeMillis() - drawStart), 20, 20);
 		}
-		
 	}
 
 	private void render(Palette palette, Graphics2D gfx, List<int[]> objects) {
@@ -73,11 +73,11 @@ public class Renderer1 implements Renderer, Gfx {
 				}
 				break;
 			case OBJ_PLANET:
-				planet.paint(palette, gfx, obj[1], obj[2], obj[3], obj[3], obj[4]);
-				break;
-			case OBJ_STAR_ARC:
-				star.paint(palette, gfx, obj[1], obj[2], obj[3], obj[3], obj[4]);
-				break;
+				planet.paint(palette, gfx, obj[1], obj[2], obj[3], obj[3], obj[4]);	break;
+			case OBJ_PLANET_CLIP:
+				planetClip.paint(palette, gfx, obj[1], obj[2], obj[3], obj[3], obj[4]); break;
+			case OBJ_STAR_CLIP:
+				starClip.paint(palette, gfx, obj[1], obj[2], obj[3], obj[3], obj[4]); break;
 			case OBJ_BORDER:
 				gfx.setColor(new Color(0x8899FF));
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
@@ -85,6 +85,14 @@ public class Renderer1 implements Renderer, Gfx {
 			case OBJ_FOCUS_BOX:
 				gfx.setColor(palette.color(COLOR_TEXT_HIGHLIGHT));
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
+				break;
+			case OBJ_SLOT:
+				gfx.setColor(palette.color(COLOR_SLOT_BORDER));
+				gfx.drawOval(obj[1], obj[2], obj[3], obj[3]);
+				break;
+			case OBJ_RESOURCE:
+				gfx.setColor(palette.color(COLOR_TEXT_NORMAL));
+				gfx.drawOval(obj[1], obj[2], obj[3], obj[3]);
 				break;
 			}
 		}

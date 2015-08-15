@@ -14,6 +14,7 @@ import se.jbee.game.common.process.Stage;
 import se.jbee.game.common.state.Component;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
+import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
 
@@ -123,7 +124,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 	public static Entity initGame(State game) {
 		Entity g = game.defEntity(GAME);
 		g.put(TURN, 0);
-		g.put(SCREEN, 0);
+		g.put(SCREEN, GameScreen.SCREEN_MAIN);
 		Entity p1 = game.defEntity(PLAYER);
 		g.put(PLAYERS, p1.id());
 		return g;
