@@ -25,19 +25,21 @@ public class SavingGame implements Screen, GameComponent, Gfx {
 		int x0 = screen.width/4;
 		int y0 = screen.height/4;
 		
-		Entity game1 = game.single(GAME);
+		Entity gamE = game.single(GAME);
 
-		stage.enter(background(x0-1, y0-1, w+3, h+3, 2));
+		stage.enter(background(x0-1, y0-1, w+3, h+3, BG_BLACK));
 		stage.enter(border(x0, y0, w, h));
 		stage.enter(text(x0+20, y0+h/2, FONT_LIGHT, 48, COLOR_TEXT_HIGHLIGHT, 3));
 		stage.enter(codePoints("saving"));
-		stage.enter(game1.list(SAVEGAME));
+		stage.enter(gamE.list(SAVEGAME));
 		stage.enter(codePoints("..."));
 		
 		// setup return to screen, done after action
-		game1.put(SCREEN, game1.num(RETURN_SCREEN));
-		game1.erase(RETURN_SCREEN);
-		game1.put(ACTION, ACTION_SAVE);
+		gamE.put(SCREEN, gamE.num(RETURN_SCREEN));
+		gamE.erase(RETURN_SCREEN);
+		gamE.put(ACTION, ACTION_SAVE);
+		
+		//TODO block all input (global is still working)
 	}
 
 }

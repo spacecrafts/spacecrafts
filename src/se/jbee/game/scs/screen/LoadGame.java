@@ -29,10 +29,13 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
+		Entity gamE = game.single(GAME);
 
-		stage.enter(background(0, 0, screen.width, screen.height, 2));
-
-		Entity game1 = game.single(GAME);
+		// cancel (ESC override, to not set return screen)
+		stage.onKey((char)27, new Change(gamE.id(), SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
+		
+		stage.enter(background(0, 0, screen.width, screen.height, BG_BLACK));
+		
 
 		int gap = 20;
 		int x0 = gap;
@@ -43,9 +46,9 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx {
 		int n = 0;
 		for (File savegame : pageFiles(user, game)) {
 			try {
-				Entity gamex = State.load(savegame, GAME);
+				Entity savegamE = State.load(savegame, GAME);
 				stage.enter(text(x0+w*2/3, y0+h, FONT_LIGHT, h/2, COLOR_TEXT_NORMAL, 1));
-				stage.enter(codePoints(String.valueOf(gamex.num(TURN))));
+				stage.enter(codePoints(String.valueOf(savegamE.num(TURN))));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -57,9 +60,9 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx {
 			Rectangle area = new Rectangle(x0, y0, w, h);
 			stage.in(area, focusBox(x0, y0, w, h));
 			stage.onLeftClickIn(area,
-					new Change(game1.id(), SAVEGAME, Op.PUT, name),
-					new Change(game1.id(), SCREEN, Op.PUT, game1.num(RETURN_SCREEN)), 
-					new Change(game1.id(), ACTION, Op.PUT, ACTION_LOAD));
+					new Change(gamE.id(), SAVEGAME, Op.PUT, name),
+					new Change(gamE.id(), SCREEN, Op.PUT, gamE.num(RETURN_SCREEN)), 
+					new Change(gamE.id(), ACTION, Op.PUT, ACTION_LOAD));
 			x0 += w + gap;
 			n++;
 			if (n == 3) {

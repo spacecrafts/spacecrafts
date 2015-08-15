@@ -27,8 +27,8 @@ public final class Change {
 		this(entity, comp, op, new int[] { value });
 	}
 	
-	public void apply(State game) {
-		Entity e = game.entity(entity);
+	public void apply(State state) {
+		Entity e = state.entity(entity);
 		switch (op) {
 		case PUT       : e.put(comp, value); break;
 		case ERASE     : e.erase(comp); break;
@@ -39,7 +39,7 @@ public final class Change {
 		case SETBITS   : e.set(comp, value); break;
 		case UNSETBITS : e.unset(comp, value); break;
 		case CLEAR     : e.clear(); break;
-		case COPY      : e.put(comp, game.entity(value[0]).list(value[1])); break;
+		case COPY      : e.put(comp, state.entity(value[0]).list(value[1]).clone()); break;
 		}
 	}
 	

@@ -23,7 +23,7 @@ public class Star implements Gfx, Backdrop {
 		gfx.fillArc(x0, y0, radius, radius, 150, 60);
 		
 		// texture
-		gfx.setPaint(new TexturePaint(palette.background(BG_STAR_NARROW), new Rectangle(x0, y0, 200, 2000)));
+		gfx.setPaint(new TexturePaint(palette.background(PAINT_STAR_NARROW), new Rectangle(x0, y0, 200, 2000)));
 		gfx.fillArc(x0, y0, radius, radius, 150, 60);			
 
 		// 3d effect (as darkening)
@@ -40,7 +40,7 @@ public class Star implements Gfx, Backdrop {
 		gfx.setPaint(paint);
 		gfx.fillArc(x0, y0, radius, radius, 150, 60);
 		
-		gfx.setPaint(new TexturePaint(palette.background(BG_STAR_WIDE), new Rectangle(x0, y0, 200, 2000)));
+		gfx.setPaint(new TexturePaint(palette.background(PAINT_STAR_WIDE), new Rectangle(x0, y0, 200, 2000)));
 		gfx.fillArc(x0, y0, radius, radius, 150, 60);
 	}
 }

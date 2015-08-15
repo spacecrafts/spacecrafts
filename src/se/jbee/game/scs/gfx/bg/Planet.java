@@ -33,8 +33,8 @@ public class Planet implements Gfx, Backdrop {
 		drawCircle(gfx, x0-1, y0, radius+1, paint);
 		
 		// texture
-		drawCircle(gfx, x0, y0, radius, new TexturePaint(palette.background(BG_PLANET_WIDE), new Rectangle(x0, y0, 500, 500)));
-		drawCircle(gfx, x0, y0, radius, new TexturePaint(palette.background(BG_PLANET_NARROW), new Rectangle(x0-(radius/50), y0, 500, 500)));
+		drawCircle(gfx, x0, y0, radius, new TexturePaint(palette.background(PAINT_PLANET_WIDE), new Rectangle(x0, y0, 500, 500)));
+		drawCircle(gfx, x0, y0, radius, new TexturePaint(palette.background(PAINT_PLANET_NARROW), new Rectangle(x0-(radius/50), y0, 500, 500)));
 		
         // star-light
         Color lc = new Color(min(255,r+50),min(255,g+50),max(0,b-50), 100);

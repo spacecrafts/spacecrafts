@@ -30,7 +30,7 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 
 		int w = screen.width;
 		int h = screen.height;
-		stage.enter(background(0,0,w, h, 1));
+		stage.enter(background(0,0,w, h, BG_SPACE));
 		stage.enter(starArc(w-h/8, -h/2, h*2, 0xFF8800, 0));
 
 		stage.enter(planet(700, 400, 200, 0xFF5014, 0));

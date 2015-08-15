@@ -114,6 +114,9 @@ public final class State implements Component {
 	}
 	
 	public void save(File file) throws IOException {
+		//TODO as soon as multiple threads change state save may only occur in-between complete change-sets have been applied
+		// the simplest would be a sync on this object but this would prevent AIs and Human interaction to happen fully parallel. 
+		// while the only problem is the save. Therefore some atomic might do better as only save/change has to be synct.
 		if (!file.getParentFile().exists()) {
 			if (!file.getParentFile().mkdirs()) {
 				throw new IOException("Could not create path: "+file.getParentFile());

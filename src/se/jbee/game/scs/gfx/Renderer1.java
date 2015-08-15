@@ -2,7 +2,6 @@ package se.jbee.game.scs.gfx;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.List;
@@ -53,18 +52,7 @@ public class Renderer1 implements Renderer, Gfx {
 		for (int i = 0; i < objects.size(); i++) {
 			int[] obj = objects.get(i);
 			switch (obj[0]) {
-			case OBJ_BACKGROUND:
-				int bgtype = obj[5];
-				if (bgtype == 0) {
-					gfx.setPaint(new GradientPaint(0, 0, new Color(0xA15FE3), 0, obj[4], new Color(0xE1AFF8)));
-					gfx.fillRect(obj[1], obj[2], obj[3], obj[4]);
-				} else if (bgtype == 2) {
-					gfx.setColor(Color.black);
-					gfx.fillRect(obj[1], obj[2], obj[3], obj[4]);
-				} else {
-					space.paint(palette, gfx, obj[1], obj[2], obj[3], obj[4]);
-				}
-				break;
+			case OBJ_BACKGROUND: background(palette, gfx, obj); break;
 			case OBJ_TEXT:
 				gfx.setColor(palette.color(obj[5]));
 				if (obj[3] == FONT_DOTS) {
@@ -99,6 +87,19 @@ public class Renderer1 implements Renderer, Gfx {
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
 			}
+		}
+	}
+
+	private void background(Palette palette, Graphics2D gfx, int[] obj) {
+		switch (obj[5]) {
+		default:
+		case BG_BLACK:
+			gfx.setColor(Color.black);
+			gfx.fillRect(obj[1], obj[2], obj[3], obj[4]);
+			break;
+		case BG_SPACE:
+			space.paint(palette, gfx, obj[1], obj[2], obj[3], obj[4]);
+			break;
 		}
 	}
 	

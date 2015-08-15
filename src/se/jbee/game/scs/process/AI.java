@@ -1,5 +1,6 @@
 package se.jbee.game.scs.process;
 
+import se.jbee.game.common.process.Player;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
 import se.jbee.game.scs.state.GameComponent;
@@ -17,7 +18,7 @@ import se.jbee.game.scs.state.Status;
  * This AI does all the economic and strategic decisions but is not concerned
  * with fighting battles.
  */
-public class AI implements Runnable, GameComponent {
+public class AI implements Runnable, Player, GameComponent {
 
 	private final State game;
 	private final Entity aiPlayer;
@@ -27,7 +28,14 @@ public class AI implements Runnable, GameComponent {
 		this.game = game;
 		this.aiPlayer = game.entity(aiPlayer);
 	}
-
+	
+	@Override
+	public void move() {
+		synchronized (this) {
+			notify();
+		}
+	}
+	
 	@Override
 	public void run() {
 		while (aiPlayer.isSet(STATUS, Status.ALIVE)) {

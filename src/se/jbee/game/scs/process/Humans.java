@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import se.jbee.game.common.process.Player;
 import se.jbee.game.common.process.Stage;
 import se.jbee.game.common.process.Stage.AreaMapping;
 import se.jbee.game.common.process.Stage.AreaObject;
@@ -21,8 +22,10 @@ import se.jbee.game.common.process.Stage.KeyMapping;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Change;
+import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
+import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.screen.LoadGame;
 import se.jbee.game.scs.screen.SaveGame;
 import se.jbee.game.scs.screen.SavingGame;
@@ -33,9 +36,10 @@ import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
 
 /**
- * The {@link Players} process takes the role of the currently active human
+ * The {@link Humans} process takes the role of the currently active human
  * player. It prepares the screen and actions for the current state of that
- * player so the display process shows them.
+ * player so the display process shows them. It encapsulates human player input
+ * and conceptual graphical output capabilities.
  * 
  * The process processes UI input events, determines change-sets and applies
  * them. In such cases it updates itself after a change-set had been applied.
@@ -47,7 +51,7 @@ import se.jbee.game.scs.state.UserComponent;
  * The currently active player is not stored within this process but part of the
  * game state.
  */
-public final class Players implements Runnable, GameComponent, UserComponent, KeyListener, MouseListener, MouseMotionListener {
+public final class Humans implements Runnable, Player, GameComponent, UserComponent, KeyListener, MouseListener, MouseMotionListener {
 
 	private final State game;
 	private final State user;
@@ -56,14 +60,22 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 	
 	private int ignoredKeyCode = 0;
 
-	public Players(State game, State user, Stage stage) {
+	public Humans(State game, State user, Stage stage) {
 		super();
 		this.game = game;
 		this.user = user;
 		this.stage = stage;
 		this.screens = initScreens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, UserSettings.class, SolarSystem.class);
-	} 
+		initGlobalKeys(game, stage);
+	}
 
+	@Override
+	public void move() {
+		synchronized (this) {
+			notify();
+		}
+	}
+	
 	@Override
 	public void run() {
 		final Entity gamE = game.single(GAME);
@@ -118,6 +130,13 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 		}
 		return screens;
 	}
+	
+	private static void initGlobalKeys(State game, Stage stage) {
+		int gameId = game.single(GAME).id();
+		stage.onGlobalKey((char)27, //ESC
+				new Change(gameId, RETURN_SCREEN, Op.COPY, gameId, SCREEN),
+				new Change(gameId, SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
+	} 
 	
 	private void autosaveGame() {
 		//TODO actually do it
@@ -216,9 +235,7 @@ public final class Players implements Runnable, GameComponent, UserComponent, Ke
 
 	private void reactWith(Change[] changeset) {
 		apply(changeset, game);
-		synchronized (this) {
-			notify();
-		}
+		move();
 		return;
 	}
 

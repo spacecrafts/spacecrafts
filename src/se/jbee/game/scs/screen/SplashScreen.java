@@ -21,6 +21,7 @@ import se.jbee.game.scs.state.GameComponent;
 public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 
 	private static final int[] 
+			OPEN = codePoints("OPEN"),
 			BACK = codePoints("BACK"),
 			EXIT = codePoints("EXIT"),
 			SAVE = codePoints("SAVE"),
@@ -30,13 +31,13 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		Entity g1 = game.single(GAME);
 		
-		stage.enter(background(0,0, screen.width, screen.height, 1));
+		stage.enter(background(0,0, screen.width, screen.height, BG_SPACE));
 		int diameter = 20;
 		String title = "SPACECRAFTS";
 		while (title.length()*5*diameter > screen.width) {
 			diameter--;
 		}
-		stage.enter(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/3-(5*diameter), FONT_DOTS, diameter, 3, 1));
+		stage.enter(text((screen.width-(title.length()*5*diameter)+diameter)/2, screen.height/4-(5*diameter), FONT_DOTS, diameter, 3, 1));
 		stage.enter(codePoints(title));
 		
 		int w = Math.max(200, screen.width/8);
@@ -44,14 +45,23 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		w = 4*5*diameter-diameter;
 		int h = diameter*5;
 		int x0 = (screen.width-w)/2;
-		int y0 = screen.height/3+screen.height/8;
+		int y0 = screen.height/4+screen.height/8;
 
+		Rectangle open = new Rectangle(x0,y0,w,h);
+		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
+		stage.enter(OPEN);
+		stage.in(open, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), OPEN);
+		Change[] openChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SOLAR_SYSTEM) };
+		stage.onLeftClickIn(open, openChangeset);
+		stage.onKey('o', openChangeset);
+		
 		// load
+		y0 += 10*diameter;
 		Rectangle load = new Rectangle(x0,y0,w,h);
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(LOAD);
 		stage.in(load, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), LOAD);
-		Change[] loadChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_LOAD_GAME), new Change(g1.id(), RETURN_SCREEN, Op.PUT, SCREEN_MAIN) };
+		Change[] loadChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_LOAD_GAME) };
 		stage.onLeftClickIn(load, loadChangeset);
 		stage.onKey('l', loadChangeset);
 		
@@ -61,19 +71,9 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(SAVE);
 		stage.in(save, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), SAVE);
-		Change[] saveChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SAVE_GAME), new Change(g1.id(), RETURN_SCREEN, Op.PUT, SCREEN_MAIN) };
+		Change[] saveChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SAVE_GAME) };
 		stage.onLeftClickIn(save, saveChangeset);
 		stage.onKey('s', saveChangeset);
-		
-		// exit
-		y0 += 10*diameter;
-		Rectangle exit = new Rectangle(x0,y0,w,h);
-		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
-		stage.enter(EXIT);
-		stage.in(exit, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), EXIT);
-		Change exitChange = new Change(g1.id(), ACTION, Op.PUT, ACTION_EXIT);
-		stage.onLeftClickIn(exit, exitChange);
-		stage.onKey((char)27, exitChange);
 		
 		// back
 		if (g1.has(RETURN_SCREEN) && g1.num(RETURN_SCREEN) != SCREEN_MAIN) {
@@ -86,6 +86,16 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 			stage.onLeftClickIn(back, backChange);
 			stage.onKey(' ', backChange);			
 		}
+		
+		// exit
+		y0 += 10*diameter;
+		Rectangle exit = new Rectangle(x0,y0,w,h);
+		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
+		stage.enter(EXIT);
+		stage.in(exit, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), EXIT);
+		Change exitChange = new Change(g1.id(), ACTION, Op.PUT, ACTION_EXIT);
+		stage.onLeftClickIn(exit, exitChange);
+		stage.onKey((char)27, exitChange);
 	}
 
 }
