@@ -2,6 +2,7 @@ package se.jbee.game.scs.screen;
 
 import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
+import static se.jbee.game.scs.gfx.Objects.border;
 import static se.jbee.game.scs.gfx.Objects.planetClip;
 import static se.jbee.game.scs.gfx.Objects.text;
 
@@ -31,7 +32,7 @@ public class Orbit implements Screen, Gfx, GameComponent {
 		stage.enter(planetClip(x, y, d, 0xFF5014, 0));
 
 		int m = screen.width/3;
-		d = (screen.height-160)/32;
+		d = (screen.height-(w/8))/32;
 		int x0 = (m*2-(32*d))/2;
 		int xs = x0;
 		int y0 = (screen.height-32*d)/2;
@@ -45,8 +46,14 @@ public class Orbit implements Screen, Gfx, GameComponent {
 			y0+=d;
 		}
 		
-		stage.enter(text(w-m, w/16, FONT_LIGHT, 48, COLOR_TEXT_NORMAL, 1));
+		stage.enter(text(w-m, w/32+48, FONT_LIGHT, 48, COLOR_TEXT_NORMAL, 1));
 		stage.enter(codePoints("Mars (Orbit)"));
+		
+		int hb = (h-w/8)/3;
+		stage.enter(border(w-m, w/16+hb, m-w/32, hb));
+		
+		stage.enter(border(w-m, w/16+hb+hb+w/32, m-w/32, hb));
+
 	}
 
 }

@@ -1,5 +1,7 @@
 package se.jbee.game.scs.screen;
 
+import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static se.jbee.game.common.state.Change.put;
 import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.text;
@@ -62,7 +64,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(LOAD);
 		stage.in(load, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), LOAD);
-		Change[] loadChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_LOAD_GAME) };
+		Change[] loadChangeset = { put(g1.id(), SCREEN, SCREEN_LOAD_GAME) };
 		stage.onLeftClickIn(load, loadChangeset);
 		stage.onKey('l', loadChangeset);
 		
@@ -72,7 +74,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(SAVE);
 		stage.in(save, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), SAVE);
-		Change[] saveChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SAVE_GAME) };
+		Change[] saveChangeset = { put(g1.id(), SCREEN, SCREEN_SAVE_GAME) };
 		stage.onLeftClickIn(save, saveChangeset);
 		stage.onKey('s', saveChangeset);
 		
@@ -83,7 +85,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 			stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1)); //TODO other color
 			stage.enter(BACK);
 			stage.in(back, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), BACK);
-			Change backChange = new Change(g1.id(), SCREEN, Op.PUT, g1.num(RETURN_SCREEN));
+			Change backChange = put(g1.id(), SCREEN, g1.num(RETURN_SCREEN));
 			stage.onLeftClickIn(back, backChange);
 			stage.onKey(' ', backChange);			
 		}
@@ -94,9 +96,9 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(EXIT);
 		stage.in(exit, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), EXIT);
-		Change exitChange = new Change(g1.id(), ACTION, Op.PUT, ACTION_EXIT);
+		Change exitChange = put(g1.id(), ACTION, ACTION_EXIT);
 		stage.onLeftClickIn(exit, exitChange);
-		stage.onKey((char)27, exitChange);
+		stage.onKey(VK_ESCAPE, exitChange);
 	}
 
 }

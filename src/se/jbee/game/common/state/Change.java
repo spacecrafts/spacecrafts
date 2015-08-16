@@ -9,6 +9,18 @@ import java.util.Arrays;
 public final class Change {
 
 	public static enum Op { /* map*/ PUT, ERASE, /* set */ INSERT, REMOVE, /* list */ APPEND, PREPEND, /* bitset */ SETBITS, UNSETBITS, /* all */ CLEAR, COPY }
+
+	public static Change put(int entity, int comp, int...value) {
+		return new Change(entity, comp, Op.PUT, value);
+	}
+	
+	public static Change erase(int entity, int comp) {
+		return new Change(entity, comp, Op.ERASE, null);
+	}
+	
+	public static Change append(int entity, int comp, int... elements) {
+		return new Change(entity, comp, Op.APPEND, elements);
+	}
 	
 	public final int entity;   // which entity is manipulated
 	public final int comp;     // component of the entity that is manipulated (if not clearing all)
@@ -36,8 +48,8 @@ public final class Change {
 		case REMOVE    : e.remove(comp, value); break;
 		case APPEND    : e.append(comp, value); break;
 		case PREPEND   : e.prepend(comp, value); break;
-		case SETBITS   : e.set(comp, value); break;
-		case UNSETBITS : e.unset(comp, value); break;
+		case SETBITS   : e.setbits(comp, value); break;
+		case UNSETBITS : e.unsetbits(comp, value); break;
 		case CLEAR     : e.clear(); break;
 		case COPY      : e.put(comp, state.entity(value[0]).list(value[1]).clone()); break;
 		}

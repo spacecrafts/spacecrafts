@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import se.jbee.game.common.gfx.Backdrop;
 import se.jbee.game.common.gfx.Palette;
 import se.jbee.game.common.gfx.Renderer;
 import se.jbee.game.common.process.Stage;
+import se.jbee.game.common.process.Stage.KeyMapping;
 import se.jbee.game.scs.gfx.bg.Planet;
 import se.jbee.game.scs.gfx.bg.Space;
 import se.jbee.game.scs.gfx.bg.Star;
@@ -30,8 +33,8 @@ public class Renderer1 implements Renderer, Gfx {
 	private int frameDone = -1;
 
 	@Override
-	public void render(Stage scene, Dimension screen, Palette palette, Graphics2D gfx) {
-		int frame = scene.frame();
+	public void render(Stage stage, Dimension screen, Palette palette, Graphics2D gfx) {
+		int frame = stage.frame();
 		if (frame != frameDone) {
 			frameDone = frame;
 			long drawStart = System.currentTimeMillis();
@@ -39,12 +42,29 @@ public class Renderer1 implements Renderer, Gfx {
 			antialias(gfx);
 			textAntialias(gfx);
 			
-			render(palette, gfx, scene.objects.get());
-			render(palette, gfx, scene.accents());
+			render(palette, gfx, stage.objects.get());
+			render(palette, gfx, stage.accents());
 			
 			gfx.setFont(palette.font(FONT_REGULAR, 12));
 			gfx.setColor(Color.WHITE);
 			gfx.drawString(""+(System.currentTimeMillis() - drawStart), 20, 20);
+		
+			//TODO not here but in a post processing to setting the stage, like a stage decoration (so that addition area mappings are only done once.
+			int x = 20;
+			for (KeyMapping m : new ArrayList<>(stage.onKeyPress)) {
+				gfx.setColor(Color.BLACK);
+				gfx.fillRoundRect(x, screen.height-60, 40, 40, 15,15);
+				gfx.setColor(Color.LIGHT_GRAY);
+				gfx.drawRoundRect(x, screen.height-60, 40, 40, 15,15);
+				gfx.setFont(palette.font(FONT_REGULAR, 24));
+				gfx.drawString(KeyEvent.getKeyText(m.keyCode), x+12, screen.height-30);
+				x+= 45;
+			}
+			
+			// TODO also as an decoration, rendered like extra display on top of the main monitor of a spacecraft (that the player is commanding)
+			// this may look different depending on the chosen race 
+			gfx.setColor(palette.color(COLOR_TEXT_NORMAL));
+			gfx.drawRoundRect(screen.width/3+screen.width/32, -screen.height/16-20, screen.width/3-screen.width/16, screen.width/16+20, 20, 20);
 		}
 	}
 

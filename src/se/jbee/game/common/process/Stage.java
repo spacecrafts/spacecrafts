@@ -1,5 +1,7 @@
 package se.jbee.game.common.process;
 
+import static java.lang.Character.toUpperCase;
+
 import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,11 +25,12 @@ public final class Stage {
 	}
 	
 	public static final class KeyMapping {
-		public final int key;
+		public final int keyCode; // TODO use keycode here and in check loop 
+		//TODO add description what key does
 		public final Change[] changeset;
-		public KeyMapping(int key, Change... changeset) {
+		public KeyMapping(int keyCode, Change... changeset) {
 			super();
-			this.key = key;
+			this.keyCode = keyCode;
 			this.changeset = changeset;
 		}
 	}
@@ -127,13 +130,26 @@ public final class Stage {
 		return this;
 	}
 
-	public Stage onKey(char key, Change... changeset) {
-		onKeyPress.add(new KeyMapping(key, changeset));
+	/**
+	 * just makes sense for a-z => A-Z but this is what this is for 
+	 */
+	public Stage onKey(char keyChar, Change... changeset) {
+		return onKey((int)toUpperCase(keyChar), changeset);
+	}	
+	public Stage onKey(int keyCode, Change... changeset) {
+		onKeyPress.add(new KeyMapping(keyCode, changeset));
 		return this;
 	}
 	
-	public Stage onGlobalKey(char key, Change... changeset) {
-		globalOnKeyPress.add(new KeyMapping(key, changeset));
+	/**
+	 * just makes sense for a-z => A-Z but this is what this is for 
+	 */
+	public Stage onGlobalKey(char keyChar, Change... changeset) {
+		return onGlobalKey((int)toUpperCase(keyChar), changeset);
+	}
+	
+	public Stage onGlobalKey(int keyCode, Change... changeset) {
+		globalOnKeyPress.add(new KeyMapping(keyCode, changeset));
 		return this;
 	}
 

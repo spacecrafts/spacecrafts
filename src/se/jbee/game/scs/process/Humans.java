@@ -135,7 +135,7 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 	
 	private static void initGlobalKeys(State game, Stage stage) {
 		int gameId = game.single(GAME).id();
-		stage.onGlobalKey((char)27, //ESC
+		stage.onGlobalKey(KeyEvent.VK_ESCAPE,
 				new Change(gameId, RETURN_SCREEN, Op.COPY, gameId, SCREEN),
 				new Change(gameId, SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
 	} 
@@ -214,9 +214,9 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 	}
 
 	private boolean react(KeyEvent e, List<KeyMapping> mappings) {
-		final char keyChar = e.getKeyChar();
+		final int keyCode = e.getKeyCode();
 		for (KeyMapping m : mappings) {
-			if (keyChar == m.key) {
+			if (keyCode == m.keyCode) {
 				e.consume();
 				reactWith(m.changeset);
 				return true;

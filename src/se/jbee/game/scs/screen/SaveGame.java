@@ -1,6 +1,9 @@
 package se.jbee.game.scs.screen;
 
+import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.util.Arrays.copyOf;
+import static se.jbee.game.common.state.Change.append;
+import static se.jbee.game.common.state.Change.put;
 import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.border;
@@ -11,8 +14,6 @@ import java.awt.Dimension;
 import se.jbee.game.common.process.Stage;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
-import se.jbee.game.common.state.Change;
-import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
@@ -26,7 +27,7 @@ public class SaveGame implements Screen, GameComponent, Gfx, GameScreen {
 		Entity gamE = game.single(GAME);
 
 		// cancel (ESC override, to not set return screen)
-		stage.onKey((char)27, new Change(gamE.id(), SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
+		stage.onKey(VK_ESCAPE, put(gamE.id(), SCREEN, SCREEN_MAIN));
 
 		int w = screen.width/2;
 		int h = screen.height/2;
@@ -56,12 +57,12 @@ public class SaveGame implements Screen, GameComponent, Gfx, GameScreen {
 		int gid = gamE.id();
 		if (savegame.length < 12) {
 			for (char c = 'a'; c <= 'z'; c++) {
-				stage.onKey(c, new Change(gid, SAVEGAME, Op.APPEND, c));
+				stage.onKey(c, append(gid, SAVEGAME, c));
 			}
 		}
 		if (savegame.length > 0) {
-			stage.onKey('\b', new Change(gid, SAVEGAME, Op.PUT, copyOf(savegame, savegame.length-1) ));
-			stage.onKey('\n', new Change(gid, SCREEN, Op.PUT, SCREEN_SAVING_GAME));
+			stage.onKey('\b', put(gid, SAVEGAME, copyOf(savegame, savegame.length-1) ));
+			stage.onKey('\n', put(gid, SCREEN, SCREEN_SAVING_GAME));
 		}
 
 	}

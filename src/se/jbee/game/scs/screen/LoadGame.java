@@ -1,10 +1,13 @@
 package se.jbee.game.scs.screen;
 
+import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static se.jbee.game.common.state.Change.put;
 import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.border;
 import static se.jbee.game.scs.gfx.Objects.focusBox;
 import static se.jbee.game.scs.gfx.Objects.text;
+import static se.jbee.game.scs.screen.GameScreen.SCREEN_MAIN;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -16,8 +19,6 @@ import java.util.List;
 import se.jbee.game.common.process.Stage;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
-import se.jbee.game.common.state.Change;
-import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
@@ -32,7 +33,7 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx {
 		Entity gamE = game.single(GAME);
 
 		// cancel (ESC override, to not set return screen)
-		stage.onKey((char)27, new Change(gamE.id(), SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
+		stage.onKey(VK_ESCAPE, put(gamE.id(), SCREEN, SCREEN_MAIN));
 		
 		stage.enter(background(0, 0, screen.width, screen.height, BG_BLACK));
 		
@@ -60,9 +61,9 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx {
 			Rectangle area = new Rectangle(x0, y0, w, h);
 			stage.in(area, focusBox(x0, y0, w, h));
 			stage.onLeftClickIn(area,
-					new Change(gamE.id(), SAVEGAME, Op.PUT, name),
-					new Change(gamE.id(), SCREEN, Op.PUT, gamE.num(RETURN_SCREEN)), 
-					new Change(gamE.id(), ACTION, Op.PUT, ACTION_LOAD));
+					put(gamE.id(), SAVEGAME, name),
+					put(gamE.id(), SCREEN, gamE.num(RETURN_SCREEN)), 
+					put(gamE.id(), ACTION, ACTION_LOAD));
 			x0 += w + gap;
 			n++;
 			if (n == 3) {

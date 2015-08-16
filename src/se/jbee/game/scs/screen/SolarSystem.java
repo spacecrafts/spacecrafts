@@ -1,5 +1,6 @@
 package se.jbee.game.scs.screen;
 
+import static se.jbee.game.common.state.Change.put;
 import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.focusBox;
@@ -13,8 +14,6 @@ import java.awt.Rectangle;
 import se.jbee.game.common.process.Stage;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
-import se.jbee.game.common.state.Change;
-import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
@@ -25,7 +24,7 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
-		Entity g1 = game.single(GAME);
+		Entity gamE = game.single(GAME);
 		Rectangle area = new Rectangle(690, 390, 220, 220);
 
 		int w = screen.width;
@@ -40,11 +39,11 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		stage.enter(text(90, 280, FONT_REGULAR, 24, COLOR_TEXT_NORMAL, 1));
 		stage.enter(codePoints("Uranus"));
 		
-		stage.onLeftClickIn(area, new Change(g1.id(), SCREEN, Op.PUT, SCREEN_ORBIT));
+		stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_ORBIT));
 		stage.in(area, focusBox(690, 390, 220, 220));
 		
 		area = new Rectangle(90, 290, 420, 420);
-		stage.onLeftClickIn(area, new Change(g1.id(), SCREEN, Op.PUT, SCREEN_ORBIT));
+		stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_ORBIT));
 		stage.in(area, focusBox(90, 290, 420, 420));
 		
 	}

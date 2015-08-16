@@ -288,7 +288,7 @@ public final class Entity implements Component {
 	 * bitset
 	 */
 	
-	public void set(int comp, int...flags) {
+	public void setbits(int comp, int...flags) {
 		for (int flag : flags) {
 			set(comp, flag);
 		}
@@ -303,7 +303,7 @@ public final class Entity implements Component {
 		}
 	}
 	
-	public void unset(int comp, int...flags) {
+	public void unsetbits(int comp, int...flags) {
 		for (int flag : flags) {
 			unset(comp, flag);
 		}
