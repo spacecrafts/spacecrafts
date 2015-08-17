@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 import java.util.Random;
 
 import se.jbee.game.common.gfx.Backdrop;
-import se.jbee.game.common.gfx.Palette;
+import se.jbee.game.common.gfx.Styles;
 
 public class Space implements Backdrop {
 
@@ -18,7 +18,7 @@ public class Space implements Backdrop {
 	private int[] precomputed;
 
 	@Override
-	public void paint(Palette palette, Graphics2D gfx, int x0, int y0, int w, int h, int... rand) {
+	public void paint(Styles styles, Graphics2D gfx, int x0, int y0, int w, int h, int... rand) {
 		gfx.setColor(Color.black);
 		gfx.fillRect(x0, y0, w, h);
 		if (w != _w || h != _h) {

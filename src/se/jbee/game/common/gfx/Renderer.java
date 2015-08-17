@@ -7,5 +7,5 @@ import se.jbee.game.common.process.Stage;
 
 public interface Renderer {
 
-	void render(Stage scene, Dimension screen, Palette palette, Graphics2D gfx);
+	void render(Stage scene, Dimension screen, Styles styles, Graphics2D gfx);
 }

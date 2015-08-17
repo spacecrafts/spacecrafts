@@ -4,6 +4,7 @@ import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static se.jbee.game.common.state.Change.put;
 import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
+import static se.jbee.game.scs.gfx.Objects.star;
 import static se.jbee.game.scs.gfx.Objects.text;
 
 import java.awt.Dimension;
@@ -34,6 +35,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		Entity g1 = game.single(GAME);
 		
 		stage.enter(background(0,0, screen.width, screen.height, BG_SPACE));
+		stage.enter(star(120, 120, 16, 0, 0));
+		
 		int diameter = 20;
 		String title = "SPACECRAFTS";
 		while (title.length()*5*diameter > screen.width) {
@@ -54,7 +57,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(OPEN);
 		stage.in(open, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), OPEN);
-		Change[] openChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SOLAR_SYSTEM) };
+		Change[] openChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_GALAXY) };
 		stage.onLeftClickIn(open, openChangeset);
 		stage.onKey('o', openChangeset);
 		

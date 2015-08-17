@@ -7,5 +7,5 @@ import java.awt.Graphics2D;
  */
 public interface Backdrop {
 
-	void paint(Palette palette, Graphics2D gfx, int x, int y, int w, int h, int...rand);
+	void paint(Styles styles, Graphics2D gfx, int x, int y, int w, int h, int...rand);
 }

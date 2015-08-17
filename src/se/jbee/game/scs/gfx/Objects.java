@@ -26,20 +26,20 @@ public final class Objects implements Gfx {
 		return new int[] { OBJ_FOCUS_LINE, x1,y1,x2,y2 };
 	}
 	
-	public static int[] star(int x, int y, int r, int c, int nrand) {
-		return new int[] { OBJ_STAR, x,y,r,c,nrand };
+	public static int[] star(int x, int y, int d, int c, int nrand) {
+		return new int[] { OBJ_STAR, x,y,d,c, nrand };
 	}
 	
-	public static int[] starClip(int x, int y, int r, int c, int nrand) {
-		return new int[] { OBJ_STAR_CLIP, x,y,r,c,nrand };
+	public static int[] starClip(int x, int y, int d, int c, int nrand) {
+		return new int[] { OBJ_STAR_CLIP, x,y,d,c,nrand };
 	}	
 
-	public static int[] planet(int x, int y, int r, int c, int nrand) {
-		return new int[] { OBJ_PLANET, x,y,r,c,nrand };
+	public static int[] planet(int x, int y, int d, int c, int nrand) {
+		return new int[] { OBJ_PLANET, x,y,d,c,nrand };
 	}
 	
-	public static int[] planetClip(int x, int y, int r, int c, int nrand) {
-		return new int[] { OBJ_PLANET_CLIP, x,y,r,c,nrand };
+	public static int[] planetClip(int x, int y, int d, int c, int nrand) {
+		return new int[] { OBJ_PLANET_CLIP, x,y,d,c,nrand };
 	}		
 	
 	// TODO text has to define the bounding box and the alignment within so that the rendering can use text measure to move text to the correct position if this is desired.

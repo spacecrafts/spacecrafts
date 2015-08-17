@@ -12,7 +12,8 @@ public interface Gfx {
 	int
 	FONT_REGULAR = 0,
 	FONT_LIGHT = 1,
-	FONT_DOTS = 2;
+	FONT_THIN = 2,
+	FONT_DOTS = 3;
 	
 	/**
 	 * Colors
@@ -31,15 +32,13 @@ public interface Gfx {
 	BG_SPACE = 1;
 	
 	/**
-	 * Paints
+	 * Noises
 	 */
 	int
-	PAINT_STAR_WIDE = 0,
-	PAINT_STAR_NARROW = 1,
-	PAINT_PLANET_WIDE = 2,
-	PAINT_PLANET_NARROW = 3,
-	PAINT_PLANET_CLIP_WIDE = 4,
-	PAINT_PLANET_CLIP_NARROW = 5;
+	NOISE_STAR_LARGE = 0,
+	NOISE_STAR_SMALL = 1,
+	NOISE_PLANET_LARGE = 2,
+	NOISE_PLANET_SMALL = 3;
 	
 	/**
 	 * Objects

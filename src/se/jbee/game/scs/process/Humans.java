@@ -25,6 +25,8 @@ import se.jbee.game.common.state.Change;
 import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
+import se.jbee.game.scs.screen.Colony;
+import se.jbee.game.scs.screen.Galaxy;
 import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.screen.LoadGame;
 import se.jbee.game.scs.screen.Orbit;
@@ -67,7 +69,7 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		this.user = user;
 		this.stage = stage;
 		this.screens = initScreens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, UserSettings.class, 
-				SolarSystem.class, Orbit.class);
+				Galaxy.class, SolarSystem.class, Orbit.class, Colony.class);
 		initGlobalKeys(game, stage);
 	}
 

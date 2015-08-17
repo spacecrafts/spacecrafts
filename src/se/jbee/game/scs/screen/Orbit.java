@@ -1,17 +1,21 @@
 package se.jbee.game.scs.screen;
 
+import static se.jbee.game.common.state.Change.put;
 import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.border;
 import static se.jbee.game.scs.gfx.Objects.planetClip;
 import static se.jbee.game.scs.gfx.Objects.text;
+import static se.jbee.game.scs.screen.GameScreen.SCREEN_SOLAR_SYSTEM;
 
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 
 import se.jbee.game.common.process.Stage;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
+import se.jbee.game.common.state.Change;
 import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
@@ -46,14 +50,20 @@ public class Orbit implements Screen, Gfx, GameComponent {
 			y0+=d;
 		}
 		
-		stage.enter(text(w-m, w/32+48, FONT_LIGHT, 48, COLOR_TEXT_NORMAL, 1));
-		stage.enter(codePoints("Mars (Orbit)"));
+		stage.enter(text(w-m, w/32+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, 1));
+		stage.enter(codePoints("Mars"));
+		stage.enter(text(w-m, w/32+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
+		stage.enter(codePoints("Orbit"));
+
 		
 		int hb = (h-w/8)/3;
 		stage.enter(border(w-m, w/16+hb, m-w/32, hb));
 		
 		stage.enter(border(w-m, w/16+hb+hb+w/32, m-w/32, hb));
 
+		Change gotoColony = put(game.single(GAME).id(), SCREEN, SCREEN_SOLAR_SYSTEM);
+		stage.onLeftClickIn(new Rectangle(0, 0, h/8, screen.height), gotoColony);
+		stage.onKey('c', gotoColony);
 	}
 
 }
