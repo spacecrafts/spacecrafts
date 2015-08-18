@@ -15,7 +15,6 @@ import java.awt.TexturePaint;
 
 import se.jbee.game.common.gfx.Backdrop;
 import se.jbee.game.common.gfx.Styles;
-import se.jbee.game.common.gfx.Noise;
 import se.jbee.game.scs.gfx.Gfx;
 
 public class Planet implements Gfx, Backdrop {
@@ -53,7 +52,7 @@ public class Planet implements Gfx, Backdrop {
 		drawClip(gfx, x0-1, y0, d+1, paint);
 		
 		// texture
-		drawClip(gfx, x0, y0, d, new TexturePaint(Noise.image(200, 2000, 0.25f, styles.noise(NOISE_PLANET_SMALL)), new Rectangle(0, y0, 200, 2000)));
+		drawClip(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_200x2000_SMALL), new Rectangle(0, y0, 200, 2000)));
 		
 		// 3d effect (as darkening)
 		paint = new RadialGradientPaint(x0+d/2,
@@ -67,7 +66,7 @@ public class Planet implements Gfx, Backdrop {
 		paint = new LinearGradientPaint(x0, 0, x0, d/4, new float[] { 0f, 1f }, new Color[] { new Color(r/4,g/4,b/4, 100), new Color(r,g,b,100)  }, CycleMethod.REFLECT);
 		drawClip(gfx, x0, y0, d, paint);
 		
-		drawClip(gfx, x0, y0, d, new TexturePaint(Noise.image(200, 2000, 0.25f, styles.noise(NOISE_PLANET_LARGE)), new Rectangle(0, y0, 200, 2000)));
+		drawClip(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_200x2000_LARGE), new Rectangle(0, y0, 200, 2000)));
 	}	
 	
 	private void planetCircle(Styles styles, Graphics2D gfx, int x0, int y0, int d, int... rand) {
@@ -84,8 +83,8 @@ public class Planet implements Gfx, Backdrop {
 		drawCircle(gfx, x0-1, y0, d+1, paint);
 		
 		// texture
-		drawCircle(gfx, x0, y0, d, new TexturePaint(Noise.image(500,500, 0.15f, styles.noise(NOISE_PLANET_LARGE)), new Rectangle(x0, y0, 500, 500)));
-		drawCircle(gfx, x0, y0, d, new TexturePaint(Noise.image(500,500, 0.15f, styles.noise(NOISE_PLANET_SMALL)), new Rectangle(x0-(d/50), y0, 500, 500)));
+		drawCircle(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_600x600_LARGE), new Rectangle(x0, y0, 600, 600)));
+		drawCircle(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_600x600_SMALL), new Rectangle(x0-(d/50), y0, 600, 600)));
 		
         // star-light
         Color lc = new Color(min(255,r+50),min(255,g+50),max(0,b-50), 100);

@@ -1,7 +1,11 @@
 package se.jbee.game.common.gfx;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -15,17 +19,21 @@ public final class Styles {
 	private final Color[] colors;
 	private final Font[][] fonts;
 	private final Noise[] noises;
+	private final BufferedImage[] images;
 
 	private final Supplier<Font>[] lazyFonts;
 	private final Supplier<Noise>[] lazyNoises;
+	private final Texture[] lazyImages;
 
-	public Styles(int colors, int fonts, int noises) {
+	public Styles(int colors, int fonts, int noises, int images) {
 		super();
 		this.colors = new Color[colors];
 		this.fonts = new Font[fonts][64];
 		this.noises = new Noise[noises];
+		this.images = new BufferedImage[images];
 		this.lazyFonts = (Supplier<Font>[]) new Supplier<?>[fonts];
 		this.lazyNoises = (Supplier<Noise>[]) new Supplier<?>[noises];
+		this.lazyImages = new Texture[images];
 	}
 
 	public void addFont(int type, String file) {
@@ -36,10 +44,14 @@ public final class Styles {
 		lazyNoises[type] = () -> { return new Noise(size,depth/100f, seed); };
 	}
 
+	public void addTexture(int type, Texture image) {
+		lazyImages[type] = image;
+	}
+	
 	public void addColor(int type, int rgba) {
 		colors[type] = new Color(rgba, true);
 	}
-
+	
 	public void ready() {
 		Thread loader = new Thread(new Runnable() {
 
@@ -56,7 +68,13 @@ public final class Styles {
 					if (supplier != null) {
 						noises[i] = supplier.get();
 					}
-				}				
+				}
+				for (int i = 0; i < lazyImages.length; i++) {
+					Texture t = lazyImages[i];
+					if (t != null) {
+						images[i] = t.create(Styles.this);
+					}
+				}
 			}
 		});
 		loader.setDaemon(true);
@@ -82,7 +100,7 @@ public final class Styles {
 	}
 	
 	public Noise noise(int type) {
-		if (type < 0 || type >= fonts.length)
+		if (type < 0 || type >= noises.length)
 			type = 0;
 		Noise n = noises[type];
 		if (n == null) {
@@ -90,6 +108,31 @@ public final class Styles {
 			noises[type] = n;
 		}
 		return n;
+	}
+	
+	public BufferedImage texture(int type) {
+		if (type < 0 || type >= images.length)
+			type = 0;
+		BufferedImage i = images[type];
+		if (i == null) {
+			i = lazyImages[type].create(this);
+			images[type] = i;
+		}
+		return i;
+	}
+
+	public static BufferedImage texture(int w, int h, Noise noise, Colouring coloring) {
+		BufferedImage img = new BufferedImage(w,h, BufferedImage.TYPE_INT_ARGB);
+		int[] pixels = new int[w * h];
+		int k = 0;
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				// the noiseAt results in -1.0 to 1.0; the below does shift it to 0.0 to 1.0
+				pixels[k++] = coloring.rgba(min(1f, max(0f, 0.5f*(1f+(float)noise.noiseAt(x, y)))));
+			}
+		}
+		img.getRaster().setDataElements(0,  0,  w, h, pixels);
+		return img;
 	}
 
 	public static Font loadFont(String file) {

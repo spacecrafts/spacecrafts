@@ -17,7 +17,6 @@ import java.awt.image.BufferedImage;
 
 import se.jbee.game.common.gfx.Backdrop;
 import se.jbee.game.common.gfx.Styles;
-import se.jbee.game.common.gfx.Noise;
 import se.jbee.game.scs.gfx.Gfx;
 
 public class Star implements Gfx, Backdrop {
@@ -35,8 +34,8 @@ public class Star implements Gfx, Backdrop {
 	@Override
 	public void paint(Styles styles, Graphics2D gfx, int x0, int y0, int w, int h, int... rand) {
 		if (clip) {
-			TexturePaint ss = new TexturePaint(Noise.image(200, 2000, 0.15f, styles.noise(NOISE_STAR_SMALL)), new Rectangle(x0, y0, 200, 2000));
-			TexturePaint ls = new TexturePaint(Noise.image(200, 2000, 0.15f, styles.noise(NOISE_STAR_LARGE)), new Rectangle(x0, y0, 200, 2000));
+			TexturePaint ss = new TexturePaint(styles.texture(TEXTURE_STAR_200x2000_SMALL), new Rectangle(x0, y0, 200, 2000));
+			TexturePaint ls = new TexturePaint(styles.texture(TEXTURE_STAR_200x2000_LARGE), new Rectangle(x0, y0, 200, 2000));
 			int rgba = rand[0];
 			rgba = 0x000000;
 			starClip(styles, gfx, x0, y0, w, rgba, ls, ss);

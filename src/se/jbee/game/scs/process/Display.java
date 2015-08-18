@@ -1,6 +1,10 @@
 package se.jbee.game.scs.process;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -14,6 +18,7 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import se.jbee.game.common.gfx.Colouring;
 import se.jbee.game.common.gfx.Renderer;
 import se.jbee.game.common.gfx.Styles;
 import se.jbee.game.common.process.Stage;
@@ -107,8 +112,22 @@ public class Display extends Canvas implements Runnable, Gfx {
 		}		
 	}
 
+	private static final Colouring STAR = (float rgb) -> { 
+		float a = min(0.9f, max(0.3f, (1.5f-rgb)*rgb));
+		Color c = new Color(1f, rgb, rgb/2f, a); 
+		return c.getRGB();
+	};
+	
+	private static final Colouring PLANET = (float rgb) -> { 
+		return new Color(rgb, rgb, rgb, 0.25f).getRGB();
+	};
+	
+	private static final Colouring PLANET2 = (float rgb) -> { 
+		return new Color(rgb, rgb, rgb, 0.15f).getRGB();
+	};
+	
 	private Styles initStyles() {
-		final Styles s = new Styles(5, 3, 6);
+		final Styles s = new Styles(5, 3, 4, 6);
 		s.addColor(0, 0xFF8899FF);
 		s.addColor(COLOR_TEXT_HIGHLIGHT, 0xFFFFFFFF);
 		s.addColor(COLOR_TEXT_NORMAL, 0xFF8899FF);
@@ -124,6 +143,13 @@ public class Display extends Canvas implements Runnable, Gfx {
 		s.addNoise(NOISE_PLANET_LARGE, 500, 60, 7000);
 		s.addNoise(NOISE_PLANET_SMALL, 100, 40, 6000);
 
+		s.addTexture(TEXTURE_STAR_200x2000_LARGE, (Styles styles) -> { return Styles.texture(200, 2000, styles.noise(NOISE_STAR_LARGE), STAR); });
+		s.addTexture(TEXTURE_STAR_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, 2000, styles.noise(NOISE_STAR_SMALL), STAR); });
+		s.addTexture(TEXTURE_PLANET_200x2000_LARGE, (Styles styles) -> { return Styles.texture(200, 2000, styles.noise(NOISE_PLANET_LARGE), PLANET); });
+		s.addTexture(TEXTURE_PLANET_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, 2000, styles.noise(NOISE_PLANET_SMALL), PLANET); });
+		s.addTexture(TEXTURE_PLANET_600x600_LARGE, (Styles styles) -> { return Styles.texture(600, 600, styles.noise(NOISE_PLANET_LARGE), PLANET2); });
+		s.addTexture(TEXTURE_PLANET_600x600_SMALL, (Styles styles) -> { return Styles.texture(600, 600, styles.noise(NOISE_PLANET_SMALL), PLANET2); });
+		
 		s.ready();
 		return s;
 	}
