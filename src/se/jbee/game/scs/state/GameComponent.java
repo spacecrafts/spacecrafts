@@ -33,7 +33,8 @@ public interface GameComponent extends Component {
 	int 
 	ACTION_EXIT = 0,
 	ACTION_SAVE = 1,	
-	ACTION_LOAD = 2;
+	ACTION_LOAD = 2,
+	ACTION_INIT = 3;
 	
 	
 	/**
@@ -44,36 +45,42 @@ public interface GameComponent extends Component {
 	 * Game and Players
 	 */
 	GAME = 10,
-		SEEDS = 11,   // [#,#,...] for any pseudo random progression
-		PLAYERS = 12, // [*x,*y,*z]
-		GALAXIES = 13,// [*x,*y,*z]
-		TURN = 14, // #
-		SCREEN = 15,
-		RETURN_SCREEN = 16, // the screen one goes back to from e.g. load/save dialog screen
-		SAVEGAME = 17, // name of the game to save/saved
-		ACTION = 18, // 1 = save
-		RENAME = 19, // [*entity, *comp, #font, #size, #x, #y, #w, #h]
-		PAGE = 20, // # (used for paging - e.g. load screen)
+		SEED = 11,
+		SEEDS = 12,   // [#,#,...] for any pseudo random progression
+		TURN = 13, // # (0 = game setup, 1 is first active turn)
+		PLAYERS = 14, // [*x,*y,*z]
+		GALAXIES = 15,// [*x,*y,*z]
+		
+		// view control
+		SCREEN = 20,
 		SCREEN_ENTITY = 21, // {*a,..} (e.g. the colony in the colony screen, the player in the galaxy screen; the appearance of each screen might be linked to a set of entities; their type is usually an expected one)  
+		RETURN_SCREEN = 22, // the screen one goes back to from e.g. load/save dialog screen
+		PAGE = 23, // # (used for paging - e.g. load screen)
+		
+		// action state
+		ACTION = 30, // 0 = exit, 1 = save
+		SAVEGAME = 31, // name of the game to save/saved
+		RENAME = 32, // [*entity, *comp, #font, #size, #x, #y, #w, #h]
 
-	PLAYER = 30,
-		// TURN (player sets its turn to the current game turn when finished)
-		NO = 31, //#
+	PLAYER = 40,
+		// TURN (player sets its turn to the current game turn when finished; in turn zero TURN set to -1 until player has finished setup)
+		NO = 41, //#
 		// SEEDS [#,#,...]
 		// RACE *x
-		HOME = 32, // *x (planet)
-		STATUS = 33, // [?AI, ?ALIVE]
+		HOME = 42, // *x (planet)
+		STATUS = 43, // [?AI, ?ALIVE]
+		REACH = 44, // # the maximum distance the player knows how to travel 
 		// TECHNOLOGY (in progress)
-		// things belong to the player:
-		PLANS = 41,
-		RELATIONS = 42, // [#,#,...] (the diplomatic points for each player, in order of game players)
-		TECHNOLOGIES = 43, // {*x,*y,*z} (researched)
-		ABILITIES = 44, // {*x,*y,*z} (gained from technology, etcetera)
-		COLONIES = 45, // {*x,*y,*z}
-		ORBITS = 46, // {*x,*y,*z}
-		FLEETS = 47, // {*x,*y,*z}
-		OFFERS = 48, // {*x,*y,*z}
-		// things known to (/discovered by) the player
+		// (things belong to the player)
+		PLANS = 51,
+		RELATIONS = 52, // [#,#,...] (the diplomatic points for each player, in order of game players)
+		TECHNOLOGIES = 53, // {*x,*y,*z} (researched)
+		ABILITIES = 54, // {*x,*y,*z} (gained from technology, etcetera)
+		COLONIES = 55, // {*x,*y,*z}
+		ORBITS = 56, // {*x,*y,*z}
+		FLEETS = 57, // {*x,*y,*z}
+		OFFERS = 58, // {*x,*y,*z}
+		// (things known to (/discovered by) the player)
 		// PLANETS {*x,*y,*z} 
 		// SOLAR_SYSTEMS {*x,*y,*z}
 		// CLUSTERS {*x,*y,*z}
@@ -82,10 +89,10 @@ public interface GameComponent extends Component {
 		// UNITS {*x,*y,*z}
 		// PARTS {*x,*y,*z} (what can be used by a player)
 		
-	PLAN = 60,
-		PARTICIPANTS = 61, // {*x,*y,... } (a set of colonies, orbits, spacecrafts, constructions) that belong to the plan
+	PLAN = 70,
+		PARTICIPANTS = 71, // {*x,*y,... } (a set of colonies, orbits, space-crafts, constructions) that belong to the plan
 	
-	MISSION = 70,
+	MISSION = 80,
 		
 	/*
 	 * Galaxy
@@ -97,7 +104,7 @@ public interface GameComponent extends Component {
 	CLUSTER = 110,
 		// SEEDS [#,#,...]
 		SOLAR_SYSTEMS = 111, // {*x,*y,*z}
-		POSITION = 112, // [#x,#y] (in the galaxy)
+		POSITION = 112, // [#x,#y, #z] (in the galaxy; say there is a plane through the center of a cluster/galaxy the z-axis is how much above or below that plane a system is)
 	
 	SOLAR_SYSTEM = 120,
 		// SEEDS [#,#,...]

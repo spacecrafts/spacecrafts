@@ -4,10 +4,8 @@ import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.border;
 import static se.jbee.game.scs.gfx.Objects.text;
-
-import java.awt.Dimension;
-
-import se.jbee.game.common.process.Stage;
+import se.jbee.game.common.gfx.Dimension;
+import se.jbee.game.common.gfx.Stage;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Entity;

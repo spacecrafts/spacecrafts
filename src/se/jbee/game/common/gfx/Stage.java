@@ -1,4 +1,4 @@
-package se.jbee.game.common.process;
+package se.jbee.game.common.gfx;
 
 import static java.lang.Character.toUpperCase;
 

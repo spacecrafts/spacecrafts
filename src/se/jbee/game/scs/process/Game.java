@@ -9,8 +9,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.jbee.game.common.gfx.Stage;
 import se.jbee.game.common.process.Player;
-import se.jbee.game.common.process.Stage;
 import se.jbee.game.common.state.Component;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
@@ -82,8 +82,11 @@ public class Game implements Runnable, GameComponent, UserComponent {
 			}
 			
 			// should another game be loaded?
-			if (gamE.num(ACTION) == ACTION_LOAD) {
+			if (gamE.num(ACTION) == ACTION_INIT) {
 				System.out.println("Loading game...");
+				for (Player p : players) {
+					p.quit();
+				}
 				try {
 					game = State.load(new File(user.single(USER).text(SAVEGAME_DIR), gamE.text(SAVEGAME)));
 					gamE = game.single(GAME);
@@ -123,10 +126,12 @@ public class Game implements Runnable, GameComponent, UserComponent {
 	
 	public static Entity initGame(State game) {
 		Entity g = game.defEntity(GAME);
+		g.put(SEED, System.currentTimeMillis());
 		g.put(TURN, 0);
 		g.put(SCREEN, GameScreen.SCREEN_MAIN);
 		Entity p1 = game.defEntity(PLAYER);
 		g.put(PLAYERS, p1.id());
+		p1.put(TURN, -1);
 		return g;
 	}
 	

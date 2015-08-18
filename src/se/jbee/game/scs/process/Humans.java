@@ -3,7 +3,6 @@ package se.jbee.game.scs.process;
 import static java.lang.Math.max;
 
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -14,11 +13,12 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import se.jbee.game.common.gfx.Dimension;
+import se.jbee.game.common.gfx.Stage;
+import se.jbee.game.common.gfx.Stage.AreaMapping;
+import se.jbee.game.common.gfx.Stage.AreaObject;
+import se.jbee.game.common.gfx.Stage.KeyMapping;
 import se.jbee.game.common.process.Player;
-import se.jbee.game.common.process.Stage;
-import se.jbee.game.common.process.Stage.AreaMapping;
-import se.jbee.game.common.process.Stage.AreaObject;
-import se.jbee.game.common.process.Stage.KeyMapping;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Change;
@@ -62,6 +62,7 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 	private final Screen[] screens;
 	
 	private int ignoredKeyCode = 0;
+	private boolean quit = false;
 
 	public Humans(State game, State user, Stage stage) {
 		super();
@@ -75,44 +76,59 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 
 	@Override
 	public void move() {
-		synchronized (this) {
-			notify();
-		}
+		doMove();
+	}
+	
+	@Override
+	public void quit() {
+		quit = true;
+		doMove();
 	}
 	
 	@Override
 	public void run() {
 		final Entity gamE = game.single(GAME);
 		final Entity u1 = user.single(USER);
-		while (true) {
+		while (!quit) {
 			ignoredKeyCode = 0;
 			int[] resolution = u1.list(RESOLUTION);
 			int screenNo = gamE.num(SCREEN);
 			stage.startOver();
 			screens[screenNo].show(user, game, new Dimension(resolution[0], resolution[1]), stage);
 			stage.ready();
+			
 			if (gamE.has(ACTION)) {
-				if (!doAction(gamE)) {
-					System.out.println("Shuting down human players interface");
-					return; // this is dirty but how to exit this loop on load but also have action handling extracted to method?
-				}
+				doAction();
 			} else {
-				try { synchronized (this) {
-					wait();
-				} } catch ( InterruptedException e) {}
+				doWait();
 			}
 		}
+		System.out.println("Shuting down human players interface");
 	}
 
-	private boolean doAction(final Entity gamE) {
+	private void doMove() {
+		synchronized (this) {
+			notify();
+		}
+	}
+	
+	private void doWait() {
+		try { synchronized (this) {
+			wait();
+		} } catch ( InterruptedException e) {}
+	}
+
+	private void doAction() {
+		final Entity gamE = game.single(GAME);
 		int action = gamE.num(ACTION);
 		switch(action) {
 		case ACTION_EXIT: autosaveGame(); System.exit(0); break;
 		case ACTION_SAVE: saveGame(); break;
-		case ACTION_LOAD: autosaveGame(); return false; // this effectively terminates this thread as loop above is left
+		//TODO also set a screen that doesn't let the player do something just in case...
+		case ACTION_LOAD: autosaveGame(); gamE.prepend(ACTION, ACTION_INIT); // Intentional fall-through 
+		case ACTION_INIT: doWait(); break;
 		}
 		gamE.erase(ACTION);
-		return true;
 	}
 	
 	@SafeVarargs
@@ -158,6 +174,12 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 			e.printStackTrace();
 		}
 	}
+	
+	/*
+	 * -----------------------------------------------------
+	 * Input Event Handling 
+	 * -----------------------------------------------------
+	 */
 
 	@Override
 	public void mouseDragged(MouseEvent e) { /* not used */ }
@@ -171,7 +193,10 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 	public void mouseExited(MouseEvent e) { /* not used */ }
 	@Override
 	public void keyTyped(KeyEvent e) { /* not used */ }
-
+	@Override
+	public void keyReleased(KeyEvent e) { /* not used */ }
+	
+	
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		if (!stage.isReady())
@@ -198,11 +223,6 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		case MouseEvent.BUTTON1: react(e, stage.onLeftClick); break;
 		case MouseEvent.BUTTON3: react(e, stage.onRightClick); break;
 		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) { 
-		
 	}
 
 	@Override

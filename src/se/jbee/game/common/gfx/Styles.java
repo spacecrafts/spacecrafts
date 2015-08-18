@@ -25,6 +25,7 @@ public final class Styles {
 	private final Supplier<Noise>[] lazyNoises;
 	private final Texture[] lazyImages;
 
+	@SuppressWarnings("unchecked")
 	public Styles(int colors, int fonts, int noises, int images) {
 		super();
 		this.colors = new Color[colors];

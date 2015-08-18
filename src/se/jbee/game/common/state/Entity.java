@@ -119,6 +119,14 @@ public final class Entity implements Component {
 		return val.length == 0 ? 0 : val[0];
 	}
 	
+	public long longNum(int comp) {
+		int i = indexOf(comp);
+		if (i < 0)
+			return 0L;
+		int[] val = vs[i];
+		return val.length == 0 ? 0L : ((long)val[0]) << 32 | val[1];
+	}
+	
 	public int id() {
 		return num(ID);
 	}
@@ -127,11 +135,15 @@ public final class Entity implements Component {
 		return num(TYPE);
 	}
 	
+	public Entity put(int comp, long num) {
+		return put((int)(num >> 32), (int)num);
+	}
+	
 	public Entity put(int comp, int num) {
 		return put(comp, new int[] { num });
 	}
 	
-	public Entity put(int comp, int[] listOrSetOrTxt) {
+	public Entity put(int comp, int... listOrSetOrTxt) {
 		int i = indexOf(comp);
 		if (i < 0) {
 			i = indexOf(-1); // reuse some?

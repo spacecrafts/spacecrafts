@@ -34,6 +34,7 @@ public final class Rnd {
 	
 	public long nextLong(long min, long max) {
 		long n = max - min + 1;
+		// shift away sign bit to only have positive results
 		return min + ((nextLong() << 1 >>> 1) % n);
 	}
 	

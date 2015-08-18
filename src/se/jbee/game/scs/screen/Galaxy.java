@@ -4,11 +4,11 @@ import static se.jbee.game.common.state.Change.put;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.star;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 
+import se.jbee.game.common.gfx.Dimension;
 import se.jbee.game.common.gfx.Rnd;
-import se.jbee.game.common.process.Stage;
+import se.jbee.game.common.gfx.Stage;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Entity;
@@ -35,7 +35,6 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 		int cr = 200-concentration;
 		int systems = (w/cr)*(h/cr);
 		
-		System.out.println(systems);
 		for (int i = 0; i < systems; i++) {
 			int x = rnd.nextInt(w);
 			if (x -50 < 0) {
@@ -55,6 +54,9 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			Rectangle area = new Rectangle(x-d/2,y-d/2,box,box);
 			stage.in(area, Objects.focusBox(x-d/2, y-d/2, box, box));
 			stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM));
+			
+			// draw straight lines for all systems that can be reached for the currently selected fleet
+			// draw dashed/dotted lines for all systems that can be reached given the current technology
 		}
 	}
 

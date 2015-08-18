@@ -1,7 +1,6 @@
 package se.jbee.game.scs.gfx;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
@@ -9,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.jbee.game.common.gfx.Backdrop;
-import se.jbee.game.common.gfx.Styles;
+import se.jbee.game.common.gfx.Dimension;
 import se.jbee.game.common.gfx.Renderer;
-import se.jbee.game.common.process.Stage;
-import se.jbee.game.common.process.Stage.KeyMapping;
+import se.jbee.game.common.gfx.Stage;
+import se.jbee.game.common.gfx.Styles;
+import se.jbee.game.common.gfx.Stage.KeyMapping;
 import se.jbee.game.scs.gfx.bg.Planet;
 import se.jbee.game.scs.gfx.bg.Space;
 import se.jbee.game.scs.gfx.bg.Star;

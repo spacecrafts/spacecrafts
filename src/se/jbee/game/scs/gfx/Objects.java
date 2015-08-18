@@ -1,5 +1,7 @@
 package se.jbee.game.scs.gfx;
 
+import java.awt.Rectangle;
+
 /**
  * A utility class to construct GFX objects.
  * 
@@ -12,6 +14,10 @@ public final class Objects implements Gfx {
 	
 	public static int[] background(int x, int y, int w, int h, int no) {
 		return new int[] { OBJ_BACKGROUND, x,y,w,h, no };
+	}
+	
+	public static int[] border(Rectangle area) {
+		return border(area.x, area.y, area.width, area.height);
 	}
 	
 	public static int[] border(int x, int y, int w, int h) {

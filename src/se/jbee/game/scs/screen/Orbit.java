@@ -7,12 +7,13 @@ import static se.jbee.game.scs.gfx.Objects.border;
 import static se.jbee.game.scs.gfx.Objects.planetClip;
 import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.scs.screen.GameScreen.SCREEN_SOLAR_SYSTEM;
+import static se.jbee.game.scs.screen.View.cellDiameter;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 
-import se.jbee.game.common.process.Stage;
+import se.jbee.game.common.gfx.Dimension;
+import se.jbee.game.common.gfx.Stage;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Change;
@@ -36,7 +37,7 @@ public class Orbit implements Screen, Gfx, GameComponent {
 		stage.enter(planetClip(x, y, d, 0xFF5014, 0));
 
 		int m = screen.width/3;
-		d = (screen.height-(w/8))/32;
+		d = cellDiameter(screen);
 		int x0 = (m*2-(32*d))/2;
 		int xs = x0;
 		int y0 = (screen.height-32*d)/2;

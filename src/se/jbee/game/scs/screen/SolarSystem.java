@@ -8,10 +8,10 @@ import static se.jbee.game.scs.gfx.Objects.planet;
 import static se.jbee.game.scs.gfx.Objects.starClip;
 import static se.jbee.game.scs.gfx.Objects.text;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 
-import se.jbee.game.common.process.Stage;
+import se.jbee.game.common.gfx.Dimension;
+import se.jbee.game.common.gfx.Stage;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Entity;
@@ -31,7 +31,7 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		int h = screen.height;
 		stage.enter(background(0,0,w, h, BG_SPACE));
 		stage.enter(starClip(w-h/8, -h/2, h*2, 0xaaaa00, 0)); // g can be altered to increase or decrease red part of sun
-		
+
 		stage.enter(planet(700, 400, 200, 0xFF5014, 0));
 		stage.enter(planet(100, 300, 400, 0x44FF99, 0));
 		

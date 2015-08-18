@@ -9,14 +9,14 @@ import static se.jbee.game.scs.gfx.Objects.focusBox;
 import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.scs.screen.GameScreen.SCREEN_MAIN;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.jbee.game.common.process.Stage;
+import se.jbee.game.common.gfx.Dimension;
+import se.jbee.game.common.gfx.Stage;
 import se.jbee.game.common.screen.Screen;
 import se.jbee.game.common.screen.ScreenNo;
 import se.jbee.game.common.state.Entity;

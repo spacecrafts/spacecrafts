@@ -75,24 +75,24 @@ public class Star implements Gfx, Backdrop {
 		gfx.setPaint(paint);
 		gfx.fillOval(xl, yl, dl, dl);		
 
-		if (t %2 == 0 && t % 3 == 0) {
-				
-		paint = new RadialGradientPaint(xl+dl/2,
-				yl+dl/2, dl,
-                new float[] { 0f, 0.5f, 1f },
-                new Color[] { new Color(r,g,b, 60), new Color(r,g,b, 15), new Color(r,g,b, 0) });
-//                new Color[] { new Color(0x40FFee00, true), new Color(0x25FF8800, true), new Color(0,0,0) });
-		gfx.setPaint(paint);
-		Stroke s = gfx.getStroke();
-		int len = 0;
-		gfx.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		gfx.drawLine(x0+rad, y0-len, x0+rad, y0+dia+len);
-		gfx.drawLine(x0-len, y0+rad, x0+dia+len, y0+rad);
-		gfx.setStroke(s);
-		
-		gfx.setColor(new Color(255,255,255,50));
-		gfx.drawLine(x0+rad, y0+rad/2, x0+rad, y0+dia-rad/2);
-		gfx.drawLine(x0+rad/2, y0+rad, x0+dia-rad/2, y0+rad);
+		if (t > 200) {
+
+			paint = new RadialGradientPaint(xl+dl/2,
+					yl+dl/2, dl,
+					new float[] { 0f, 0.5f, 1f },
+					new Color[] { new Color(r,g,b, 60), new Color(r,g,b, 15), new Color(r,g,b, 0) });
+			//                new Color[] { new Color(0x40FFee00, true), new Color(0x25FF8800, true), new Color(0,0,0) });
+			gfx.setPaint(paint);
+			Stroke s = gfx.getStroke();
+			int len = 0;
+			gfx.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+			gfx.drawLine(x0+rad, y0-len, x0+rad, y0+dia+len);
+			gfx.drawLine(x0-len, y0+rad, x0+dia+len, y0+rad);
+			gfx.setStroke(s);
+
+			gfx.setColor(new Color(255,255,255,50));
+			gfx.drawLine(x0+rad, y0+rad/2, x0+rad, y0+dia-rad/2);
+			gfx.drawLine(x0+rad/2, y0+rad, x0+dia-rad/2, y0+rad);
 		}
 		
 		paint = new RadialGradientPaint(x0+rad,

@@ -1,8 +1,7 @@
 package se.jbee.game.common.screen;
 
-import java.awt.Dimension;
-
-import se.jbee.game.common.process.Stage;
+import se.jbee.game.common.gfx.Dimension;
+import se.jbee.game.common.gfx.Stage;
 import se.jbee.game.common.state.State;
 
 

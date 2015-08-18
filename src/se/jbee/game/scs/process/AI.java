@@ -4,7 +4,6 @@ import se.jbee.game.common.process.Player;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.scs.state.Status;
 
 /**
  * An AI is a process that does the same kind of modifications to a specific
@@ -23,6 +22,8 @@ public class AI implements Runnable, Player, GameComponent {
 	private final State game;
 	private final Entity aiPlayer;
 
+	private boolean quit = false;
+	
 	public AI(State game, int aiPlayer) {
 		super();
 		this.game = game;
@@ -31,16 +32,41 @@ public class AI implements Runnable, Player, GameComponent {
 	
 	@Override
 	public void move() {
-		synchronized (this) {
-			notify();
-		}
+		doMove();
+	}
+	
+	@Override
+	public void quit() {
+		quit = true;
+		doMove();
 	}
 	
 	@Override
 	public void run() {
-		while (aiPlayer.isSet(STATUS, Status.ALIVE)) {
-			
+		while (!quit) {
+			makeTurnMoves();
+			if (!quit) {
+				doWait();
+			}
 		}
+	}
+
+	private void makeTurnMoves() {
+		// TODO Auto-generated method stub
+		
+		aiPlayer.put(TURN, game.single(GAME).num(TURN)); // AI is done
+	}
+
+	private void doMove() {
+		synchronized (this) {
+			notify();
+		}		
+	}
+	
+	private void doWait() {
+		try { synchronized (this) {
+			wait();
+		} } catch ( InterruptedException e) {}
 	}
 
 }

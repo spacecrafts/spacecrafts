@@ -5,7 +5,6 @@ import static java.lang.Math.min;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyListener;
@@ -19,9 +18,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import se.jbee.game.common.gfx.Colouring;
+import se.jbee.game.common.gfx.Dimension;
 import se.jbee.game.common.gfx.Renderer;
+import se.jbee.game.common.gfx.Stage;
 import se.jbee.game.common.gfx.Styles;
-import se.jbee.game.common.process.Stage;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Renderer1;
 
@@ -45,7 +45,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 		frame.setLocation(0, 0);
 
 		JPanel panel = (JPanel) frame.getContentPane();
-		Dimension screen = getToolkit().getScreenSize();
+		java.awt.Dimension screen = getToolkit().getScreenSize();
 		panel.setPreferredSize(screen);
 		panel.setLayout(null);
 		setBounds(0,0, screen.width, screen.height);
@@ -84,7 +84,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 	@Override
 	public void run() {
 		final BufferStrategy strategy = getBufferStrategy();
-		final Dimension screen = getSize();
+		final Dimension screen = new Dimension(getSize());
 		final Styles styles = initStyles();
 		final Renderer renderer = new Renderer1();
 		int frameDone = -1;
