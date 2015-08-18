@@ -8,7 +8,7 @@ import java.util.Arrays;
  */
 public final class Change {
 
-	public static enum Op { /* map*/ PUT, ERASE, /* set */ INSERT, REMOVE, /* list */ APPEND, PREPEND, /* bitset */ SETBITS, UNSETBITS, /* all */ CLEAR, COPY }
+	public static enum Op { /* map*/ PUT, ERASE, /* set */ INSERT, REMOVE, /* list */ REPLACE, APPEND, PREPEND, /* bitset */ SETBITS, UNSETBITS, /* all */ CLEAR, COPY }
 
 	public static Change put(int entity, int comp, int...value) {
 		return new Change(entity, comp, Op.PUT, value);
@@ -20,6 +20,10 @@ public final class Change {
 	
 	public static Change append(int entity, int comp, int... elements) {
 		return new Change(entity, comp, Op.APPEND, elements);
+	}
+	
+	public static Change replace(int entity, int comp, int index, int value) {
+		return new Change(entity, comp, Op.REPLACE, index, value);
 	}
 	
 	public final int entity;   // which entity is manipulated
@@ -46,6 +50,7 @@ public final class Change {
 		case ERASE     : e.erase(comp); break;
 		case INSERT    : e.insert(comp, value); break;
 		case REMOVE    : e.remove(comp, value); break;
+		case REPLACE   : e.list(comp)[value[0]] = value[1]; break;
 		case APPEND    : e.append(comp, value); break;
 		case PREPEND   : e.prepend(comp, value); break;
 		case SETBITS   : e.setbits(comp, value); break;

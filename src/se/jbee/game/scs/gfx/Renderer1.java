@@ -11,8 +11,8 @@ import se.jbee.game.common.gfx.Backdrop;
 import se.jbee.game.common.gfx.Dimension;
 import se.jbee.game.common.gfx.Renderer;
 import se.jbee.game.common.gfx.Stage;
-import se.jbee.game.common.gfx.Styles;
 import se.jbee.game.common.gfx.Stage.KeyMapping;
+import se.jbee.game.common.gfx.Styles;
 import se.jbee.game.scs.gfx.bg.Planet;
 import se.jbee.game.scs.gfx.bg.Space;
 import se.jbee.game.scs.gfx.bg.Star;
@@ -116,6 +116,14 @@ public class Renderer1 implements Renderer, Gfx {
 			case OBJ_RESOURCE:
 				gfx.setColor(styles.color(COLOR_TEXT_NORMAL));
 				gfx.drawOval(obj[1], obj[2], obj[3], obj[3]);
+				break;
+			case OBJ_BUTTON_LESS:
+				gfx.setColor(styles.color(COLOR_TEXT_NORMAL));
+				gfx.fillOval(obj[1], obj[2], obj[3], obj[3]);
+				break;
+			case OBJ_BUTTON_MORE:
+				gfx.setColor(styles.color(COLOR_TEXT_NORMAL));
+				gfx.fillOval(obj[1], obj[2], obj[3], obj[3]);
 				break;
 			}
 		}

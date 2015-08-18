@@ -34,8 +34,16 @@ public interface GameComponent extends Component {
 	ACTION_EXIT = 0,
 	ACTION_SAVE = 1,	
 	ACTION_LOAD = 2,
-	ACTION_INIT = 3;
+	ACTION_INIT = 3,
+	ACTION_SETUP = 4; // creates players in a currently setup game
 	
+	/**
+	 * Setup (Indexes)
+	 */
+	int 
+	SETUP_NUMBER_OF_PLAYERS = 0,
+	SETUP_NUMBER_OF_AIS = 1,
+	SETUP_GALAXY_SIZE = 2;
 	
 	/**
 	 * Components
@@ -48,8 +56,7 @@ public interface GameComponent extends Component {
 		SEED = 11,
 		SEEDS = 12,   // [#,#,...] for any pseudo random progression
 		TURN = 13, // # (0 = game setup, 1 is first active turn)
-		PLAYERS = 14, // [*x,*y,*z]
-		GALAXIES = 15,// [*x,*y,*z]
+		SETUP = 14, // [#humans, #ais, #galaxy-size, ...]  
 		
 		// view control
 		SCREEN = 20,
@@ -62,24 +69,28 @@ public interface GameComponent extends Component {
 		SAVEGAME = 31, // name of the game to save/saved
 		RENAME = 32, // [*entity, *comp, #font, #size, #x, #y, #w, #h]
 
-	PLAYER = 40,
+		// domain data
+		PLAYERS = 41, // [*x,*y,*z]
+		GALAXIES = 42,// [*x,*y,*z]
+		
+	PLAYER = 50,
 		// TURN (player sets its turn to the current game turn when finished; in turn zero TURN set to -1 until player has finished setup)
-		NO = 41, //#
+		NO = 51, //#
 		// SEEDS [#,#,...]
 		// RACE *x
-		HOME = 42, // *x (planet)
-		STATUS = 43, // [?AI, ?ALIVE]
-		REACH = 44, // # the maximum distance the player knows how to travel 
+		HOME = 52, // *x (planet)
+		STATUS = 53, // [?AI, ?ALIVE]
+		REACH = 54, // # the maximum distance the player knows how to travel 
 		// TECHNOLOGY (in progress)
 		// (things belong to the player)
-		PLANS = 51,
-		RELATIONS = 52, // [#,#,...] (the diplomatic points for each player, in order of game players)
-		TECHNOLOGIES = 53, // {*x,*y,*z} (researched)
-		ABILITIES = 54, // {*x,*y,*z} (gained from technology, etcetera)
-		COLONIES = 55, // {*x,*y,*z}
-		ORBITS = 56, // {*x,*y,*z}
-		FLEETS = 57, // {*x,*y,*z}
-		OFFERS = 58, // {*x,*y,*z}
+		PLANS = 61,
+		RELATIONS = 62, // [#,#,...] (the diplomatic points for each player, in order of game players)
+		TECHNOLOGIES = 63, // {*x,*y,*z} (researched)
+		ABILITIES = 64, // {*x,*y,*z} (gained from technology, etcetera)
+		COLONIES = 65, // {*x,*y,*z}
+		ORBITS = 66, // {*x,*y,*z}
+		FLEETS = 67, // {*x,*y,*z}
+		OFFERS = 68, // {*x,*y,*z}
 		// (things known to (/discovered by) the player)
 		// PLANETS {*x,*y,*z} 
 		// SOLAR_SYSTEMS {*x,*y,*z}
@@ -89,10 +100,10 @@ public interface GameComponent extends Component {
 		// UNITS {*x,*y,*z}
 		// PARTS {*x,*y,*z} (what can be used by a player)
 		
-	PLAN = 70,
+	PLAN = 80,
 		PARTICIPANTS = 71, // {*x,*y,... } (a set of colonies, orbits, space-crafts, constructions) that belong to the plan
 	
-	MISSION = 80,
+	MISSION = 90,
 		
 	/*
 	 * Galaxy

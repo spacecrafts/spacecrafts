@@ -57,7 +57,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.enter(text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_NORMAL, 1));
 		stage.enter(OPEN);
 		stage.in(open, text(x0, y0, FONT_DOTS, diameter, COLOR_TEXT_HIGHLIGHT, 1), OPEN);
-		Change[] openChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_GALAXY) };
+		Change[] openChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SETUP_GAME) };
 		stage.onLeftClickIn(open, openChangeset);
 		stage.onKey('o', openChangeset);
 		

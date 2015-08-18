@@ -130,8 +130,10 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		g.put(TURN, 0);
 		g.put(SCREEN, GameScreen.SCREEN_MAIN);
 		Entity p1 = game.defEntity(PLAYER);
-		g.put(PLAYERS, p1.id());
+		p1.put(NO, 1);
 		p1.put(TURN, -1);
+		g.put(PLAYERS, p1.id());
+		g.put(SETUP, new int[] {1,1,1});
 		return g;
 	}
 	

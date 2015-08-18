@@ -32,10 +32,13 @@ import se.jbee.game.scs.screen.LoadGame;
 import se.jbee.game.scs.screen.Orbit;
 import se.jbee.game.scs.screen.SaveGame;
 import se.jbee.game.scs.screen.SavingGame;
+import se.jbee.game.scs.screen.SetupGame;
+import se.jbee.game.scs.screen.SetupPlayer;
 import se.jbee.game.scs.screen.SolarSystem;
 import se.jbee.game.scs.screen.SplashScreen;
 import se.jbee.game.scs.screen.UserSettings;
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.scs.state.Status;
 import se.jbee.game.scs.state.UserComponent;
 
 /**
@@ -69,7 +72,7 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		this.game = game;
 		this.user = user;
 		this.stage = stage;
-		this.screens = initScreens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, UserSettings.class, 
+		this.screens = initScreens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, UserSettings.class, SetupGame.class, SetupPlayer.class, 
 				Galaxy.class, SolarSystem.class, Orbit.class, Colony.class);
 		initGlobalKeys(game, stage);
 	}
@@ -122,11 +125,12 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		final Entity gamE = game.single(GAME);
 		int action = gamE.num(ACTION);
 		switch(action) {
-		case ACTION_EXIT: autosaveGame(); System.exit(0); break;
-		case ACTION_SAVE: saveGame(); break;
+		case ACTION_EXIT  : autosaveGame(); System.exit(0); break;
+		case ACTION_SAVE  : saveGame(); break;
 		//TODO also set a screen that doesn't let the player do something just in case...
-		case ACTION_LOAD: autosaveGame(); gamE.prepend(ACTION, ACTION_INIT); // Intentional fall-through 
-		case ACTION_INIT: doWait(); break;
+		case ACTION_LOAD  : autosaveGame(); gamE.prepend(ACTION, ACTION_INIT); // Intentional fall-through 
+		case ACTION_INIT  : doWait(); break;
+		case ACTION_SETUP : setupPlayers(); break;
 		}
 		gamE.erase(ACTION);
 	}
@@ -172,6 +176,21 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	private void setupPlayers() {
+		Entity gamE = game.single(GAME);
+		int[] setup = gamE.list(SETUP);
+		for (int i = 1; i < setup[SETUP_NUMBER_OF_PLAYERS]; i++) {
+			Entity player = game.defEntity(PLAYER);
+			player.put(NO, i+1);
+			gamE.append(PLAYERS, player.id());
+		}
+		for (int i = 0; i < setup[SETUP_NUMBER_OF_AIS]; i++) {
+			Entity ai = game.defEntity(PLAYER);
+			ai.set(STATUS, Status.AI);
+			gamE.append(PLAYERS, ai.id());
 		}
 	}
 	

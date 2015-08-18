@@ -73,7 +73,9 @@ public interface Gfx {
 	OBJ_SLOT = 50,
 	OBJ_STRUCTURE = 51,
 	OBJ_RESOURCE = 52,
-	OBJ_ROCK = 53
+	OBJ_ROCK = 53,
 	
+	OBJ_BUTTON_MORE = 60,
+	OBJ_BUTTON_LESS = 61
 	;
 }
