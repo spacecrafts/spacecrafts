@@ -57,11 +57,12 @@ public final class Stage {
 	public final List<KeyMapping>  globalOnKeyPress = new ArrayList<>();
 	
 	public final AtomicReference<List<int[]>> objects = new AtomicReference<>(Collections.<int[]>emptyList());
-	private final AtomicReference<List<int[]>> accents = new AtomicReference<>(Collections.<int[]>emptyList());
+	private final AtomicReference<List<int[]>> highlights = new AtomicReference<>(Collections.<int[]>emptyList());
 	
 	private List<int[]> nextObjects;
-	private List<int[]> nextAreaObjects;
+	private List<int[]> nextHighlights;
 	private AtomicBoolean ready = new AtomicBoolean(false);
+	private AtomicBoolean inputsDisabled = new AtomicBoolean(false);
 	
 	/**
 	 * The frame tracks any changes to the stage so that displaying device can
@@ -74,11 +75,11 @@ public final class Stage {
 	}
 	
 	public List<int[]> accents() {
-		return accents.get();
+		return highlights.get();
 	}
 	
-	public void accentuate(List<int[]> objects) {
-		List<int[]> old = accents.getAndSet(objects);
+	public void highlight(List<int[]> objects) {
+		List<int[]> old = highlights.getAndSet(objects);
 		if (!old.isEmpty() || !objects.isEmpty()) {
 			frame++;
 		}
@@ -86,24 +87,33 @@ public final class Stage {
 	
 	public void startOver() {
 		ready.set(false);
+		inputsDisabled.set(false);
 		onLeftClick.clear();
 		onRightClick.clear();
 		onMouseOver.clear();
 		onKeyPress.clear();
-		accents.set(Collections.<int[]>emptyList());
+		highlights.set(Collections.<int[]>emptyList());
 		nextObjects = new ArrayList<int[]>();
-		nextAreaObjects = new ArrayList<int[]>();
+		nextHighlights = new ArrayList<int[]>();
 	}
 	
 	public void ready() {
 		objects.set(nextObjects);
-		accents.set(nextAreaObjects);
+		highlights.set(nextHighlights);
 		frame++;
 		ready.set(true);
 	}
 	
 	public boolean isReady() {
 		return ready.get();
+	}
+	
+	public void disableInputs() {
+		inputsDisabled.set(true);
+	}
+	
+	public boolean isReadyForInputs() {
+		return isReady() && !inputsDisabled.get();
 	}
 	
 	public Stage enter(int[] object) {

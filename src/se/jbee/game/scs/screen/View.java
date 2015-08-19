@@ -1,5 +1,7 @@
 package se.jbee.game.scs.screen;
 
+import static java.lang.Math.max;
+
 import java.awt.Rectangle;
 
 import se.jbee.game.common.gfx.Dimension;
@@ -40,6 +42,10 @@ public final class View {
 	public static int cellDiameter(Dimension screen) {
 		// height - 2x spacing (left+right) divided by 32 cells (maximum)
 		return (screen.height-(screen.width/8))/32;		
+	}
+	
+	public static int dotDiameter(Dimension screen) {
+		return max(200, screen.width/8)/(4*5);		
 	}
 	
 	public static Rectangle centerView(Dimension screen) {

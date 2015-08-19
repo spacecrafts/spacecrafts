@@ -35,7 +35,8 @@ public interface GameComponent extends Component {
 	ACTION_SAVE = 1,	
 	ACTION_LOAD = 2,
 	ACTION_INIT = 3,
-	ACTION_SETUP = 4; // creates players in a currently setup game
+	ACTION_SETUP = 4, // creates players in a currently setup game
+	ACTION_STEP = 5;  // next screen derived by player status 
 	
 	/**
 	 * Setup (Indexes)

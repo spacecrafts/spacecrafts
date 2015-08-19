@@ -8,8 +8,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,10 +23,15 @@ import se.jbee.game.common.state.Change;
 import se.jbee.game.common.state.Change.Op;
 import se.jbee.game.common.state.Entity;
 import se.jbee.game.common.state.State;
+import se.jbee.game.scs.logic.Autosave;
+import se.jbee.game.scs.logic.Save;
+import se.jbee.game.scs.logic.Setup;
+import se.jbee.game.scs.logic.Step;
 import se.jbee.game.scs.screen.Colony;
 import se.jbee.game.scs.screen.Galaxy;
 import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.screen.LoadGame;
+import se.jbee.game.scs.screen.LoadingGame;
 import se.jbee.game.scs.screen.Orbit;
 import se.jbee.game.scs.screen.SaveGame;
 import se.jbee.game.scs.screen.SavingGame;
@@ -38,7 +41,6 @@ import se.jbee.game.scs.screen.SolarSystem;
 import se.jbee.game.scs.screen.SplashScreen;
 import se.jbee.game.scs.screen.UserSettings;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.scs.state.Status;
 import se.jbee.game.scs.state.UserComponent;
 
 /**
@@ -72,7 +74,7 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		this.game = game;
 		this.user = user;
 		this.stage = stage;
-		this.screens = initScreens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, UserSettings.class, SetupGame.class, SetupPlayer.class, 
+		this.screens = initScreens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, LoadingGame.class, UserSettings.class, SetupGame.class, SetupPlayer.class, 
 				Galaxy.class, SolarSystem.class, Orbit.class, Colony.class);
 		initGlobalKeys(game, stage);
 	}
@@ -125,16 +127,16 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		final Entity gamE = game.single(GAME);
 		int action = gamE.num(ACTION);
 		switch(action) {
-		case ACTION_EXIT  : autosaveGame(); System.exit(0); break;
-		case ACTION_SAVE  : saveGame(); break;
-		//TODO also set a screen that doesn't let the player do something just in case...
-		case ACTION_LOAD  : autosaveGame(); gamE.prepend(ACTION, ACTION_INIT); // Intentional fall-through 
-		case ACTION_INIT  : doWait(); break;
-		case ACTION_SETUP : setupPlayers(); break;
+		case ACTION_EXIT  : new Autosave().progress(user, game); System.exit(0); break;
+		case ACTION_SAVE  : new Save().progress(user, game); break;
+		case ACTION_LOAD  : new Autosave().progress(user, game); gamE.put(ACTION, ACTION_INIT); // Intentional fall-through 
+		case ACTION_INIT  : doWait(); break; // in case player wakes up before it is quit when loading we just wait again
+		case ACTION_SETUP : new Setup().progress(user, game); break;
+		case ACTION_STEP  : new Step().progress(user, game); break;
 		}
 		gamE.erase(ACTION);
 	}
-	
+
 	@SafeVarargs
 	private final static Screen[] initScreens(Class<? extends Screen>... screenTypes) {
 		int max = 0;
@@ -161,38 +163,6 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 				new Change(gameId, RETURN_SCREEN, Op.COPY, gameId, SCREEN),
 				new Change(gameId, SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
 	} 
-	
-	private void autosaveGame() {
-		//TODO actually do it
-	}
-	
-	private void saveGame() {
-		Entity gamE = game.single(GAME);
-		File file = new File(user.single(USER).text(SAVEGAME_DIR), gamE.text(SAVEGAME)+".game");
-		gamE.erase(ACTION);
-		gamE.erase(SAVEGAME);
-		try {
-			game.save(file);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	private void setupPlayers() {
-		Entity gamE = game.single(GAME);
-		int[] setup = gamE.list(SETUP);
-		for (int i = 1; i < setup[SETUP_NUMBER_OF_PLAYERS]; i++) {
-			Entity player = game.defEntity(PLAYER);
-			player.put(NO, i+1);
-			gamE.append(PLAYERS, player.id());
-		}
-		for (int i = 0; i < setup[SETUP_NUMBER_OF_AIS]; i++) {
-			Entity ai = game.defEntity(PLAYER);
-			ai.set(STATUS, Status.AI);
-			gamE.append(PLAYERS, ai.id());
-		}
-	}
 	
 	/*
 	 * -----------------------------------------------------
@@ -222,7 +192,7 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 			return;
 		for (AreaObject m : stage.onMouseOver) {
 			if (m.area.contains(e.getPoint())) {
-				stage.accentuate(m.objects);
+				stage.highlight(m.objects);
 				if (m.cursor >= 0) {
 					e.getComponent().setCursor(Cursor.getPredefinedCursor(m.cursor));
 				}
@@ -231,12 +201,12 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 			}
 		}
 		e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		stage.accentuate(Collections.<int[]>emptyList());
+		stage.highlight(Collections.<int[]>emptyList());
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (!stage.isReady())
+		if (!stage.isReadyForInputs())
 			return;
 		switch (e.getButton()) {
 		case MouseEvent.BUTTON1: react(e, stage.onLeftClick); break;
@@ -246,7 +216,7 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (!stage.isReady() || e.getKeyCode() == ignoredKeyCode)
+		if (!stage.isReadyForInputs() || e.getKeyCode() == ignoredKeyCode)
 			return;
 		ignoredKeyCode = e.getKeyCode();
 		if (!react(e, stage.onKeyPress)) {

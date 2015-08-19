@@ -7,7 +7,6 @@ import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.border;
 import static se.jbee.game.scs.gfx.Objects.focusBox;
 import static se.jbee.game.scs.gfx.Objects.text;
-import static se.jbee.game.scs.screen.GameScreen.SCREEN_MAIN;
 
 import java.awt.Rectangle;
 import java.io.File;
@@ -26,7 +25,7 @@ import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
 
 @ScreenNo(GameScreen.SCREEN_LOAD_GAME)
-public class LoadGame implements Screen, UserComponent, GameComponent, Gfx {
+public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, GameScreen {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
@@ -62,7 +61,7 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx {
 			stage.in(area, focusBox(x0, y0, w, h));
 			stage.onLeftClickIn(area,
 					put(gamE.id(), SAVEGAME, name),
-					put(gamE.id(), SCREEN, gamE.num(RETURN_SCREEN)), 
+					put(gamE.id(), SCREEN, SCREEN_LOADING_GAME), 
 					put(gamE.id(), ACTION, ACTION_LOAD));
 			x0 += w + gap;
 			n++;
