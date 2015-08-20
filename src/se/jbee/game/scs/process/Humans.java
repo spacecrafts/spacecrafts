@@ -1,7 +1,5 @@
 package se.jbee.game.scs.process;
 
-import static java.lang.Math.max;
-
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -75,7 +73,7 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		this.game = game;
 		this.user = user;
 		this.stage = stage;
-		this.screens = initScreens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, LoadingGame.class, UserSettings.class, SetupGame.class, SetupPlayer.class, Encounter.class, 
+		this.screens = ScreenNo.Init.screens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, LoadingGame.class, UserSettings.class, SetupGame.class, SetupPlayer.class, Encounter.class, 
 				Galaxy.class, SolarSystem.class, Orbit.class, Colony.class);
 		initGlobalKeys(game, stage);
 	}
@@ -138,26 +136,6 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		gamE.erase(ACTION);
 	}
 
-	@SafeVarargs
-	private final static Screen[] initScreens(Class<? extends Screen>... screenTypes) {
-		int max = 0;
-		for (Class<?> c : screenTypes) {
-			ScreenNo no = c.getAnnotation(ScreenNo.class);
-			max = max(max, no.value());
-		}
-		Screen[] screens = new Screen[max+1];
-		for (int i = 0; i < screenTypes.length; i++) {
-			try {
-				Class<? extends Screen> screen = screenTypes[i];
-				ScreenNo no = screen.getAnnotation(ScreenNo.class);				
-				screens[no.value()] = screen.newInstance();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return screens;
-	}
-	
 	private static void initGlobalKeys(State game, Stage stage) {
 		int gameId = game.single(GAME).id();
 		stage.onGlobalKey(KeyEvent.VK_ESCAPE,

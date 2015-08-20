@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.NoSuchElementException;
 
 /**
@@ -44,6 +45,20 @@ public final class State implements Component {
 	private State() {
 		// used directly during load
 	}
+	
+	public State defComponents(Class<? extends Component> components) {
+		for (Field f : components.getDeclaredFields()) {
+			try {
+				int type = f.getInt(null);
+				if (!hasComponent(type)) {
+					defComponent(type).put(NAME, codePoints(f.getName()));
+				}
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return this;
+	}	
 	
 	/**
 	 * Is a "component entity" (all of those are usually defined at the

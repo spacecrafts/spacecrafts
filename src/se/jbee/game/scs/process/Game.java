@@ -5,7 +5,6 @@ import static se.jbee.game.uni.state.Entity.codePoints;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
 import se.jbee.game.uni.gfx.Stage;
 import se.jbee.game.uni.process.Player;
-import se.jbee.game.uni.state.Component;
 import se.jbee.game.uni.state.Entity;
 import se.jbee.game.uni.state.State;
 
@@ -44,18 +42,16 @@ public class Game implements Runnable, GameComponent, UserComponent {
 	
 	@Override
 	public void run() {
-		final State user = State.base();
-		initComponents(user, UserComponent.class);
+		final State user = State.base().defComponents(UserComponent.class);
 		initUser(user);		
 		
-		State game = State.base();
-		initComponents(game, GameComponent.class);
-		Entity gamE = initGame(game);
+		State game = State.base().defComponents(GameComponent.class);
+		initGame(game);
 		
 		Display display = new Display();
 		Dimension size = display.getSize();
 		user.single(USER).put(RESOLUTION, new int[] {size.width, size.height});
-		Thread gameDisplay = daemon(display, "SCS Display");
+		Thread displayThread = daemon(display, "SCS Display");
 
 		List<Player> players = new ArrayList<Player>();
 		
@@ -75,32 +71,28 @@ public class Game implements Runnable, GameComponent, UserComponent {
 				display.setInputHandler(humans);
 				
 				humanPlayers.start();
-				if (gameDisplay.getState() == java.lang.Thread.State.NEW) {
-					gameDisplay.start();
+				if (displayThread.getState() == java.lang.Thread.State.NEW) {
+					displayThread.start();
 				}
 				init = false;
 				System.out.println(Thread.activeCount()+" threads running...");
 			}
 			
-			if (gamE.num(ACTION) == ACTION_INIT) { // should another game be loaded?
+			if (game.single(GAME).num(ACTION) == ACTION_INIT) { // should another game be loaded?
 				System.out.println("Loading game...");
-				for (Player p : players) {
-					p.quit();
-				}
-				game = loadGame(game, user.single(USER).text(SAVEGAME_DIR), gamE.text(SAVEGAME));
-				gamE = game.single(GAME);
+				quit(players);
+				game = loadGame(game, user.single(USER).text(SAVEGAME_DIR), game.single(GAME).text(SAVEGAME));
+				game.defComponents(GameComponent.class); // also done for loaded game so that one can be sure that the current code has all the components.
 				init = true;
 			} else {
-				if (allPlayersDone(game)) {
+				if (isEndOfTurn(game)) {
 					// TODO run encounters (battles ordered or resulting from an conflict due to simultaneous space occupation.
 					
 					// advance to next turn
 					new Turn().progress(user, game);
 					
 					// wake-up players
-					for (Player p : players) {
-						p.move();
-					}
+					move(players);
 				}
 			}
 			
@@ -112,6 +104,18 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		}
 	}
 
+	private static void quit(List<Player> players) {
+		for (Player p : players) {
+			p.quit();
+		}
+	}
+
+	private static void move(List<Player> players) {
+		for (Player p : players) {
+			p.move();
+		}
+	}
+
 	private State loadGame(State game, String dir, String file) {
 		try {
 			return State.load(new File(dir, file));
@@ -120,7 +124,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		}
 	}	
 	
-	private static boolean allPlayersDone(State game) {
+	private static boolean isEndOfTurn(State game) {
 		Entity gamE = game.single(GAME);
 		final int turn = gamE.num(TURN);
 		int[] players = gamE.list(PLAYERS);
@@ -131,24 +135,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		return true;
 	}
 
-	/**
-	 * This is also done for loaded game so that one can be sure that the
-	 * current code has all the components.
-	 */
-	public static void initComponents(State game, Class<? extends Component> components) {
-		for (Field f : components.getDeclaredFields()) {
-			try {
-				int type = f.getInt(null);
-				if (!game.hasComponent(type)) {
-					game.defComponent(type).put(NAME, codePoints(f.getName()));
-				}
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
-	
-	public static Entity initGame(State game) {
+	public static void initGame(State game) {
 		Entity g = game.defEntity(GAME);
 		g.put(SEED, System.currentTimeMillis());
 		g.put(TURN, 0);
@@ -158,7 +145,6 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		p1.put(TURN, -1);
 		g.put(PLAYERS, p1.id());
 		g.put(SETUP, new int[] {1,1,1});
-		return g;
 	}
 	
 	public static void initUser(State user) {
