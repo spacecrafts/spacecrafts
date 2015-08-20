@@ -13,6 +13,7 @@ public interface GameScreen {
 		
 		SCREEN_USER_SETTINGS = 7,
 		SCREEN_RENAME = 8,
+		SCREEN_ENCOUNTER = 9,
 		
 		SCREEN_GALAXY = 10,
 		SCREEN_STAR_CLUSTER = 11,

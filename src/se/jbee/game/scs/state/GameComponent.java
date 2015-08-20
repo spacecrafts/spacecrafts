@@ -115,12 +115,12 @@ public interface GameComponent extends Component {
 	
 	CLUSTER = 110,
 		// SEEDS [#,#,...]
-		SOLAR_SYSTEMS = 111, // {*x,*y,*z}
+		STARS = 111, // {*x,*y,*z}
 		POSITION = 112, // [#x,#y, #z] (in the galaxy; say there is a plane through the center of a cluster/galaxy the z-axis is how much above or below that plane a system is)
 	
-	SOLAR_SYSTEM = 120,
+	STAR = 120,
 		// SEEDS [#,#,...]
-		PLANETS = 121, // {*x,*y,*z}
+		PLANETS = 121, // {*x,*y,*z} (orbiting)
 		// POSITION (in the cluster)		
 		//FLEETS = {*x,*y,*z} (set of all the fleets arrived/staying in a solar system)
 	
@@ -129,9 +129,16 @@ public interface GameComponent extends Component {
 		// KIND *x
 		// COLONY *y (cross ref)
 		// POSITION (in the solar system)
+		MOONS = 131, // (orbiting)
 	
-	KIND = 140, // of planet (mostly a description for humans)
-		PROBABILITIES = 141, // [#,#,...] of special resources			
+	MOON = 140,
+		// PLANET
+	
+	STAR_TYPE = 150,
+		// PROBABILITIES (of types of planets?)
+	
+	PLANET_TYPE = 160, // of planet (mostly a description for humans)
+		PROBABILITIES = 161, // [#,#,...] of special resources			
 		
 	/*
 	 * Diplomacy and Trading

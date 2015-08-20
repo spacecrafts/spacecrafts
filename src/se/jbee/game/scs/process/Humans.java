@@ -16,6 +16,7 @@ import se.jbee.game.scs.logic.Save;
 import se.jbee.game.scs.logic.Setup;
 import se.jbee.game.scs.logic.Step;
 import se.jbee.game.scs.screen.Colony;
+import se.jbee.game.scs.screen.Encounter;
 import se.jbee.game.scs.screen.Galaxy;
 import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.screen.LoadGame;
@@ -39,9 +40,9 @@ import se.jbee.game.uni.process.Player;
 import se.jbee.game.uni.screen.Screen;
 import se.jbee.game.uni.screen.ScreenNo;
 import se.jbee.game.uni.state.Change;
+import se.jbee.game.uni.state.Change.Op;
 import se.jbee.game.uni.state.Entity;
 import se.jbee.game.uni.state.State;
-import se.jbee.game.uni.state.Change.Op;
 
 /**
  * The {@link Humans} process takes the role of the currently active human
@@ -74,7 +75,7 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		this.game = game;
 		this.user = user;
 		this.stage = stage;
-		this.screens = initScreens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, LoadingGame.class, UserSettings.class, SetupGame.class, SetupPlayer.class, 
+		this.screens = initScreens(SplashScreen.class, SaveGame.class, SavingGame.class, LoadGame.class, LoadingGame.class, UserSettings.class, SetupGame.class, SetupPlayer.class, Encounter.class, 
 				Galaxy.class, SolarSystem.class, Orbit.class, Colony.class);
 		initGlobalKeys(game, stage);
 	}
@@ -129,10 +130,10 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		switch(action) {
 		case ACTION_EXIT  : new Autosave().progress(user, game); System.exit(0); break;
 		case ACTION_SAVE  : new Save().progress(user, game); break;
-		case ACTION_LOAD  : new Autosave().progress(user, game); gamE.put(ACTION, ACTION_INIT); // Intentional fall-through 
-		case ACTION_INIT  : doWait(); break; // in case player wakes up before it is quit when loading we just wait again
 		case ACTION_SETUP : new Setup().progress(user, game); break;
 		case ACTION_STEP  : new Step().progress(user, game); break;
+		case ACTION_LOAD  : new Autosave().progress(user, game); gamE.put(ACTION, ACTION_INIT); // Intentional fall-through 
+		case ACTION_INIT  : doWait(); return; // in case player wakes up before it is quit when loading we just wait again
 		}
 		gamE.erase(ACTION);
 	}

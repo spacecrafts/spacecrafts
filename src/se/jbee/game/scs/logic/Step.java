@@ -25,9 +25,9 @@ public class Step implements Progress, GameComponent {
 					return;
 				}
 			}
-			gamE.put(SCREEN, GameScreen.SCREEN_GALAXY);
-			// TODO set correct player
-		}		
+			gamE.put(SCREEN, GameScreen.SCREEN_ENCOUNTER);
+		}
+		
 	}
 
 }

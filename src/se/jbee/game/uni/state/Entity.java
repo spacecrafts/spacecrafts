@@ -136,7 +136,7 @@ public final class Entity implements Component {
 	}
 	
 	public Entity put(int comp, long num) {
-		return put((int)(num >> 32), (int)num);
+		return put(comp, (int)(num >> 32), (int)num);
 	}
 	
 	public Entity put(int comp, int num) {

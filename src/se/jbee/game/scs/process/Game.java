@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.jbee.game.scs.logic.Turn;
 import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
@@ -81,22 +82,26 @@ public class Game implements Runnable, GameComponent, UserComponent {
 				System.out.println(Thread.activeCount()+" threads running...");
 			}
 			
-			// should another game be loaded?
-			if (gamE.num(ACTION) == ACTION_INIT) {
+			if (gamE.num(ACTION) == ACTION_INIT) { // should another game be loaded?
 				System.out.println("Loading game...");
 				for (Player p : players) {
 					p.quit();
 				}
-				try {
-					game = State.load(new File(user.single(USER).text(SAVEGAME_DIR), gamE.text(SAVEGAME)));
-					gamE = game.single(GAME);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				game = loadGame(game, user.single(USER).text(SAVEGAME_DIR), gamE.text(SAVEGAME));
+				gamE = game.single(GAME);
 				init = true;
 			} else {
-				//TODO all players done? -> advance to next turn, wake-up players (incl. AI)
+				if (allPlayersDone(game)) {
+					// TODO run encounters (battles ordered or resulting from an conflict due to simultaneous space occupation.
+					
+					// advance to next turn
+					new Turn().progress(user, game);
+					
+					// wake-up players
+					for (Player p : players) {
+						p.move();
+					}
+				}
 			}
 			
 			// sleep so that drawing + sleeping = loop time
@@ -105,8 +110,27 @@ public class Game implements Runnable, GameComponent, UserComponent {
 				try { Thread.sleep(20 - cycleTimeMs); } catch (Exception e) {}
 			}
 		}
+	}
+
+	private State loadGame(State game, String dir, String file) {
+		try {
+			return State.load(new File(dir, file));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}	
 	
+	private static boolean allPlayersDone(State game) {
+		Entity gamE = game.single(GAME);
+		final int turn = gamE.num(TURN);
+		int[] players = gamE.list(PLAYERS);
+		for (int i = 0; i < players.length; i++) {
+			if (game.entity(players[i]).num(TURN) != turn)
+				return false;
+		}
+		return true;
+	}
+
 	/**
 	 * This is also done for loaded game so that one can be sure that the
 	 * current code has all the components.
