@@ -1,6 +1,6 @@
-package se.jbee.game.common.logic;
+package se.jbee.game.uni.logic;
 
-import se.jbee.game.common.state.State;
+import se.jbee.game.uni.state.State;
 
 /**
  * It is the answer to the question: "What happens (in the game) when... ?"

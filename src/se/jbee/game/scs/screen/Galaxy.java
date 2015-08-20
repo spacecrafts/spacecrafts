@@ -1,21 +1,21 @@
 package se.jbee.game.scs.screen;
 
-import static se.jbee.game.common.state.Change.put;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.star;
+import static se.jbee.game.uni.state.Change.put;
 
 import java.awt.Rectangle;
 
-import se.jbee.game.common.gfx.Dimension;
-import se.jbee.game.common.gfx.Rnd;
-import se.jbee.game.common.gfx.Stage;
-import se.jbee.game.common.screen.Screen;
-import se.jbee.game.common.screen.ScreenNo;
-import se.jbee.game.common.state.Entity;
-import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Objects;
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.uni.gfx.Dimension;
+import se.jbee.game.uni.gfx.Rnd;
+import se.jbee.game.uni.gfx.Stage;
+import se.jbee.game.uni.screen.Screen;
+import se.jbee.game.uni.screen.ScreenNo;
+import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.State;
 
 @ScreenNo(GameScreen.SCREEN_GALAXY)
 public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {

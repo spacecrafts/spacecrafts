@@ -17,13 +17,13 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import se.jbee.game.common.gfx.Colouring;
-import se.jbee.game.common.gfx.Dimension;
-import se.jbee.game.common.gfx.Renderer;
-import se.jbee.game.common.gfx.Stage;
-import se.jbee.game.common.gfx.Styles;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Renderer1;
+import se.jbee.game.uni.gfx.Colouring;
+import se.jbee.game.uni.gfx.Dimension;
+import se.jbee.game.uni.gfx.Renderer;
+import se.jbee.game.uni.gfx.Stage;
+import se.jbee.game.uni.gfx.Styles;
 
 /**
  * The screen or canvas the game is drawn on.

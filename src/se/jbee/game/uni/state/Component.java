@@ -1,4 +1,4 @@
-package se.jbee.game.common.state;
+package se.jbee.game.uni.state;
 
 /**
  * Components are the keys used in an {@link Entity} therefore values have to be

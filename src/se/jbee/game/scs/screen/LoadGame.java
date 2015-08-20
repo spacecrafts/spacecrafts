@@ -1,12 +1,12 @@
 package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
-import static se.jbee.game.common.state.Change.put;
-import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.border;
 import static se.jbee.game.scs.gfx.Objects.focusBox;
 import static se.jbee.game.scs.gfx.Objects.text;
+import static se.jbee.game.uni.state.Change.put;
+import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.awt.Rectangle;
 import java.io.File;
@@ -14,15 +14,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.jbee.game.common.gfx.Dimension;
-import se.jbee.game.common.gfx.Stage;
-import se.jbee.game.common.screen.Screen;
-import se.jbee.game.common.screen.ScreenNo;
-import se.jbee.game.common.state.Entity;
-import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
+import se.jbee.game.uni.gfx.Dimension;
+import se.jbee.game.uni.gfx.Stage;
+import se.jbee.game.uni.screen.Screen;
+import se.jbee.game.uni.screen.ScreenNo;
+import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.State;
 
 @ScreenNo(GameScreen.SCREEN_LOAD_GAME)
 public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, GameScreen {

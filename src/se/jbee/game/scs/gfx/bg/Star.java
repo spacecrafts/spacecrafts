@@ -15,9 +15,9 @@ import java.awt.Stroke;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 
-import se.jbee.game.common.gfx.Backdrop;
-import se.jbee.game.common.gfx.Styles;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.uni.gfx.Backdrop;
+import se.jbee.game.uni.gfx.Styles;
 
 public class Star implements Gfx, Backdrop {
 

@@ -7,8 +7,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Random;
 
-import se.jbee.game.common.gfx.Backdrop;
-import se.jbee.game.common.gfx.Styles;
+import se.jbee.game.uni.gfx.Backdrop;
+import se.jbee.game.uni.gfx.Styles;
 
 public class Space implements Backdrop {
 

@@ -4,9 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import se.jbee.game.common.state.State;
 import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.uni.state.State;
 
 public class TestGame {
 

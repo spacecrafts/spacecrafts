@@ -1,4 +1,4 @@
-package se.jbee.game.common.state;
+package se.jbee.game.uni.state;
 
 import java.util.Arrays;
 

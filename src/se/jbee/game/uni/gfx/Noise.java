@@ -1,4 +1,4 @@
-package se.jbee.game.common.gfx;
+package se.jbee.game.uni.gfx;
 
 import java.util.Random;
 

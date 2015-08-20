@@ -4,7 +4,7 @@ import static java.lang.Math.max;
 
 import java.awt.Rectangle;
 
-import se.jbee.game.common.gfx.Dimension;
+import se.jbee.game.uni.gfx.Dimension;
 
 /**
  * How the game divides the screen area into views.  

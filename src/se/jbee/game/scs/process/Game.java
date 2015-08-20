@@ -1,6 +1,6 @@
 package se.jbee.game.scs.process;
 
-import static se.jbee.game.common.state.Entity.codePoints;
+import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.awt.Dimension;
 import java.io.File;
@@ -9,14 +9,14 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.jbee.game.common.gfx.Stage;
-import se.jbee.game.common.process.Player;
-import se.jbee.game.common.state.Component;
-import se.jbee.game.common.state.Entity;
-import se.jbee.game.common.state.State;
 import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
+import se.jbee.game.uni.gfx.Stage;
+import se.jbee.game.uni.process.Player;
+import se.jbee.game.uni.state.Component;
+import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.State;
 
 /**
  * The game process it the master process. 

@@ -11,18 +11,6 @@ import java.awt.event.MouseMotionListener;
 import java.util.Collections;
 import java.util.List;
 
-import se.jbee.game.common.gfx.Dimension;
-import se.jbee.game.common.gfx.Stage;
-import se.jbee.game.common.gfx.Stage.AreaMapping;
-import se.jbee.game.common.gfx.Stage.AreaObject;
-import se.jbee.game.common.gfx.Stage.KeyMapping;
-import se.jbee.game.common.process.Player;
-import se.jbee.game.common.screen.Screen;
-import se.jbee.game.common.screen.ScreenNo;
-import se.jbee.game.common.state.Change;
-import se.jbee.game.common.state.Change.Op;
-import se.jbee.game.common.state.Entity;
-import se.jbee.game.common.state.State;
 import se.jbee.game.scs.logic.Autosave;
 import se.jbee.game.scs.logic.Save;
 import se.jbee.game.scs.logic.Setup;
@@ -42,6 +30,18 @@ import se.jbee.game.scs.screen.SplashScreen;
 import se.jbee.game.scs.screen.UserSettings;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
+import se.jbee.game.uni.gfx.Dimension;
+import se.jbee.game.uni.gfx.Stage;
+import se.jbee.game.uni.gfx.Stage.AreaMapping;
+import se.jbee.game.uni.gfx.Stage.AreaObject;
+import se.jbee.game.uni.gfx.Stage.KeyMapping;
+import se.jbee.game.uni.process.Player;
+import se.jbee.game.uni.screen.Screen;
+import se.jbee.game.uni.screen.ScreenNo;
+import se.jbee.game.uni.state.Change;
+import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.State;
+import se.jbee.game.uni.state.Change.Op;
 
 /**
  * The {@link Humans} process takes the role of the currently active human

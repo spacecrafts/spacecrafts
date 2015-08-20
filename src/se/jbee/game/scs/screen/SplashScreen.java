@@ -1,25 +1,25 @@
 package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
-import static se.jbee.game.common.state.Change.put;
-import static se.jbee.game.common.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.star;
 import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.scs.screen.View.dotDiameter;
+import static se.jbee.game.uni.state.Change.put;
+import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.awt.Rectangle;
 
-import se.jbee.game.common.gfx.Dimension;
-import se.jbee.game.common.gfx.Stage;
-import se.jbee.game.common.screen.Screen;
-import se.jbee.game.common.screen.ScreenNo;
-import se.jbee.game.common.state.Change;
-import se.jbee.game.common.state.Change.Op;
-import se.jbee.game.common.state.Entity;
-import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.uni.gfx.Dimension;
+import se.jbee.game.uni.gfx.Stage;
+import se.jbee.game.uni.screen.Screen;
+import se.jbee.game.uni.screen.ScreenNo;
+import se.jbee.game.uni.state.Change;
+import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.State;
+import se.jbee.game.uni.state.Change.Op;
 
 @ScreenNo(GameScreen.SCREEN_MAIN)
 public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {

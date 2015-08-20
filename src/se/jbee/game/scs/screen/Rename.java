@@ -1,13 +1,13 @@
 package se.jbee.game.scs.screen;
 
 
-import se.jbee.game.common.gfx.Dimension;
-import se.jbee.game.common.gfx.Stage;
-import se.jbee.game.common.screen.Screen;
-import se.jbee.game.common.screen.ScreenNo;
-import se.jbee.game.common.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.uni.gfx.Dimension;
+import se.jbee.game.uni.gfx.Stage;
+import se.jbee.game.uni.screen.Screen;
+import se.jbee.game.uni.screen.ScreenNo;
+import se.jbee.game.uni.state.State;
 
 /**
  * Does a minimal overlay in the region of the name renamed. In any case

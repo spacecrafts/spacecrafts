@@ -1,22 +1,22 @@
-package se.jbee.game.state;
+package se.jbee.game.uni.state;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
-import static se.jbee.game.common.state.Entity.codePoints;
+import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.junit.Test;
 
-import se.jbee.game.common.state.Component;
-import se.jbee.game.common.state.Data;
-import se.jbee.game.common.state.Entity;
-import se.jbee.game.common.state.State;
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.uni.state.Component;
+import se.jbee.game.uni.state.Data;
+import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.State;
 
 public class TestState {
 

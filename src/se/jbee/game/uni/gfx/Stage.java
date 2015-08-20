@@ -1,4 +1,4 @@
-package se.jbee.game.common.gfx;
+package se.jbee.game.uni.gfx;
 
 import static java.lang.Character.toUpperCase;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import se.jbee.game.common.state.Change;
+import se.jbee.game.uni.state.Change;
 
 public final class Stage {
 

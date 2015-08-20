@@ -1,4 +1,4 @@
-package se.jbee.game.common.process;
+package se.jbee.game.uni.process;
 
 public interface Player {
 

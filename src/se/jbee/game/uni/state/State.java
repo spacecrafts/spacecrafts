@@ -1,7 +1,7 @@
-package se.jbee.game.common.state;
+package se.jbee.game.uni.state;
 
 import static java.util.Arrays.copyOf;
-import static se.jbee.game.common.state.Entity.codePoints;
+import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;

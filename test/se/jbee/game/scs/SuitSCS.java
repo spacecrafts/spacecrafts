@@ -4,8 +4,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import se.jbee.game.state.TestEntity;
-import se.jbee.game.state.TestState;
+import se.jbee.game.uni.state.TestEntity;
+import se.jbee.game.uni.state.TestState;
 
 @RunWith(Suite.class)
 @SuiteClasses({ TestEntity.class, TestState.class, TestGame.class })

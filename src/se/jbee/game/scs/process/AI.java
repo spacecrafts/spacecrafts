@@ -1,9 +1,9 @@
 package se.jbee.game.scs.process;
 
-import se.jbee.game.common.process.Player;
-import se.jbee.game.common.state.Entity;
-import se.jbee.game.common.state.State;
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.uni.process.Player;
+import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.State;
 
 /**
  * An AI is a process that does the same kind of modifications to a specific

@@ -1,10 +1,10 @@
 package se.jbee.game.scs.logic;
 
-import se.jbee.game.common.logic.Progress;
-import se.jbee.game.common.state.Entity;
-import se.jbee.game.common.state.State;
 import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.state.GameComponent;
+import se.jbee.game.uni.logic.Progress;
+import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.State;
 
 /**
  * The second most important game transition after {@link Turn}.

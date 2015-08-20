@@ -1,6 +1,6 @@
 package se.jbee.game.scs.state;
 
-import se.jbee.game.common.state.Component;
+import se.jbee.game.uni.state.Component;
 
 /**
  * A list of ALL the components used in the game.

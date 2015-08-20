@@ -1,11 +1,11 @@
-package se.jbee.game.state;
+package se.jbee.game.uni.state;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import se.jbee.game.common.state.Component;
-import se.jbee.game.common.state.Entity;
+import se.jbee.game.uni.state.Component;
+import se.jbee.game.uni.state.Entity;
 
 public class TestEntity {
 

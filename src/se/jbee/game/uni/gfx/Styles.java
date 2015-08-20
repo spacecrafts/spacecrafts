@@ -1,4 +1,4 @@
-package se.jbee.game.common.gfx;
+package se.jbee.game.uni.gfx;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;

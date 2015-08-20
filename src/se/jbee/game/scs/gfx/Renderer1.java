@@ -7,15 +7,15 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.jbee.game.common.gfx.Backdrop;
-import se.jbee.game.common.gfx.Dimension;
-import se.jbee.game.common.gfx.Renderer;
-import se.jbee.game.common.gfx.Stage;
-import se.jbee.game.common.gfx.Stage.KeyMapping;
-import se.jbee.game.common.gfx.Styles;
 import se.jbee.game.scs.gfx.bg.Planet;
 import se.jbee.game.scs.gfx.bg.Space;
 import se.jbee.game.scs.gfx.bg.Star;
+import se.jbee.game.uni.gfx.Backdrop;
+import se.jbee.game.uni.gfx.Dimension;
+import se.jbee.game.uni.gfx.Renderer;
+import se.jbee.game.uni.gfx.Stage;
+import se.jbee.game.uni.gfx.Styles;
+import se.jbee.game.uni.gfx.Stage.KeyMapping;
 
 /**
  * The first {@link Renderer} I do.

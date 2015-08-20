@@ -1,4 +1,4 @@
-package se.jbee.game.common.screen;
+package se.jbee.game.uni.screen;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

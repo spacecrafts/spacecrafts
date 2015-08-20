@@ -13,9 +13,9 @@ import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
 
-import se.jbee.game.common.gfx.Backdrop;
-import se.jbee.game.common.gfx.Styles;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.uni.gfx.Backdrop;
+import se.jbee.game.uni.gfx.Styles;
 
 public class Planet implements Gfx, Backdrop {
 
