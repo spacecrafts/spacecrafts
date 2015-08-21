@@ -26,7 +26,6 @@ public class Setup implements Progress, GameComponent {
 			gamE.append(PLAYERS, ai.id());
 		}
 		gamE.put(SCREEN, SCREEN_SETUP_PLAYER);
-		gamE.put(SCREEN_ENTITY, gamE.list(PLAYERS)[0]);		
 	}
 
 }

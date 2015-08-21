@@ -31,10 +31,10 @@ public class SavingGame implements Screen, GameComponent, Gfx {
 		stage.enter(text(x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT, 1));
 		stage.enter(codePoints("SAVING..."));
 		
-		// setup return to screen, done after action
+		gamE.put(ACTION, ACTION_SAVE);
+		// set return screen as screen so game jumps into last screen before save
 		gamE.put(SCREEN, gamE.num(RETURN_SCREEN));
 		gamE.erase(RETURN_SCREEN);
-		gamE.put(ACTION, ACTION_SAVE);
 
 		stage.disableInputs();
 	}

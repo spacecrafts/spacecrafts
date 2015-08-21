@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Objects;
+import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.uni.gfx.Dimension;
 import se.jbee.game.uni.gfx.Stage;
@@ -34,7 +35,7 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		// expects the screen entity to point to the player to setup
 		
 		Entity gamE = game.single(GAME);
-		Entity player = game.entity(gamE.num(SCREEN_ENTITY));
+		Entity player = Game.currentPlayer(game);
 		
 		stage.enter(background(0, 0, screen.width, screen.height, BG_BLACK));
 		
@@ -52,7 +53,8 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		stage.in(nextArea, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1),NEXT);
 		stage.onLeftClickIn(nextArea, 
 				put(player.id(), TURN, 0),
-				put(gamE.id(), ACTION, ACTION_STEP));
+				put(gamE.id(), ACTION, ACTION_STEP),
+				put(gamE.id(), SCREEN, GameScreen.SCREEN_BLANK));
 	}
 
 }

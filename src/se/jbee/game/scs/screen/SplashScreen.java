@@ -2,7 +2,6 @@ package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static se.jbee.game.scs.gfx.Objects.background;
-import static se.jbee.game.scs.gfx.Objects.star;
 import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.scs.screen.View.dotDiameter;
 import static se.jbee.game.uni.state.Change.put;
@@ -17,9 +16,9 @@ import se.jbee.game.uni.gfx.Stage;
 import se.jbee.game.uni.screen.Screen;
 import se.jbee.game.uni.screen.ScreenNo;
 import se.jbee.game.uni.state.Change;
+import se.jbee.game.uni.state.Change.Op;
 import se.jbee.game.uni.state.Entity;
 import se.jbee.game.uni.state.State;
-import se.jbee.game.uni.state.Change.Op;
 
 @ScreenNo(GameScreen.SCREEN_MAIN)
 public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
@@ -36,7 +35,6 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		Entity g1 = game.single(GAME);
 		
 		stage.enter(background(0,0, screen.width, screen.height, BG_SPACE));
-		stage.enter(star(120, 120, 16, 0, 0));
 		
 		int dotDia = 20;
 		String title = "SPACECRAFTS";

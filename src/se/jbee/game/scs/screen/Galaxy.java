@@ -2,6 +2,7 @@ package se.jbee.game.scs.screen;
 
 import static java.lang.Math.min;
 import static se.jbee.game.scs.gfx.Objects.background;
+import static se.jbee.game.scs.gfx.Objects.border;
 import static se.jbee.game.scs.gfx.Objects.star;
 import static se.jbee.game.uni.state.Change.put;
 
@@ -9,6 +10,7 @@ import java.awt.Rectangle;
 
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Objects;
+import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.uni.gfx.Dimension;
 import se.jbee.game.uni.gfx.Rnd;
@@ -25,8 +27,8 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		
 		Entity gamE = game.single(GAME);
-		Entity player = game.entity(gamE.list(SCREEN_ENTITY)[0]);
-		Entity galaxy = game.entity(gamE.list(SCREEN_ENTITY)[1]);
+		Entity player = Game.currentPlayer(game);
+		Entity galaxy = game.entity(gamE.num(SCREEN_ENTITY));
 
 		stage.enter(background(0, 0, screen.width, screen.height, BG_SPACE));
 		
@@ -42,11 +44,15 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			long seed = star.longNum(SEED);
 			Rnd rnd = new Rnd(seed);
 			int[] xyz = star.list(POSITION);
-			int xc = x0+xyz[0]*wh/size;
-			int yc = y0+xyz[1]*wh/size;
-			stage.enter(star(xc, yc, rnd.nextInt(14, 22), rnd.nextInt(255), 0));
+			int x = x0+xyz[0]*wh/size;
+			int y = y0+xyz[1]*wh/size;
+			int dia = rnd.nextInt(14, 22);
+			stage.enter(star(x, y, dia, rnd.nextInt(255), 0));
 			if (playerStar == starID) {
-				stage.enter(Objects.border(xc, yc, 50, 50));
+				stage.enter(border(x-5, y-5, dia+10, dia+10));
+				Rectangle area = new Rectangle(x-5, y-5, dia+10, dia+10);
+				stage.in(area, Objects.focusBox(x-5, y-5, dia+10, dia+10));
+				stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), put(gamE.id(), SCREEN_ENTITY, starID));
 			}
 		}
 	}

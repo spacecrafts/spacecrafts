@@ -11,6 +11,7 @@ import static se.jbee.game.uni.state.Entity.codePoints;
 import java.awt.Rectangle;
 
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.uni.gfx.Dimension;
 import se.jbee.game.uni.gfx.Stage;
@@ -26,8 +27,23 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
 
-		Entity player = game.entity(gamE.list(SCREEN_ENTITY)[0]);
-		Entity star = game.entity(gamE.list(SCREEN_ENTITY)[1]); 
+		Entity player = Game.currentPlayer(game);
+		Entity star = game.entity(gamE.num(SCREEN_ENTITY)); 
+		
+		int w = screen.width;
+		int h = screen.height;
+		stage.enter(background(0,0,w, h, BG_SPACE));
+		stage.enter(starClip(w-h/8, -h/2, h*2, 0xaaaa00, 0)); // g can be altered to increase or decrease red part of sun
+
+		int[] planets = star.list(PLANETS);
+		int ym = screen.height /2;
+		int x0 = screen.width/16;
+		for (int i = 0; i < planets.length; i++) {
+			Entity planet = game.entity(planets[i]);
+			int dia = 200;
+			stage.enter(planet(x0, ym-dia/2, dia, 0xFF5014, 0));
+			x0 += dia+screen.width/16;
+		}
 	}
 
 	private void randomSolarSystem(State game, Dimension screen, Stage stage) {

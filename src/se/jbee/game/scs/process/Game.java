@@ -163,4 +163,20 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		t.setDaemon(true);
 		return t;
 	}
+	
+	/**
+	 * The current player is always dreived from game state. The first player
+	 * that has not finished the current turn is the current player.
+	 */
+	public static Entity currentPlayer(State game) {
+		Entity gamE = game.single(GAME);
+		int turn = gamE.num(TURN);
+		int[] players = gamE.list(PLAYERS);
+		for (int i = 0; i < players.length; i++) {
+			Entity player = game.entity(players[i]);
+			if (player.num(TURN) < turn)
+				return player; 
+		}
+		return null;
+	}
 }

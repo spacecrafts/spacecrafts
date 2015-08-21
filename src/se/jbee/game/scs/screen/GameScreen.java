@@ -12,7 +12,7 @@ public interface GameScreen {
 		SCREEN_SETUP_PLAYER = 6,
 		
 		SCREEN_USER_SETTINGS = 7,
-		SCREEN_RENAME = 8,
+		SCREEN_BLANK = 8,
 		SCREEN_ENCOUNTER = 9,
 		
 		SCREEN_GALAXY = 10,
@@ -21,5 +21,6 @@ public interface GameScreen {
 		SCREEN_COLONY = 13,
 		SCREEN_ORBIT = 14,
 		SCREEN_SPACECRAFT = 15,
-		SCREEN_FLEET = 16;
+		SCREEN_FLEET = 16,
+		SCREEN_RENAME = 17;
 }

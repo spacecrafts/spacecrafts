@@ -63,7 +63,7 @@ public interface GameComponent extends Component {
 		
 		// view control
 		SCREEN = 20,
-		SCREEN_ENTITY = 21, // {*a,..} (e.g. the colony in the colony screen, the player in the galaxy screen; the appearance of each screen might be linked to a set of entities; their type is usually an expected one)  
+		SCREEN_ENTITY = 21, // {*a,..} ( what; galaxy; e.g. the colony in the colony screen, the galaxy in the galaxy screen; the appearance of each screen might be linked to a set of entities; their type is usually an expected one)  
 		RETURN_SCREEN = 22, // the screen one goes back to from e.g. load/save dialog screen
 		PAGE = 23, // # (used for paging - e.g. load screen)
 		

@@ -77,6 +77,7 @@ public class Turn implements Progress, GameComponent {
 			Entity planet = game.defEntity(PLANET);
 			planet.put(STAR, star.id());
 			planet.put(POSITION, i+1); // as a planet orbits around the star it does not have a fix position in overall space, the position is simply the distance from the star, here simplified by its position
+			
 			planets[i] = planet.id();
 		}
 		star.put(PLANETS, planets);
