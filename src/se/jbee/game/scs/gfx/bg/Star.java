@@ -54,7 +54,7 @@ public class Star implements Gfx, Backdrop {
 		int r = 255;
 		int g = 150+t/4;
 		int b = 85-t/3;
-		if ((t % 2) == 0) {
+		if ((t % 2) == 0 && t > 150) {
 			r = 255-t/4;
 			g = 255;
 			b = 255;

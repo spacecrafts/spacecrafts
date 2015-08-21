@@ -1,5 +1,6 @@
 package se.jbee.game.scs.screen;
 
+import static java.lang.Math.min;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.star;
 import static se.jbee.game.uni.state.Change.put;
@@ -23,6 +24,34 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		
+		Entity gamE = game.single(GAME);
+		Entity player = game.entity(gamE.list(SCREEN_ENTITY)[0]);
+		Entity galaxy = game.entity(gamE.list(SCREEN_ENTITY)[1]);
+
+		stage.enter(background(0, 0, screen.width, screen.height, BG_SPACE));
+		
+		Rectangle center = View.centerView(screen);
+		int wh = min(center.width, center.height);
+		int size = galaxy.num(SIZE);
+		int x0 = center.x+(center.width-wh)/2;
+		int y0 = center.y+(center.height-wh)/2;
+		int[] stars = galaxy.list(STARS);
+		int playerStar = game.entity(player.num(HOME)).num(STAR);
+		for (int starID : stars) {
+			Entity star = game.entity(starID);
+			long seed = star.longNum(SEED);
+			Rnd rnd = new Rnd(seed);
+			int[] xyz = star.list(POSITION);
+			int xc = x0+xyz[0]*wh/size;
+			int yc = y0+xyz[1]*wh/size;
+			stage.enter(star(xc, yc, rnd.nextInt(14, 22), rnd.nextInt(255), 0));
+			if (playerStar == starID) {
+				stage.enter(Objects.border(xc, yc, 50, 50));
+			}
+		}
+	}
+
+	private void randomGalaxy(State game, Dimension screen, Stage stage) {
 		int w = screen.width;
 		int h = screen.height;
 		stage.enter(background(0, 0, w, h, BG_SPACE));

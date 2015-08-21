@@ -25,6 +25,13 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
+
+		Entity player = game.entity(gamE.list(SCREEN_ENTITY)[0]);
+		Entity star = game.entity(gamE.list(SCREEN_ENTITY)[1]); 
+	}
+
+	private void randomSolarSystem(State game, Dimension screen, Stage stage) {
+		Entity gamE = game.single(GAME);
 		Rectangle area = new Rectangle(690, 390, 220, 220);
 
 		int w = screen.width;
@@ -56,7 +63,6 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		area = new Rectangle(90, 290, 420, 420);
 		stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_ORBIT));
 		stage.in(area, focusBox(90, 290, 420, 420));
-		
 	}
 
 }

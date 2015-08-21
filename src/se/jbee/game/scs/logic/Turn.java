@@ -15,6 +15,9 @@ import se.jbee.game.uni.state.State;
  */
 public class Turn implements Progress, GameComponent {
 
+	private static final int GALAXY_DEPTH = 500;
+	private static final int GALAXY_SIZE = 4000;
+
 	@Override
 	public void progress(State user, State game) {
 		final Entity gamE = game.single(GAME);
@@ -73,7 +76,8 @@ public class Turn implements Progress, GameComponent {
 		for (int i = 0; i < nop; i++) {
 			Entity planet = game.defEntity(PLANET);
 			planet.put(STAR, star.id());
-			planet.put(POSITION, i+1); // as a planet orbits around the star it does not have a fix position in overall space, the position is simply the distance from the star, here simplified by its position 
+			planet.put(POSITION, i+1); // as a planet orbits around the star it does not have a fix position in overall space, the position is simply the distance from the star, here simplified by its position
+			planets[i] = planet.id();
 		}
 		star.put(PLANETS, planets);
 	}
@@ -91,17 +95,19 @@ public class Turn implements Progress, GameComponent {
 		Entity galaxy = game.defEntity(GALAXY);
 		long seed = System.currentTimeMillis();
 		galaxy.put(SEED, seed);
+		galaxy.put(SIZE, GALAXY_SIZE);
 		gamE.append(GALAXIES, galaxy.id());
 		Rnd rnd = new Rnd(gamE.longNum(SEED));
-		int nos = rnd.nextInt(25, 50) * size;
+		int nos = rnd.nextInt(35, 50) * size;
 		
 		int[] stars = new int[nos];
 		for (int i = 0; i < nos; i++) {
-			int x = rnd.nextInt(0, 4000);
-			int y = rnd.nextInt(0, 4000);
-			int z = rnd.nextInt(0, 500);
+			int x = rnd.nextInt(0, GALAXY_SIZE);
+			int y = rnd.nextInt(0, GALAXY_SIZE);
+			int z = rnd.nextInt(0, GALAXY_DEPTH);
 			
 			Entity star = game.defEntity(STAR);
+			star.put(SEED, rnd.nextLong());
 			star.put(POSITION, x,y,z);
 			stars[i] = star.id();
 		}
