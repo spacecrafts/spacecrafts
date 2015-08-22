@@ -126,6 +126,7 @@ public interface GameComponent extends Component {
 		PLANETS = 121, // {*x,*y,*z} (orbiting)
 		// POSITION (in the cluster)		
 		//FLEETS = {*x,*y,*z} (set of all the fleets arrived/staying in a solar system)
+		MASS = 122,
 	
 	PLANET = 130,
 		// SEEDS [#,#,...]
@@ -141,7 +142,8 @@ public interface GameComponent extends Component {
 		// PROBABILITIES (of types of planets?)
 	
 	PLANET_TYPE = 160, // of planet (mostly a description for humans)
-		PROBABILITIES = 161, // [#,#,...] of special resources			
+		PROBABILITIES = 161, // [#,#,...] of special resources
+		//CODE (a static constant value known to gfx to draw the appropriate image, random values from planet are used to make each appear somewhat unique 
 		
 	/*
 	 * Diplomacy and Trading

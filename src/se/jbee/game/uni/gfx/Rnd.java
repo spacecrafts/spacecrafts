@@ -1,5 +1,7 @@
 package se.jbee.game.uni.gfx;
 
+import static java.lang.Math.abs;
+
 
 /**
  * A simple xorshift128+ pseudo random number generator.
@@ -48,5 +50,9 @@ public final class Rnd {
 		
 	public int nextInt(int min, int max) {
 		return (int) nextLong(min, max);
+	}
+
+	public boolean nextChance(int percent) {
+		return abs(nextLong()) < Long.MAX_VALUE / 100L * percent;
 	}
 }
