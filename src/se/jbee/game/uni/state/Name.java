@@ -8,36 +8,58 @@ package se.jbee.game.uni.state;
  */
 public class Name {
 	
-	private static final String[][] GLOTTAL = { 
-		{"bal", "tor", "mat", "kit", "lif", "val", "zir", "dor", "di", "ban", "mar", "kir" }, 
+	private static final String[][] KIRUG_TARK = { 
+		{"Bal", "Tor", "Mat", "Kit", "Lif", "Val", "Zir", "Dor", "Di", "Ban", "Mar", "Kir" }, 
 		{"ok", "ug","az","ur","za","un","ra","un","om"}, 
-		{" tar", " ir", " pe", " gor", " ha"}, 
+		{" Tar", " Ir", " Pe", " Gor", " Ha"}, 
 		{"ma", "k", "zog", "rah", "oh", "dak"} };
 	
-	private static final String[][] MELODIC = {
-		{"lui", "ba", "bi", "ve", "vi", "ci", "ro", "flo", "na", "co", "ha", "tu", "pi"},
+	private static final String[][] VENEZIA = {
+		{"Lui", "Ba", "Bi", "Ve", "Vi", "Ci", "Ro", "Flo", "Na", "Co", "Ha", "Tu", "Pi"},
 		{"ga", "ne", "po", "pa", "pu", "me", "ler", "gi", "do", "te", "no", "ri", "co"},
 		{"zia", "la", "li", "ni", "mi", "ma", "na", "no", "mo", "gi", "ti", "di", "ro", "bo"}};
 	
-	private static final String[][] SUSURRANT = {
-		{"si","wa", "la", "fa", "ki", "pa", "hu", "mu", "wo", "li", "ju"},
+	private static final String[][] WADOJIN = {
+		{"Si","Wa", "La", "Fa", "Ki", "Pa", "Hu", "Mu", "Wo", "Li", "Ju"},
 		{"m", "ss", "mm", "v", "d", "pen", "ch"},
 		{"oj", "at", "uh", "oh", "el", "t"},
-		{"en", "in", "nef", "el", "es"}
-	};
+		{"en", "in", "nef", "el", "es"}	};
 	
-	private static final String[][] NASAL = {
-		{},
-		{}
-	};
+	private static final String[][] FLOVUTE = {
+		{"Flo", "Re", "Pa", "Je", "Ju", "Fe", "An", "Am", "Fu", "Mo", "Dy", "Ce", "Val", "Hu"},
+		{"la", "tu", "mi", "ni", "ri", "ba", "ra", "vu", "le", "go"},
+		{"na","ge", "te", "con", "cion", "s", "ne", "pice", "pon", "tre"},
+		{"t"},
+		{"es"} };
 	
-	//TODO use space in parts to create multi word names!
+	private static final String[][] BEUDONIA = { 
+		{"Ha", "Be", "Ge", "Ma", "Lo", "Sti", "Za", "Sa", "Je"},
+		{"m", "n", "r", "u"},
+		{"b", "g", "d", "ch", "s", "k"},
+		{"e", "in", "en", "on", "er"},
+		{"g", "e", "a", "d", "o", "z", "ia"} };
+	
+	private static final String[][] TAZADAR = {
+		{"Ta", "Ra", "Za", "Tu", "Di", "Va", "A", "U", "I"},
+		{"za", "r", "du","n","si"},
+		{"d","m","s","am","v", ""},
+		{"ar", "un", "ir", "is","az","at"} };
+	
+	private static final String[][] LANCELOT = {
+		{"La"},
+		{"n"},
+		{"ce"},
+		{"lot"}};
 	
 	public static String name(int type, long seed) {
 		switch (type) {
-		case 2 : return name(seed, SUSURRANT, 100, 100, 30,10,0);
-		case 1 : return name(seed, MELODIC, 100, 90, 0);
-		default: return name(seed, GLOTTAL, 100,50,100,0);
+		case 6 : return name(seed, TAZADAR, 100, 100, 100, 0);
+		case 4 : return name(seed, KIRUG_TARK, 100,50,100,0);
+		case 3 : return name(seed, FLOVUTE, 100, 100, 15, 10,0);
+		case 2 : return name(seed, WADOJIN, 100, 100, 30,10,0);
+		case 1 : return name(seed, VENEZIA, 100, 90, 0);
+		default:
+		case 0 : return name(seed, BEUDONIA, 100, 100, 50, 25,0);
 		}
 	}
 
