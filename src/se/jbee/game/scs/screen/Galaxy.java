@@ -13,11 +13,11 @@ import se.jbee.game.scs.gfx.Objects;
 import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.uni.gfx.Dimension;
-import se.jbee.game.uni.gfx.Rnd;
 import se.jbee.game.uni.gfx.Stage;
 import se.jbee.game.uni.screen.Screen;
 import se.jbee.game.uni.screen.ScreenNo;
 import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.Rnd;
 import se.jbee.game.uni.state.State;
 
 @ScreenNo(GameScreen.SCREEN_GALAXY)

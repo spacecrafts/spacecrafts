@@ -2,9 +2,9 @@ package se.jbee.game.scs.logic;
 
 import static java.lang.Math.sqrt;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.uni.gfx.Rnd;
 import se.jbee.game.uni.logic.Progress;
 import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.Rnd;
 import se.jbee.game.uni.state.State;
 
 /**

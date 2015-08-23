@@ -1,4 +1,4 @@
-package se.jbee.game.uni.gfx;
+package se.jbee.game.uni.state;
 
 import static java.lang.Math.abs;
 
