@@ -33,7 +33,7 @@ public class Name {
 		{"es"} };
 	
 	private static final String[][] BEUDONIA = { 
-		{"Ha", "Be", "Ge", "Ma", "Lo", "Sti", "Za", "Sa", "Je"},
+		{"Ha", "Be", "Ge", "Ma", "Lo", "Sti", "Za", "Sa", "Je", "E"},
 		{"m", "n", "r", "u"},
 		{"b", "g", "d", "ch", "s", "k"},
 		{"e", "in", "en", "on", "er"},
@@ -46,14 +46,16 @@ public class Name {
 		{"ar", "un", "ir", "is","az","at"} };
 	
 	private static final String[][] LANCELOT = {
-		{"La"},
-		{"n"},
-		{"ce"},
-		{"lot"}};
+		{"La","Me","Ma","Yu","Ha","Ya","Xa","Fu","Xu"},
+		{"nc","nz","ik","k","t","n","r","","h"},
+		{"e","a","u"},
+		{"lot","rot","zu","ha","ma","ta","gi"},
+		{"e","se"}};
 	
 	public static String name(int type, long seed) {
 		switch (type) {
-		case 6 : return name(seed, TAZADAR, 100, 100, 100, 0);
+		case 6 : return name(seed, LANCELOT, 100, 100, 25, 10,0);
+		case 5 : return name(seed, TAZADAR, 100, 100, 100, 0);
 		case 4 : return name(seed, KIRUG_TARK, 100,50,100,0);
 		case 3 : return name(seed, FLOVUTE, 100, 100, 15, 10,0);
 		case 2 : return name(seed, WADOJIN, 100, 100, 30,10,0);
