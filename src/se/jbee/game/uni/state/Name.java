@@ -53,9 +53,9 @@ public class Name {
 		{"e","se"}};
 	
 	private static final String[][] LETO = {
-		{"A","Au","Ly","Vi", "Le", "Cas", "Er", "U", "Ve", "I", "Plu", "Ge"},
-		{"qua","to", "si", "da", "tar", "gi", "ca", "la","gitta", "pri", "mi"},
-		{"tis", "tum", "um", "go", "rius", "ux","pia", "nus", "ni", "rus", "tus", "lux", "ris", "nium"},
+		{"A","Au","Ly","Vi", "Le", "Ca", "Er", "U", "Ve", "I", "Plu", "Ge"},
+		{"qua","to", "si", "da", "tar", "n", "gi", "ca", "la","gitta", "pri", "mi", "ra", "lan"},
+		{"tis", "tum", "um", "go", "rius", "ux","pia", "nus", "ni", "rus", "tus", "lux", "ris", "nium", "on"},
 	};
 	
 	public static String name(int type, long seed) {
