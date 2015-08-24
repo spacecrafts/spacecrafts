@@ -41,7 +41,7 @@ public class Name {
 	
 	private static final String[][] TAZADAR = {
 		{"Ta", "Ra", "Za", "Tu", "Di", "Va", "A", "U", "I"},
-		{"za", "r", "du","n","si"},
+		{"za", "r", "du","n","si", "lta"},
 		{"d","m","s","am","v", ""},
 		{"ar", "un", "ir", "is","az","at"} };
 	
@@ -52,8 +52,15 @@ public class Name {
 		{"lot","rot","zu","ha","ma","ta","gi"},
 		{"e","se"}};
 	
+	private static final String[][] LETO = {
+		{"A","Au","Ly","Vi", "Le", "Cas", "Er", "U", "Ve", "I", "Plu", "Ge"},
+		{"qua","to", "si", "da", "tar", "gi", "ca", "la","gitta", "pri", "mi"},
+		{"tis", "tum", "um", "go", "rius", "ux","pia", "nus", "ni", "rus", "tus", "lux", "ris", "nium"},
+	};
+	
 	public static String name(int type, long seed) {
 		switch (type) {
+		case 7 : return name(seed, LETO, 100, 60, 40, 20, 0);
 		case 6 : return name(seed, LANCELOT, 100, 100, 25, 10,0);
 		case 5 : return name(seed, TAZADAR, 100, 100, 100, 0);
 		case 4 : return name(seed, KIRUG_TARK, 100,50,100,0);

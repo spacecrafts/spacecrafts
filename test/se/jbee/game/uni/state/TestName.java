@@ -15,7 +15,7 @@ public class TestName {
 		Rnd rnd = new Rnd(79L);
 		int n = 10000;
 		for (int i = 0; i < n; i++) {
-			names.add(Name.name(6, rnd.nextLong()));
+			names.add(Name.name(7, rnd.nextLong()));
 		}
 		// at least every ten names tried are new on average (up to n of 10.000; this cannot be increased much further as the maximum of possible names is just about a few thousand)
 		System.out.println(names.size());
