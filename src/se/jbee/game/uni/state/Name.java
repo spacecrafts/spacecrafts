@@ -63,8 +63,26 @@ public final class Name {
 		{"o", "e", "u", "a"},
 		{"kon","k", "r", "s", "ban", "r", "d"} };
 	
+	public static final String[][] RA =  { 
+		{"Am", "Ag", "An", "M", "N", "S", "N", "T", "Th", "Un", "K", "B", "H", "R", "H", "Sch"},
+		{"a", "e", "u", "amu"},
+		{"bet","haf", "des", "tem", "nut", "ef", "tet", "ta", "sut", "n", "net", "tis", "bis", "m", "pa", "th", "f", "t", "ris", "k", "mut", "sat", "hes", "tep", "tef"},
+		{"-Re", "-Amun", "-anch"}
+	};
+	
+	private static final String[][] AMANDA = { // Vespa, Piagio
+		{"Coco", "Bo", "Pe", "Gu", "Lui", "To", "Da", "Va", "Fu", "Bu"},
+		{"llo", "lle", "lli", "bbo", "gi", "tti", "da", "po"},
+		{"lino", "vino", "grino", "cesco", "rio", "gio"},
+		{""}
+	};
+	
+	// Piotr, -skij, -ov, -rov, boris, vladimir, -mir, dimitri
+	
 	public static String name(int type, long seed) {
 		switch (type) {
+		case 10 : return name(seed, AMANDA, 90, 50, 25, 0);
+		case 9 : return name(seed, RA, 100, 90, 5, 0);
 		case 8 : return name(seed, HARES, 100,100,25,0);
 		case 7 : return name(seed, LETO, 100, 60, 40, 20, 0);
 		case 6 : return name(seed, LANCELOT, 100, 100, 25, 10,0);
