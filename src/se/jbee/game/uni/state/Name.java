@@ -6,7 +6,7 @@ package se.jbee.game.uni.state;
  * create names of a certain character this narrows down the possible names but
  * is simple and creates a good atmosphere
  */
-public class Name {
+public final class Name {
 	
 	private static final String[][] KIRUG_TARK = { 
 		{"Bal", "Tor", "Mat", "Kit", "Lif", "Val", "Zir", "Dor", "Di", "Ban", "Mar", "Kir" }, 
@@ -55,11 +55,17 @@ public class Name {
 	private static final String[][] LETO = {
 		{"A","Au","Ly","Vi", "Le", "Ca", "Er", "U", "Ve", "I", "Plu", "Ge"},
 		{"qua","to", "si", "da", "tar", "n", "gi", "ca", "la","gitta", "pri", "mi", "ra", "lan"},
-		{"tis", "tum", "um", "go", "rius", "ux","pia", "nus", "ni", "rus", "tus", "lux", "ris", "nium", "on"},
-	};
+		{"tis", "tum", "um", "go", "rius", "ux","pia", "nus", "ni", "rus", "tus", "lux", "ris", "nium", "on"} };
+	
+	private static final String[][] HARES = {
+		{"Ha", "Thu", "Yo", "Ta", "O", "Ne", "Ba", "Ko", "Ro", "Ve", "Ra", "A"},
+		{"r", "n", "c", "l", "g", "t", "v"},
+		{"o", "e", "u", "a"},
+		{"kon","k", "r", "s", "ban", "r", "d"} };
 	
 	public static String name(int type, long seed) {
 		switch (type) {
+		case 8 : return name(seed, HARES, 100,100,25,0);
 		case 7 : return name(seed, LETO, 100, 60, 40, 20, 0);
 		case 6 : return name(seed, LANCELOT, 100, 100, 25, 10,0);
 		case 5 : return name(seed, TAZADAR, 100, 100, 100, 0);
