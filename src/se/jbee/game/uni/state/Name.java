@@ -57,11 +57,11 @@ public final class Name {
 		{"qua","to", "si", "da", "tar", "n", "gi", "ca", "la","gitta", "pri", "mi", "ra", "lan"},
 		{"tis", "tum", "um", "go", "rius", "ux","pia", "nus", "ni", "rus", "tus", "lux", "ris", "nium", "on"} };
 	
-	private static final String[][] HARES = {
-		{"Ha", "Thu", "Yo", "Ta", "O", "Ne", "Ba", "Ko", "Ro", "Ve", "Ra", "A"},
-		{"r", "n", "c", "l", "g", "t", "v"},
+	private static final String[][] HADES = {
+		{"Ha", "Thu", "Yo", "Ta", "O", "Ne", "Ba", "Ko", "Ro", "Ve", "Ra", "A", "Ke"},
+		{"r", "n", "c", "l", "g", "t", "v", "d"},
 		{"o", "e", "u", "a"},
-		{"kon","k", "r", "s", "ban", "r", "d"} };
+		{"s", "k", "r", "bal", "kon", "d", "ros"} };
 	
 	public static final String[][] RA =  { 
 		{"Am", "Ag", "An", "M", "N", "S", "N", "T", "Th", "Un", "K", "B", "H", "R", "H", "Sch"},
@@ -70,29 +70,28 @@ public final class Name {
 		{"-Re", "-Amun", "-anch"}
 	};
 	
-	private static final String[][] AMANDA = { // Vespa, Piagio
+	private static final String[][] PELLEGRINO = { // Vespa
 		{"Coco", "Bo", "Pe", "Gu", "Lui", "To", "Da", "Va", "Fu", "Bu"},
 		{"llo", "lle", "lli", "bbo", "gi", "tti", "da", "po"},
-		{"lino", "vino", "grino", "cesco", "rio", "gio"},
-		{""}
+		{"lino", "vino", "grino", "cesco", "rio", "gio"}
 	};
 	
 	// Piotr, -skij, -ov, -rov, boris, vladimir, -mir, dimitri
 	
 	public static String name(int type, long seed) {
 		switch (type) {
-		case 10 : return name(seed, AMANDA, 90, 50, 25, 0);
-		case 9 : return name(seed, RA, 100, 90, 5, 0);
-		case 8 : return name(seed, HARES, 100,100,25,0);
-		case 7 : return name(seed, LETO, 100, 60, 40, 20, 0);
-		case 6 : return name(seed, LANCELOT, 100, 100, 25, 10,0);
-		case 5 : return name(seed, TAZADAR, 100, 100, 100, 0);
-		case 4 : return name(seed, KIRUG_TARK, 100,50,100,0);
-		case 3 : return name(seed, FLOVUTE, 100, 100, 15, 10,0);
-		case 2 : return name(seed, WADOJIN, 100, 100, 30,10,0);
-		case 1 : return name(seed, VENEZIA, 100, 90, 0);
+		case 10 : return name(seed, PELLEGRINO, 90, 50, 25, 0);
+		case 9  : return name(seed, RA, 100, 90, 5, 0);
+		case 8  : return name(seed, HADES, 100,100,25,0);
+		case 7  : return name(seed, LETO, 100, 60, 40, 20, 0);
+		case 6  : return name(seed, LANCELOT, 100, 100, 25, 10,0);
+		case 5  : return name(seed, TAZADAR, 100, 100, 100, 0);
+		case 4  : return name(seed, KIRUG_TARK, 100,50,100,0);
+		case 3  : return name(seed, FLOVUTE, 100, 100, 15, 10,0);
+		case 2  : return name(seed, WADOJIN, 100, 100, 30,10,0);
+		case 1  : return name(seed, VENEZIA, 100, 90, 0);
 		default:
-		case 0 : return name(seed, BEUDONIA, 100, 100, 50, 25,0);
+		case 0  : return name(seed, BEUDONIA, 100, 100, 50, 25,0);
 		}
 	}
 
