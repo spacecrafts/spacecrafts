@@ -29,8 +29,8 @@ public final class Name {
 	
 	private static final String[][] VENEZIA = {
 		{"Lui", "Ba", "Bi", "Ve", "Vi", "Ci", "Ro", "Flo", "Na", "Co", "Ha", "Tu", "Pi"},
-		{"ga", "ne", "po", "pa", "pu", "me", "ler", "gi", "do", "te", "no", "ri", "co"},
-		{"zia", "la", "li", "ni", "mi", "ma", "na", "no", "mo", "gi", "ti", "di", "ro", "bo"}};
+		{"ga", "ne", "po", "pa", "pu", "me", "le", "ggi", "do", "te", "no", "ri", "co"},
+		{"zia", "lla", "lli", "ni", "mi", "ma", "na", "no", "mo", "gi", "tti", "di", "ro", "bo"}};
 	
 	private static final String[][] WADOJIN = {
 		{"Si","Wa", "La", "Fa", "Ki", "Pa", "Hu", "Mu", "Wo", "Li", "Ju"},
