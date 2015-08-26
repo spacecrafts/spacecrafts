@@ -7,6 +7,19 @@ package se.jbee.game.uni.state;
  * is simple and creates a good atmosphere
  */
 public final class Name {
+
+	public static final int
+		NAME_BEUDONIA = 0,
+		NAME_VENEZIA =  1,
+		NAME_WADOJIN = 2,
+		NAME_FLOVUTE = 3,
+		NAME_KIRUG_TARK = 4,
+		NAME_TAZADAR = 5,
+		NAME_LANCELOT = 6,
+		NAME_LETO = 7,
+		NAME_HADES = 8,
+		NAME_ANUBIS = 9,
+		NAME_PELLEGRINO = 10;
 	
 	private static final String[][] KIRUG_TARK = { 
 		{"Bal", "Tor", "Mat", "Kit", "Lif", "Val", "Zir", "Dor", "Di", "Ban", "Mar", "Kir" }, 
@@ -63,7 +76,7 @@ public final class Name {
 		{"o", "e", "u", "a"},
 		{"s", "k", "r", "bal", "kon", "d", "ros"} };
 	
-	public static final String[][] RA =  { 
+	private static final String[][] ANUBIS =  { 
 		{"Am", "Ag", "An", "M", "N", "S", "N", "T", "Th", "Un", "K", "B", "H", "R", "H", "Sch"},
 		{"a", "e", "u", "amu"},
 		{"bet","haf", "des", "tem", "nut", "ef", "tet", "ta", "sut", "n", "net", "tis", "bis", "m", "pa", "th", "f", "t", "ris", "k", "mut", "sat", "hes", "tep", "tef"},
@@ -77,27 +90,28 @@ public final class Name {
 	};
 	
 	// Piotr, -skij, -ov, -rov, boris, vladimir, -mir, dimitri
+	// names like Latin plant names
 	
 	public static String name(int type, long seed) {
 		switch (type) {
-		case 10 : return name(seed, PELLEGRINO, 90, 50, 25, 0);
-		case 9  : return name(seed, RA, 100, 90, 5, 0);
-		case 8  : return name(seed, HADES, 100,100,25,0);
-		case 7  : return name(seed, LETO, 100, 60, 40, 20, 0);
-		case 6  : return name(seed, LANCELOT, 100, 100, 25, 10,0);
-		case 5  : return name(seed, TAZADAR, 100, 100, 100, 0);
-		case 4  : return name(seed, KIRUG_TARK, 100,50,100,0);
-		case 3  : return name(seed, FLOVUTE, 100, 100, 15, 10,0);
-		case 2  : return name(seed, WADOJIN, 100, 100, 30,10,0);
-		case 1  : return name(seed, VENEZIA, 100, 90, 0);
+		case NAME_PELLEGRINO: return name(seed, PELLEGRINO, 90, 50, 25, 0);
+		case NAME_ANUBIS    : return name(seed, ANUBIS, 100, 90, 5, 0);
+		case NAME_HADES     : return name(seed, HADES, 100,100,40,0);
+		case NAME_LETO      : return name(seed, LETO, 100, 60, 40, 20, 0);
+		case NAME_LANCELOT  : return name(seed, LANCELOT, 100, 100, 25, 10,0);
+		case NAME_TAZADAR   : return name(seed, TAZADAR, 100, 100, 100, 0);
+		case NAME_KIRUG_TARK: return name(seed, KIRUG_TARK, 100,50,100,0);
+		case NAME_FLOVUTE   : return name(seed, FLOVUTE, 100, 100, 15, 10,0);
+		case NAME_WADOJIN   : return name(seed, WADOJIN, 100, 100, 30,10,0);
+		case NAME_VENEZIA   : return name(seed, VENEZIA, 100, 90, 0);
 		default:
-		case 0  : return name(seed, BEUDONIA, 100, 100, 50, 25,0);
+		case NAME_BEUDONIA  : return name(seed, BEUDONIA, 100, 100, 50, 25,0);
 		}
 	}
 
 	private static String name(long seed, String[][] parts, int... morePartsChance) {
 		Rnd rnd = new Rnd(seed);
-		String name = "";
+		StringBuilder name = new StringBuilder();
 		for (int i = 0; i < parts.length; i++) {
 			int partChance = 100 / parts[i].length;
 			int j = rnd.nextInt(0, parts[i].length-1);
@@ -105,12 +119,12 @@ public final class Name {
 				j++;
 			}
 			j = j % parts[i].length;
-			name += parts[i][j];
+			name.append(parts[i][j]);
 			if (!rnd.nextChance(morePartsChance[i])) {
-				return name;
+				return name.toString();
 			}
 		}
-		return name;
+		return name.toString();
 	}
 	
 }
