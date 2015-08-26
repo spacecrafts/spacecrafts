@@ -1,6 +1,5 @@
 package se.jbee.game.scs.logic;
 
-import static java.lang.Math.sqrt;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.uni.logic.Progress;
 import se.jbee.game.uni.state.Entity;
@@ -44,13 +43,13 @@ public class Turn implements Progress, GameComponent {
 		// for now just pick random places
 		Rnd rnd = new Rnd(gamE.longNum(SEED));
 		int[] players = gamE.list(PLAYERS);
-		int[] stars = game.single(GALAXY).list(STARS);
-		long seed = System.currentTimeMillis();
+		Entity[] stars = game.entities(game.single(GALAXY).list(STARS));
+		int[] homes = D3.distantClusters(players.length, POSITION, stars);
 		for (int i = 0; i < players.length; i++) {
-			int n = rnd.nextInt(0, stars.length-1);
-			Entity star = game.entity(stars[n]);
+			Entity star = stars[homes[i]];
 			Entity player = game.entity(players[i]);
-			star.put(SEED, seed+n); // make sure all stars get different seeds
+			star.put(SEED, rnd.nextLong());
+			star.put(HOME, player.id());
 			player.put(STAR, star.id());
 			distributePlanetsInSolarSystem(game, star);
 			int[] planets = star.list(PLANETS);
@@ -81,13 +80,6 @@ public class Turn implements Progress, GameComponent {
 			planets[i] = planet.id();
 		}
 		star.put(PLANETS, planets);
-	}
-	
-	static double distance(int[] xyz0, int[] xyz1) {
-		int dx = xyz1[0] - xyz0[0];
-		int dy = xyz1[1] - xyz0[1];
-		int dz = xyz1[2] - xyz0[2];
-		return sqrt(dx*dx+dy*dy+dz*dz);
 	}
 
 	private static void distributeStarsInGalaxy(State game) {

@@ -48,7 +48,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			int y = y0+xyz[1]*wh/size;
 			int dia = rnd.nextInt(14, 22);
 			stage.enter(star(x, y, dia, rnd.nextInt(255), 0));
-			if (playerStar == starID) {
+			if (playerStar == starID || star.has(HOME)) {
 				stage.enter(border(x-5, y-5, dia+10, dia+10));
 				Rectangle area = new Rectangle(x-5, y-5, dia+10, dia+10);
 				stage.in(area, Objects.focusBox(x-5, y-5, dia+10, dia+10));

@@ -128,6 +128,14 @@ public final class State implements Component {
 		return es[id];
 	}
 	
+	public Entity[] entities(int...ids) {
+		Entity[] res = new Entity[ids.length];
+		for (int i = 0; i < ids.length; i++) {
+			res[i] = entity(ids[i]);
+		}
+		return res;
+	}
+	
 	public void save(File file) throws IOException {
 		//TODO as soon as multiple threads change state save may only occur in-between complete change-sets have been applied
 		// the simplest would be a sync on this object but this would prevent AIs and Human interaction to happen fully parallel. 

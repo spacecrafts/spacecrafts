@@ -46,7 +46,9 @@ public interface GameComponent extends Component {
 	int 
 	SETUP_NUMBER_OF_PLAYERS = 0,
 	SETUP_NUMBER_OF_AIS = 1,
-	SETUP_GALAXY_SIZE = 2;
+	SETUP_GALAXY_SIZE = 2,
+	// player setup 
+	SETUP_PLAYER_NAME_TYPE = 0;
 	
 	/**
 	 * Components
@@ -193,6 +195,7 @@ public interface GameComponent extends Component {
 	FLEET = 520,
 		SHIPS = 521, // [*x,*y,*z]
 		// POSITION	
+		TARGET = 522, // the star they are heading
 		
 	COMMANDER = 530,
 	
