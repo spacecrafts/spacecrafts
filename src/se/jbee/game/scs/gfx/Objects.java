@@ -12,6 +12,10 @@ public final class Objects implements Gfx {
 
 	//int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
 	
+	public static int[] component(int type, int x, int y, int d) {
+		return new int[] { OBJ_COMPONENT, type,x,y,d };
+	}
+	
 	public static int[] background(int x, int y, int w, int h, int no) {
 		return new int[] { OBJ_BACKGROUND, x,y,w,h, no };
 	}

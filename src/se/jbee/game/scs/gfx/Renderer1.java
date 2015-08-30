@@ -14,8 +14,8 @@ import se.jbee.game.uni.gfx.Backdrop;
 import se.jbee.game.uni.gfx.Dimension;
 import se.jbee.game.uni.gfx.Renderer;
 import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.gfx.Styles;
 import se.jbee.game.uni.gfx.Stage.KeyMapping;
+import se.jbee.game.uni.gfx.Styles;
 
 /**
  * The first {@link Renderer} I do.
@@ -117,6 +117,8 @@ public class Renderer1 implements Renderer, Gfx {
 				gfx.setColor(styles.color(COLOR_TEXT_NORMAL));
 				gfx.drawOval(obj[1], obj[2], obj[3], obj[3]);
 				break;
+			case OBJ_COMPONENT:
+				Icon.draw(styles, gfx, obj[1], obj[2], obj[3], obj[4]); break;
 			case OBJ_BUTTON_LESS:
 				gfx.setColor(styles.color(COLOR_TEXT_NORMAL));
 				gfx.fillOval(obj[1], obj[2], obj[3], obj[3]);

@@ -49,8 +49,8 @@ public final class Styles {
 		lazyImages[type] = image;
 	}
 	
-	public void addColor(int type, int rgba) {
-		colors[type] = new Color(rgba, true);
+	public void addColor(int type, int argb) {
+		colors[type] = new Color(argb, true);
 	}
 	
 	public void ready() {
@@ -91,13 +91,20 @@ public final class Styles {
 			type = 0;
 		Font[] sizes = fonts[type];
 		if (size >= sizes.length)
-			return sizes[0].deriveFont(0, size);
+			return derive(sizes[0], size);
 		Font f = sizes[size];
 		if (f == null) {
-			f = sizes[0].deriveFont(0, size);
-			sizes[size] = f;
+			Font base = sizes[0]; 
+			f = derive(base, size);
+			if (base != null) {
+				sizes[size] = f;
+			}
 		}
 		return f;		
+	}
+	
+	private Font derive(Font base, int size) {
+		return base == null ? Font.getFont(Font.MONOSPACED) : base.deriveFont(0, size);
 	}
 	
 	public Noise noise(int type) {

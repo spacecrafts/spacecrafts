@@ -139,7 +139,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		Entity g = game.defEntity(GAME);
 		g.put(SEED, System.currentTimeMillis());
 		g.put(TURN, 0);
-		g.put(SCREEN, GameScreen.SCREEN_MAIN);
+		g.put(SCREEN, GameScreen.SCREEN_ICON_INFO);
 		Entity p1 = game.defEntity(PLAYER);
 		p1.put(NO, 1);
 		p1.put(TURN, -1);

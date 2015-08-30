@@ -22,5 +22,6 @@ public interface GameScreen {
 		SCREEN_ORBIT = 14,
 		SCREEN_SPACECRAFT = 15,
 		SCREEN_FLEET = 16,
-		SCREEN_RENAME = 17;
+		SCREEN_RENAME = 17,
+		SCREEN_ICON_INFO = 18;
 }

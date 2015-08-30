@@ -127,12 +127,18 @@ public class Display extends Canvas implements Runnable, Gfx {
 	};
 	
 	private Styles initStyles() {
-		final Styles s = new Styles(5, 3, 4, 6);
-		s.addColor(0, 0xFF8899FF);
+		final Styles s = new Styles(11, 3, 4, 6);
+		s.addColor(COLOR_DEFAULT, 0xFF8899FF);
 		s.addColor(COLOR_TEXT_HIGHLIGHT, 0xFFFFFFFF);
 		s.addColor(COLOR_TEXT_NORMAL, 0xFF8899FF);
 		s.addColor(COLOR_TEXT_SPECIAL, 0xFFeeee77);
-		s.addColor(COLOR_SLOT_BORDER, 0xFF223355); 
+		s.addColor(COLOR_SLOT_BORDER, 0xFF223355);
+		s.addColor(COLOR_SHIELD, 0xffAAFFEE);
+		s.addColor(COLOR_ENERGY, 0xff00CC55);
+		s.addColor(COLOR_WEAPON, 0xffFF7777);
+		s.addColor(COLOR_CONTROL, 0xffDD8855);
+		s.addColor(COLOR_DRIVE, 0xffCC44CC);
+		s.addColor(COLOR_AMP, 0xff880000);
 		
 		s.addFont(FONT_REGULAR, "font/Roboto-Regular.ttf");
 		s.addFont(FONT_LIGHT, "font/Roboto-Light.ttf");
