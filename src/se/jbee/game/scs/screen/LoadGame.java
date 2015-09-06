@@ -34,7 +34,7 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 		// cancel (ESC override, to not set return screen)
 		stage.onKey(VK_ESCAPE, put(gamE.id(), SCREEN, SCREEN_MAIN));
 		
-		stage.enter(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 		
 
 		int gap = 20;
@@ -47,16 +47,16 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 		for (File savegame : pageFiles(user, game)) {
 			try {
 				Entity savegamE = State.load(savegame, GAME);
-				stage.enter(text(x0+w*2/3, y0+h, FONT_LIGHT, h/2, COLOR_TEXT_NORMAL, 1));
-				stage.enter(codePoints(String.valueOf(savegamE.num(TURN))));
+				stage.inFront(text(x0+w*2/3, y0+h, FONT_LIGHT, h/2, COLOR_TEXT_NORMAL, 1));
+				stage.inFront(codePoints(String.valueOf(savegamE.num(TURN))));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			stage.enter(border(x0, y0, w, h));
-			stage.enter(text(x0+gap, y0+h, FONT_REGULAR, h/6, COLOR_TEXT_NORMAL, 1));
+			stage.inFront(border(x0, y0, w, h));
+			stage.inFront(text(x0+gap, y0+h, FONT_REGULAR, h/6, COLOR_TEXT_NORMAL, 1));
 			int[] name = codePoints(savegame.getName());
-			stage.enter(name);
+			stage.inFront(name);
 			Rectangle area = new Rectangle(x0, y0, w, h);
 			stage.in(area, focusBox(x0, y0, w, h));
 			stage.onLeftClickIn(area,

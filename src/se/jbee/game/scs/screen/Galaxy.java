@@ -30,7 +30,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 		Entity player = Game.currentPlayer(game);
 		Entity galaxy = game.entity(gamE.num(SCREEN_ENTITY));
 
-		stage.enter(background(0, 0, screen.width, screen.height, BG_SPACE));
+		stage.inFront(background(0, 0, screen.width, screen.height, BG_SPACE));
 		
 		Rectangle center = View.centerView(screen);
 		int wh = min(center.width, center.height);
@@ -47,9 +47,9 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			int x = x0+xyz[0]*wh/size;
 			int y = y0+xyz[1]*wh/size;
 			int dia = rnd.nextInt(14, 22);
-			stage.enter(star(x, y, dia, rnd.nextInt(255), 0));
+			stage.inFront(star(x, y, dia, rnd.nextInt(255), 0));
 			if (playerStar == starID || star.has(HOME)) {
-				stage.enter(border(x-5, y-5, dia+10, dia+10));
+				stage.inFront(border(x-5, y-5, dia+10, dia+10));
 				Rectangle area = new Rectangle(x-5, y-5, dia+10, dia+10);
 				stage.in(area, Objects.focusBox(x-5, y-5, dia+10, dia+10));
 				stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), put(gamE.id(), SCREEN_ENTITY, starID));
@@ -60,7 +60,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 	private void randomGalaxy(State game, Dimension screen, Stage stage) {
 		int w = screen.width;
 		int h = screen.height;
-		stage.enter(background(0, 0, w, h, BG_SPACE));
+		stage.inFront(background(0, 0, w, h, BG_SPACE));
 		
 		Entity gamE = game.single(GAME);
 		
@@ -84,7 +84,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 				y-=50;
 			}
 			int d = rnd.nextInt(12,22);
-			stage.enter(star(x, y, d, rnd.nextInt(255), 0));
+			stage.inFront(star(x, y, d, rnd.nextInt(255), 0));
 			int box = 2*d;
 			Rectangle area = new Rectangle(x-d/2,y-d/2,box,box);
 			stage.in(area, Objects.focusBox(x-d/2, y-d/2, box, box));

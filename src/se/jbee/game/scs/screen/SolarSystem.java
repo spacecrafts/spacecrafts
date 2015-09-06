@@ -32,8 +32,8 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		
 		int w = screen.width;
 		int h = screen.height;
-		stage.enter(background(0,0,w, h, BG_SPACE));
-		stage.enter(starClip(w-h/8, -h/2, h*2, 0xaaaa00, 0)); // g can be altered to increase or decrease red part of sun
+		stage.inFront(background(0,0,w, h, BG_SPACE));
+		stage.inFront(starClip(w-h/8, -h/2, h*2, 0xaaaa00, 0)); // g can be altered to increase or decrease red part of sun
 
 		int[] planets = star.list(PLANETS);
 		int ym = screen.height /2;
@@ -41,7 +41,7 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		for (int i = 0; i < planets.length; i++) {
 			Entity planet = game.entity(planets[i]);
 			int dia = 200;
-			stage.enter(planet(x0, ym-dia/2, dia, 0xFF5014, 0));
+			stage.inFront(planet(x0, ym-dia/2, dia, 0xFF5014, 0));
 			x0 += dia+screen.width/16;
 		}
 	}
@@ -52,26 +52,26 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 
 		int w = screen.width;
 		int h = screen.height;
-		stage.enter(background(0,0,w, h, BG_SPACE));
-		stage.enter(starClip(w-h/8, -h/2, h*2, 0xaaaa00, 0)); // g can be altered to increase or decrease red part of sun
+		stage.inFront(background(0,0,w, h, BG_SPACE));
+		stage.inFront(starClip(w-h/8, -h/2, h*2, 0xaaaa00, 0)); // g can be altered to increase or decrease red part of sun
 
-		stage.enter(planet(700, 400, 200, 0xFF5014, 0));
-		stage.enter(planet(100, 300, 400, 0x44FF99, 0));
+		stage.inFront(planet(700, 400, 200, 0xFF5014, 0));
+		stage.inFront(planet(100, 300, 400, 0x44FF99, 0));
 		
-		stage.enter(text(690, 360, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
-		stage.enter(codePoints("Mars"));
-		stage.enter(text(690, 380, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, 1));
-		stage.enter(codePoints("Small, Tundra"));
+		stage.inFront(text(690, 360, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(codePoints("Mars"));
+		stage.inFront(text(690, 380, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(codePoints("Small, Tundra"));
 		
-		stage.enter(text(90, 260, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
-		stage.enter(codePoints("Uranus"));
-		stage.enter(text(90, 280, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, 1));
-		stage.enter(codePoints("Large, Toxic"));
+		stage.inFront(text(90, 260, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(codePoints("Uranus"));
+		stage.inFront(text(90, 280, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(codePoints("Large, Toxic"));
 		
-		stage.enter(text(20, 20+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, 1));
-		stage.enter(codePoints("Solar System"));
-		stage.enter(text(20, 20+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
-		stage.enter(codePoints("Type G"));
+		stage.inFront(text(20, 20+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(codePoints("Solar System"));
+		stage.inFront(text(20, 20+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(codePoints("Type G"));
 		
 		stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_ORBIT));
 		stage.in(area, focusBox(690, 390, 220, 220));

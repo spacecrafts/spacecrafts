@@ -29,7 +29,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
 
-		stage.enter(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 		
 		// # players
 		// # AI
@@ -53,8 +53,8 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		int dotDia = dotDiameter(screen);
 		y0 += 100;
 		x0 = x0+400-(dotDia*19);
-		stage.enter(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
-		stage.enter(NEXT);
+		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(NEXT);
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
 		stage.in(nextArea, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1),NEXT);
 		Entity gamE = game.single(GAME);
@@ -65,17 +65,17 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	private void setup(Stage stage, State game, int x0, int y0, String text, int setupIndex, String...names) {
 		Entity gamE = game.single(GAME);
 		int[] setup = gamE.list(SETUP);		
-		stage.enter(text(x0, y0+40, FONT_THIN, 48, COLOR_TEXT_NORMAL, 1));
-		stage.enter(codePoints(text));
-		stage.enter(new int[] {OBJ_BUTTON_LESS, x0+200, y0, 50, 50});
-		stage.enter(new int[] {OBJ_BUTTON_LESS, x0+350, y0, 50, 50});
+		stage.inFront(text(x0, y0+40, FONT_THIN, 48, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(codePoints(text));
+		stage.inFront(new int[] {OBJ_BUTTON_LESS, x0+200, y0, 50, 50});
+		stage.inFront(new int[] {OBJ_BUTTON_LESS, x0+350, y0, 50, 50});
 		int val = setup[setupIndex];
 		if (names.length == 0) {
-			stage.enter(text(x0+290, y0+40, FONT_LIGHT, 48, COLOR_TEXT_HIGHLIGHT, 1));
-			stage.enter(codePoints(String.valueOf(val)));
+			stage.inFront(text(x0+290, y0+40, FONT_LIGHT, 48, COLOR_TEXT_HIGHLIGHT, 1));
+			stage.inFront(codePoints(String.valueOf(val)));
 		} else {
-			stage.enter(text(x0+270, y0+40, FONT_LIGHT, 24, COLOR_TEXT_HIGHLIGHT, 1));
-			stage.enter(codePoints(names[val]));
+			stage.inFront(text(x0+270, y0+40, FONT_LIGHT, 24, COLOR_TEXT_HIGHLIGHT, 1));
+			stage.inFront(codePoints(names[val]));
 		}
 		if (val > 1) {
 			stage.onLeftClickIn(new Rectangle(x0+200, y0, 50,50), replace(gamE.id(), SETUP, setupIndex, val-1));

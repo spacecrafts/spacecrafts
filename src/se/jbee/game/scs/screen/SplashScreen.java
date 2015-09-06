@@ -34,15 +34,15 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		Entity g1 = game.single(GAME);
 		
-		stage.enter(background(0,0, screen.width, screen.height, BG_SPACE));
+		stage.inFront(background(0,0, screen.width, screen.height, BG_SPACE));
 		
 		int dotDia = 20;
 		String title = "SPACECRAFTS";
 		while (title.length()*5*dotDia > screen.width) {
 			dotDia--;
 		}
-		stage.enter(text((screen.width-(title.length()*5*dotDia)+dotDia)/2, screen.height/4-(5*dotDia), FONT_DOTS, dotDia, COLOR_TEXT_SPECIAL, 1));
-		stage.enter(codePoints(title));
+		stage.inFront(text((screen.width-(title.length()*5*dotDia)+dotDia)/2, screen.height/4-(5*dotDia), FONT_DOTS, dotDia, COLOR_TEXT_SPECIAL, 1));
+		stage.inFront(codePoints(title));
 		
 		dotDia = dotDiameter(screen);
 		int w = 4*5*dotDia-dotDia;
@@ -52,8 +52,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 
 		// open
 		Rectangle open = new Rectangle(x0,y0,w,h);
-		stage.enter(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
-		stage.enter(OPEN);
+		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(OPEN);
 		stage.in(open, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), OPEN);
 		Change[] openChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SETUP_GAME) };
 		stage.onLeftClickIn(open, openChangeset);
@@ -62,8 +62,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		// load
 		y0 += 8*dotDia;
 		Rectangle load = new Rectangle(x0,y0,w,h);
-		stage.enter(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
-		stage.enter(LOAD);
+		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(LOAD);
 		stage.in(load, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), LOAD);
 		Change[] loadChangeset = { put(g1.id(), SCREEN, SCREEN_LOAD_GAME) };
 		stage.onLeftClickIn(load, loadChangeset);
@@ -72,8 +72,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		// save
 		y0 += 8*dotDia;
 		Rectangle save = new Rectangle(x0,y0,w,h);
-		stage.enter(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
-		stage.enter(SAVE);
+		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(SAVE);
 		stage.in(save, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), SAVE);
 		Change[] saveChangeset = { put(g1.id(), SCREEN, SCREEN_SAVE_GAME) };
 		stage.onLeftClickIn(save, saveChangeset);
@@ -83,8 +83,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		if (g1.has(RETURN_SCREEN) && g1.num(RETURN_SCREEN) != SCREEN_MAIN) {
 			y0 += 8*dotDia;
 			Rectangle back = new Rectangle(x0,y0,w,h);
-			stage.enter(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1)); //TODO other color
-			stage.enter(BACK);
+			stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1)); //TODO other color
+			stage.inFront(BACK);
 			stage.in(back, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), BACK);
 			Change backChange = put(g1.id(), SCREEN, g1.num(RETURN_SCREEN));
 			stage.onLeftClickIn(back, backChange);
@@ -94,8 +94,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		// exit
 		y0 += 8*dotDia;
 		Rectangle exit = new Rectangle(x0,y0,w,h);
-		stage.enter(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
-		stage.enter(EXIT);
+		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(EXIT);
 		stage.in(exit, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), EXIT);
 		Change exitChange = put(g1.id(), ACTION, ACTION_EXIT);
 		stage.onLeftClickIn(exit, exitChange);

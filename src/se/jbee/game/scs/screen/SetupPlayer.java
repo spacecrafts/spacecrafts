@@ -37,18 +37,18 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		Entity gamE = game.single(GAME);
 		Entity player = Game.currentPlayer(game);
 		
-		stage.enter(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 		
-		stage.enter(Objects.text(100, 100, FONT_THIN, 48, COLOR_TEXT_NORMAL, 2));
-		stage.enter(codePoints("Player"));
-		stage.enter(codePoints(String.valueOf(player.num(NO))));
+		stage.inFront(Objects.text(100, 100, FONT_THIN, 48, COLOR_TEXT_NORMAL, 2));
+		stage.inFront(codePoints("Player"));
+		stage.inFront(codePoints(String.valueOf(player.num(NO))));
 		
 		// next
 		int dotDia = dotDiameter(screen);
 		int y0 = screen.height/2;
 		int x0 = (screen.width-(dotDia*19))/2;
-		stage.enter(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
-		stage.enter(NEXT);
+		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(NEXT);
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
 		stage.in(nextArea, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1),NEXT);
 		stage.onLeftClickIn(nextArea, 

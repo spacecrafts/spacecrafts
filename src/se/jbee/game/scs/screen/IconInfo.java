@@ -14,7 +14,7 @@ public class IconInfo implements Screen, Gfx {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
-		stage.enter(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 
 		int x = 100;
 		int y = 20;
@@ -22,7 +22,7 @@ public class IconInfo implements Screen, Gfx {
 		int[] types = {1,2,3,4,5,11,12,13,14,15,21,22,23,24,31,32,33};
 		for (int s = 0; s <= 16; s++) {
 			for (int type : types) {
-				stage.enter(component(type, x, y, d));
+				stage.inFront(component(type, x, y, d));
 				y += d+d+d;
 			}
 			x += 3*d;

@@ -19,13 +19,13 @@ public class Encounter implements Screen, GameComponent, Gfx {
 	
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
-		stage.enter(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 		
 		int dotDia = dotDiameter(screen);
 		int x0 = (screen.width-(dotDia*ENCOUNTER.length*5-1))/2;
 		int y0 = (screen.height-(dotDia*5)) /2;
-		stage.enter(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1));
-		stage.enter(ENCOUNTER);
+		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1));
+		stage.inFront(ENCOUNTER);
 		
 		stage.disableInputs();		
 	}

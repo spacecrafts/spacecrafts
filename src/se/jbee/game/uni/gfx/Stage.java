@@ -116,8 +116,19 @@ public final class Stage {
 		return isReady() && !inputsDisabled.get();
 	}
 	
-	public Stage enter(int[] object) {
+	/**
+	 * Adds the object in the front of the current stage. 
+	 */
+	public Stage inFront(int[] object) {
 		nextObjects.add(object);
+		return this;
+	}
+	
+	/**
+	 * Adds the object in the back of the current stage. 
+	 */
+	public Stage inBack(int[] object) {
+		nextObjects.add(0, object);
 		return this;
 	}
 	
