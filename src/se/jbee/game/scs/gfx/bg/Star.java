@@ -34,8 +34,10 @@ public class Star implements Gfx, Backdrop {
 	@Override
 	public void paint(Styles styles, Graphics2D gfx, int x0, int y0, int w, int h, int... rand) {
 		if (clip) {
-			TexturePaint ss = new TexturePaint(styles.texture(TEXTURE_STAR_200x2000_SMALL), new Rectangle(x0, y0, 200, 2000));
-			TexturePaint ls = new TexturePaint(styles.texture(TEXTURE_STAR_200x2000_LARGE), new Rectangle(x0, y0, 200, 2000));
+			BufferedImage stex = styles.texture(TEXTURE_STAR_200x2000_SMALL);
+			TexturePaint ss = new TexturePaint(stex, new Rectangle(0, 0, stex.getWidth(), stex.getHeight()));
+			BufferedImage ltex = styles.texture(TEXTURE_STAR_200x2000_LARGE);
+			TexturePaint ls = new TexturePaint(ltex, new Rectangle(0, 0, ltex.getWidth(), ltex.getHeight()));
 			int rgba = rand[0];
 			rgba = 0x000000;
 			starClip(styles, gfx, x0, y0, w, rgba, ls, ss);
