@@ -19,7 +19,7 @@ public class IconInfo implements Screen, Gfx {
 		int x = 100;
 		int y = 20;
 		int d = 8;
-		int[] types = {1,2,3,4,5,11,12,13,14,15,21,22,23,24,31,32,33};
+		int[] types = {10};
 		for (int s = 0; s <= 16; s++) {
 			for (int type : types) {
 				stage.inFront(component(type, x, y, d));
