@@ -19,10 +19,10 @@ public class IconInfo implements Screen, Gfx {
 		int x = 100;
 		int y = 20;
 		int d = 8;
-		int[] types = {10};
+		int[] types = {ICON_JAMMER};
 		for (int s = 0; s <= 16; s++) {
 			for (int type : types) {
-				stage.inFront(component(type, x, y, d));
+				stage.inFront(component(type, x, y, d, COLOR_SPECIAL));
 				y += d+d+d;
 			}
 			x += 3*d;

@@ -118,6 +118,7 @@ public class Renderer1 implements Renderer, Gfx {
 				gfx.drawOval(obj[1], obj[2], obj[3], obj[3]);
 				break;
 			case OBJ_COMPONENT:
+				gfx.setColor(styles.color(obj[5]));
 				Icon.draw(styles, gfx, obj[1], obj[2], obj[3], obj[4]); break;
 			case OBJ_BUTTON_LESS:
 				gfx.setColor(styles.color(COLOR_TEXT_NORMAL));

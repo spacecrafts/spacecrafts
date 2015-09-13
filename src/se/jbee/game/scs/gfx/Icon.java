@@ -15,64 +15,59 @@ import se.jbee.game.uni.gfx.Styles;
 public class Icon implements Gfx {
 
 	public static void draw(Styles styles, Graphics2D gfx, int type, int x0, int y0, int d) {
-
 		Stroke s = gfx.getStroke();
-
-		gfx.setColor(styles.color(COLOR_SLOT_BORDER));
-		gfx.drawRect(x0, y0, d, d);
 		drawIcon(styles, gfx, type, x0, y0, d);
-		drawIcon(styles, gfx, type, x0+d, y0+d, d);
-		drawIcon(styles, gfx, type, x0+d, y0, d);
-		drawIcon(styles, gfx, type, x0, y0+d, d);
-
 		gfx.setStroke(s);
 	}
 
 	private static void drawIcon(Styles styles, Graphics2D gfx, int type, int x0, int y0, int d) {
 		switch (type) {
 		// shields
-		case ICON_DAMPING_FIELD: drawDampingField(styles, gfx, x0, y0, d); break;
-		case ICON_FORCE_FIELD: drawForceField(styles, gfx, x0, y0, d); break;
-		case ICON_CLOAKING_FIELD: drawCloakingField(styles, gfx, x0, y0, d); break;
-		case ICON_PARTICLE_FIELD: drawParticleField(styles, gfx, x0, y0, d); break;
-		case ICON_DEFLECTOR_FIELD: drawDeflectorField(styles, gfx, x0, y0, d); break;
+		case ICON_DAMPING_FIELD     : drawDampingField(styles, gfx, x0, y0, d); break;
+		case ICON_FORCE_FIELD       : drawForceField(styles, gfx, x0, y0, d); break;
+		case ICON_CLOAKING_FIELD    : drawCloakingField(styles, gfx, x0, y0, d); break;
+		case ICON_PARTICLE_FIELD    : drawParticleField(styles, gfx, x0, y0, d); break;
+		case ICON_DEFLECTOR_FIELD   : drawDeflectorField(styles, gfx, x0, y0, d); break;
 		// TODO antimatter field
 		// shield extras
-		case ICON_FIELD_CAPACITOR : drawFieldCapacitor(styles, gfx, x0, y0, d); break;
+		case ICON_FIELD_CAPACITOR   : drawFieldCapacitor(styles, gfx, x0, y0, d); break;
 		case ICON_IMPULSE_GENERATOR : drawImpulseGenerator(styles, gfx, x0, y0, d); break;
 		// beams
-		case ICON_LASER   : drawLaser(styles, gfx, x0, y0, d); break;
-		case ICON_PHASER   : drawPhaser(styles, gfx, x0, y0, d); break;
-		case ICON_DISRUPTOR  : drawDisruptor(styles, gfx, x0, y0, d); break;
+		case ICON_LASER             : drawLaser(styles, gfx, x0, y0, d); break;
+		case ICON_PHASER            : drawPhaser(styles, gfx, x0, y0, d); break;
+		case ICON_DISRUPTOR         : drawDisruptor(styles, gfx, x0, y0, d); break;
 		// cannons
-		case ICON_MASS_GUN  : drawMassGun(styles, gfx, x0, y0, d); break;
-		case ICON_PARTICLE_CANNON: drawParticleCannon(styles, gfx, x0, y0, d); break;
-		case ICON_PLASMA_CANNON : drawPlasmaCannon(styles, gfx, x0, y0, d); break;
+		case ICON_MASS_GUN          : drawMassGun(styles, gfx, x0, y0, d); break;
+		case ICON_PARTICLE_CANNON   : drawParticleCannon(styles, gfx, x0, y0, d); break;
+		case ICON_PLASMA_CANNON     : drawPlasmaCannon(styles, gfx, x0, y0, d); break;
 		// missiles 
-		case ICON_ROCKET  : drawRocket(styles, gfx, x0, y0, d); break;
-		case ICON_PLASMA_TORPEDO  : drawPlasmaTorpedo(styles, gfx, x0, y0, d); break;
+		case ICON_ROCKET            : drawRocket(styles, gfx, x0, y0, d); break;
+		case ICON_PLASMA_TORPEDO    : drawPlasmaTorpedo(styles, gfx, x0, y0, d); break;
 		// weapon extras
-		case ICON_TURBO  : drawTurbo(styles, gfx, x0, y0, d); break;
-		case ICON_TRACTOR : drawTractor(styles, gfx, x0, y0, d); break;
-		case ICON_STASIS_FIELD : drawStasisField(styles, gfx, x0, y0, d); break;
-		case ICON_SELF_DESTRUCT: drawSelfDestruct(styles, gfx, x0, y0, d); break;
+		case ICON_TURBO             : drawTurbo(styles, gfx, x0, y0, d); break;
+		case ICON_TRACTOR           : drawTractor(styles, gfx, x0, y0, d); break;
+		case ICON_STASIS_FIELD      : drawStasisField(styles, gfx, x0, y0, d); break;
+		// special
+		case ICON_REPAIR_DRONE      : drawRepairDrone(styles, gfx, x0, y0, d); break;
+		case ICON_SELF_DESTRUCT     : drawSelfDestruct(styles, gfx, x0, y0, d); break;
+		case ICON_TARGET_COMPUTER   : drawTargetComputer(styles, gfx, x0, y0, d); break;
+		case ICON_JAMMER            : drawJammer(styles, gfx, x0, y0, d); break;
 		// drives
-		case ICON_IMPULSE_DRIVE : drawImpulseDrive(styles, gfx, x0, y0, d); break;
-		case ICON_HYPER_DRIVE : drawHyperDrive(styles, gfx, x0, y0, d); break;
-		case ICON_WARP_DRIVE : drawWarpDrive(styles, gfx, x0, y0, d); break;
-		case ICON_ORBITAL_DRIVE : drawOrbitalDrive(styles, gfx, x0, y0, d); break;
+		case ICON_IMPULSE_DRIVE     : drawImpulseDrive(styles, gfx, x0, y0, d); break;
+		case ICON_HYPER_DRIVE       : drawHyperDrive(styles, gfx, x0, y0, d); break;
+		case ICON_WARP_DRIVE        : drawWarpDrive(styles, gfx, x0, y0, d); break;
+		case ICON_ORBITAL_DRIVE     : drawOrbitalDrive(styles, gfx, x0, y0, d); break;
 		// reactors
-		case ICON_REACTOR1 : drawReactor1(styles, gfx, x0, y0, d); break;
-		case ICON_REACTOR2 : drawReactor2(styles, gfx, x0, y0, d); break;
-		case ICON_REACTOR3 : drawReactor3(styles, gfx, x0, y0, d); break;
+		case ICON_REACTOR1          : drawReactor1(styles, gfx, x0, y0, d); break;
+		case ICON_REACTOR2          : drawReactor2(styles, gfx, x0, y0, d); break;
+		case ICON_REACTOR3          : drawReactor3(styles, gfx, x0, y0, d); break;
 		// corridor
-		case ICON_ENERGY   : drawEnergy(styles, gfx, x0, y0, d); break;
-		case ICON_NO_ENERGY: drawNoEnergy(styles, gfx, x0, y0, d); break;
+		case ICON_ENERGY            : drawEnergy(styles, gfx, x0, y0, d); break;
+		case ICON_ENERGY_OFF        : drawNoEnergy(styles, gfx, x0, y0, d); break;
 		}
 	}
 
 	private static void drawNoEnergy(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_ENERGY));
 		int r = d/2;
 		int k = r/2;
 		int x = x0+r;
@@ -90,7 +85,6 @@ public class Icon implements Gfx {
 	}
 
 	private static void drawReactor3(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_ENERGY));
 		int k = d/2;
 		int j = k/2;
 		int l = k-(k%2)+1;
@@ -102,7 +96,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawReactor2(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_ENERGY));
 		int k = d/3;
 		int c = (d-(k*3)); 
 		x0 += c;
@@ -123,7 +116,6 @@ public class Icon implements Gfx {
 	}
 
 	private static void drawReactor1(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_ENERGY));
 		int k = d/3;
 		gfx.setStroke(new BasicStroke(d/10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		gfx.drawRoundRect(x0, y0, d, d, 2, 2);
@@ -132,7 +124,6 @@ public class Icon implements Gfx {
 	}
 
 	private static void drawLaser(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		gfx.setStroke(new BasicStroke(d/10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		int m = d/2;
 		int k = m/3;
@@ -144,7 +135,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawPhaser(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		gfx.setStroke(new BasicStroke(d/20f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		
 		int m = d/2;
@@ -159,7 +149,6 @@ public class Icon implements Gfx {
 	}
 
 	private static void drawMassGun(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		int m = d/2;
 		int r = max(1, m/2);
 		int xc = x0+m-r/2+1;
@@ -171,7 +160,6 @@ public class Icon implements Gfx {
 	}
 
 	private static void drawRocket(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		int m = d/2;
 		int r = max(1, m/2);
 		int xc = x0+m;
@@ -180,7 +168,6 @@ public class Icon implements Gfx {
 	}
 
 	private static void drawPlasmaTorpedo(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		int r = max(1, d/4);
 		int m = r*2;
 		int xc = x0+d/2+1;
@@ -190,7 +177,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawParticleCannon(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		gfx.setStroke(new BasicStroke(d/12f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		int k = d/5;
 		int j = 2*k;
@@ -206,7 +192,6 @@ public class Icon implements Gfx {
 	
 	
 	private static void drawPlasmaCannon(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		int m = d/2;
 		int r = max(1, m/2);
 		int xc = x0+m-r/2+1;
@@ -221,7 +206,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawDisruptor(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		int k = d/4;
 		int t = k*2/3;
 		int r = max(1, k/3);
@@ -246,9 +230,21 @@ public class Icon implements Gfx {
 		gfx.fillOval(x0+d-t-1, y0+d-t-1, r, r);
 	}
 	
-	private static void drawSelfDestruct(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
+	private static void drawRepairDrone(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
+		int k = d/4;
+		int r = k+k;
 		
+		x0+=(d-r-r)/2;
+		y0+=(d-r-r)/2;
+		
+		gfx.fillOval(x0, y0, k, k);
+		gfx.fillOval(x0+r, y0, k, k);
+		gfx.fillOval(x0, y0+r, k, k);
+		gfx.fillOval(x0+r, y0+r, k, k);
+		gfx.fillOval(x0+k-1, y0+k-1, k+2, k+2);
+	}
+	
+	private static void drawSelfDestruct(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
 		int k = d/4;
 		int r = 2*k;
 		
@@ -261,9 +257,44 @@ public class Icon implements Gfx {
 		gfx.fillPolygon(new int[] {x0+r+k, x0+r, x0+r+r}, new int[] {y0+r+r, y0+r, y0+k+r}, 3);
 	}
 	
+	private static void drawJammer(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
+		int m = d/6;
+		int o = m+m;
+		int p = o+o;
+		gfx.setStroke(new BasicStroke(d/12f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		gfx.drawLine(x0+m, y0+m, x0+o, y0+o);
+		gfx.drawLine(x0+p+m, y0+m, x0+p, y0+o);
+		gfx.drawLine(x0+o+m, y0, x0+o+m, y0+o);
+		gfx.drawLine(x0, y0+o+m, x0+o, y0+o+m);
+		gfx.drawLine(x0+p, y0+o+m, x0+p+o, y0+o+m);
+		gfx.drawLine(x0+o+m, y0+p, x0+o+m, y0+p+o);
+		gfx.drawLine(x0+m, y0+p+m, x0+o, y0+p);
+		gfx.drawLine(x0+p, y0+p, x0+p+m, y0+p+m);
+	}
+	
+	private static void drawTargetComputer(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
+		int k = d/4;
+		int r = 2*k;
+		
+		x0+=(d-r-r)/2;
+		y0+=(d-r-r)/2;
+		
+		// diamond
+		gfx.setStroke(new BasicStroke(d/20f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		gfx.drawLine(x0, y0+r, x0+r, y0);
+		gfx.drawLine(x0, y0+r, x0+r, y0+r+r);
+		gfx.drawLine(x0+r+r, y0+r, x0+r, y0);
+		gfx.drawLine(x0+r+r, y0+r, x0+r, y0+r+r);
+		
+		// cross
+		gfx.setStroke(new BasicStroke(d/12f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		gfx.drawLine(x0, y0+r, x0+k, y0+r);
+		gfx.drawLine(x0+r+r, y0+r, x0+k+r, y0+r);
+		gfx.drawLine(x0+r, y0, x0+r, y0+k);
+		gfx.drawLine(x0+r, y0+r+r, x0+r, y0+r+k);
+	}
 	
 	private static void drawStasisField(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		gfx.setStroke(new BasicStroke(d/16f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		int j = d/8;
 		int k = 2*j;
@@ -284,7 +315,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawTractor(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		gfx.setStroke(new BasicStroke(d/12f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		int k = d/4;
 		d = 4*k;
@@ -297,7 +327,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawTurbo(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_WEAPON));
 		int r = d/2;
 		int k = r/2;
 		k -= k%2;
@@ -312,7 +341,6 @@ public class Icon implements Gfx {
 
 
 	private static void drawImpulseDrive(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_DRIVE));
 		gfx.setStroke(new BasicStroke(d/10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		int m = d/2;
 		int x = x0+m;
@@ -325,7 +353,6 @@ public class Icon implements Gfx {
 	}
 
 	private static void drawHyperDrive(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_DRIVE));
 		int k = d/4;
 		int m = 2*k;
 		int x = x0+m;
@@ -338,7 +365,6 @@ public class Icon implements Gfx {
 	}
 
 	private static void drawWarpDrive(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_DRIVE));
 		int k = d/4;
 		int m = 2*k;
 		int x = x0+m;
@@ -350,7 +376,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawOrbitalDrive(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_DRIVE));
 		gfx.setStroke(new BasicStroke(d/10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		int k = d/4;
 		int m = 2*k;
@@ -367,14 +392,12 @@ public class Icon implements Gfx {
 	}
 
 	private static void drawDampingField(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_SHIELD));
 		gfx.setStroke(new BasicStroke(d/8f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		gfx.drawArc(x0, y0, d, d, 30, 120);
 		gfx.drawArc(x0, y0+d/2, d, d, 30, 120);
 	}
 
 	private static void drawForceField(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_SHIELD));
 		gfx.setStroke(new BasicStroke(d/8f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		int d4 = d/4;
 		gfx.drawArc(x0, y0+d4, d, d, 20,140);
@@ -382,7 +405,6 @@ public class Icon implements Gfx {
 	}
 
 	private static void drawCloakingField(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_SHIELD));
 		int r = d/2;
 		gfx.setStroke(new BasicStroke(d/8f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		int x = x0;
@@ -394,7 +416,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawParticleField(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_SHIELD));
 		int r = d/4;
 		x0 += (d-r*3)/2;
 		y0 += (d-r*3)/2;
@@ -405,7 +426,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawDeflectorField(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_SHIELD));
 		gfx.setStroke(new BasicStroke(d/10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		int r = d/3;
 		int o = d/8;
@@ -419,7 +439,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawFieldCapacitor(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_SHIELD));
 		int h = d/4;
 		int w = 2*h;
 		x0 += (d-w)/2;
@@ -430,7 +449,6 @@ public class Icon implements Gfx {
 	}
 	
 	private static void drawImpulseGenerator(Styles styles, Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setColor(styles.color(COLOR_SHIELD));
 		int w = d/4;
 		if ((w & 1) == 0 && w > 2) {
 			w--;
