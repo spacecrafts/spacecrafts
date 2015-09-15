@@ -27,7 +27,7 @@ import se.jbee.game.uni.gfx.Styles;
 
 /**
  * The screen or canvas the game is drawn on.
- * 
+ *
  * This is a thread continuously transforming abstract figures to concrete draw
  * instructions executed on the canvas.
  */
@@ -35,13 +35,13 @@ public class Display extends Canvas implements Runnable, Gfx {
 
 	private static final long FRAME_DELAY_MS = 15;
 
-	private Stage stage; 
+	private Stage stage;
 
-	public Display() { 
+	public Display() {
 		super();
 		JFrame frame = new JFrame("SPACECRAFTS");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setUndecorated(true); 
+		frame.setUndecorated(true);
 		frame.setLocation(0, 0);
 
 		JPanel panel = (JPanel) frame.getContentPane();
@@ -109,49 +109,49 @@ public class Display extends Canvas implements Runnable, Gfx {
 			if (cycleTimeMs < FRAME_DELAY_MS) {
 				try { Thread.sleep(FRAME_DELAY_MS - cycleTimeMs); } catch (Exception e) {}
 			}
-		}		
+		}
 	}
 
-	private static final Colouring STAR = (float rgb) -> { 
+	private static final Colouring STAR = (float rgb) -> {
 		float a = min(0.9f, max(0.3f, (1.5f-rgb)*rgb));
-		Color c = new Color(1f, rgb, rgb/2f, a); 
+		Color c = new Color(1f, rgb, rgb/2f, a);
 		return c.getRGB();
 	};
-	
-	private static final Colouring PLANET = (float rgb) -> { 
+
+	private static final Colouring PLANET = (float rgb) -> {
 		return new Color(rgb, rgb, rgb, 0.25f).getRGB();
 	};
-	
-	private static final Colouring PLANET2 = (float rgb) -> { 
+
+	private static final Colouring PLANET2 = (float rgb) -> {
 		return new Color(rgb, rgb, rgb, 0.15f).getRGB();
 	};
-	
+
 	private Styles initStyles(Dimension screen) {
-		final Styles s = new Styles(22, 3, 4, 6);
+		final Styles s = new Styles(26, 3, 4, 6);
 		s.addColor(COLOR_DEFAULT, 0xFF8899FF);
 		s.addColor(COLOR_TEXT_HIGHLIGHT, 0xFFFFFFFF);
 		s.addColor(COLOR_TEXT_NORMAL, 0xFF8899FF);
 		s.addColor(COLOR_TEXT_SPECIAL, 0xFFeeee77);
 		s.addColor(COLOR_SLOT_BORDER, 0xFF223355);
+		// components
 		s.addColor(COLOR_SHIELD, 0xffAAFFEE);
-		s.addColor(COLOR_SPECIAL_OFF, 0xaaAAFFEE);
 		s.addColor(COLOR_ENERGY, 0xff00CC55);
-		s.addColor(COLOR_ENERGY_OFF, 0xaa00CC55);
 		s.addColor(COLOR_WEAPON, 0xffFF7777);
-		s.addColor(COLOR_WEAPON_OFF, 0xaaFF7777);
 		s.addColor(COLOR_CONTROL, 0xffDD8855);
-		s.addColor(COLOR_CONTROL_OFF, 0xaaDD8855);
 		s.addColor(COLOR_DRIVE, 0xffCC44CC);
-		s.addColor(COLOR_DRIVE_OFF, 0xaaCC44CC);
 		s.addColor(COLOR_SPECIAL, 0xffDD8855);
-		s.addColor(COLOR_SPECIAL_OFF, 0xaaDD8855);
 		s.addColor(COLOR_SCANNER, 0xff0088FF);
-		s.addColor(COLOR_SCANNER_OFF, 0xaa0088FF);
-		
+		// buildings
+		s.addColor(COLOR_ACADEMY, 0xffff8080);
+		s.addColor(COLOR_BIOSPHERE, 0xff80ff00);
+		s.addColor(COLOR_FARM, 0xffffff80);
+		s.addColor(COLOR_LAB, 0xff0080ff);
+		s.addColor(COLOR_YARD, 0xffffff00);
+
 		s.addFont(FONT_REGULAR, "font/Roboto-Regular.ttf");
 		s.addFont(FONT_LIGHT, "font/Roboto-Light.ttf");
 		s.addFont(FONT_THIN, "font/Roboto-Thin.ttf");
-		
+
 		s.addNoise(NOISE_STAR_LARGE, 500, 80, 666);
 		s.addNoise(NOISE_STAR_SMALL, 50, 60, 700);
 		s.addNoise(NOISE_PLANET_LARGE, 500, 60, 7000);
@@ -165,7 +165,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 		s.addTexture(TEXTURE_PLANET_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_PLANET_SMALL), PLANET); });
 		s.addTexture(TEXTURE_PLANET_600x600_LARGE, (Styles styles) -> { return Styles.texture(600, 600, styles.noise(NOISE_PLANET_LARGE), PLANET2); });
 		s.addTexture(TEXTURE_PLANET_600x600_SMALL, (Styles styles) -> { return Styles.texture(600, 600, styles.noise(NOISE_PLANET_SMALL), PLANET2); });
-		
+
 		s.ready();
 		return s;
 	}

@@ -1,6 +1,6 @@
 package se.jbee.game.scs.state;
 
-public enum Status {
+public enum PlayerStatus {
 
 	AI,
 	ALIVE

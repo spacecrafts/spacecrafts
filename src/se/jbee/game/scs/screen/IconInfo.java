@@ -1,7 +1,8 @@
 package se.jbee.game.scs.screen;
 
 import static se.jbee.game.scs.gfx.Objects.background;
-import static se.jbee.game.scs.gfx.Objects.component;
+import static se.jbee.game.scs.gfx.Objects.icon;
+
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.uni.gfx.Dimension;
 import se.jbee.game.uni.gfx.Stage;
@@ -19,10 +20,11 @@ public class IconInfo implements Screen, Gfx {
 		int x = 100;
 		int y = 20;
 		int d = 8;
-		int[] types = {ICON_JAMMER};
+		int[] types = {ICON_BUILDING, ICON_BUILDING, ICON_BUILDING, ICON_BUILDING, ICON_BUILDING};
+		int[] colors = {COLOR_ACADEMY, COLOR_BIOSPHERE, COLOR_FARM, COLOR_LAB, COLOR_YARD};
 		for (int s = 0; s <= 16; s++) {
-			for (int type : types) {
-				stage.inFront(component(type, x, y, d, COLOR_SPECIAL));
+			for (int i = 0; i <  types.length; i++) {
+				stage.inFront(icon(types[i], x, y, d, colors[i]));
 				y += d+d+d;
 			}
 			x += 3*d;

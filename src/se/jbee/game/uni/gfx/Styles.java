@@ -48,11 +48,11 @@ public final class Styles {
 	public void addTexture(int type, Texture image) {
 		lazyImages[type] = image;
 	}
-	
+
 	public void addColor(int type, int argb) {
 		colors[type] = new Color(argb, true);
 	}
-	
+
 	public void ready() {
 		Thread loader = new Thread(new Runnable() {
 
@@ -79,7 +79,7 @@ public final class Styles {
 			}
 		});
 		loader.setDaemon(true);
-		loader.start();		
+		loader.start();
 	}
 
 	public Color color(int type) {
@@ -94,19 +94,19 @@ public final class Styles {
 			return derive(sizes[0], size);
 		Font f = sizes[size];
 		if (f == null) {
-			Font base = sizes[0]; 
+			Font base = sizes[0];
 			f = derive(base, size);
 			if (base != null) {
 				sizes[size] = f;
 			}
 		}
-		return f;		
+		return f;
 	}
-	
+
 	private Font derive(Font base, int size) {
 		return base == null ? Font.getFont(Font.MONOSPACED) : base.deriveFont(0, size);
 	}
-	
+
 	public Noise noise(int type) {
 		if (type < 0 || type >= noises.length)
 			type = 0;
@@ -117,7 +117,7 @@ public final class Styles {
 		}
 		return n;
 	}
-	
+
 	public BufferedImage texture(int type) {
 		if (type < 0 || type >= images.length)
 			type = 0;

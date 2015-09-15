@@ -4,10 +4,10 @@ import se.jbee.game.uni.state.Component;
 
 /**
  * A list of ALL the components used in the game.
- * 
+ *
  * This is essentially a long list of all "things" and their properties that
  * exist in the game.
- * 
+ *
  * !!! ATTENTION !!!
  * The most important part is to NEVER change the value of a component as soon
  * as there is any code using it. Each number stands for the semantics of the
@@ -19,37 +19,37 @@ public interface GameComponent extends Component {
 	// 0-3 are defined in Component
 
 	// value component ant its possible values (also type like entities)
-	int VAL  = 4, /*=*/ NUM = 5, TXT = 6, SET = 7, LIST = 8, ENTITY = 9; 
-	
+	int VAL  = 4, /*=*/ NUM = 5, TXT = 6, SET = 7, LIST = 8, ENTITY = 9;
+
 	// * = pointer to (ID of another entity)
 	// # = number (of) (a numeric value)
 	// ? = boolean (1=true, 0=false)
 	// [...] = list
 	// {...} = set
-	
+
 	/**
 	 * Actions
 	 */
-	int 
+	int
 	ACTION_EXIT = 0,
-	ACTION_SAVE = 1,	
+	ACTION_SAVE = 1,
 	ACTION_LOAD = 2,
 	ACTION_INIT = 3,
 	ACTION_SETUP = 4, // creates players in a currently setup game
-	ACTION_STEP = 5,  // player is done with an entity; next screen derived from player status 
+	ACTION_STEP = 5,  // player is done with an entity; next screen derived from player status
 	ACTION_DONE = 6,  // player is done with a plan; next screen derived from player status
 	ACTION_TURN = 7;  // player is done with its turn; next screen derived from game status
-	
+
 	/**
 	 * Setup (Indexes)
 	 */
-	int 
+	int
 	SETUP_NUMBER_OF_PLAYERS = 0,
 	SETUP_NUMBER_OF_AIS = 1,
 	SETUP_GALAXY_SIZE = 2,
-	// player setup 
+	// player setup
 	SETUP_PLAYER_NAME_TYPE = 0;
-	
+
 	/**
 	 * Components
 	 */
@@ -61,14 +61,14 @@ public interface GameComponent extends Component {
 		SEED = 11,
 		SEEDS = 12,   // [#,#,...] for any pseudo random progression
 		TURN = 13, // # (0 = game setup, 1 is first active turn)
-		SETUP = 14, // [#humans, #ais, #galaxy-size, ...]  
-		
+		SETUP = 14, // [#humans, #ais, #galaxy-size, ...]
+
 		// view control
 		SCREEN = 20,
-		SCREEN_ENTITY = 21, // {*a,..} ( what; galaxy; e.g. the colony in the colony screen, the galaxy in the galaxy screen; the appearance of each screen might be linked to a set of entities; their type is usually an expected one)  
+		SCREEN_ENTITY = 21, // {*a,..} ( what; galaxy; e.g. the colony in the colony screen, the galaxy in the galaxy screen; the appearance of each screen might be linked to a set of entities; their type is usually an expected one)
 		RETURN_SCREEN = 22, // the screen one goes back to from e.g. load/save dialog screen
 		PAGE = 23, // # (used for paging - e.g. load screen)
-		
+
 		// action state
 		ACTION = 30, // 0 = exit, 1 = save
 		SAVEGAME = 31, // name of the game to save/saved
@@ -77,7 +77,7 @@ public interface GameComponent extends Component {
 		// domain data
 		PLAYERS = 41, // [*x,*y,*z]
 		GALAXIES = 42,// [*x,*y,*z]
-		
+
 	PLAYER = 50,
 		// TURN (player sets its turn to the current game turn when finished; in turn zero TURN set to -1 until player has finished setup)
 		NO = 51, //#
@@ -85,7 +85,7 @@ public interface GameComponent extends Component {
 		// RACE *x
 		HOME = 52, // *x (planet)
 		STATUS = 53, // [?AI, ?ALIVE]
-		REACH = 54, // # the maximum distance the player knows how to travel 
+		REACH = 54, // # the maximum distance the player knows how to travel
 		// TECHNOLOGY (in progress)
 		// (things belong to the player)
 		PLANS = 61,
@@ -97,19 +97,19 @@ public interface GameComponent extends Component {
 		FLEETS = 67, // {*x,*y,*z}
 		OFFERS = 68, // {*x,*y,*z}
 		// (things known to (/discovered by) the player)
-		// PLANETS {*x,*y,*z} 
+		// PLANETS {*x,*y,*z}
 		// SOLAR_SYSTEMS {*x,*y,*z}
 		// CLUSTERS {*x,*y,*z}
 		// GALAXIES {*x,*y,*z}
 		// MODULES {*x,*y,*z}
 		// UNITS {*x,*y,*z}
 		// PARTS {*x,*y,*z} (what can be used by a player)
-		
+
 	PLAN = 80,
 		PARTICIPANTS = 71, // {*x,*y,... } (a set of colonies, orbits, space-crafts, constructions) that belong to the plan
-	
+
 	MISSION = 90,
-		
+
 	/*
 	 * Galaxy
 	 */
@@ -117,36 +117,36 @@ public interface GameComponent extends Component {
 		// SEEDS [#,#,...]
 		CLUSTERS = 101, // {*x,*y,*z}
 		SIZE = 102, // side length of x and y axis in value space
-	
+
 	CLUSTER = 110,
 		// SEEDS [#,#,...]
 		STARS = 111, // {*x,*y,*z}
 		POSITION = 112, // [#x,#y, #z] (in the galaxy; say there is a plane through the center of a cluster/galaxy the z-axis is how much above or below that plane a system is)
-	
+
 	STAR = 120,
 		// SEEDS [#,#,...]
 		PLANETS = 121, // {*x,*y,*z} (orbiting)
-		// POSITION (in the cluster)		
+		// POSITION (in the cluster)
 		//FLEETS = {*x,*y,*z} (set of all the fleets arrived/staying in a solar system)
 		MASS = 122,
-	
+
 	PLANET = 130,
 		// SEEDS [#,#,...]
 		// KIND *x
 		// COLONY *y (cross ref)
 		// POSITION (in the solar system)
 		MOONS = 131, // (orbiting)
-	
+
 	MOON = 140,
 		// PLANET
-	
+
 	STAR_TYPE = 150,
 		// PROBABILITIES (of types of planets?)
-	
+
 	PLANET_TYPE = 160, // of planet (mostly a description for humans)
 		PROBABILITIES = 161, // [#,#,...] of special resources
-		//CODE (a static constant value known to gfx to draw the appropriate image, random values from planet are used to make each appear somewhat unique 
-		
+		//CODE (a static constant value known to gfx to draw the appropriate image, random values from planet are used to make each appear somewhat unique
+
 	/*
 	 * Diplomacy and Trading
 	 */
@@ -154,29 +154,29 @@ public interface GameComponent extends Component {
 		// PLANET *x
 		// SOLAR_SYSTEMS {*x,*y,*z} (where it is offered)
 		QUANTITY = 201, // #
-		TURNS = 202, // # 
+		TURNS = 202, // #
 		PRICE = 203,
-		
-	PERCEPTION = 210, // like friendly, angry, enemy, ally  
+
+	PERCEPTION = 210, // like friendly, angry, enemy, ally
 		RANGE = 211, // [#min, #max] (of diplomaty points)
-	
+
 	/*
 	 * Technology and Abilities
 	 */
 	TECHNOLOGY = 300,
 		COSTS = 301, // # (number of research points required)
 		//PARTS {#x,#y,...} (what becomes known to the player when discovered given by a part-code)
-	
+
 	ABILITY = 310,
-		
+
 	/*
 	 * Colonies and Orbits
-	 */	
+	 */
 	COLONY = 400,
 		// PLANET *x
 		// ORBIT *y
 		// UNIT *z
-	
+
 	ORBIT = 410,
 		// PLANET *x
 		// UNIT *x
@@ -194,31 +194,33 @@ public interface GameComponent extends Component {
 
 	FLEET = 520,
 		SHIPS = 521, // [*x,*y,*z]
-		// POSITION	
+		// POSITION
 		TARGET = 522, // the star they are heading
-		
+
 	COMMANDER = 530,
-	
+
 	/*
 	 * Units, Modules, Parts and Constructions
 	 */
 	UNIT = 600, // a compound of modules
 		HOLDER = 601,  // *x (a reference back to a planet, orbit or spacecraft)
-		MODULES = 601, // [*x,*y,*z]
-		WORKERS = 602, // [ #farmers, #scientists, #engineers ]
-		GROWTH  = 603, // [ #food, #research-points, #production-points ] (per turn)
+		MODULES = 602, // [*x,*y,*z]
+		OFFSETS = 603, // (for each module, also relative in 32x32 grid - 1D array)
+		POPULATION = 604,
+		WORKERS = 605, // [ #farmers, #scientists, #engineers ]
+		GROWTH  = 606, // [ #food, #research-points, #production-points ] (per turn)
 		// COSTS # (total construction points required)
-		
+
 	MODULE = 610,
-		SLOTS = 611,
-		PARTS = 612,
-		POPULATION = 623,
-		// COSTS # (total construction points required)		
-		
+		SLOTS = 611, // [#,#,...] absolute positions in the 32x32 grid (1D array)
+		PARTS = 612, // [*x,*y,...] references to the part entities
+		// COSTS # (total construction points required)
+
 	PART = 620,
 		CODE = 621, // # a statically unique value for all parts (e.g. used to refer to a part from technology)
 		// COSTS # (of construction points required)
-	
+		// TODO effects (pairs of [what, how] e.g. [shields, +5]) // or is this only in the code ?
+
 	CONSTRUCTION = 630,
 		//UNIT *x
 		PROGRESS = 631, // [#,#,..] (points for each module in the unit)
@@ -228,7 +230,7 @@ public interface GameComponent extends Component {
 	 */
 	RACE = 700,
 		TRAITS = 701,
-	
+
 	TRAIT = 710
 		//ABILITIES {*x,*y,..}
 	;

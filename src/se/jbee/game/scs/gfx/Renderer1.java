@@ -64,7 +64,7 @@ public class Renderer1 implements Renderer, Gfx {
 		}
 
 		// TODO also as an decoration, rendered like extra display on top of the main monitor of a spacecraft (that the player is commanding)
-		// this may look different depending on the chosen race 
+		// this may look different depending on the chosen race
 		gfx.setColor(styles.color(COLOR_TEXT_NORMAL));
 		gfx.drawRoundRect(screen.width/3+screen.width/32, -screen.height/16-20, screen.width/3-screen.width/16, screen.width/16+20, 20, 20);
 	}
@@ -109,17 +109,9 @@ public class Renderer1 implements Renderer, Gfx {
 				gfx.setColor(styles.color(COLOR_TEXT_HIGHLIGHT));
 				gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);
 				break;
-			case OBJ_SLOT:
-				gfx.setColor(styles.color(COLOR_SLOT_BORDER));
-				gfx.drawOval(obj[1], obj[2], obj[3], obj[3]);
-				break;
-			case OBJ_RESOURCE:
-				gfx.setColor(styles.color(COLOR_TEXT_NORMAL));
-				gfx.drawOval(obj[1], obj[2], obj[3], obj[3]);
-				break;
-			case OBJ_COMPONENT:
+			case OBJ_ICON:
 				gfx.setColor(styles.color(obj[5]));
-				Icon.draw(styles, gfx, obj[1], obj[2], obj[3], obj[4]); break;
+				Icon.draw(gfx, obj[1], obj[2], obj[3], obj[4]); break;
 			case OBJ_BUTTON_LESS:
 				gfx.setColor(styles.color(COLOR_TEXT_NORMAL));
 				gfx.fillOval(obj[1], obj[2], obj[3], obj[3]);
