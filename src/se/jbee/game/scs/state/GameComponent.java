@@ -101,8 +101,8 @@ public interface GameComponent extends Component {
 		// SOLAR_SYSTEMS {*x,*y,*z}
 		// CLUSTERS {*x,*y,*z}
 		// GALAXIES {*x,*y,*z}
+		// SHIPS {*x,*y,*z} (of other players)
 		// MODULES {*x,*y,*z}
-		// UNITS {*x,*y,*z}
 		// PARTS {*x,*y,*z} (what can be used by a player)
 
 	PLAN = 80,
@@ -175,17 +175,17 @@ public interface GameComponent extends Component {
 	COLONY = 400,
 		// PLANET *x
 		// ORBIT *y
-		// UNIT *z
+		// STRUCTURE *z
 
 	ORBIT = 410,
 		// PLANET *x
-		// UNIT *x
+		// STRUCTURE *x
 
 	/*
 	 * Space-crafts
 	 */
 	SPACECRAFT = 500,
-		// UNIT *x
+		// STRUCTURE *x
 		// CLASS *x
 		// POSITION
 
@@ -195,24 +195,24 @@ public interface GameComponent extends Component {
 	FLEET = 520,
 		SHIPS = 521, // [*x,*y,*z]
 		// POSITION
-		TARGET = 522, // the star they are heading
+		TARGET = 522, // *x (the star they are heading)
 
 	COMMANDER = 530,
 
 	/*
-	 * Units, Modules, Parts and Constructions
+	 * Structures, Modules, Parts and Constructions
 	 */
-	UNIT = 600, // a compound of modules
-		HOLDER = 601,  // *x (a reference back to a planet, orbit or spacecraft)
+	STRUCTURE = 600, // a compound of modules
+		LOCATION = 601,  // *x (a reference back to a planet, orbit or space-craft)
 		MODULES = 602, // [*x,*y,*z]
 		OFFSETS = 603, // (for each module, also relative in 32x32 grid - 1D array)
 		POPULATION = 604,
 		WORKERS = 605, // [ #farmers, #scientists, #engineers ]
-		GROWTH  = 606, // [ #food, #research-points, #production-points ] (per turn)
+		OUTPUTS = 606, // [ #food, #research-points, #production-points ] (per turn)
 		// COSTS # (total construction points required)
 
 	MODULE = 610,
-		SLOTS = 611, // [#,#,...] absolute positions in the 32x32 grid (1D array)
+		POSITIONS = 611, // [#,#,...] absolute positions in the 32x32 grid (1D array)
 		PARTS = 612, // [*x,*y,...] references to the part entities
 		// COSTS # (total construction points required)
 
@@ -222,7 +222,7 @@ public interface GameComponent extends Component {
 		// TODO effects (pairs of [what, how] e.g. [shields, +5]) // or is this only in the code ?
 
 	CONSTRUCTION = 630,
-		//UNIT *x
+		//MODULE *x (structures are build module wise)
 		PROGRESS = 631, // [#,#,..] (points for each module in the unit)
 
 	/*
