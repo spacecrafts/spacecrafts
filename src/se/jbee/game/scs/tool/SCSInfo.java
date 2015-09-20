@@ -2,30 +2,39 @@ package se.jbee.game.scs.tool;
 
 public class SCSInfo {
 
+	private static final int[][] ENERGY = {{7,1}, {6,3}, {5,5}};
+	private static final int[][] FOOD = {{2,3},{3,3},{4,3}}; 
+	private static final int[][] WISDOM = {{3,3},{5,3}};
+	
 	public static void main(String[] args) {
 		// bn + i/2n (n+1)
 		// 2n + 3/2n (n+1)
 		// 4n + 2/2n (n+1)
 		// 8n + 1/2n (n+1)
 		
-		int max = 100;
-		int use = 2;
+		int max = 150;
+		int use = 1;
+		int[][] profiles = {{2,3}}; 
 		for (int n = 1; n < max; n++) {
-			
-			int ab = 7*n;
-			int ai = ab*1*n/100; // 7 + 1%
-			int a = ab+ai;
-			int bb = 6*n;
-			int bi = bb*3*n/100; // 6 + 3%
-			int b = bb+bi;
-			int cb = 5*n;
-			int ci = cb*5*n/100; // 5 + 5%
-			int c = cb+ci;
+			System.out.print(String.format("%3s", n));
 			float p = use*100*n;
-			float ap = p/(a);
-			float bp = p/(b);
-			float cp = p/(c);
-			System.out.println(String.format("%3s | %3s + %3s = %3s %.1f%% | %3s + %3s = %3s %.1f%% | %3s + %3s = %3s %.1f%%", n, ab,ai, a, ap, bb,bi, b, bp ,cb,ci,c, cp ));
+			for (int i = 0; i < profiles.length; i++) {
+				int base = profiles[i][0] * n;
+				int inc = base*profiles[i][1]*n/100;
+				int sum = base+inc;
+				float ip = p/sum;
+				System.out.print(String.format("\t| %3s + %3s = %3s ~ %.1f%% ", base, inc, sum, ip));
+			}
+			System.out.println();
 		}
+		
+		for (int n = 1; n <= 120; n++) {
+			int tc = n*20 + ((n/2)*(n/2)) + ((n/3)*(n/3)*(n/3));
+			System.out.println(String.format("%3s %4s", n, tc));
+		}
+		// 3*7 = 21	
+		// 6*7 = 42
+		// 9*7 = 63
+		// 
 	}
 }
