@@ -154,7 +154,7 @@ public interface GameComponent extends Component {
 		// PLANET *x
 		// SOLAR_SYSTEMS {*x,*y,*z} (where it is offered)
 		QUANTITY = 201, // #
-		TURNS = 202, // #
+		TURNS = 202, // # (duration)
 		PRICE = 203,
 
 	PERCEPTION = 210, // like friendly, angry, enemy, ally
@@ -223,7 +223,7 @@ public interface GameComponent extends Component {
 
 	CONSTRUCTION = 630,
 		//MODULE *x (structures are build module wise)
-		PROGRESS = 631, // [#,#,..] (points for each module in the unit)
+		COMPLETIONS = 631, // [#,#,..] (points for each module in the unit)
 
 	/*
 	 * Race and Traits

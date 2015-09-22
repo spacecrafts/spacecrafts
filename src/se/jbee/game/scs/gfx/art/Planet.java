@@ -1,4 +1,4 @@
-package se.jbee.game.scs.gfx.bg;
+package se.jbee.game.scs.gfx.art;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -14,10 +14,10 @@ import java.awt.Rectangle;
 import java.awt.TexturePaint;
 
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.uni.gfx.Backdrop;
+import se.jbee.game.uni.gfx.Artwork;
 import se.jbee.game.uni.gfx.Styles;
 
-public class Planet implements Gfx, Backdrop {
+public class Planet implements Gfx, Artwork {
 
 	public static final Planet CLIP = new Planet(true);
 	public static final Planet CIRCLE = new Planet(false);
@@ -30,7 +30,7 @@ public class Planet implements Gfx, Backdrop {
 	}
 
 	@Override
-	public void paint(Styles styles, Graphics2D gfx, int x0, int y0, int w, int h, int... rand) {
+	public void paint(Graphics2D gfx, Styles styles, int x0, int y0, int w, int h, int... rand) {
 		if (clip) {
 			planetClip(styles, gfx, x0, y0, w, rand);
 		} else {

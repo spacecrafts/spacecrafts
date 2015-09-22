@@ -33,16 +33,16 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 
 		// cancel (ESC override, to not set return screen)
 		stage.onKey(VK_ESCAPE, put(gamE.id(), SCREEN, SCREEN_MAIN));
-		
+
 		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
-		
+
 
 		int gap = 20;
 		int x0 = gap;
 		int y0 = gap;
 		int w = (screen.width - (4*gap)) / 3;
 		int h = (screen.height - (4*gap)) / 3;
-		
+
 		int n = 0;
 		for (File savegame : pageFiles(user, game)) {
 			try {
@@ -61,7 +61,7 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 			stage.in(area, focusBox(x0, y0, w, h));
 			stage.onLeftClickIn(area,
 					put(gamE.id(), SAVEGAME, name),
-					put(gamE.id(), SCREEN, SCREEN_LOADING_GAME), 
+					put(gamE.id(), SCREEN, SCREEN_LOADING_GAME),
 					put(gamE.id(), ACTION, ACTION_LOAD));
 			x0 += w + gap;
 			n++;
@@ -74,10 +74,13 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 	}
 
 	private List<File> pageFiles(State user, State game) {
+		List<File> page = new ArrayList<File>();
 		String dir = user.single(USER).text(SAVEGAME_DIR);
 		File[] files = new File(dir).listFiles();
+		if (files == null) {
+			return page;
+		}
 		int offset = 8 * game.single(GAME).num(PAGE);
-		List<File> page = new ArrayList<File>();
 		int i = 0;
 		while (page.size() < 8 && i < files.length) {
 			if (files[i].getName().endsWith(".game")) {

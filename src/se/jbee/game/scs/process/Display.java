@@ -5,6 +5,7 @@ import static java.lang.Math.min;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyListener;
@@ -40,7 +41,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 	public Display() {
 		super();
 		JFrame frame = new JFrame("SPACECRAFTS");
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.setUndecorated(true);
 		frame.setLocation(0, 0);
 
@@ -107,7 +108,9 @@ public class Display extends Canvas implements Runnable, Gfx {
 			// sleep so that drawing + sleeping = loop time
 			long cycleTimeMs = System.currentTimeMillis() - loopStart;
 			if (cycleTimeMs < FRAME_DELAY_MS) {
-				try { Thread.sleep(FRAME_DELAY_MS - cycleTimeMs); } catch (Exception e) {}
+				try { Thread.sleep(FRAME_DELAY_MS - cycleTimeMs); } catch (Exception e) {
+					// just go on
+				}
 			}
 		}
 	}

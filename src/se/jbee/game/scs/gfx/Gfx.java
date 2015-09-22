@@ -87,6 +87,7 @@ public interface Gfx {
 	OBJ_ROUTE = 45,
 
 	OBJ_ICON = 50,
+	OBJ_PIEINFO = 51,
 
 	OBJ_BUTTON_MORE = 60,
 	OBJ_BUTTON_LESS = 61

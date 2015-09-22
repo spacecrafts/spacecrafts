@@ -1,4 +1,4 @@
-package se.jbee.game.scs.gfx.bg;
+package se.jbee.game.scs.gfx.art;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -7,10 +7,11 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Random;
 
-import se.jbee.game.uni.gfx.Backdrop;
+import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.uni.gfx.Artwork;
 import se.jbee.game.uni.gfx.Styles;
 
-public class Space implements Backdrop {
+public class Background implements Artwork {
 
 	private int _w;
 	private int _h;
@@ -18,7 +19,16 @@ public class Space implements Backdrop {
 	private int[] precomputed;
 
 	@Override
-	public void paint(Styles styles, Graphics2D gfx, int x0, int y0, int w, int h, int... rand) {
+	public void paint(Graphics2D gfx, Styles styles, int x0, int y0, int w, int h, int... type) {
+		switch (type[0]) {
+		default:
+		case Gfx.BG_BLACK: gfx.setColor(Color.black); gfx.fillRect(x0,y0,w,h); break;
+		case Gfx.BG_SPACE: paintSpace(gfx, x0, y0, w, h); break;
+		}
+
+	}
+
+	private void paintSpace(Graphics2D gfx, int x0, int y0, int w, int h) {
 		gfx.setColor(Color.black);
 		gfx.fillRect(x0, y0, w, h);
 		if (w != _w || h != _h) {
@@ -63,12 +73,12 @@ public class Space implements Backdrop {
 					} else {
 						gfx.drawLine(x-n, y-n, x+n, y+n);
 						gfx.drawLine(x+n, y-n, x-n, y+n);
-					}					
+					}
 				}
 			}
 		}
 	}
-	
+
 	private static int[] makeSpace(int w, int h, int seed) {
 		Random rnd = new Random(seed);
 		int[] space = new int[w/2*6];

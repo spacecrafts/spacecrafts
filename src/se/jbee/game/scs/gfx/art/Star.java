@@ -1,4 +1,4 @@
-package se.jbee.game.scs.gfx.bg;
+package se.jbee.game.scs.gfx.art;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -16,10 +16,10 @@ import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.uni.gfx.Backdrop;
+import se.jbee.game.uni.gfx.Artwork;
 import se.jbee.game.uni.gfx.Styles;
 
-public class Star implements Gfx, Backdrop {
+public class Star implements Gfx, Artwork {
 
 	public static final Star CLIP = new Star(true);
 	public static final Star CIRCLE = new Star(false);
@@ -32,7 +32,7 @@ public class Star implements Gfx, Backdrop {
 	}
 
 	@Override
-	public void paint(Styles styles, Graphics2D gfx, int x0, int y0, int w, int h, int... rand) {
+	public void paint(Graphics2D gfx, Styles styles, int x0, int y0, int w, int h, int... rand) {
 		if (clip) {
 			BufferedImage stex = styles.texture(TEXTURE_STAR_200x2000_SMALL);
 			TexturePaint ss = new TexturePaint(stex, new Rectangle(x0, 0, stex.getWidth(), stex.getHeight()));

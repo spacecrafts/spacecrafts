@@ -1,11 +1,12 @@
-package se.jbee.game.scs.gfx;
+package se.jbee.game.scs.gfx.art;
 
 import java.awt.Graphics2D;
 
 /**
- * Defines the SPACECRAFTS "font". That is a 5 rows 4 columns dot font.
+ * Defines the SPACECRAFTS "font".
+ * That is a 5 rows 4 columns dot font.
  */
-public final class SCSFont {
+public final class DotFont5x4 {
 
 	private static final int
 	  MUL = 0b0000_1001_0110_0110_1001,
@@ -57,9 +58,9 @@ public final class SCSFont {
 		X = 0b1001_1111_0110_1111_1001,
 		Y = 0b1001_1001_0110_0110_0110,
 		Z = 0b1111_0010_0100_1000_1111;
-		
+
 	private static final int[] AZ = {MUL,ADD,COM,SUB,DOT,DIV,_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,COL,SEM,LT,EQ,GT,QM,AT,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
-	
+
 	public static void draw(Graphics2D gfx, int x0, int y0, int diameter, int[] text) {
 		int x = x0;
 		int y = y0;

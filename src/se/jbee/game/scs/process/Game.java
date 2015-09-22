@@ -18,16 +18,16 @@ import se.jbee.game.uni.state.Entity;
 import se.jbee.game.uni.state.State;
 
 /**
- * The game process it the master process. 
+ * The game process it the master process.
  * It is the only process existing when starting or loading a game.
- * 
+ *
  * Dependent on the game state it spawns the {@link Humans} and {@link AI} processes.
- * It also monitors their health and restarts them should that be necessary. 
- * 
+ * It also monitors their health and restarts them should that be necessary.
+ *
  * Usually it polls the game state to see if all players are done.
  * Than all battles (with or without human players) are carried out.
  * Finally the game state is advanced a turn. This includes:
- * 
+ *
  * - moving spaceships
  * - accumulating incomes and outgoings
  * - add finished researches
@@ -39,26 +39,26 @@ public class Game implements Runnable, GameComponent, UserComponent {
 	public static void main(String[] args) {
 		new Game().run();
 	}
-	
+
 	@Override
 	public void run() {
 		final State user = State.base().defComponents(UserComponent.class);
-		initUser(user);		
-		
+		initUser(user);
+
 		State game = State.base().defComponents(GameComponent.class);
 		initGame(game);
-		
+
 		Display display = new Display();
 		Dimension size = display.getSize();
 		user.single(USER).put(RESOLUTION, new int[] {size.width, size.height});
 		Thread displayThread = daemon(display, "SCS Display");
 
 		List<Player> players = new ArrayList<Player>();
-		
+
 		boolean init = true;
 		while (true) {
 			long loopStart = System.currentTimeMillis();
-			
+
 			if (init) {
 				System.out.println("Starting a new game...");
 
@@ -69,7 +69,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 
 				display.setStage(stage);
 				display.setInputHandler(humans);
-				
+
 				humanPlayers.start();
 				if (displayThread.getState() == java.lang.Thread.State.NEW) {
 					displayThread.start();
@@ -77,25 +77,25 @@ public class Game implements Runnable, GameComponent, UserComponent {
 				init = false;
 				System.out.println(Thread.activeCount()+" threads running...");
 			}
-			
+
 			if (game.single(GAME).num(ACTION) == ACTION_INIT) { // should another game be loaded?
 				System.out.println("Loading game...");
 				quit(players);
-				game = loadGame(game, user.single(USER).text(SAVEGAME_DIR), game.single(GAME).text(SAVEGAME));
+				game = loadGame(user.single(USER).text(SAVEGAME_DIR), game.single(GAME).text(SAVEGAME));
 				game.defComponents(GameComponent.class); // also done for loaded game so that one can be sure that the current code has all the components.
 				init = true;
 			} else {
 				if (isEndOfTurn(game)) {
 					// TODO run encounters (battles ordered or resulting from an conflict due to simultaneous space occupation.
-					
+
 					// advance to next turn
 					new Turn().progress(user, game);
-					
+
 					// wake-up players
 					move(players);
 				}
 			}
-			
+
 			// sleep so that drawing + sleeping = loop time
 			long cycleTimeMs = System.currentTimeMillis() - loopStart;
 			if (cycleTimeMs < 20) {
@@ -116,14 +116,14 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		}
 	}
 
-	private State loadGame(State game, String dir, String file) {
+	private State loadGame(String dir, String file) {
 		try {
 			return State.load(new File(dir, file));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-	}	
-	
+	}
+
 	private static boolean isEndOfTurn(State game) {
 		Entity gamE = game.single(GAME);
 		final int turn = gamE.num(TURN);
@@ -146,7 +146,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		g.put(PLAYERS, p1.id());
 		g.put(SETUP, new int[] {1,1,1});
 	}
-	
+
 	public static void initUser(State user) {
 		if (!user.hasComponent(USER)) {
 			user.defComponent(USER);
@@ -163,7 +163,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		t.setDaemon(true);
 		return t;
 	}
-	
+
 	/**
 	 * The current player is always dreived from game state. The first player
 	 * that has not finished the current turn is the current player.
@@ -175,7 +175,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		for (int i = 0; i < players.length; i++) {
 			Entity player = game.entity(players[i]);
 			if (player.num(TURN) < turn)
-				return player; 
+				return player;
 		}
 		return null;
 	}
