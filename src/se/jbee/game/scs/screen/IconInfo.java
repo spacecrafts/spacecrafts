@@ -2,6 +2,8 @@ package se.jbee.game.scs.screen;
 
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.icon;
+import static se.jbee.game.scs.gfx.Objects.pieinfo;
+import static se.jbee.game.uni.state.Entity.codePoints;
 
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.uni.gfx.Dimension;
@@ -31,6 +33,7 @@ public class IconInfo implements Screen, Gfx {
 			y = 20;
 			d += 1;
 		}
+		stage.inFront(pieinfo(300, 300, 100, COLOR_BIOSPHERE, COLOR_WEAPON, codePoints("1%")));
 	}
 
 }

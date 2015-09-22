@@ -1,6 +1,7 @@
 package se.jbee.game.scs.gfx;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.List;
@@ -36,19 +37,19 @@ public class Renderer1 implements Renderer, Gfx {
 		antialias(gfx);
 		textAntialias(gfx);
 
-		render(styles, gfx, stage.objects.get());
-		render(styles, gfx, stage.accents());
+		render(gfx, styles, stage.objects.get());
+		render(gfx, styles, stage.accents());
 
 		gfx.setFont(styles.font(FONT_REGULAR, 12));
 		gfx.setColor(Color.WHITE);
 		gfx.drawString(String.format("%03d  %dM", System.currentTimeMillis() - drawStart, Runtime.getRuntime().freeMemory()/(1024*1024)), 20, 20);
 	}
 
-	private void render(Styles styles, Graphics2D gfx, List<int[]> objects) {
+	private void render(Graphics2D gfx, Styles styles, List<int[]> objects) {
 		for (int i = 0; i < objects.size(); i++) {
 			int[] obj = objects.get(i);
 			switch (obj[0]) {
-			case OBJ_TEXT         : text(styles, gfx, obj[1], obj[2], obj[3], obj[4], obj[5], objects.subList(i+1, i+1+obj[6])); i += obj[6]; break;
+			case OBJ_TEXT         : text(gfx, styles, obj[1], obj[2], obj[3], obj[4], obj[5], objects.subList(i+1, i+1+obj[6])); i += obj[6]; break;
 			case OBJ_BACKGROUND   : bg.paint(gfx, styles, obj[1], obj[2], obj[3], obj[4], obj[5]); break;
 			case OBJ_PLANET       :	planet.paint(gfx, styles, obj[1], obj[2], obj[3], obj[3], obj[4]);	break;
 			case OBJ_PLANET_CLIP  : planetClip.paint(gfx, styles, obj[1], obj[2], obj[3], obj[3], obj[4]); break;
@@ -59,11 +60,34 @@ public class Renderer1 implements Renderer, Gfx {
 			case OBJ_ICON         : gfx.setColor(styles.color(obj[5]));	Icon.draw(gfx, obj[1], obj[2], obj[3], obj[4]); break;
 			case OBJ_BUTTON_LESS  : gfx.setColor(styles.color(COLOR_TEXT_NORMAL)); gfx.fillOval(obj[1], obj[2], obj[3], obj[3]); break;
 			case OBJ_BUTTON_MORE  : gfx.setColor(styles.color(COLOR_TEXT_NORMAL)); gfx.fillOval(obj[1], obj[2], obj[3], obj[3]); break;
+			case OBJ_PIEINFO      : pieinfo(gfx, styles, obj);
 			}
 		}
 	}
 
-	private static void text(Styles styles, Graphics2D gfx, int x, int y, int font, int size, int color, List<int[]> words ) {
+	private void pieinfo(Graphics2D gfx, Styles styles, int[] obj) {
+		gfx.setColor(styles.color(obj[4]));
+		int x = obj[1];
+		int y = obj[2];
+		int d = obj[3];
+		gfx.fillOval(x, y, d, d);
+		gfx.setColor(styles.color(obj[5]));
+		int w = 0;
+		int size = d/2;
+		String text = new String(obj, 6, obj.length-6);
+		do {
+			gfx.setFont(styles.font(FONT_REGULAR, size));
+			FontMetrics fm = gfx.getFontMetrics();
+			w = fm.stringWidth(text);
+			size -= 2;
+		} while (w > (d-d/8));
+		FontMetrics fm = gfx.getFontMetrics();
+		y += (d-fm.getHeight())/2 + fm.getHeight() - fm.getDescent();
+		x += (d-w)/2;
+		gfx.drawString(text, x, y);
+	}
+
+	private static void text(Graphics2D gfx, Styles styles, int x, int y, int font, int size, int color, List<int[]> words ) {
 		gfx.setColor(styles.color(color));
 		if (font == FONT_DOTS) {
 			DotFont5x4.draw(gfx, x, y, size, words.get(0));
