@@ -132,10 +132,12 @@ public class Display extends Canvas implements Runnable, Gfx {
 	private Styles initStyles(Dimension screen) {
 		final Styles s = new Styles(26, 3, 4, 6);
 		s.addColor(COLOR_DEFAULT, 0xFF8899FF);
+		s.addColor(COLOR_WHITE, 0xFFffffff);
+		s.addColor(COLOR_BLACK, 0xFF000000);
 		s.addColor(COLOR_TEXT_HIGHLIGHT, 0xFFFFFFFF);
 		s.addColor(COLOR_TEXT_NORMAL, 0xFF8899FF);
 		s.addColor(COLOR_TEXT_SPECIAL, 0xFFeeee77);
-		s.addColor(COLOR_SLOT_BORDER, 0xFF223355);
+		s.addColor(COLOR_SLOT, 0xFF223355);
 		// components
 		s.addColor(COLOR_SHIELD, 0xffAAFFEE);
 		s.addColor(COLOR_ENERGY, 0xff00CC55);

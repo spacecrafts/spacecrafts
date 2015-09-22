@@ -1,6 +1,7 @@
 package se.jbee.game.scs.screen;
 
 import static se.jbee.game.scs.gfx.Objects.background;
+import static se.jbee.game.scs.gfx.Objects.knob;
 import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.scs.screen.View.dotDiameter;
 import static se.jbee.game.uni.state.Change.put;
@@ -30,26 +31,26 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	public void show(State user, State game, Dimension screen, Stage stage) {
 
 		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
-		
+
 		// # players
 		// # AI
 		// # stars in a cluster
 		// # clusters in galaxy
 		// (things about events, independent parties, etc.)
-		
+
 		// new entities should only be created by the game
 		// especially as entities cannot be removed the player should first be created at the end of the zero'th turn.
 
-		
+
 		int x0 = screen.width/2-200;
 		int y0 = screen.height/3;
-		
+
 		setup(stage, game, x0, y0, "Players", SETUP_NUMBER_OF_PLAYERS);
 		y0 += 60;
 		setup(stage, game, x0, y0, "AIs", SETUP_NUMBER_OF_AIS);
 		y0 += 60;
 		setup(stage, game, x0, y0, "Galaxy", SETUP_GALAXY_SIZE, "none", "small", "medium", "large");
-		
+
 		int dotDia = dotDiameter(screen);
 		y0 += 100;
 		x0 = x0+400-(dotDia*19);
@@ -58,17 +59,19 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
 		stage.in(nextArea, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1),NEXT);
 		Entity gamE = game.single(GAME);
-		stage.onLeftClickIn(nextArea, 
+		stage.onLeftClickIn(nextArea,
 				put(gamE.id(), ACTION, ACTION_SETUP));
 	}
 
 	private void setup(Stage stage, State game, int x0, int y0, String text, int setupIndex, String...names) {
 		Entity gamE = game.single(GAME);
-		int[] setup = gamE.list(SETUP);		
+		int[] setup = gamE.list(SETUP);
 		stage.inFront(text(x0, y0+40, FONT_THIN, 48, COLOR_TEXT_NORMAL, 1));
 		stage.inFront(codePoints(text));
-		stage.inFront(new int[] {OBJ_BUTTON_LESS, x0+200, y0, 50, 50});
-		stage.inFront(new int[] {OBJ_BUTTON_LESS, x0+350, y0, 50, 50});
+		stage.inFront(knob(x0+200, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK, 1));
+		stage.inFront(codePoints("<"));
+		stage.inFront(knob(x0+350, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK, 1));
+		stage.inFront(codePoints(">"));
 		int val = setup[setupIndex];
 		if (names.length == 0) {
 			stage.inFront(text(x0+290, y0+40, FONT_LIGHT, 48, COLOR_TEXT_HIGHLIGHT, 1));

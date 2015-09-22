@@ -58,14 +58,12 @@ public class Renderer1 implements Renderer, Gfx {
 			case OBJ_BORDER       :	gfx.setColor(new Color(0x8899FF)); gfx.drawRect(obj[1], obj[2], obj[3], obj[4]); break;
 			case OBJ_FOCUS_BOX    : gfx.setColor(styles.color(COLOR_TEXT_HIGHLIGHT)); gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);	break;
 			case OBJ_ICON         : gfx.setColor(styles.color(obj[5]));	Icon.draw(gfx, obj[1], obj[2], obj[3], obj[4]); break;
-			case OBJ_BUTTON_LESS  : gfx.setColor(styles.color(COLOR_TEXT_NORMAL)); gfx.fillOval(obj[1], obj[2], obj[3], obj[3]); break;
-			case OBJ_BUTTON_MORE  : gfx.setColor(styles.color(COLOR_TEXT_NORMAL)); gfx.fillOval(obj[1], obj[2], obj[3], obj[3]); break;
-			case OBJ_PIEINFO      : pieinfo(gfx, styles, obj);
+			case OBJ_KNOB         : knob(gfx, styles, obj, objects.subList(i+1, i+1+obj[6])); i+= obj[6]; break;
 			}
 		}
 	}
 
-	private void pieinfo(Graphics2D gfx, Styles styles, int[] obj) {
+	private void knob(Graphics2D gfx, Styles styles, int[] obj, List<int[]> lines) {
 		gfx.setColor(styles.color(obj[4]));
 		int x = obj[1];
 		int y = obj[2];
@@ -74,7 +72,8 @@ public class Renderer1 implements Renderer, Gfx {
 		gfx.setColor(styles.color(obj[5]));
 		int w = 0;
 		int size = d/2;
-		String text = new String(obj, 6, obj.length-6);
+		int[] txt = lines.get(0);
+		String text = new String(txt, 0, txt.length);
 		do {
 			gfx.setFont(styles.font(FONT_REGULAR, size));
 			FontMetrics fm = gfx.getFontMetrics();

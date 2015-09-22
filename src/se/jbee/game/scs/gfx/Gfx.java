@@ -20,18 +20,20 @@ public interface Gfx {
 	 */
 	int
 	COLOR_DEFAULT = 0,
-	COLOR_TEXT_HIGHLIGHT = 1,
-	COLOR_TEXT_NORMAL = 2,
-	COLOR_TEXT_SPECIAL = 3,
-	COLOR_SLOT_BORDER = 4,
+	COLOR_WHITE = 1,
+	COLOR_BLACK = 2,
+	COLOR_TEXT_NORMAL = 7,
+	COLOR_TEXT_HIGHLIGHT = 8,
+	COLOR_TEXT_SPECIAL = 9,
 	// component colors
-	COLOR_SHIELD = 5,
-	COLOR_ENERGY = 6,
-	COLOR_WEAPON = 7,
-	COLOR_CONTROL = 8,
-	COLOR_DRIVE = 9,
-	COLOR_SPECIAL = 10,
-	COLOR_SCANNER = 11,
+	COLOR_SLOT = 10, // the border of an empty slot
+	COLOR_SHIELD = 11,
+	COLOR_ENERGY = 12,
+	COLOR_WEAPON = 13,
+	COLOR_CONTROL = 14,
+	COLOR_DRIVE = 15,
+	COLOR_SPECIAL = 16,
+	COLOR_SCANNER = 17,
 	// components worked at
 	COLOR_YARD = 20,  // building
 	COLOR_BIOSPHERE = 21, // housing and food
@@ -87,10 +89,8 @@ public interface Gfx {
 	OBJ_ROUTE = 45,
 
 	OBJ_ICON = 50,
-	OBJ_PIEINFO = 51,
+	OBJ_KNOB = 51
 
-	OBJ_BUTTON_MORE = 60,
-	OBJ_BUTTON_LESS = 61
 	;
 
 	/**

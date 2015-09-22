@@ -44,7 +44,7 @@ public class Orbit implements Screen, Gfx, GameComponent {
 		int y0 = (screen.height-32*d)/2;
 		for (int i = 0; i < 32; i++) {
 			for (int j = 0; j < 32; j++) {
-				stage.inFront(icon(ICON_SLOT, x0, y0, d, COLOR_SLOT_BORDER));
+				stage.inFront(icon(ICON_SLOT, x0, y0, d, COLOR_SLOT));
 				stage.in(new Ellipse2D.Float(x0, y0, d, d), icon(ICON_SLOT, x0, y0, d, COLOR_TEXT_HIGHLIGHT));
 				x0 += d;
 			}

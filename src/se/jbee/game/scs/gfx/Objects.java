@@ -19,12 +19,12 @@ public final class Objects implements Gfx {
 		return new int[] { OBJ_ICON, type,x,y,d,color };
 	}
 
-	public static int[] pieinfo(int x, int y, int d, int piecolor, int textcolor, int...text) {
-		return concat(new int[] {OBJ_PIEINFO, x, y, d, piecolor, textcolor}, text);
+	public static int[] knob(int x, int y, int d, int piecolor, int textcolor, int ntext) {
+		return new int[] {OBJ_KNOB, x, y, d, piecolor, textcolor, ntext};
 	}
 
 	public static int[] background(int x, int y, int w, int h, int no, int... seeds) {
-		return seeds.length == 0
+		return seeds.length < 2
 				? new int[] { OBJ_BACKGROUND, x,y,w,h, no, 0, 0 }
 				: new int[] { OBJ_BACKGROUND, x,y,w,h, no, seeds[0], seeds[1] };
 	}
