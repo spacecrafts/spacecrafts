@@ -30,7 +30,7 @@ public class Orbit implements Screen, Gfx, GameComponent {
 
 		int w = screen.width;
 		int h = screen.height;
-		stage.inFront(background(0, 0, w, h, BG_SPACE));
+		stage.inFront(background(0, 0, w, h, BG_SPACE, 42,42)); //TODO use seed from planet
 
 		int d = h*2;
 		int x = -d+h/8;

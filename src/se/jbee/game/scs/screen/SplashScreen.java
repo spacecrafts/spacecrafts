@@ -23,7 +23,7 @@ import se.jbee.game.uni.state.State;
 @ScreenNo(GameScreen.SCREEN_MAIN)
 public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 
-	private static final int[] 
+	private static final int[]
 			OPEN = codePoints("OPEN"),
 			BACK = codePoints("BACK"),
 			EXIT = codePoints("EXIT"),
@@ -33,9 +33,9 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		Entity g1 = game.single(GAME);
-		
-		stage.inFront(background(0,0, screen.width, screen.height, BG_SPACE));
-		
+
+		stage.inFront(background(0,0, screen.width, screen.height, BG_SPACE, 42, 42));
+
 		int dotDia = 20;
 		String title = "SPACECRAFTS";
 		while (title.length()*5*dotDia > screen.width) {
@@ -43,7 +43,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		}
 		stage.inFront(text((screen.width-(title.length()*5*dotDia)+dotDia)/2, screen.height/4-(5*dotDia), FONT_DOTS, dotDia, COLOR_TEXT_SPECIAL, 1));
 		stage.inFront(codePoints(title));
-		
+
 		dotDia = dotDiameter(screen);
 		int w = 4*5*dotDia-dotDia;
 		int h = dotDia*5;
@@ -58,7 +58,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		Change[] openChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SETUP_GAME) };
 		stage.onLeftClickIn(open, openChangeset);
 		stage.onKey('o', openChangeset);
-		
+
 		// load
 		y0 += 8*dotDia;
 		Rectangle load = new Rectangle(x0,y0,w,h);
@@ -68,7 +68,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		Change[] loadChangeset = { put(g1.id(), SCREEN, SCREEN_LOAD_GAME) };
 		stage.onLeftClickIn(load, loadChangeset);
 		stage.onKey('l', loadChangeset);
-		
+
 		// save
 		y0 += 8*dotDia;
 		Rectangle save = new Rectangle(x0,y0,w,h);
@@ -78,7 +78,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		Change[] saveChangeset = { put(g1.id(), SCREEN, SCREEN_SAVE_GAME) };
 		stage.onLeftClickIn(save, saveChangeset);
 		stage.onKey('s', saveChangeset);
-		
+
 		// back
 		if (g1.has(RETURN_SCREEN) && g1.num(RETURN_SCREEN) != SCREEN_MAIN) {
 			y0 += 8*dotDia;
@@ -88,9 +88,9 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 			stage.in(back, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), BACK);
 			Change backChange = put(g1.id(), SCREEN, g1.num(RETURN_SCREEN));
 			stage.onLeftClickIn(back, backChange);
-			stage.onKey(' ', backChange);			
+			stage.onKey(' ', backChange);
 		}
-		
+
 		// exit
 		y0 += 8*dotDia;
 		Rectangle exit = new Rectangle(x0,y0,w,h);

@@ -28,11 +28,11 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		Entity gamE = game.single(GAME);
 
 		Entity player = Game.currentPlayer(game);
-		Entity star = game.entity(gamE.num(SCREEN_ENTITY)); 
-		
+		Entity star = game.entity(gamE.num(SCREEN_ENTITY));
+
 		int w = screen.width;
 		int h = screen.height;
-		stage.inFront(background(0,0,w, h, BG_SPACE));
+		stage.inFront(background(0,0,w, h, BG_SPACE, star.list(SEED)));
 		stage.inFront(starClip(w-h/8, -h/2, h*2, 0xaaaa00, 0)); // g can be altered to increase or decrease red part of sun
 
 		int[] planets = star.list(PLANETS);
@@ -57,25 +57,25 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 
 		stage.inFront(planet(700, 400, 200, 0xFF5014, 0));
 		stage.inFront(planet(100, 300, 400, 0x44FF99, 0));
-		
+
 		stage.inFront(text(690, 360, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
 		stage.inFront(codePoints("Mars"));
 		stage.inFront(text(690, 380, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, 1));
 		stage.inFront(codePoints("Small, Tundra"));
-		
+
 		stage.inFront(text(90, 260, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
 		stage.inFront(codePoints("Uranus"));
 		stage.inFront(text(90, 280, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, 1));
 		stage.inFront(codePoints("Large, Toxic"));
-		
+
 		stage.inFront(text(20, 20+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, 1));
 		stage.inFront(codePoints("Solar System"));
 		stage.inFront(text(20, 20+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
 		stage.inFront(codePoints("Type G"));
-		
+
 		stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_ORBIT));
 		stage.in(area, focusBox(690, 390, 220, 220));
-		
+
 		area = new Rectangle(90, 290, 420, 420);
 		stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_ORBIT));
 		stage.in(area, focusBox(90, 290, 420, 420));

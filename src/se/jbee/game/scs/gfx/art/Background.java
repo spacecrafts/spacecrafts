@@ -5,36 +5,38 @@ import static java.lang.Math.min;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.Random;
 
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.uni.gfx.Artwork;
 import se.jbee.game.uni.gfx.Styles;
+import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.Rnd;
 
 public class Background implements Artwork {
 
 	private int _w;
 	private int _h;
-	private int _seed;
+	private long _seed;
 	private int[] precomputed;
 
 	@Override
-	public void paint(Graphics2D gfx, Styles styles, int x0, int y0, int w, int h, int... type) {
-		switch (type[0]) {
+	public void paint(Graphics2D gfx, Styles styles, int x0, int y0, int w, int h, int... typeAndSeed) {
+		switch (typeAndSeed[0]) {
 		default:
 		case Gfx.BG_BLACK: gfx.setColor(Color.black); gfx.fillRect(x0,y0,w,h); break;
-		case Gfx.BG_SPACE: paintSpace(gfx, x0, y0, w, h); break;
+		case Gfx.BG_SPACE: paintSpace(gfx, x0, y0, w, h, Entity.longValue(typeAndSeed[1], typeAndSeed[2])); break;
 		}
 
 	}
 
-	private void paintSpace(Graphics2D gfx, int x0, int y0, int w, int h) {
+	private void paintSpace(Graphics2D gfx, int x0, int y0, int w, int h, long seed) {
 		gfx.setColor(Color.black);
 		gfx.fillRect(x0, y0, w, h);
-		if (w != _w || h != _h) {
-			precomputed = makeSpace(w, h, 42);
+		if (w != _w || h != _h || _seed != seed) {
+			precomputed = makeSpace(w, h, seed);
 			_w = w;
 			_h = h;
+			_seed = seed;
 		}
 		int j = 0;
 		int[] sp = precomputed;
@@ -79,8 +81,8 @@ public class Background implements Artwork {
 		}
 	}
 
-	private static int[] makeSpace(int w, int h, int seed) {
-		Random rnd = new Random(seed);
+	private static int[] makeSpace(int w, int h, long seed) {
+		Rnd rnd = new Rnd(seed);
 		int[] space = new int[w/2*6];
 		int j = 0;
 		for (int i = 0; i < w/2; i++) {

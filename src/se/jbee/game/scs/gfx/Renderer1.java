@@ -50,7 +50,7 @@ public class Renderer1 implements Renderer, Gfx {
 			int[] obj = objects.get(i);
 			switch (obj[0]) {
 			case OBJ_TEXT         : text(gfx, styles, obj[1], obj[2], obj[3], obj[4], obj[5], objects.subList(i+1, i+1+obj[6])); i += obj[6]; break;
-			case OBJ_BACKGROUND   : bg.paint(gfx, styles, obj[1], obj[2], obj[3], obj[4], obj[5]); break;
+			case OBJ_BACKGROUND   : bg.paint(gfx, styles, obj[1], obj[2], obj[3], obj[4], obj[5], obj[6], obj[7]); break;
 			case OBJ_PLANET       :	planet.paint(gfx, styles, obj[1], obj[2], obj[3], obj[3], obj[4]);	break;
 			case OBJ_PLANET_CLIP  : planetClip.paint(gfx, styles, obj[1], obj[2], obj[3], obj[3], obj[4]); break;
 			case OBJ_STAR_CLIP    :	starClip.paint(gfx, styles, obj[1], obj[2], obj[3], obj[3], obj[4]); break;

@@ -13,21 +13,21 @@ import java.util.Arrays;
  * The design assumes that most entities do not have lots of components.
  * Components are in no particular order, a lookup has to scan.
  * Removed components are just zeroed for later reuse of the index.
- * When a entity has to grow it doubles in size. 
+ * When a entity has to grow it doubles in size.
  */
 public final class Entity implements Component {
 
 	private static final int[] EMPTY_LIST = new int[0];
-	
+
 	private int[]   cs;   // components
 	private int[][] vs;   // values
-	
+
 	private int size = 0; // how much properties are used
-	
+
 	private Entity() {
 		// used for load
 	}
-	
+
 	public Entity(int id, int type) {
 		init(id, type);
 	}
@@ -41,14 +41,14 @@ public final class Entity implements Component {
 		vs[1] = new int[] { type < 0 ? id : type };
 		size  = 2;
 	}
-	
+
 	/**
-	 * This is intentionally just visible within the package as it should only be used by {@link State}! 
+	 * This is intentionally just visible within the package as it should only be used by {@link State}!
 	 */
 	int at(int index) {
 		return vs[index][0];
-	}	
-	
+	}
+
 	/*
 	 * IO
 	 */
@@ -73,7 +73,7 @@ public final class Entity implements Component {
 		}
 		return e;
 	}
-	
+
 	public void save(DataOutputStream out) throws IOException {
 		int c = 0;
 		for (int i = 0; i < size; i++) {
@@ -94,23 +94,23 @@ public final class Entity implements Component {
 			}
 		}
 	}
-	
+
 	/*
 	 * all
 	 */
-	
+
 	public void clear() {
 		init(vs[0][0], vs[1][0]);
 	}
-	
+
 	/*
 	 * map (of primitives)
 	 */
-	
+
 	public boolean has(int comp) {
 		return indexOf(comp) >= 0;
 	}
-	
+
 	public int num(int comp) {
 		int i = indexOf(comp);
 		if (i < 0)
@@ -118,31 +118,35 @@ public final class Entity implements Component {
 		int[] val = vs[i];
 		return val.length == 0 ? 0 : val[0];
 	}
-	
+
 	public long longNum(int comp) {
 		int i = indexOf(comp);
 		if (i < 0)
 			return 0L;
 		int[] val = vs[i];
-		return val.length == 0 ? 0L : ((long)val[0]) << 32 | val[1];
+		return val.length == 0 ? 0L : longValue(val[0], val[1]);
 	}
-	
+
+	public static long longValue(int high, int low) {
+		return (long)high << 32 | low & 0xFFFFFFFFL;
+	}
+
 	public int id() {
 		return num(ID);
 	}
-	
+
 	public int type() {
 		return num(TYPE);
 	}
-	
+
 	public Entity put(int comp, long num) {
 		return put(comp, (int)(num >> 32), (int)num);
 	}
-	
+
 	public Entity put(int comp, int num) {
 		return put(comp, new int[] { num });
 	}
-	
+
 	public Entity put(int comp, int... listOrSetOrTxt) {
 		int i = indexOf(comp);
 		if (i < 0) {
@@ -163,36 +167,36 @@ public final class Entity implements Component {
 		size++;
 		return this;
 	}
-	
+
 	public void erase(int comp) {
 		int i = indexOf(comp);
 		if (i >= 0) {
 			cs[i] = -1;
 			vs[i] = EMPTY_LIST;
 		}
-	}	
-	
+	}
+
 	/*
 	 * list
 	 */
-	
+
 	/**
-	 * this does not copy intentionally. do not mutate values received from an entity! 
+	 * this does not copy intentionally. do not mutate values received from an entity!
 	 */
 	public int[] list(int comp) {
 		int i = indexOf(comp);
 		return i < 0 ? EMPTY_LIST : vs[i];
 	}
-	
+
 	public String text(int comp) {
 		int[] text = vs[indexOf(comp)];
 		return new String(text, 0, text.length);
 	}
-	
+
 	public String name() {
 		return text(NAME);
 	}
-	
+
 	public void append(int comp, int e) {
 		int i = indexOf(comp);
 		if (i < 0) {
@@ -204,7 +208,7 @@ public final class Entity implements Component {
 		list2[list.length] = e;
 		vs[i] = list2;
 	}
-	
+
 	public void append(int comp, int[] tail) {
 		int i = indexOf(comp);
 		if (i < 0) {
@@ -220,7 +224,7 @@ public final class Entity implements Component {
 		arraycopy(tail, 0, list2, list.length, tail.length);
 		this.vs[i] = list2;
 	}
-	
+
 	public void prepend(int comp, int e) {
 		int i = indexOf(comp);
 		if (i < 0) {
@@ -233,7 +237,7 @@ public final class Entity implements Component {
 		list2[0] = e;
 		vs[i] = list2;
 	}
-	
+
 	public void prepend(int comp, int[] head) {
 		int i = indexOf(comp);
 		if (i < 0) {
@@ -249,7 +253,7 @@ public final class Entity implements Component {
 		arraycopy(list, 0, list2, head.length, list.length);
 		this.vs[i] = list2;
 	}
-	
+
 	/*
 	 * set
 	 */
@@ -259,9 +263,9 @@ public final class Entity implements Component {
 		int[] set = vs[indexOf(comp)];
 		sort(set);
 	}
-	
+
 	/**
-	 * works also for lists 
+	 * works also for lists
 	 */
 	public void remove(int comp, int[] members) {
 		if (members.length == 0)
@@ -280,7 +284,7 @@ public final class Entity implements Component {
 			}
 		}
 		vs[i] = copyOf(listOrSet, w);
-	}		
+	}
 
 	private static boolean contains(int[] elements, int member) {
 		for (int i = 0; i < elements.length; i++)
@@ -295,11 +299,11 @@ public final class Entity implements Component {
 			return -1;
 		return Arrays.binarySearch(vs[i], member);
 	}
-	
+
 	/*
 	 * bitset
 	 */
-	
+
 	public void setbits(int comp, int...flags) {
 		for (int flag : flags) {
 			set(comp, flag);
@@ -314,38 +318,38 @@ public final class Entity implements Component {
 			vs[i][0] |= 1 << flag;
 		}
 	}
-	
+
 	public void unsetbits(int comp, int...flags) {
 		for (int flag : flags) {
 			unset(comp, flag);
 		}
 	}
-	
+
 	public void unset(int comp, int flag) {
 		int i = indexOf(comp);
 		if (i >= 0) {
 			vs[i][0] &= ~(1 << flag);
 		}
 	}
-	
+
 	public <E extends Enum<E>> void set(int comp, E flag) {
 		set(comp, flag.ordinal());
 	}
-	
+
 	public <E extends Enum<E>> void unset(int comp, E flag) {
 		unset(comp, flag.ordinal());
-	}	
-	
+	}
+
 	public <E extends Enum<E>> boolean isSet(int comp, E flag) {
 		int i = indexOf(comp);
 		int ord = flag.ordinal();
 		return i >= 0 && vs[i].length > 0 && ((vs[i][0] >> ord) & 1) == 1;
 	}
-	
+
 	/*
 	 * utilities and commons
 	 */
-	
+
 	public int indexOf(int comp) {
 		for (int i = 0; i < size; i++) {
 			if (cs[i] == comp)
@@ -353,7 +357,7 @@ public final class Entity implements Component {
 		}
 		return -1;
 	}
-	
+
 	@Override
 	public String toString() {
 		int id = vs[0][0];

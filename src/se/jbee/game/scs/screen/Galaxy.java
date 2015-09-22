@@ -25,13 +25,13 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
-		
+
 		Entity gamE = game.single(GAME);
 		Entity player = Game.currentPlayer(game);
 		Entity galaxy = game.entity(gamE.num(SCREEN_ENTITY));
 
-		stage.inFront(background(0, 0, screen.width, screen.height, BG_SPACE));
-		
+		stage.inFront(background(0, 0, screen.width, screen.height, BG_SPACE, galaxy.list(SEED)));
+
 		Rectangle center = View.centerView(screen);
 		int wh = min(center.width, center.height);
 		int size = galaxy.num(SIZE);
@@ -61,15 +61,15 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 		int w = screen.width;
 		int h = screen.height;
 		stage.inFront(background(0, 0, w, h, BG_SPACE));
-		
+
 		Entity gamE = game.single(GAME);
-		
+
 		Rnd rnd = new Rnd(56);
-		
+
 		int concentration = 100;
 		int cr = 200-concentration;
 		int systems = (w/cr)*(h/cr);
-		
+
 		for (int i = 0; i < systems; i++) {
 			int x = rnd.nextInt(w);
 			if (x -50 < 0) {
@@ -89,7 +89,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			Rectangle area = new Rectangle(x-d/2,y-d/2,box,box);
 			stage.in(area, Objects.focusBox(x-d/2, y-d/2, box, box));
 			stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM));
-			
+
 			// draw straight lines for all systems that can be reached for the currently selected fleet
 			// draw dashed/dotted lines for all systems that can be reached given the current technology
 		}

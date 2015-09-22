@@ -23,8 +23,10 @@ public final class Objects implements Gfx {
 		return concat(new int[] {OBJ_PIEINFO, x, y, d, piecolor, textcolor}, text);
 	}
 
-	public static int[] background(int x, int y, int w, int h, int no) {
-		return new int[] { OBJ_BACKGROUND, x,y,w,h, no };
+	public static int[] background(int x, int y, int w, int h, int no, int... seeds) {
+		return seeds.length == 0
+				? new int[] { OBJ_BACKGROUND, x,y,w,h, no, 0, 0 }
+				: new int[] { OBJ_BACKGROUND, x,y,w,h, no, seeds[0], seeds[1] };
 	}
 
 	public static int[] border(Rectangle area) {
