@@ -139,6 +139,10 @@ public final class Entity implements Component {
 		return num(TYPE);
 	}
 
+	public Entity name(String name) {
+		return put(NAME, codePoints(name));
+	}
+
 	public Entity put(int comp, long num) {
 		return put(comp, (int)(num >> 32), (int)num);
 	}
@@ -189,7 +193,10 @@ public final class Entity implements Component {
 	}
 
 	public String text(int comp) {
-		int[] text = vs[indexOf(comp)];
+		int idx = indexOf(comp);
+		if (idx < 0)
+			return "";
+		int[] text = vs[idx];
 		return new String(text, 0, text.length);
 	}
 

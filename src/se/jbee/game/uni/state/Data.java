@@ -13,9 +13,9 @@ import java.io.IOException;
  * entities from text files. Each row describes an entity. Columns are separated
  * by whitespace. The first row however defines the columns given by the
  * component types. These are expected to exist in the target.
- * 
+ *
  * A file could look like this:
- * 
+ *
  * <pre>
  *  0  43 44 45
  *  42 1  "a" [1 2]
@@ -25,6 +25,7 @@ import java.io.IOException;
  */
 public final class Data {
 
+	@SuppressWarnings("null")
 	public static void load(File source, State target) throws IOException {
 		try (BufferedReader in = new BufferedReader(new FileReader(source))) {
 			String[] columns = in.readLine().split("\\s+");
@@ -32,6 +33,7 @@ public final class Data {
 			Entity[] components = new Entity[columns.length];
 			for (int i = 0; i < columns.length; i++) {
 				int type = parseInt(columns[i]);
+				//TODO this works perfectly fine with the types but it should also be allowed to use the component name for clearity
 				comps[i] = type;
 				components[i] = target.component(type);
 			}
@@ -45,12 +47,12 @@ public final class Data {
 				switch (c) {
 				case '\n': i = 0; type = -1; c = in.read(); break;
 				case '\t':
-				case ' ' : if (type >= 0) { i++; } do { c = in.read(); } while (c == ' ' || c == '\t'); break; 
+				case ' ' : if (type >= 0) { i++; } do { c = in.read(); } while (c == ' ' || c == '\t'); break;
 				case '-' : c = in.read(); break;
 				case '[' : // list
 				case '{' : // set
 					c = in.read();
-					while (c == ' ' || c == '\t') { c = in.read(); } 
+					while (c == ' ' || c == '\t') { c = in.read(); }
 					bufpos = 0;
 					do {
 						int num = 0;

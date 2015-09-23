@@ -63,7 +63,7 @@ public class Renderer1 implements Renderer, Gfx {
 		}
 	}
 
-	private void knob(Graphics2D gfx, Styles styles, int[] obj, List<int[]> lines) {
+	private void knob(Graphics2D gfx, Styles styles, int[] obj, List<int[]> captions) {
 		gfx.setColor(styles.color(obj[4]));
 		int x = obj[1];
 		int y = obj[2];
@@ -72,7 +72,7 @@ public class Renderer1 implements Renderer, Gfx {
 		gfx.setColor(styles.color(obj[5]));
 		int w = 0;
 		int size = d/2;
-		int[] txt = lines.get(0);
+		int[] txt = captions.get(0);
 		String text = new String(txt, 0, txt.length);
 		do {
 			gfx.setFont(styles.font(FONT_REGULAR, size));

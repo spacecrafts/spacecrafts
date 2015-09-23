@@ -1,8 +1,5 @@
 package se.jbee.game.scs.gfx;
 
-import static java.lang.System.arraycopy;
-import static java.util.Arrays.copyOf;
-
 import java.awt.Rectangle;
 
 /**
@@ -15,12 +12,18 @@ public final class Objects implements Gfx {
 
 	//int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
 
+	// TODO text has to define the bounding box and the alignment within so that the rendering can use text measure to move text to the correct position if this is desired.
+	// there should be different placement methods: absolute (simply pick x,y) box (use the box x,y,w,h and alsignment)
+	public static int[] text(int x, int y, int font, int size, int color, int ntext) {
+		return new int[] { OBJ_TEXT, x,y, font, size, color, ntext };
+	}
+
 	public static int[] icon(int type, int x, int y, int d, int color) { //TODO add color-effect
 		return new int[] { OBJ_ICON, type,x,y,d,color };
 	}
 
 	public static int[] knob(int x, int y, int d, int piecolor, int textcolor, int ntext) {
-		return new int[] {OBJ_KNOB, x, y, d, piecolor, textcolor, ntext};
+		return new int[] { OBJ_KNOB, x, y, d, piecolor, textcolor, ntext};
 	}
 
 	public static int[] background(int x, int y, int w, int h, int no, int... seeds) {
@@ -61,15 +64,4 @@ public final class Objects implements Gfx {
 		return new int[] { OBJ_PLANET_CLIP, x,y,d,c,nrand };
 	}
 
-	// TODO text has to define the bounding box and the alignment within so that the rendering can use text measure to move text to the correct position if this is desired.
-	// there should be different placement methods: absolute (simply pick x,y) box (use the box x,y,w,h and alsignment)
-	public static int[] text(int x, int y, int font, int size, int color, int ntext) {
-		return new int[] { OBJ_TEXT, x,y, font, size, color, ntext };
-	}
-
-	private static int[] concat(int[] a, int[] b) {
-		int[] c = copyOf(a, a.length+b.length);
-		arraycopy(b, 0, c, a.length, b.length);
-		return c;
-	}
 }

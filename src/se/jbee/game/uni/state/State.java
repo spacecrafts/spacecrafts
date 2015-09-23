@@ -15,10 +15,10 @@ import java.util.NoSuchElementException;
 
 /**
  * The "system" of an {@link Entity}-{@link Component}-System.
- * 
+ *
  * A state object is a container for generic state, what is more or less a list
  * of entities, each having a couple of components.
- * 
+ *
  * During a game entities are only introduced to a state universe but never
  * removed. An entity might be cleared though just leaving its ID component
  * intact to have all other data GCed.
@@ -26,11 +26,11 @@ import java.util.NoSuchElementException;
 public final class State implements Component {
 
 	private static final int SIZE_1 = 128;
-	
+
 	private Entity[] es = new Entity[SIZE_1];
-	
+
 	private int size = 0;
-	
+
 	public static State base() {
 		State g = new State();
 		g.es[0] = new Entity(0, 0).put(NAME, codePoints("COMPONENT")).put(0, new int[1]);
@@ -41,11 +41,11 @@ public final class State implements Component {
 		g.defComponent(NAME).put(NAME, codePoints("NAME"));
 		return g;
 	}
-	
+
 	private State() {
 		// used directly during load
 	}
-	
+
 	public State defComponents(Class<? extends Component> components) {
 		for (Field f : components.getDeclaredFields()) {
 			try {
@@ -58,8 +58,8 @@ public final class State implements Component {
 			}
 		}
 		return this;
-	}	
-	
+	}
+
 	/**
 	 * Is a "component entity" (all of those are usually defined at the
 	 * beginning but when loading a old save with an updated version of the game
@@ -69,13 +69,13 @@ public final class State implements Component {
 		Entity e = defEntity(0);
 		int[] typeMapping = es[0].list(0);
 		if (typeMapping.length <= type) {
-			typeMapping = copyOf(typeMapping, type+1); 
+			typeMapping = copyOf(typeMapping, type+1);
 			es[0].put(0, typeMapping);
 		}
-		typeMapping[type] = e.num(ID); 
+		typeMapping[type] = e.num(ID);
 		return e;
 	}
-	
+
 	public Entity defEntity(int type) {
 		Entity e = new Entity(size, type);
 		if (size >= es.length) {
@@ -85,11 +85,11 @@ public final class State implements Component {
 		size++;
 		return e;
 	}
-	
+
 	public Entity single(int type) {
 		return entity(all(type)[0]);
 	}
-	
+
 	public int[] all(int type) {
 		int[] all = new int[8];
 		int c = 0;
@@ -103,16 +103,16 @@ public final class State implements Component {
 		}
 		return copyOf(all, c);
 	}
-	
+
 	public boolean hasEntity(int id) {
 		return id < size && id >= 0;
 	}
-	
+
 	public boolean hasComponent(int type) {
 		int[] mapping = es[0].list(0);
 		return type == 0 || type < mapping.length && mapping[type] > 0;
 	}
-	
+
 	public Entity component(int type) {
 		if (type == 0)
 			return es[0];
@@ -121,13 +121,26 @@ public final class State implements Component {
 			throw new NoSuchElementException("Unknown component type: "+type);
 		return entity(id);
 	}
-	
+
+	public Entity component(String name) {
+		int[] typeMapping = es[0].list(0);
+		for (int i = 0; i < typeMapping.length; i++) {
+			if (typeMapping[i] != 0) {
+				Entity e = es[typeMapping[i]];
+				if (name.equals(e.name())) {
+					return e;
+				}
+			}
+		}
+		throw new NoSuchElementException("Unknown component named: "+name);
+	}
+
 	public Entity entity(int id) {
 		if (id > size)
 			throw new NoSuchElementException("This is a programming error!");
 		return es[id];
 	}
-	
+
 	public Entity[] entities(int...ids) {
 		Entity[] res = new Entity[ids.length];
 		for (int i = 0; i < ids.length; i++) {
@@ -135,10 +148,10 @@ public final class State implements Component {
 		}
 		return res;
 	}
-	
+
 	public void save(File file) throws IOException {
 		//TODO as soon as multiple threads change state save may only occur in-between complete change-sets have been applied
-		// the simplest would be a sync on this object but this would prevent AIs and Human interaction to happen fully parallel. 
+		// the simplest would be a sync on this object but this would prevent AIs and Human interaction to happen fully parallel.
 		// while the only problem is the save. Therefore some atomic might do better as only save/change has to be synct.
 		if (!file.getParentFile().exists()) {
 			if (!file.getParentFile().mkdirs()) {
@@ -152,7 +165,7 @@ public final class State implements Component {
 			}
 		}
 	}
-	
+
 	public static State load(File file) throws IOException {
 		State g = new State();
 		try (DataInputStream in = new DataInputStream(new FileInputStream(file))) {
@@ -164,11 +177,11 @@ public final class State implements Component {
 		}
 		return g;
 	}
-	
+
 	/**
 	 * Loads the first entity with the given type.
-	 * 
-	 * This allows to peek into a file just for some specific data as the general game state. 
+	 *
+	 * This allows to peek into a file just for some specific data as the general game state.
 	 */
 	public static Entity load(File file, int type) throws IOException {
 		try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(file), 64))) {
@@ -193,7 +206,7 @@ public final class State implements Component {
 		}
 		throw new NoSuchElementException("No entity of type `"+type+"` contained in file: "+file);
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
@@ -206,5 +219,5 @@ public final class State implements Component {
 	public int size() {
 		return size;
 	}
-	
+
 }
