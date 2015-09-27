@@ -20,11 +20,21 @@ import javax.swing.JPanel;
 
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Renderer1;
+import se.jbee.game.scs.gfx.obj.Background;
+import se.jbee.game.scs.gfx.obj.Border;
+import se.jbee.game.scs.gfx.obj.FocusBox;
+import se.jbee.game.scs.gfx.obj.Icon;
+import se.jbee.game.scs.gfx.obj.Knob;
+import se.jbee.game.scs.gfx.obj.Planet;
+import se.jbee.game.scs.gfx.obj.Ring;
+import se.jbee.game.scs.gfx.obj.Star;
+import se.jbee.game.scs.gfx.obj.Techwheel;
 import se.jbee.game.uni.gfx.Colouring;
 import se.jbee.game.uni.gfx.Dimension;
 import se.jbee.game.uni.gfx.Renderer;
 import se.jbee.game.uni.gfx.Stage;
 import se.jbee.game.uni.gfx.Styles;
+import se.jbee.game.uni.gfx.obj.Text;
 
 /**
  * The screen or canvas the game is drawn on.
@@ -87,7 +97,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 		final BufferStrategy strategy = getBufferStrategy();
 		final Dimension screen = new Dimension(getSize());
 		final Styles styles = initStyles(screen);
-		final Renderer renderer = new Renderer1();
+		final Renderer renderer = initRenderer();
 		int frameDone = -1;
 		while (true) {
 			long loopStart = System.currentTimeMillis();
@@ -128,6 +138,23 @@ public class Display extends Canvas implements Runnable, Gfx {
 	private static final Colouring PLANET2 = (float rgb) -> {
 		return new Color(rgb, rgb, rgb, 0.15f).getRGB();
 	};
+	
+	private Renderer initRenderer() {
+		Renderer1 r = new Renderer1();
+		r.use(OBJ_TEXT, new Text());
+		r.use(OBJ_TECH_WHEEL, new Techwheel());
+		r.use(OBJ_KNOB, new Knob());
+		r.use(OBJ_RING, new Ring());
+		r.use(OBJ_BACKGROUND, new Background());
+		r.use(OBJ_STAR, Star.CIRCLE);
+		r.use(OBJ_STAR_CLIP, Star.CLIP);
+		r.use(OBJ_PLANET, Planet.CIRCLE);
+		r.use(OBJ_PLANET_CLIP, Planet.CLIP);
+		r.use(OBJ_ICON, new Icon());
+		r.use(OBJ_BORDER, new Border());
+		r.use(OBJ_FOCUS_BOX, new FocusBox());
+		return r;
+	}
 
 	private Styles initStyles(Dimension screen) {
 		final Styles s = new Styles(26, 3, 4, 6);

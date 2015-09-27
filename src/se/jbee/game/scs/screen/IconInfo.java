@@ -45,6 +45,17 @@ public class IconInfo implements Screen, Gfx {
 		stage.inFront(techwheel(400, 400, 800, COLOR_TEXT_NORMAL));
 		stage.inFront(techwheel(900, 400, 200, COLOR_TEXT_NORMAL));
 		
+		int r = 800/12;
+		int xa = 400;
+		int ya = 400;
+		int d1 = r/2+r/12;
+		int d2 = r+r/2-r/8;
+		stage.inFront(Objects.ring(xa+d1, ya+d2, 50, 3, COLOR_ACADEMY, COLOR_BLACK));
+		stage.inFront(Objects.ring(xa-d1, ya+d2, 50, 3, COLOR_ACADEMY, COLOR_BLACK));
+		stage.inFront(Objects.ring(xa-d1, ya-d2, 50, 3, COLOR_ACADEMY, COLOR_BLACK));
+		stage.inFront(Objects.ring(xa-d2, ya-d1, 50, 3, COLOR_ACADEMY, COLOR_BLACK));
+		stage.inFront(Objects.ring(xa+d2, ya-d1, 50, 3, COLOR_ACADEMY, COLOR_BLACK));
+		
 	}
 
 }

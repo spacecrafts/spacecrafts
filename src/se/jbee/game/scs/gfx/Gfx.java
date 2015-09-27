@@ -81,7 +81,7 @@ public interface Gfx {
 	OBJ_STAR_CLIP = 4,
 	OBJ_PLANET_CLIP = 5,
 	OBJ_TECH_WHEEL = 6,
-
+	
 	// lines
 	OBJ_BORDER = 10,
 	OBJ_FOCUS_LINE = 11,
@@ -91,7 +91,8 @@ public interface Gfx {
 	// information
 	OBJ_TEXT = 30,
 	OBJ_ICON = 31,
-	OBJ_KNOB = 32
+	OBJ_KNOB = 32,
+	OBJ_RING = 33
 	;
 
 	/**

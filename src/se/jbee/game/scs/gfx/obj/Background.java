@@ -1,18 +1,19 @@
-package se.jbee.game.scs.gfx.art;
+package se.jbee.game.scs.gfx.obj;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.List;
 
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.uni.gfx.Artwork;
+import se.jbee.game.uni.gfx.Obj;
 import se.jbee.game.uni.gfx.Styles;
 import se.jbee.game.uni.state.Entity;
 import se.jbee.game.uni.state.Rnd;
 
-public class Background implements Artwork {
+public class Background implements Gfx, Obj {
 
 	private int _w;
 	private int _h;
@@ -20,11 +21,19 @@ public class Background implements Artwork {
 	private int[] precomputed;
 
 	@Override
-	public void paint(Graphics2D gfx, Styles styles, int x0, int y0, int w, int h, int... typeAndSeed) {
-		switch (typeAndSeed[0]) {
+	public void draw(Graphics2D gfx, Styles styles, List<int[]> data) {
+		int[] obj = data.get(0);
+		int x0 = obj[2];
+		int y0 = obj[3];
+		int w = obj[4];
+		int h = obj[5];
+		int type = obj[6];
+		int seed1 = obj[7];
+		int seed2 = obj[8];
+		switch (type) {
 		default:
 		case Gfx.BG_BLACK: gfx.setColor(Color.black); gfx.fillRect(x0,y0,w,h); break;
-		case Gfx.BG_SPACE: paintSpace(gfx, x0, y0, w, h, Entity.longValue(typeAndSeed[1], typeAndSeed[2])); break;
+		case Gfx.BG_SPACE: paintSpace(gfx, x0, y0, w, h, Entity.longValue(seed1, seed2)); break;
 		}
 
 	}

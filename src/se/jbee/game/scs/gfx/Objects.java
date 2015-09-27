@@ -7,6 +7,10 @@ import java.awt.Rectangle;
  *
  * This is only to make code more readable and documenting the contract or
  * expectation of each of the {@link Gfx}s.
+ * 
+ * There are two rules:
+ * - index 0 holds the object type
+ * - index 1 holds the number of successive data elements that belong to the object
  */
 public final class Objects implements Gfx {
 
@@ -14,26 +18,30 @@ public final class Objects implements Gfx {
 
 	// TODO text has to define the bounding box and the alignment within so that the rendering can use text measure to move text to the correct position if this is desired.
 	// there should be different placement methods: absolute (simply pick x,y) box (use the box x,y,w,h and alsignment)
-	public static int[] text(int x, int y, int font, int size, int color, int ntext) {
-		return new int[] { OBJ_TEXT, x,y, font, size, color, ntext };
+	public static int[] text(int x, int y, int font, int size, int color, int n) {
+		return new int[] { OBJ_TEXT, n, x,y, font, size, color };
+	}
+	
+	public static int[] knob(int x, int y, int d, int piecolor, int textcolor, int n) {
+		return new int[] { OBJ_KNOB, n, x, y, d, piecolor, textcolor};
 	}
 
 	public static int[] icon(int type, int x, int y, int d, int color) { //TODO add color-effect
-		return new int[] { OBJ_ICON, type,x,y,d,color };
-	}
-
-	public static int[] knob(int x, int y, int d, int piecolor, int textcolor, int ntext) {
-		return new int[] { OBJ_KNOB, x, y, d, piecolor, textcolor, ntext};
+		return new int[] { OBJ_ICON, 0, type,x,y,d,color };
 	}
 
 	public static int[] techwheel(int xc, int yc, int d, int color) {
-		return new int[] { OBJ_TECH_WHEEL,xc,yc,d,color};
+		return new int[] { OBJ_TECH_WHEEL, 0, xc,yc,d,color};
+	}
+	
+	public static int[] ring(int xc, int yc, int d, int thickness, int fg, int bg) {
+		return new int[] { OBJ_RING, 0, xc,yc,d, thickness, fg, bg};
 	}
 
 	public static int[] background(int x, int y, int w, int h, int no, int... seeds) {
 		return seeds.length < 2
-				? new int[] { OBJ_BACKGROUND, x,y,w,h, no, 0, 0 }
-				: new int[] { OBJ_BACKGROUND, x,y,w,h, no, seeds[0], seeds[1] };
+				? new int[] { OBJ_BACKGROUND, 0, x,y,w,h, no, 0, 0 }
+				: new int[] { OBJ_BACKGROUND, 0, x,y,w,h, no, seeds[0], seeds[1] };
 	}
 
 	public static int[] border(Rectangle area) {
@@ -41,31 +49,31 @@ public final class Objects implements Gfx {
 	}
 
 	public static int[] border(int x, int y, int w, int h) {
-		return new int[] { OBJ_BORDER, x,y,w,h };
+		return new int[] { OBJ_BORDER, 0, x,y,w,h };
 	}
 
 	public static int[] focusBox(int x, int y, int w, int h) {
-		return new int[] { OBJ_FOCUS_BOX, x,y,w,h };
+		return new int[] { OBJ_FOCUS_BOX, 0, x,y,w,h };
 	}
 
 	public static int[] focusLine(int x1, int y1, int x2, int y2) {
-		return new int[] { OBJ_FOCUS_LINE, x1,y1,x2,y2 };
+		return new int[] { OBJ_FOCUS_LINE, 0, x1,y1,x2,y2 };
 	}
 
 	public static int[] star(int x, int y, int d, int c, int nrand) {
-		return new int[] { OBJ_STAR, x,y,d,c, nrand };
+		return new int[] { OBJ_STAR, 0, x,y,d,c, nrand };
 	}
 
 	public static int[] starClip(int x, int y, int d, int c, int nrand) {
-		return new int[] { OBJ_STAR_CLIP, x,y,d,c,nrand };
+		return new int[] { OBJ_STAR_CLIP, 0, x,y,d,c,nrand };
 	}
 
 	public static int[] planet(int x, int y, int d, int c, int nrand) {
-		return new int[] { OBJ_PLANET, x,y,d,c,nrand };
+		return new int[] { OBJ_PLANET, 0, x,y,d,c,nrand };
 	}
 
 	public static int[] planetClip(int x, int y, int d, int c, int nrand) {
-		return new int[] { OBJ_PLANET_CLIP, x,y,d,c,nrand };
+		return new int[] { OBJ_PLANET_CLIP, 0, x,y,d,c,nrand };
 	}
 
 }

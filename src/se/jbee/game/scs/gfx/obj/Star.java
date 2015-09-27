@@ -1,4 +1,4 @@
-package se.jbee.game.scs.gfx.art;
+package se.jbee.game.scs.gfx.obj;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -14,12 +14,13 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.uni.gfx.Artwork;
+import se.jbee.game.uni.gfx.Obj;
 import se.jbee.game.uni.gfx.Styles;
 
-public class Star implements Gfx, Artwork {
+public class Star implements Gfx, Obj {
 
 	public static final Star CLIP = new Star(true);
 	public static final Star CIRCLE = new Star(false);
@@ -30,15 +31,21 @@ public class Star implements Gfx, Artwork {
 		super();
 		this.clip = clip;
 	}
-
+	
 	@Override
-	public void paint(Graphics2D gfx, Styles styles, int x0, int y0, int w, int h, int... rand) {
+	public void draw(Graphics2D gfx, Styles styles, List<int[]> data) {
+		int[] obj = data.get(0);
+		int x0 = obj[2];
+		int y0 = obj[3];
+		int w = obj[4];
+		int h = obj[5];
+		int rand = obj[6];
 		if (clip) {
 			BufferedImage stex = styles.texture(TEXTURE_STAR_200x2000_SMALL);
 			TexturePaint ss = new TexturePaint(stex, new Rectangle(x0, 0, stex.getWidth(), stex.getHeight()));
 			BufferedImage ltex = styles.texture(TEXTURE_STAR_200x2000_LARGE);
 			TexturePaint ls = new TexturePaint(ltex, new Rectangle(x0, 0, ltex.getWidth(), ltex.getHeight()));
-			int rgba = rand[0];
+			int rgba = rand;
 			rgba = 0x000000;
 			starClip(styles, gfx, x0, y0, w, rgba, ls, ss);
 		} else {
@@ -46,13 +53,13 @@ public class Star implements Gfx, Artwork {
 		}
 	}
 
-	private void starCircle(Styles styles, Graphics2D gfx, int x0, int y0, int dia, int... rand) {
+	private void starCircle(Styles styles, Graphics2D gfx, int x0, int y0, int dia, int rand) {
 		// brown: 200, 125, 100
 		// orange: 250, 180, 50 (less green makes more red, blue is constant 50)
 		// purple: 200, 50, 250
 		// teal: 200, 250, 250 (more red makes it more white, gb are fix)
 		// colors...
-		int t = rand[0];
+		int t = rand;
 		int r = 255;
 		int g = 150+t/4;
 		int b = 85-t/3;
