@@ -1,9 +1,12 @@
 package se.jbee.game.scs.gfx;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.Arc2D;
 import java.util.List;
 
 import se.jbee.game.scs.gfx.art.Background;
@@ -59,8 +62,35 @@ public class Renderer1 implements Renderer, Gfx {
 			case OBJ_FOCUS_BOX    : gfx.setColor(styles.color(COLOR_TEXT_HIGHLIGHT)); gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);	break;
 			case OBJ_ICON         : gfx.setColor(styles.color(obj[5]));	Icon.draw(gfx, obj[1], obj[2], obj[3], obj[4]); break;
 			case OBJ_KNOB         : knob(gfx, styles, obj, objects.subList(i+1, i+1+obj[6])); i+= obj[6]; break;
+			case OBJ_TECH_WHEEL   : techwheel(gfx, styles, obj[1], obj[2], obj[3], obj[4]); break;
 			}
 		}
+	}
+
+	private void techwheel(Graphics2D gfx, Styles styles, int x0, int y0, int d0, int color) {
+		gfx.setColor(styles.color(color));
+		int d = d0;
+		int x = x0;
+		int y = y0;
+		int ring = d/12;
+		gfx.drawOval(x, y, d, d);
+		for (int i = 0; i < 5; i++) {
+			x +=ring;
+			y +=ring;
+			d -= ring+ring;
+			gfx.drawOval(x, y, d, d);
+		}
+
+		gfx.drawLine(x0+d0/7, y0+d0/7, x,y);
+
+		BasicStroke s = new BasicStroke(ring);
+		Arc2D.Float arc = new Arc2D.Float(Arc2D.OPEN);
+		arc.setAngleStart(180d);
+		arc.setAngleExtent(45d);
+		arc.setFrame(x0+ring/2, y0+ring/2, d0, d0-ring);
+		Shape shape = s.createStrokedShape(arc);
+		gfx.setColor(styles.color(COLOR_ACADEMY));
+		gfx.fill(shape);
 	}
 
 	private void knob(Graphics2D gfx, Styles styles, int[] obj, List<int[]> captions) {

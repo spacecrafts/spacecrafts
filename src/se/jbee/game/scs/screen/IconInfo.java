@@ -3,6 +3,7 @@ package se.jbee.game.scs.screen;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.icon;
 import static se.jbee.game.scs.gfx.Objects.knob;
+import static se.jbee.game.scs.gfx.Objects.techwheel;
 import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.awt.Cursor;
@@ -40,6 +41,8 @@ public class IconInfo implements Screen, Gfx {
 		stage.inFront(knob(300, 300, 100, COLOR_BIOSPHERE, COLOR_BLACK, 1));
 		stage.inFront(codePoints("1%"));
 		stage.in(new Ellipse2D.Float(300f, 300f, 100f, 100f), Cursor.HAND_CURSOR, Objects.border(300, 300, 100, 100));
+
+		stage.inFront(techwheel(400, 200, 500, COLOR_TEXT_NORMAL));
 	}
 
 }

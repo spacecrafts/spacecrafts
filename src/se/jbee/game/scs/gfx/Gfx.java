@@ -71,26 +71,27 @@ public interface Gfx {
 
 	/**
 	 * Objects
+	 * (this might be changed at any time as they do not occur in the game data - just in rendering)
 	 */
 	int
+	// backs
 	OBJ_BACKGROUND = 1,
+	OBJ_STAR = 2,
+	OBJ_PLANET = 3,
+	OBJ_STAR_CLIP = 4,
+	OBJ_PLANET_CLIP = 5,
+	OBJ_TECH_WHEEL = 6,
 
-	OBJ_BORDER = 20,
-	OBJ_FOCUS_LINE = 21,
-	OBJ_FOCUS_BOX = 22,
+	// lines
+	OBJ_BORDER = 10,
+	OBJ_FOCUS_LINE = 11,
+	OBJ_FOCUS_BOX = 12,
+	OBJ_ROUTE = 13,
 
+	// information
 	OBJ_TEXT = 30,
-
-	OBJ_STAR = 40,
-	OBJ_STAR_CLIP = 41,
-	OBJ_PLANET = 42,
-	OBJ_PLANET_CLIP = 43,
-	OBJ_ORBIT_ARC = 44,
-	OBJ_ROUTE = 45,
-
-	OBJ_ICON = 50,
-	OBJ_KNOB = 51
-
+	OBJ_ICON = 31,
+	OBJ_KNOB = 32
 	;
 
 	/**
