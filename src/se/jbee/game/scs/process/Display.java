@@ -141,18 +141,18 @@ public class Display extends Canvas implements Runnable, Gfx {
 	
 	private Renderer initRenderer() {
 		Renderer1 r = new Renderer1();
-		r.use(OBJ_TEXT, new Text());
-		r.use(OBJ_TECH_WHEEL, new Techwheel());
-		r.use(OBJ_KNOB, new Knob());
-		r.use(OBJ_RING, new Ring());
-		r.use(OBJ_BACKGROUND, new Background());
-		r.use(OBJ_STAR, Star.CIRCLE);
-		r.use(OBJ_STAR_CLIP, Star.CLIP);
-		r.use(OBJ_PLANET, Planet.CIRCLE);
-		r.use(OBJ_PLANET_CLIP, Planet.CLIP);
-		r.use(OBJ_ICON, new Icon());
-		r.use(OBJ_BORDER, new Border());
-		r.use(OBJ_FOCUS_BOX, new FocusBox());
+		r.assoc(OBJ_TEXT, new Text());
+		r.assoc(OBJ_TECH_WHEEL, new Techwheel());
+		r.assoc(OBJ_KNOB, new Knob());
+		r.assoc(OBJ_RING, new Ring());
+		r.assoc(OBJ_BACKGROUND, new Background());
+		r.assoc(OBJ_STAR, Star.CIRCLE);
+		r.assoc(OBJ_STAR_CLIP, Star.CLIP);
+		r.assoc(OBJ_PLANET, Planet.CIRCLE);
+		r.assoc(OBJ_PLANET_CLIP, Planet.CLIP);
+		r.assoc(OBJ_ICON, new Icon());
+		r.assoc(OBJ_BORDER, new Border());
+		r.assoc(OBJ_FOCUS_BOX, new FocusBox());
 		return r;
 	}
 

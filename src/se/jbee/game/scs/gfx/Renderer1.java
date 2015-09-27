@@ -37,7 +37,7 @@ public class Renderer1 implements Renderer, Gfx {
 		gfx.drawString(String.format("%03d  %dM", System.currentTimeMillis() - drawStart, Runtime.getRuntime().freeMemory()/(1024*1024)), 20, 20);
 	}
 	
-	public void use(int type, Obj obj) {
+	public void assoc(int type, Obj obj) {
 		if (type > objects.length) {
 			objects = Arrays.copyOf(objects, objects.length*2);
 		}
