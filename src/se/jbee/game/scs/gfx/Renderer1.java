@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.geom.Arc2D;
 import java.util.List;
 
 import se.jbee.game.scs.gfx.art.Background;
@@ -67,30 +65,33 @@ public class Renderer1 implements Renderer, Gfx {
 		}
 	}
 
-	private void techwheel(Graphics2D gfx, Styles styles, int x0, int y0, int d0, int color) {
+	private void techwheel(Graphics2D gfx, Styles styles, int xc, int yc, int d, int color) {
+		gfx.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		gfx.setColor(styles.color(color));
-		int d = d0;
-		int x = x0;
-		int y = y0;
+		
 		int ring = d/12;
-		gfx.drawOval(x, y, d, d);
+		
+		int h1 = ring/2+ring/5+ring/24;
+		int h6 = ring*6/2+ring*6/5+ring*6/120;
+		gfx.drawLine(xc, yc-ring, xc, yc-(6*ring)+1);
+		gfx.drawLine(xc, yc+ring, xc, yc+(6*ring)-1);
+		gfx.drawLine(xc-ring, yc, xc-(6*ring)+1, yc);
+		gfx.drawLine(xc+ring, yc, xc+(6*ring)-1, yc);
+		gfx.drawLine(xc+h1, yc+h1, xc+h6, yc+h6);
+		gfx.drawLine(xc-h1, yc-h1, xc-h6, yc-h6);
+		gfx.drawLine(xc+h1, yc-h1, xc+h6, yc-h6);
+		gfx.drawLine(xc-h1, yc+h1, xc-h6, yc+h6);
+		
+		int dn = ring+ring;
+		int x0 = xc-ring;
+		int y0 = yc-ring;
+		gfx.drawOval(x0, y0, dn, dn);
 		for (int i = 0; i < 5; i++) {
-			x +=ring;
-			y +=ring;
-			d -= ring+ring;
-			gfx.drawOval(x, y, d, d);
+			x0 -=ring;
+			y0 -=ring;
+			dn += ring+ring;
+			gfx.drawOval(x0, y0, dn, dn);
 		}
-
-		gfx.drawLine(x0+d0/7, y0+d0/7, x,y);
-
-		BasicStroke s = new BasicStroke(ring);
-		Arc2D.Float arc = new Arc2D.Float(Arc2D.OPEN);
-		arc.setAngleStart(180d);
-		arc.setAngleExtent(45d);
-		arc.setFrame(x0+ring/2, y0+ring/2, d0, d0-ring);
-		Shape shape = s.createStrokedShape(arc);
-		gfx.setColor(styles.color(COLOR_ACADEMY));
-		gfx.fill(shape);
 	}
 
 	private void knob(Graphics2D gfx, Styles styles, int[] obj, List<int[]> captions) {

@@ -26,8 +26,8 @@ public final class Objects implements Gfx {
 		return new int[] { OBJ_KNOB, x, y, d, piecolor, textcolor, ntext};
 	}
 
-	public static int[] techwheel(int x, int y, int d, int color) {
-		return new int[] { OBJ_TECH_WHEEL,x,y,d,color};
+	public static int[] techwheel(int xc, int yc, int d, int color) {
+		return new int[] { OBJ_TECH_WHEEL,xc,yc,d,color};
 	}
 
 	public static int[] background(int x, int y, int w, int h, int no, int... seeds) {
