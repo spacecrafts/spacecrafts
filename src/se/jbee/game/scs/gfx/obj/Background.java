@@ -54,7 +54,11 @@ public class Background implements Gfx, Obj {
 			int g = sp[j++];
 			int b = sp[j++];
 			int a = sp[j++];
-			gfx.setColor(new Color(200 + r, 200 + g, 200 + b, a));
+			if (r > b) {
+				gfx.setColor(new Color(200 + r, 200 + g, 50 + b+a, a));
+			} else {
+				gfx.setColor(new Color(50 + r+a, 200 + g, 200 + b, a));
+			}
 			int x = sp[j++];
 			int y = sp[j++];
 			gfx.drawLine(x-1, y, x+1, y);
@@ -67,7 +71,7 @@ public class Background implements Gfx, Obj {
 				if (a < 66) {
 					a /= 2;
 				}
-				gfx.setColor(new Color(255, 255, 255, a));
+				gfx.setColor(new Color(255, 255, 180+a, a));
 				int n = a > 68 ? 2 : 1;
 				if (a % 2 == 0) {
 					gfx.drawLine(x-n, y-n, x+n, y+n);
@@ -75,16 +79,6 @@ public class Background implements Gfx, Obj {
 				} else {
 					gfx.drawLine(x-n, y, x+n, y);
 					gfx.drawLine(x, y-2, x, y+n);
-				}
-				if (a >= 68) {
-					gfx.setColor(new Color(238, 238, 255, 120));
-					if (a % 2 == 0) {
-						gfx.drawLine(x-n, y, x+n, y);
-						gfx.drawLine(x, y-2, x, y+n);
-					} else {
-						gfx.drawLine(x-n, y-n, x+n, y+n);
-						gfx.drawLine(x+n, y-n, x-n, y+n);
-					}
 				}
 			}
 		}
