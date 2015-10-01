@@ -1,6 +1,8 @@
 package se.jbee.game.scs.gfx.obj;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.util.List;
 
 import se.jbee.game.scs.gfx.Gfx;
@@ -17,13 +19,12 @@ public class Ring implements Gfx, Obj {
 		int d = obj[4];
 		int thickness = obj[5];
 		int fg = obj[6];
-		int bg = obj[7];
 		gfx.setColor(styles.color(fg));
 		int r = d/2;
-		gfx.fillOval(xc-r, yc-r, 2*r, 2*r);
-		r -= thickness;
-		gfx.setColor(styles.color(bg));
-		gfx.fillOval(xc-r, yc-r, 2*r, 2*r);
-	}		
+		Stroke s = gfx.getStroke();
+		gfx.setStroke(new BasicStroke(thickness));
+		gfx.drawOval(xc-r, yc-r, 2*r, 2*r);
+		gfx.setStroke(s);
+	}
 
 }

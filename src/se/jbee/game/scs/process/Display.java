@@ -99,13 +99,14 @@ public class Display extends Canvas implements Runnable, Gfx {
 		final Styles styles = initStyles(screen);
 		final Renderer renderer = initRenderer();
 		int frameDone = -1;
+		boolean onlyDrawOnChange = false;
 		while (true) {
 			long loopStart = System.currentTimeMillis();
 
 			Stage currentStage = stage;
 			if (currentStage != null) {
 				int frame = currentStage.frame();
-				if (frameDone != frame) { // only draw if something has changed
+				if (!onlyDrawOnChange || frameDone != frame) { // only draw if something has changed
 					frameDone = frame;
 
 					Graphics2D gfx = (Graphics2D) strategy.getDrawGraphics();
@@ -138,7 +139,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 	private static final Colouring PLANET2 = (float rgb) -> {
 		return new Color(rgb, rgb, rgb, 0.15f).getRGB();
 	};
-	
+
 	private Renderer initRenderer() {
 		Renderer1 r = new Renderer1();
 		r.assoc(OBJ_TEXT, new Text());
@@ -158,6 +159,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 
 	private Styles initStyles(Dimension screen) {
 		final Styles s = new Styles(26, 3, 4, 6);
+		s.addColor(COLOR_TRANSPARENT, 0x00000000);
 		s.addColor(COLOR_DEFAULT, 0xFF8899FF);
 		s.addColor(COLOR_WHITE, 0xFFffffff);
 		s.addColor(COLOR_BLACK, 0xFF000000);

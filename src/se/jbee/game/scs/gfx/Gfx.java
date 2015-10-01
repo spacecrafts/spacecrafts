@@ -19,9 +19,10 @@ public interface Gfx {
 	 * Colors
 	 */
 	int
-	COLOR_DEFAULT = 0,
+	COLOR_TRANSPARENT = 0,
 	COLOR_WHITE = 1,
 	COLOR_BLACK = 2,
+	COLOR_DEFAULT = 3,
 	COLOR_TEXT_NORMAL = 7,
 	COLOR_TEXT_HIGHLIGHT = 8,
 	COLOR_TEXT_SPECIAL = 9,
@@ -81,7 +82,7 @@ public interface Gfx {
 	OBJ_STAR_CLIP = 4,
 	OBJ_PLANET_CLIP = 5,
 	OBJ_TECH_WHEEL = 6,
-	
+
 	// lines
 	OBJ_BORDER = 10,
 	OBJ_FOCUS_LINE = 11,

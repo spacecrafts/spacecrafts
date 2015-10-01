@@ -7,7 +7,7 @@ import java.awt.Rectangle;
  *
  * This is only to make code more readable and documenting the contract or
  * expectation of each of the {@link Gfx}s.
- * 
+ *
  * There are two rules:
  * - index 0 holds the object type
  * - index 1 holds the number of successive data elements that belong to the object
@@ -21,7 +21,7 @@ public final class Objects implements Gfx {
 	public static int[] text(int x, int y, int font, int size, int color, int n) {
 		return new int[] { OBJ_TEXT, n, x,y, font, size, color };
 	}
-	
+
 	public static int[] knob(int x, int y, int d, int piecolor, int textcolor, int n) {
 		return new int[] { OBJ_KNOB, n, x, y, d, piecolor, textcolor};
 	}
@@ -33,9 +33,9 @@ public final class Objects implements Gfx {
 	public static int[] techwheel(int xc, int yc, int d, int color) {
 		return new int[] { OBJ_TECH_WHEEL, 0, xc,yc,d,color};
 	}
-	
-	public static int[] ring(int xc, int yc, int d, int thickness, int fg, int bg) {
-		return new int[] { OBJ_RING, 0, xc,yc,d, thickness, fg, bg};
+
+	public static int[] ring(int xc, int yc, int d, int thickness, int fg) {
+		return new int[] { OBJ_RING, 0, xc,yc,d, thickness, fg};
 	}
 
 	public static int[] background(int x, int y, int w, int h, int no, int... seeds) {
