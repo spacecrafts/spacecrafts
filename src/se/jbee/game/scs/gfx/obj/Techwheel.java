@@ -1,11 +1,14 @@
 package se.jbee.game.scs.gfx.obj;
 
+import static java.lang.Math.toRadians;
+
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.util.List;
 
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.uni.gfx.Obj;
+import se.jbee.game.uni.gfx.Point;
 import se.jbee.game.uni.gfx.Styles;
 
 public class Techwheel implements Gfx, Obj {
@@ -43,6 +46,23 @@ public class Techwheel implements Gfx, Obj {
 			dn += ring+ring;
 			gfx.drawOval(x0, y0, dn, dn);
 		}
+	}
+
+	/**
+	 * Position relative to the first that is "centered" as far as possible.
+	 */
+	static int [] REL_POS = { 0, 1, -1, 2, -2 };
+
+	public static Point centerOfWheelPosition(int xc, int yc, int d, int sec, int lev, int no) {
+		int w_lev = d/12;
+		double dist = w_lev*lev+w_lev/2;
+		double angle = sec*45d + 45d/2d + (45d/lev*REL_POS[no]);
+		if (lev % 2 == 0) {
+			angle -= 45d/(2*lev);
+		}
+		int dx = (int) (Math.sin(toRadians(angle)) * dist);
+		int dy = (int) (Math.cos(toRadians(angle)) * dist);
+		return new Point(xc+dx, yc+dy);
 	}
 
 }

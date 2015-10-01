@@ -11,7 +11,9 @@ import java.awt.geom.Ellipse2D;
 
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Objects;
+import se.jbee.game.scs.gfx.obj.Techwheel;
 import se.jbee.game.uni.gfx.Dimension;
+import se.jbee.game.uni.gfx.Point;
 import se.jbee.game.uni.gfx.Stage;
 import se.jbee.game.uni.screen.Screen;
 import se.jbee.game.uni.screen.ScreenNo;
@@ -44,18 +46,14 @@ public class IconInfo implements Screen, Gfx {
 
 		stage.inFront(techwheel(400, 400, 800, COLOR_TEXT_NORMAL));
 		stage.inFront(techwheel(900, 400, 200, COLOR_TEXT_NORMAL));
-		
-		int r = 800/12;
-		int xa = 400;
-		int ya = 400;
-		int d1 = r/2+r/12;
-		int d2 = r+r/2-r/8;
-		stage.inFront(Objects.ring(xa+d1, ya+d2, 50, 3, COLOR_ACADEMY, COLOR_BLACK));
-		stage.inFront(Objects.ring(xa-d1, ya+d2, 50, 3, COLOR_ACADEMY, COLOR_BLACK));
-		stage.inFront(Objects.ring(xa-d1, ya-d2, 50, 3, COLOR_ACADEMY, COLOR_BLACK));
-		stage.inFront(Objects.ring(xa-d2, ya-d1, 50, 3, COLOR_ACADEMY, COLOR_BLACK));
-		stage.inFront(Objects.ring(xa+d2, ya-d1, 50, 3, COLOR_ACADEMY, COLOR_BLACK));
-		
-	}
 
+		for (int sec = 0; sec < 8; sec++) {
+			for (int lev = 1; lev <= 5; lev++) {
+				for (int i = 0; i < lev; i++) {
+					Point c = Techwheel.centerOfWheelPosition(400, 400, 800, sec, lev, i);
+					stage.inFront(Objects.ring(c.x, c.y, 50, 3, COLOR_YARD + i, COLOR_BLACK));
+				}
+			}
+		}
+	}
 }
