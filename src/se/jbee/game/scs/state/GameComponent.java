@@ -132,7 +132,8 @@ public interface GameComponent extends Component {
 
 	PLANET = 130,
 		// SEEDS [#,#,...]
-		// KIND *x
+		// MAKEUP *x
+		// WEALTH *x
 		// COLONY *y (cross ref)
 		// POSITION (in the solar system)
 		MOONS = 131, // (orbiting)
@@ -143,9 +144,15 @@ public interface GameComponent extends Component {
 	STAR_TYPE = 150,
 		// PROBABILITIES (of types of planets?)
 
-	PLANET_TYPE = 160, // of planet (mostly a description for humans)
-		PROBABILITIES = 161, // [#,#,...] of special resources
+	MAKEUP = 160, // of a planet; or a "planet type" (mostly a description for humans)
+		MATERIALS = 161, // [*x,*y,...] ref to the material
+		PROBABILITIES = 162, // [#,#,...] of rare materials
 		//CODE (a static constant value known to gfx to draw the appropriate image, random values from planet are used to make each appear somewhat unique
+		
+	WEALTH = 170, // of rare materials on a planet (mostly a description for humans)
+		RATE = 171, // # (percentage of depots in relation to all planet slots)
+		
+	MATERIAL = 180, // (mostly a description for humans)
 
 	/*
 	 * Diplomacy and Trading
@@ -166,8 +173,14 @@ public interface GameComponent extends Component {
 	TECHNOLOGY = 300,
 		COSTS = 301, // # (number of research points required)
 		//PARTS {#x,#y,...} (what becomes known to the player when discovered given by a part-code)
-
-	ABILITY = 310,
+		LEVEL = 301, // # (0-5; 0 is in the center)
+		//BRANCH # (the ORD of the BRANCH)
+		ORD = 302, // (position in the cell)
+		
+	BRANCH = 310,
+		//ORD (position in the wheel)
+		
+	ABILITY = 320,
 
 	/*
 	 * Colonies and Orbits

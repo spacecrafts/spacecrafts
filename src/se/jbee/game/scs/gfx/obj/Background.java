@@ -57,7 +57,7 @@ public class Background implements Gfx, Obj {
 			if (r > b) {
 				gfx.setColor(new Color(200 + r, 200 + g, 50 + b+a, a));
 			} else {
-				gfx.setColor(new Color(50 + r+a, 200 + g, 200 + b, a));
+				gfx.setColor(new Color(100 + r+a, 200 + g, 217 + b, a));
 			}
 			int x = sp[j++];
 			int y = sp[j++];

@@ -4,20 +4,27 @@ public class SCSInfo {
 
 	private static final int[][] ENERGY = {{7,1}, {6,3}, {5,5}};
 	private static final int[][] FOOD = {{2,3},{3,3},{4,3}}; 
-	private static final int[][] WISDOM = {{3,3},{5,3}};
+	private static final int[][] WISDOM = {{2,3},{4,3}};
 	
 	public static void main(String[] args) {
-		// bn + i/2n (n+1)
-		// 2n + 3/2n (n+1)
-		// 4n + 2/2n (n+1)
-		// 8n + 1/2n (n+1)
-		
-		int max = 150;
-		int use = 1;
-		int[][] profiles = {{2,3}}; 
-		for (int n = 1; n < max; n++) {
+		componentBank(1, 150, WISDOM);
+	}
+
+	/**
+	 * 
+	 * @param consumption
+	 *            how much the consumer of the produced thing consumes per
+	 *            component. e.g. 3 energy per yard.
+	 * @param size
+	 *            maximum amount of components to output
+	 * @param profiles
+	 *            groups of base value and percent-points of increase per bank
+	 *            member
+	 */
+	static void componentBank(int consumption, int size, int[][] profiles) {
+		for (int n = 1; n < size; n++) {
 			System.out.print(String.format("%3s", n));
-			float p = use*100*n;
+			float p = consumption*100*n;
 			for (int i = 0; i < profiles.length; i++) {
 				int base = profiles[i][0] * n;
 				int inc = base*profiles[i][1]*n/100;
@@ -27,14 +34,12 @@ public class SCSInfo {
 			}
 			System.out.println();
 		}
-		
+	}
+
+	static void technologyCosts() {
 		for (int n = 1; n <= 120; n++) {
 			int tc = n*20 + ((n/2)*(n/2)) + ((n/3)*(n/3)*(n/3));
 			System.out.println(String.format("%3s %4s", n, tc));
 		}
-		// 3*7 = 21	
-		// 6*7 = 42
-		// 9*7 = 63
-		// 
 	}
 }
