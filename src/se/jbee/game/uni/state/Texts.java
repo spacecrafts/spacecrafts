@@ -9,15 +9,19 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * A special key-code used for internationalization. Ore more generally
- * externalization of texts in the game so that the text is not part of the game
- * state but a code that is referring to or representing the actual text.
+ * {@linkplain Texts} are game data that is independent of the game state itself.
+ * Different users might even want different texts for the same game.
+ * So the game state refers to the text only by the means of keys.
  *
+ * These keys use a special coding.
  * The basic idea is to constrain ourself to a fix three level structure.
  *
- * 1. series (kind) 2. attribute (name) 3. serial (no)
+ * 1. series (kind)
+ * 2. attribute (name)
+ * 3. number (serial)
  *
- * 1 is expressed by a upper case letter, 2 is expressed by a lower case letter,
+ * 1 is expressed by a upper case letter,
+ * 2 is expressed by a lower case letter,
  * 3 is expressed by a integer serial number (short range)
  *
  * <pre>
