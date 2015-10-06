@@ -50,21 +50,23 @@ public final class Texts {
 		try (BufferedReader in = new BufferedReader(new FileReader(texts))) {
 			String line = in.readLine();
 			while (line != null) {
-				if (!line.startsWith("//")) {
+				if (!line.startsWith("#")) {
 					int eq = line.indexOf('=');
-					int san = parse(line.substring(0, eq));
-					String text = line.substring(eq+1);
-					StringBuilder mtext = new StringBuilder();
-					if (text.startsWith("{")) {
-						line = in.readLine();
-						while (line != null && !line.startsWith("}")) {
-							mtext.append(line).append('\n');
+					if (eq > 0) {
+						int san = parse(line.substring(0, eq));
+						String text = line.substring(eq+1);
+						StringBuilder mtext = new StringBuilder();
+						if (text.startsWith("/")) {
 							line = in.readLine();
+							while (line != null && !line.startsWith("/")) {
+								mtext.append(line).append('\n');
+								line = in.readLine();
+							}
+							mtext.setLength(mtext.length()-1);
+							text = mtext.toString();
 						}
-						mtext.setLength(mtext.length()-1);
-						text = mtext.toString();
+						index(san, text);
 					}
-					index(san, text);
 				}
 				line = in.readLine();
 			}
