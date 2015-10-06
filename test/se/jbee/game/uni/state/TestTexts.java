@@ -3,6 +3,8 @@ package se.jbee.game.uni.state;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
+
 import org.junit.Test;
 
 public class TestTexts {
@@ -17,5 +19,16 @@ public class TestTexts {
 		int code = Texts.encode('T', 'c', 3);
 		assertEquals(code, Texts.parse(Texts.print(code)));
 		assertArrayEquals(new int[] { 'T', 'c', 3 }, Texts.decode(code));
+	}
+
+	@Test
+	public void textsLoadFromFiles() {
+		Texts texts = new Texts();
+		texts.index(new File("data/test.texts"));
+
+		assertEquals("Tech 1 Name", texts.lookup(Texts.encode('T', 'n', 1)));
+		assertEquals("Tech 1 Description", texts.lookup(Texts.encode('T', 'd', 1)));
+		assertEquals("Tech 2 Name", texts.lookup(Texts.encode('T', 'n', 2)));
+		assertEquals("Tech 2 Description", texts.lookup(Texts.encode('T', 'd', 2)));
 	}
 }

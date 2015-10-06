@@ -26,8 +26,11 @@ import java.util.Arrays;
  *
  * <pre>
  * T.a.1
- * T.b.3
+ * T.n.3
  * </pre>
+ *
+ * This could stand for: <b>n</b>ame of <b>T</b>echnology no 3
+ *
  *
  * The three parts are composed into a single int using the 4 bytes as
  *
@@ -64,7 +67,7 @@ public final class Texts {
 		String[] series = texts[off];
 		if (series == null)
 			series = new String[n+1];
-		if (series.length < n) {
+		if (series.length <= n) {
 			series = Arrays.copyOf(series, n+1);
 		}
 		texts[off] = series;
