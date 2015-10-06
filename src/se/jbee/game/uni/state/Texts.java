@@ -52,7 +52,19 @@ public final class Texts {
 			while (line != null) {
 				if (!line.startsWith("//")) {
 					int eq = line.indexOf('=');
-					index(parse(line.substring(0, eq)), line.substring(eq+1));
+					int san = parse(line.substring(0, eq));
+					String text = line.substring(eq+1);
+					StringBuilder mtext = new StringBuilder();
+					if (text.startsWith("{")) {
+						line = in.readLine();
+						while (line != null && !line.startsWith("}")) {
+							mtext.append(line).append('\n');
+							line = in.readLine();
+						}
+						mtext.setLength(mtext.length()-1);
+						text = mtext.toString();
+					}
+					index(san, text);
 				}
 				line = in.readLine();
 			}

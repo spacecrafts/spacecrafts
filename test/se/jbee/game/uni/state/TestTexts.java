@@ -30,5 +30,8 @@ public class TestTexts {
 		assertEquals("Tech 1 Description", texts.lookup(Texts.encode('T', 'd', 1)));
 		assertEquals("Tech 2 Name", texts.lookup(Texts.encode('T', 'n', 2)));
 		assertEquals("Tech 2 Description", texts.lookup(Texts.encode('T', 'd', 2)));
+		assertEquals("something else here\nand here...", texts.lookup(Texts.encode('T', 'd', 3)));
+		assertEquals("Tech 4 Name", texts.lookup(Texts.encode('T', 'n', 4)));
+
 	}
 }
