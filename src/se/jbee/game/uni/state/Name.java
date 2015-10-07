@@ -2,9 +2,9 @@ package se.jbee.game.uni.state;
 
 
 /**
- * names made from predefined parts that are known to work to together and
- * create names of a certain character this narrows down the possible names but
- * is simple and creates a good atmosphere
+ * Names made from predefined parts that are known to work to together and
+ * create names of a certain character. This narrows down the possible names but
+ * is simple and creates a good atmosphere.
  */
 public final class Name {
 
@@ -20,78 +20,78 @@ public final class Name {
 		NAME_HADES = 8,
 		NAME_ANUBIS = 9,
 		NAME_PELLEGRINO = 10;
-	
-	private static final String[][] KIRUG_TARK = { 
-		{"Bal", "Tor", "Mat", "Kit", "Lif", "Val", "Zir", "Dor", "Di", "Ban", "Mar", "Kir" }, 
-		{"ok", "ug","az","ur","za","un","ra","un","om"}, 
-		{" Tar", " Ir", " Pe", " Gor", " Ha"}, 
+
+	private static final String[][] KIRUG_TARK = {
+		{"Bal", "Tor", "Mat", "Kit", "Lif", "Val", "Zir", "Dor", "Di", "Ban", "Mar", "Kir" },
+		{"ok", "ug","az","ur","za","un","ra","un","om"},
+		{" Tar", " Ir", " Pe", " Gor", " Ha"},
 		{"ma", "k", "zog", "rah", "oh", "dak"} };
-	
+
 	private static final String[][] VENEZIA = {
 		{"Lui", "Ba", "Bi", "Ve", "Vi", "Ci", "Ro", "Flo", "Na", "Co", "Ha", "Tu", "Pi"},
 		{"ga", "ne", "po", "pa", "pu", "me", "le", "gi", "do", "te", "no", "ri", "co"},
 		{"zia", "lla", "lli", "ni", "mi", "ma", "na", "no", "mo", "gi", "tti", "di", "ro", "bo"}};
-	
+
 	private static final String[][] WADOJIN = {
 		{"Si","Wa", "La", "Fa", "Ki", "Pa", "Hu", "Mu", "Wo", "Li", "Ju"},
 		{"m", "ss", "mm", "v", "d", "pen", "ch"},
 		{"oj", "at", "uh", "oh", "el", "t"},
 		{"en", "in", "nef", "el", "es"}	};
-	
+
 	private static final String[][] FLOVUTE = {
 		{"Flo", "Re", "Pa", "Je", "Ju", "Fe", "An", "Am", "Fu", "Mo", "Dy", "Ce", "Val", "Hu"},
 		{"la", "tu", "mi", "ni", "ri", "ba", "ra", "vu", "le", "go"},
 		{"na","ge", "te", "con", "cion", "s", "ne", "pice", "pon", "tre"},
 		{"t"},
 		{"es"} };
-	
-	private static final String[][] BEUDONIA = { 
+
+	private static final String[][] BEUDONIA = {
 		{"Ha", "Be", "Ge", "Ma", "Lo", "Sti", "Za", "Sa", "Je", "E"},
 		{"m", "n", "r", "u"},
 		{"b", "g", "d", "ch", "s", "k"},
 		{"e", "in", "en", "on", "er"},
 		{"g", "e", "a", "d", "o", "z", "ia"} };
-	
+
 	private static final String[][] TAZADAR = {
 		{"Ta", "Ra", "Za", "Tu", "Di", "Va", "A", "U", "I"},
 		{"za", "r", "du","n","si", "lta"},
 		{"d","m","s","am","v", ""},
 		{"ar", "un", "ir", "is","az","at"} };
-	
+
 	private static final String[][] LANCELOT = {
 		{"La","Me","Ma","Yu","Ha","Ya","Xa","Fu","Xu"},
 		{"nc","nz","ik","k","t","n","r","","h"},
 		{"e","a","u"},
 		{"lot","rot","zu","ha","ma","ta","gi"},
 		{"e","se"}};
-	
+
 	private static final String[][] LETO = {
 		{"A","Au","Ly","Vi", "Le", "Ca", "Er", "U", "Ve", "I", "Plu", "Ge"},
 		{"qua","to", "si", "da", "tar", "n", "gi", "ca", "la","gitta", "pri", "mi", "ra", "lan"},
 		{"tis", "tum", "um", "go", "rius", "ux","pia", "nus", "ni", "rus", "tus", "lux", "ris", "nium", "on"} };
-	
+
 	private static final String[][] HADES = {
 		{"Ha", "Thu", "Yo", "Ta", "O", "Ne", "Ba", "Ko", "Ro", "Ve", "Ra", "A", "Ke"},
 		{"r", "n", "c", "l", "g", "t", "v", "d"},
 		{"o", "e", "u", "a"},
 		{"s", "k", "r", "bal", "kon", "d", "ros"} };
-	
-	private static final String[][] ANUBIS =  { 
+
+	private static final String[][] ANUBIS =  {
 		{"Am", "Ag", "An", "M", "N", "S", "N", "T", "Th", "Un", "K", "B", "H", "R", "H", "Sch"},
 		{"a", "e", "u", "amu"},
 		{"bet","haf", "des", "tem", "nut", "ef", "tet", "ta", "sut", "n", "net", "tis", "bis", "m", "pa", "th", "f", "t", "ris", "k", "mut", "sat", "hes", "tep", "tef"},
 		{"-Re", "-Amun", "-anch"}
 	};
-	
+
 	private static final String[][] PELLEGRINO = { // Vespa
 		{"Coco", "Bo", "Pe", "Gu", "Lui", "To", "Da", "Va", "Fu", "Bu"},
 		{"llo", "lle", "lli", "bbo", "gi", "tti", "da", "po"},
 		{"lino", "vino", "grino", "cesco", "rio", "gio"}
 	};
-	
+
 	// Piotr, -skij, -ov, -rov, boris, vladimir, -mir, dimitri
 	// names like Latin plant names
-	
+
 	public static String name(int type, long seed) {
 		switch (type) {
 		case NAME_PELLEGRINO: return name(seed, PELLEGRINO, 90, 50, 25, 0);
@@ -126,5 +126,5 @@ public final class Name {
 		}
 		return name.toString();
 	}
-	
+
 }

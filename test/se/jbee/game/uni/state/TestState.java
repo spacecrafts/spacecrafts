@@ -35,8 +35,8 @@ public class TestState {
 	@Test
 	public void freshGameHasBasicComponents() {
 		State g = State.base();
-		assertEquals(4, g.size());
-		assertEquals("e0000 COMPONENT (2=0,1=0,3=[*9],0=[*4])\ne0001 TYPE (2=1,1=0,3=[*4])\ne0002 ID (2=2,1=0,3=[*2])\ne0003 NAME (2=3,1=0,3=[*4])\n", g.toString());
+		assertEquals(5, g.size());
+		assertEquals("e0000 COMP (2=0,1=0,4=0,3=[*4],0=[*5])\ne0001 TYPE (2=1,1=0,4=1,3=[*4])\ne0002 ID (2=2,1=0,4=2,3=[*2])\ne0003 NAME (2=3,1=0,4=3,3=[*4])\ne0004 CODE (2=4,1=0,4=4,3=[*4])\n", g.toString());
 	}
 
 	@Test
@@ -75,12 +75,12 @@ public class TestState {
 	public void allSelector() {
 		State g = State.base();
 
-		assertArrayEquals(new int[] {0,1,2,3}, g.all(Component.COMPONENT));
+		assertArrayEquals(new int[] {0,1,2,3,4}, g.all(Component.COMP));
 		assertArrayEquals(new int[0], g.all(42));
 	}
 
 	@Test
-	public void loadDataFile() throws IOException {
+	public void loadsDataFilesWithTypeHeaders() throws IOException {
 		State s = State.base();
 		s.defComponent(42).name("A");
 		s.defComponent(43).name("B");
@@ -89,7 +89,7 @@ public class TestState {
 
 		Data.load(new File("data/test.data"), s);
 
-		assertEquals(11, s.size());
+		assertEquals(12, s.size());
 		int[] es = s.all(42);
 		assertEquals(3, es.length);
 		Entity e1 = s.entity(es[0]);
@@ -104,5 +104,22 @@ public class TestState {
 		assertEquals(4, e3.size());
 		assertEquals(3, e3.num(43));
 		assertArrayEquals(new int[] {4, 555, 66}, e3.list(45));
+	}
+
+	@Test
+	public void loadsDataFilesWithNameHeaders() throws IOException {
+		State s = State.base().defComponents(GameComponent.class);
+		Data.load(new File("data/tech.data"), s);
+
+		int[] techs = s.all(GameComponent.TECHNOLOGY);
+
+		assertEquals(2, techs.length);
+
+		Entity t1 = s.entity(techs[0]);
+		assertEquals(3, t1.num(GameComponent.COMPONENTS));
+		assertEquals(1, t1.num(GameComponent.LEVEL));
+		assertEquals(1, t1.num(GameComponent.BRANCH));
+		assertEquals(1, t1.num(GameComponent.POSITION));
+
 	}
 }

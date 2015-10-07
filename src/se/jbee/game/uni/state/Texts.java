@@ -18,11 +18,11 @@ import java.util.Arrays;
  *
  * 1. series (kind)
  * 2. attribute (name)
- * 3. number (serial)
+ * 3. code (number/serial)
  *
  * 1 is expressed by a upper case letter,
  * 2 is expressed by a lower case letter,
- * 3 is expressed by a integer serial number (short range)
+ * 3 is expressed by a integer code (a serial number in a certain context)
  *
  * <pre>
  * T.a.1
@@ -53,19 +53,19 @@ public final class Texts {
 				if (!line.startsWith("#")) {
 					int eq = line.indexOf('=');
 					if (eq > 0) {
-						int san = parse(line.substring(0, eq));
+						int sac = parse(line.substring(0, eq));
 						String text = line.substring(eq+1);
-						StringBuilder mtext = new StringBuilder();
+						StringBuilder block = new StringBuilder();
 						if (text.startsWith("/")) {
 							line = in.readLine();
 							while (line != null && !line.startsWith("/")) {
-								mtext.append(line).append('\n');
+								block.append(line).append('\n');
 								line = in.readLine();
 							}
-							mtext.setLength(mtext.length()-1);
-							text = mtext.toString();
+							block.setLength(block.length()-1);
+							text = block.toString();
 						}
-						index(san, text);
+						index(sac, text);
 					}
 				}
 				line = in.readLine();
@@ -75,62 +75,62 @@ public final class Texts {
 		}
 	}
 
-	public void index(int san, String text) {
-		int off = offset(san);
-		int n = n(san);
+	public void index(int sac, String text) {
+		int off = offset(sac);
+		int code = c(sac);
 		String[] series = texts[off];
 		if (series == null)
-			series = new String[n+1];
-		if (series.length <= n) {
-			series = Arrays.copyOf(series, n+1);
+			series = new String[code+1];
+		if (series.length <= code) {
+			series = Arrays.copyOf(series, code+1);
 		}
 		texts[off] = series;
-		series[n] = text;
+		series[code] = text;
 	}
 
-	public String lookup(int san) {
-		String[] series = texts[offset(san)];
-		int n = n(san);
+	public String lookup(int sac) {
+		String[] series = texts[offset(sac)];
+		int n = c(sac);
 		if (series != null && n < series.length && series[n] != null) {
 			return series[n];
 		}
-		return "?"+print(san)+"?";
+		return "?"+print(sac)+"?";
 	}
 
-	private int offset(int san) {
-		int e = s(san);
-		int a = a(san);
+	private int offset(int sac) {
+		int e = s(sac);
+		int a = a(sac);
 		return 26*(e-'A')+(a-'a');
 	}
 
-	private static int a(int san) {
-		return (san >> 16) & 0xFF;
+	private static int a(int sac) {
+		return (sac >> 16) & 0xFF;
 	}
 
 	// code handling
 
-	public static int encode(char s, char a, int n) {
-		return (s << 24) | (a << 16) | n;
+	public static int encode(char s, char a, int c) {
+		return (s << 24) | (a << 16) | c;
 	}
 
-	public static int[] decode(int san) {
-		return new int[] { s(san), a(san), n(san) };
+	public static int[] decode(int sac) {
+		return new int[] { s(sac), a(sac), c(sac) };
 	}
 
-	private static int n(int san) {
-		return san & 0xFFFF;
+	private static int c(int sac) {
+		return sac & 0xFFFF;
 	}
 
-	private static int s(int san) {
-		return san >> 24;
+	private static int s(int sac) {
+		return sac >> 24;
 	}
 
-	public static int parse(String san) {
-		String[] sx = san.split("\\.");
+	public static int parse(String sac) {
+		String[] sx = sac.split("\\.");
 		return encode(sx[0].charAt(0), sx[1].charAt(0), parseInt(sx[2]));
 	}
 
-	public static String print(int san) {
-		return Character.valueOf((char) s(san)) +"."+ Character.valueOf((char) a(san)) +"."+ String.valueOf(n(san));
+	public static String print(int sac) {
+		return Character.valueOf((char) s(sac)) +"."+ Character.valueOf((char) a(sac)) +"."+ String.valueOf(c(sac));
 	}
 }

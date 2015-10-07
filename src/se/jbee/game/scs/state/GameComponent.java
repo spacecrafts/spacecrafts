@@ -16,10 +16,7 @@ import se.jbee.game.uni.state.Component;
  */
 public interface GameComponent extends Component {
 
-	// 0-3 are defined in Component
-
-	// value component ant its possible values (also type like entities)
-	int VAL  = 4, /*=*/ NUM = 5, TXT = 6, SET = 7, LIST = 8, ENTITY = 9;
+	// 0-4 are defined in Component
 
 	// * = pointer to (ID of another entity)
 	// # = number (of) (a numeric value)
@@ -44,6 +41,7 @@ public interface GameComponent extends Component {
 	 * Setup (Indexes)
 	 */
 	int
+	// game setup
 	SETUP_NUMBER_OF_PLAYERS = 0,
 	SETUP_NUMBER_OF_AIS = 1,
 	SETUP_GALAXY_SIZE = 2,
@@ -103,7 +101,7 @@ public interface GameComponent extends Component {
 		// GALAXIES {*x,*y,*z}
 		// SHIPS {*x,*y,*z} (of other players)
 		// MODULES {*x,*y,*z}
-		// PARTS {*x,*y,*z} (what can be used by a player)
+		// COMPONENTS {*x,*y,*z} (what can be used by a player)
 
 	PLAN = 80,
 		PARTICIPANTS = 71, // {*x,*y,... } (a set of colonies, orbits, space-crafts, constructions) that belong to the plan
@@ -148,11 +146,12 @@ public interface GameComponent extends Component {
 		MATERIALS = 161, // [*x,*y,...] ref to the material
 		PROBABILITIES = 162, // [#,#,...] of rare materials
 		//CODE (a static constant value known to gfx to draw the appropriate image, random values from planet are used to make each appear somewhat unique
-		
+
 	WEALTH = 170, // of rare materials on a planet (mostly a description for humans)
 		RATE = 171, // # (percentage of depots in relation to all planet slots)
-		
+
 	MATERIAL = 180, // (mostly a description for humans)
+		//CODE
 
 	/*
 	 * Diplomacy and Trading
@@ -165,21 +164,21 @@ public interface GameComponent extends Component {
 		PRICE = 203,
 
 	PERCEPTION = 210, // like friendly, angry, enemy, ally
-		RANGE = 211, // [#min, #max] (of diplomaty points)
+		RANGE = 211, // [#min, #max] (of diplomacy points)
 
 	/*
 	 * Technology and Abilities
 	 */
 	TECHNOLOGY = 300,
-		COSTS = 301, // # (number of research points required)
-		//PARTS {#x,#y,...} (what becomes known to the player when discovered given by a part-code)
+		//CODE
+		//COMPONENTS {#x,#y,...} (what becomes known to the player when discovered given by a component-code)
 		LEVEL = 301, // # (0-5; 0 is in the center)
-		//BRANCH # (the ORD of the BRANCH)
-		ORD = 302, // (position in the cell)
-		
+		//BRANCH # (the POSITION of the BRANCH)
+		//POSITION # (in the ring-branch 0-4)
+
 	BRANCH = 310,
-		//ORD (position in the wheel)
-		
+		//POSITON # (position in the wheel; 0-7)
+
 	ABILITY = 320,
 
 	/*
@@ -213,7 +212,7 @@ public interface GameComponent extends Component {
 	COMMANDER = 530,
 
 	/*
-	 * Structures, Modules, Parts and Constructions
+	 * Structures, Modules, Components and Constructions
 	 */
 	STRUCTURE = 600, // a compound of modules
 		LOCATION = 601,  // *x (a reference back to a planet, orbit or space-craft)
@@ -222,15 +221,15 @@ public interface GameComponent extends Component {
 		POPULATION = 604,
 		WORKERS = 605, // [ #farmers, #scientists, #engineers ]
 		OUTPUTS = 606, // [ #food, #research-points, #production-points ] (per turn)
-		// COSTS # (total construction points required)
+		COSTS = 607,// # (total construction points required)
 
 	MODULE = 610,
 		POSITIONS = 611, // [#,#,...] absolute positions in the 32x32 grid (1D array)
-		PARTS = 612, // [*x,*y,...] references to the part entities
+		COMPONENTS = 612, // [*x,*y,...] references to the part entities
 		// COSTS # (total construction points required)
 
-	PART = 620,
-		CODE = 621, // # a statically unique value for all parts (e.g. used to refer to a part from technology)
+	COMPONENT = 620,
+		// CODE # a statically unique value for all components (e.g. used to refer to a part from technology)
 		// COSTS # (of construction points required)
 		// TODO effects (pairs of [what, how] e.g. [shields, +5]) // or is this only in the code ?
 
@@ -245,6 +244,7 @@ public interface GameComponent extends Component {
 		TRAITS = 701,
 
 	TRAIT = 710
+		//CODE
 		//ABILITIES {*x,*y,..}
 	;
 }

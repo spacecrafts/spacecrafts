@@ -33,12 +33,13 @@ public final class State implements Component {
 
 	public static State base() {
 		State g = new State();
-		g.es[0] = new Entity(0, 0).put(NAME, codePoints("COMPONENT")).put(0, new int[1]);
+		g.es[COMP] = new Entity(COMP, COMP).put(CODE, COMP).put(NAME, codePoints("COMP")).put(COMP, new int[1]);
 		g.size = 1;
 		// make sure TYPE, ID and NAME are available as they are used already (each entity has an ID and TYPE, these have a NAME)
 		g.defComponent(TYPE).put(NAME, codePoints("TYPE"));
 		g.defComponent(ID).put(NAME, codePoints("ID"));
 		g.defComponent(NAME).put(NAME, codePoints("NAME"));
+		g.defComponent(CODE).put(NAME, codePoints("CODE"));
 		return g;
 	}
 
@@ -66,13 +67,14 @@ public final class State implements Component {
 	 * code some might be introduced later on).
 	 */
 	public Entity defComponent(int type) {
-		Entity e = defEntity(0);
-		int[] typeMapping = es[0].list(0);
-		if (typeMapping.length <= type) {
-			typeMapping = copyOf(typeMapping, type+1);
-			es[0].put(0, typeMapping);
+		Entity e = defEntity(COMP);
+		e.put(CODE, type);
+		int[] TYPE2ID = es[COMP].list(COMP);
+		if (TYPE2ID.length <= type) {
+			TYPE2ID = copyOf(TYPE2ID, type+1);
+			es[COMP].put(COMP, TYPE2ID);
 		}
-		typeMapping[type] = e.num(ID);
+		TYPE2ID[type] = e.num(ID);
 		return e;
 	}
 
@@ -87,14 +89,18 @@ public final class State implements Component {
 	}
 
 	public Entity single(int type) {
-		return entity(all(type)[0]);
+		for (int i = 0; i < size; i++) {
+			if (es[i].at(TYPE) == type)
+				return entity(i);
+		}
+		throw new NoSuchElementException("There is no entity of type: "+type);
 	}
 
 	public int[] all(int type) {
 		int[] all = new int[8];
 		int c = 0;
 		for (int i = 0; i < size; i++) {
-			if (es[i].at(1) == type) {
+			if (es[i].at(TYPE) == type) {
 				if (c >= all.length) {
 					all = copyOf(all, all.length*2);
 				}
@@ -139,6 +145,14 @@ public final class State implements Component {
 		if (id > size)
 			throw new NoSuchElementException("This is a programming error!");
 		return es[id];
+	}
+
+	public Entity entity(int type, int code) {
+		for (int i = 0; i < size; i++) {
+			if (es[i].at(TYPE) == type && es[i].at(CODE) == code)
+				return entity(i);
+		}
+		throw new NoSuchElementException("There is no entity of type and code: "+type+" ,"+code);
 	}
 
 	public Entity[] entities(int...ids) {

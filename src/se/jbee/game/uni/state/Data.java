@@ -31,23 +31,29 @@ public final class Data {
 			String[] columns = in.readLine().split("\\s+");
 			int[] comps = new int[columns.length];
 			Entity[] components = new Entity[columns.length];
-			for (int i = 0; i < columns.length; i++) {
-				int type = parseInt(columns[i]);
-				//TODO this works perfectly fine with the types but it should also be allowed to use the component name for clearity
-				comps[i] = type;
-				components[i] = target.component(type);
+			for (int col = 0; col < columns.length; col++) {
+				String column = columns[col];
+				if (isDigit(column.charAt(0))) {
+					int type = parseInt(column);
+					comps[col] = type;
+					components[col] = target.component(type);
+				} else {
+					Entity c = target.component(column);
+					components[col] = c;
+					comps[col] = c.num(Component.CODE);
+				}
 			}
 			int c = in.read();
-			int i = 0;
-			int type = -1;
+			int col = 0;
+			boolean newline = true;
 			Entity e = null;
 			int[] buf = new int[512];
 			int bufpos = 0;
 			while (c >= 0) {
 				switch (c) {
-				case '\n': i = 0; type = -1; c = in.read(); break;
+				case '\n': col = 0; newline=true; c = in.read(); break;
 				case '\t':
-				case ' ' : if (type >= 0) { i++; } do { c = in.read(); } while (c == ' ' || c == '\t'); break;
+				case ' ' : if (!newline) { col++; } do { c = in.read(); } while (c == ' ' || c == '\t'); break;
 				case '-' : c = in.read(); break;
 				case '[' : // list
 				case '{' : // set
@@ -60,12 +66,12 @@ public final class Data {
 							num *= 10;
 							num += c - '0';
 							c = in.read();
-						} while (c >= '0' && c <= '9');
+						} while (isDigit(c));
 						buf[bufpos++] = num;
 						while (c == ' ' || c == '\t') { c = in.read(); }
 					} while (c != ']' && c != '}');
 					c = in.read();
-					e.put(comps[i], copyOf(buf, bufpos));
+					e.put(comps[col], copyOf(buf, bufpos));
 					break;
 				case '"' : // text
 					bufpos = 0;
@@ -75,7 +81,7 @@ public final class Data {
 						c = in.read();
 					} while (c != '"');
 					c = in.read();
-					e.put(comps[i], copyOf(buf, bufpos));
+					e.put(comps[col], copyOf(buf, bufpos));
 					break;
 				default  : // number
 					int num = 0;
@@ -83,15 +89,19 @@ public final class Data {
 						num *= 10;
 						num += (c - '0');
 						c = in.read();
-					} while (c >= '0' && c <= '9');
-					if (type == -1) {
-						type = num;
-						e = target.defEntity(type);
+					} while (isDigit(c));
+					if (comps[col] == Component.COMP) {
+						e = target.defEntity(num);
 					} else {
-						e.put(comps[i], num);
+						e.put(comps[col], num);
 					}
 				}
+				newline=false;
 			}
 		}
+	}
+
+	private static boolean isDigit(int c) {
+		return c >= '0' && c <= '9';
 	}
 }
