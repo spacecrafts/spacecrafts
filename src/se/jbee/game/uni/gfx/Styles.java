@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.function.Supplier;
 
 /**
  * A utility to manage graphic related resources like colors and fonts.
@@ -17,35 +16,37 @@ import java.util.function.Supplier;
 public final class Styles {
 
 	private final Color[] colors;
-	private final Font[][] fonts;
+	private final Font[] fonts;
+	private final Font[][] derivedFonts;
 	private final Noise[] noises;
 	private final BufferedImage[] images;
 
-	private final Supplier<Font>[] lazyFonts;
-	private final Supplier<Noise>[] lazyNoises;
-	private final Texture[] lazyImages;
+	private final Resource<Font>[] lazyFonts;
+	private final Resource<Noise>[] lazyNoises;
+	private final Resource<BufferedImage>[] lazyImages;
 
 	@SuppressWarnings("unchecked")
 	public Styles(int colors, int fonts, int noises, int images) {
 		super();
 		this.colors = new Color[colors];
-		this.fonts = new Font[fonts][64];
+		this.fonts = new Font[fonts];
+		this.derivedFonts = new Font[fonts][64];
 		this.noises = new Noise[noises];
 		this.images = new BufferedImage[images];
-		this.lazyFonts = (Supplier<Font>[]) new Supplier<?>[fonts];
-		this.lazyNoises = (Supplier<Noise>[]) new Supplier<?>[noises];
-		this.lazyImages = new Texture[images];
+		this.lazyFonts = new Resource[fonts];
+		this.lazyNoises = new Resource[noises];
+		this.lazyImages = new Resource[images];
 	}
 
 	public void addFont(int type, String file) {
-		lazyFonts[type] = () -> { return loadFont(file); };
+		lazyFonts[type] = (Style) -> { return loadFont(file); };
 	}
 
 	public void addNoise(int type, int size, int depth, int seed) {
-		lazyNoises[type] = () -> { return new Noise(size,depth/100f, seed); };
+		lazyNoises[type] = (Style) -> { return new Noise(size,depth/100f, seed); };
 	}
 
-	public void addTexture(int type, Texture image) {
+	public void addTexture(int type, Resource<BufferedImage> image) {
 		lazyImages[type] = image;
 	}
 
@@ -58,22 +59,16 @@ public final class Styles {
 
 			@Override
 			public void run() {
-				for (int i = 0; i < lazyFonts.length; i++) {
-					Supplier<Font> supplier = lazyFonts[i];
-					if (supplier != null) {
-						fonts[i][0] = supplier.get();
-					}
-				}
-				for (int i = 0; i < lazyNoises.length; i++) {
-					Supplier<Noise> supplier = lazyNoises[i];
-					if (supplier != null) {
-						noises[i] = supplier.get();
-					}
-				}
-				for (int i = 0; i < lazyImages.length; i++) {
-					Texture t = lazyImages[i];
-					if (t != null) {
-						images[i] = t.create(Styles.this);
+				yield(lazyFonts, fonts);
+				yield(lazyNoises, noises);
+				yield(lazyImages, images);
+			}
+
+			private <T> void yield(Resource<T>[] resources, T[] instances) {
+				for (int i = 0; i < resources.length; i++) {
+					Resource<T> resource = resources[i];
+					if (resource != null) {
+						instances[i] = resource.yield(Styles.this);
 					}
 				}
 			}
@@ -87,14 +82,14 @@ public final class Styles {
 	}
 
 	public Font font(int type, int size) {
-		if (type < 0 || type >= fonts.length)
+		if (type < 0 || type >= derivedFonts.length)
 			type = 0;
-		Font[] sizes = fonts[type];
+		Font[] sizes = derivedFonts[type];
 		if (size >= sizes.length)
-			return derive(sizes[0], size);
+			return derive(fonts[type], size);
 		Font f = sizes[size];
 		if (f == null) {
-			Font base = sizes[0];
+			Font base = fonts[type];
 			f = derive(base, size);
 			if (base != null) {
 				sizes[size] = f;
@@ -108,23 +103,20 @@ public final class Styles {
 	}
 
 	public Noise noise(int type) {
-		if (type < 0 || type >= noises.length)
-			type = 0;
-		Noise n = noises[type];
-		if (n == null) {
-			n = lazyNoises[type].get();
-			noises[type] = n;
-		}
-		return n;
+		return yield(type, lazyNoises, noises);
 	}
 
 	public BufferedImage texture(int type) {
+		return yield(type, lazyImages, images);
+	}
+
+	private <T> T yield(int type, Resource<T>[] rs, T[] is) {
 		if (type < 0 || type >= images.length)
 			type = 0;
-		BufferedImage i = images[type];
+		T i = is[type];
 		if (i == null) {
-			i = lazyImages[type].create(this);
-			images[type] = i;
+			i = rs[type].yield(this);
+			is[type] = i;
 		}
 		return i;
 	}

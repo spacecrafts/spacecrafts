@@ -25,9 +25,9 @@ import java.util.NoSuchElementException;
  */
 public final class State implements Component {
 
-	private static final int SIZE_1 = 128;
+	private static final int INITIAL_SIZE = 128;
 
-	private Entity[] es = new Entity[SIZE_1];
+	private Entity[] es = new Entity[INITIAL_SIZE];
 
 	private int size = 0;
 
@@ -81,7 +81,7 @@ public final class State implements Component {
 	public Entity defEntity(int type) {
 		Entity e = new Entity(size, type);
 		if (size >= es.length) {
-			es = copyOf(es, es.length + SIZE_1);
+			es = copyOf(es, es.length + INITIAL_SIZE);
 		}
 		es[size] = e;
 		size++;
@@ -129,6 +129,9 @@ public final class State implements Component {
 	}
 
 	public Entity component(String name) {
+		if (name.equals(entity(COMP).name())) {
+			return entity(COMP);
+		}
 		int[] typeMapping = es[0].list(0);
 		for (int i = 0; i < typeMapping.length; i++) {
 			if (typeMapping[i] != 0) {
