@@ -6,7 +6,7 @@ import static se.jbee.game.scs.gfx.Objects.icon;
 import static se.jbee.game.scs.gfx.Objects.planetClip;
 import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.scs.screen.GameScreen.SCREEN_SOLAR_SYSTEM;
-import static se.jbee.game.scs.screen.View.cellDiameter;
+import static se.jbee.game.scs.screen.Viewport.cellDiameter;
 import static se.jbee.game.uni.state.Change.put;
 import static se.jbee.game.uni.state.Entity.codePoints;
 

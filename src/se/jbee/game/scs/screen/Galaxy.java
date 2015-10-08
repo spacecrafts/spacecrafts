@@ -32,7 +32,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 
 		stage.inFront(background(0, 0, screen.width, screen.height, BG_SPACE, galaxy.list(SEED)));
 
-		Rectangle center = View.centerView(screen);
+		Rectangle center = Viewport.centerView(screen);
 		int wh = min(center.width, center.height);
 		int size = galaxy.num(SIZE);
 		int x0 = center.x+(center.width-wh)/2;

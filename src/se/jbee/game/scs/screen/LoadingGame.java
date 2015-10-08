@@ -2,7 +2,7 @@ package se.jbee.game.scs.screen;
 
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.text;
-import static se.jbee.game.scs.screen.View.dotDiameter;
+import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 import static se.jbee.game.uni.state.Entity.codePoints;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.uni.gfx.Dimension;

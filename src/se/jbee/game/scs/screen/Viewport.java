@@ -9,7 +9,7 @@ import se.jbee.game.uni.gfx.Dimension;
 /**
  * How the game divides the screen area into views.  
  */
-public final class View {
+public final class Viewport {
 
 	// All measures as fractions of the overall width.
 	//       _____________________________________________
