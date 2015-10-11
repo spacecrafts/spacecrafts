@@ -17,6 +17,10 @@ import se.jbee.game.uni.screen.ScreenNo;
 import se.jbee.game.uni.state.Entity;
 import se.jbee.game.uni.state.State;
 
+/**
+ * TODO saving does not require more than stating the intention to do so.
+ * So this screen becomes obsolete as soon as games are named at the beginning.
+ */
 @ScreenNo(GameScreen.SCREEN_SAVE_GAME)
 public class SaveGame implements Screen, GameComponent, Gfx, GameScreen {
 

@@ -15,6 +15,7 @@ import se.jbee.game.scs.state.UserComponent;
 import se.jbee.game.uni.gfx.Stage;
 import se.jbee.game.uni.process.Player;
 import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.Name;
 import se.jbee.game.uni.state.State;
 
 /**
@@ -136,15 +137,17 @@ public class Game implements Runnable, GameComponent, UserComponent {
 	}
 
 	public static void initGame(State game) {
-		Entity g = game.defEntity(GAME);
-		g.put(SEED, System.currentTimeMillis());
-		g.put(TURN, 0);
-		g.put(SCREEN, GameScreen.SCREEN_ICON_INFO);
+		Entity gamE = game.defEntity(GAME);
+		long seed = System.currentTimeMillis();
+		gamE.put(SEED, seed);
+		gamE.put(NAME, codePoints(Name.name(Name.NAME_GALAXIA, seed)));
+		gamE.put(TURN, 0);
+		gamE.put(SCREEN, GameScreen.SCREEN_MAIN);
 		Entity p1 = game.defEntity(PLAYER);
 		p1.put(NO, 1);
 		p1.put(TURN, -1);
-		g.put(PLAYERS, p1.id());
-		g.put(SETUP, new int[] {1,1,1});
+		gamE.put(PLAYERS, p1.id());
+		gamE.put(SETUP, new int[] {1,1,1});
 	}
 
 	public static void initUser(State user) {

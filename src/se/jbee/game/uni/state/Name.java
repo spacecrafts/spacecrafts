@@ -19,7 +19,8 @@ public final class Name {
 		NAME_LETO = 7,
 		NAME_HADES = 8,
 		NAME_ANUBIS = 9,
-		NAME_PELLEGRINO = 10;
+		NAME_PELLEGRINO = 10,
+		NAME_GALAXIA = 11;
 
 	private static final String[][] KIRUG_TARK = {
 		{"Bal", "Tor", "Mat", "Kit", "Lif", "Val", "Zir", "Dor", "Di", "Ban", "Mar", "Kir" },
@@ -89,6 +90,13 @@ public final class Name {
 		{"lino", "vino", "grino", "cesco", "rio", "gio"}
 	};
 
+	private static final String[][] GALAXIA = { 
+		{"as", "be", "cos", "de", "eter", "fu", "ga", "he", "iter", "ka", "lu", "me", "ni", "or", "pro", "que", "re", "si", "tu", "ver", "xe"},
+		{"la", "na", "mo", "nia", "tu", "tio", "mica", "le", "turo", "lio"},
+		{" od", " ex", " ed", " mar", "x", " un", "vers", "r", "n", "m", "ys"},
+		{"is", "a", "it", "o", "ia", "ium"}
+	};
+	
 	// Piotr, -skij, -ov, -rov, boris, vladimir, -mir, dimitri
 	// names like Latin plant names
 
@@ -104,6 +112,7 @@ public final class Name {
 		case NAME_FLOVUTE   : return name(seed, FLOVUTE, 100, 100, 15, 10,0);
 		case NAME_WADOJIN   : return name(seed, WADOJIN, 100, 100, 30,10,0);
 		case NAME_VENEZIA   : return name(seed, VENEZIA, 100, 90, 0);
+		case NAME_GALAXIA   : return name(seed, GALAXIA, 100, 100, 100, 0);
 		default:
 		case NAME_BEUDONIA  : return name(seed, BEUDONIA, 100, 100, 50, 25,0);
 		}

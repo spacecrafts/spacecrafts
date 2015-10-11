@@ -24,6 +24,19 @@ import se.jbee.game.uni.screen.ScreenNo;
 import se.jbee.game.uni.state.Entity;
 import se.jbee.game.uni.state.State;
 
+/**
+ * Shows the games to load each with a in-game time-line left to right
+ * and the real-time time-line (of last use) top to bottom.
+ * <pre>
+ * a ------o--------o----------o---------o-o--o
+ * c -----o----o----o---------o-o
+ * d --------o
+ * b -----------o-----o--------o-------o
+ * t ----o----o-----o-----o
+ * </pre>
+ * The time-line start with the name of the game.
+ * Auto-saves are shown in different color. 
+ */
 @ScreenNo(GameScreen.SCREEN_LOAD_GAME)
 public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, GameScreen {
 

@@ -1,5 +1,7 @@
 package se.jbee.game.uni.state;
 
+import static java.util.Arrays.copyOf;
+
 import java.util.Arrays;
 
 
@@ -8,7 +10,7 @@ import java.util.Arrays;
  */
 public final class Change {
 
-	public static enum Op { /* map*/ PUT, ERASE, /* set */ INSERT, REMOVE, /* list */ REPLACE, APPEND, PREPEND, /* bitset */ SETBITS, UNSETBITS, /* all */ CLEAR, COPY }
+	public static enum Op { /* map*/ PUT, ERASE, /* set */ INSERT, REMOVE, /* list */ REPLACE, APPEND, PREPEND, TAKE, DROP, /* bitset */ SETBITS, UNSETBITS, /* all */ CLEAR, COPY }
 
 	public static Change put(int entity, int comp, int...value) {
 		return new Change(entity, comp, Op.PUT, value);
@@ -16,6 +18,14 @@ public final class Change {
 	
 	public static Change erase(int entity, int comp) {
 		return new Change(entity, comp, Op.ERASE, null);
+	}
+	
+	public static Change drop(int entity, int comp, int n) {
+		return new Change(entity, comp, Op.DROP, n);
+	}
+
+	public static Change take(int entity, int comp, int n) {
+		return new Change(entity, comp, Op.TAKE, n);
 	}
 	
 	public static Change append(int entity, int comp, int... elements) {
@@ -53,6 +63,8 @@ public final class Change {
 		case REPLACE   : e.list(comp)[value[0]] = value[1]; break;
 		case APPEND    : e.append(comp, value); break;
 		case PREPEND   : e.prepend(comp, value); break;
+		case TAKE      : e.put(comp, copyOf(e.list(comp), value[0])); break;
+		case DROP      : int[] v = e.list(comp); e.put(comp, Arrays.copyOfRange(v, value[0], v.length)); break;
 		case SETBITS   : e.setbits(comp, value); break;
 		case UNSETBITS : e.unsetbits(comp, value); break;
 		case CLEAR     : e.clear(); break;

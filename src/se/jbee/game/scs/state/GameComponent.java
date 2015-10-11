@@ -231,7 +231,7 @@ public interface GameComponent extends Component {
 	COMPONENT = 620,
 		// CODE # a statically unique value for all components (e.g. used to refer to a part from technology)
 		// COSTS # (of construction points required)
-		// TODO effects (pairs of [what, how] e.g. [shields, +5]) // or is this only in the code ?
+		// TODO effects (pairs of [what, how; or: given, then] e.g. [shields, +5]) // or is this only in the code ?
 
 	CONSTRUCTION = 630,
 		//MODULE *x (structures are build module wise)
