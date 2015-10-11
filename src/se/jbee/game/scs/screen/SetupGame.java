@@ -34,8 +34,6 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 
 		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 
-		//TODO create a game-name generator: typically a 2 part name sounding somewhat latin-english (stella odis, luna expos, ... edit)
-		
 		// # players
 		// # AI
 		// # stars in a cluster

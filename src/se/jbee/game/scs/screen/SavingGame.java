@@ -32,6 +32,7 @@ public class SavingGame implements Screen, GameComponent, Gfx {
 		stage.inFront(codePoints("SAVING..."));
 		
 		gamE.put(ACTION, ACTION_SAVE);
+		gamE.put(SAVEGAME, codePoints(gamE.text(NAME)+"-"+String.valueOf(gamE.num(TURN))));
 		// set return screen as screen so game jumps into last screen before save
 		gamE.put(SCREEN, gamE.num(RETURN_SCREEN));
 		gamE.erase(RETURN_SCREEN);

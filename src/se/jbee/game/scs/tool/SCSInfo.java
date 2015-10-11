@@ -2,9 +2,9 @@ package se.jbee.game.scs.tool;
 
 public class SCSInfo {
 
-	private static final int[][] ENERGY = {{7,1}, {6,3}, {5,5}};
-	private static final int[][] FOOD = {{2,3},{3,3},{4,3}}; 
-	private static final int[][] WISDOM = {{2,3},{4,3}};
+	static final int[][] ENERGY = {{7,1}, {6,3}, {5,5}};
+	static final int[][] FOOD = {{2,3},{3,3},{4,3}}; 
+	static final int[][] WISDOM = {{2,3},{4,3}};
 	
 	public static void main(String[] args) {
 		componentBank(1, 150, WISDOM);

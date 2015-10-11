@@ -32,7 +32,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
-		Entity g1 = game.single(GAME);
+		Entity gamE = game.single(GAME);
 
 		stage.inFront(background(0,0, screen.width, screen.height, BG_SPACE, 42, 42));
 
@@ -49,15 +49,16 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		int h = dotDia*5;
 		int x0 = (screen.width-w)/2;
 		int y0 = screen.height/4+screen.height/8;
+		int gID = gamE.id();
 
 		// open
 		Rectangle open = new Rectangle(x0,y0,w,h);
 		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
 		stage.inFront(OPEN);
 		stage.in(open, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), OPEN);
-		Change[] openChangeset = { new Change(g1.id(), SCREEN, Op.PUT, SCREEN_SETUP_GAME) };
-		stage.onLeftClickIn(open, openChangeset);
-		stage.onKey('o', openChangeset);
+		Change[] openCs = { new Change(gID, SCREEN, Op.PUT, SCREEN_SETUP_GAME) };
+		stage.onLeftClickIn(open, openCs);
+		stage.onKey('o', openCs);
 
 		// load
 		y0 += 8*dotDia;
@@ -65,28 +66,30 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
 		stage.inFront(LOAD);
 		stage.in(load, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), LOAD);
-		Change[] loadChangeset = { put(g1.id(), SCREEN, SCREEN_LOAD_GAME) };
-		stage.onLeftClickIn(load, loadChangeset);
-		stage.onKey('l', loadChangeset);
+		Change[] loadCs = { put(gID, SCREEN, SCREEN_LOAD_GAME) };
+		stage.onLeftClickIn(load, loadCs);
+		stage.onKey('l', loadCs);
 
 		// save
-		y0 += 8*dotDia;
-		Rectangle save = new Rectangle(x0,y0,w,h);
-		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
-		stage.inFront(SAVE);
-		stage.in(save, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), SAVE);
-		Change[] saveChangeset = { put(g1.id(), SCREEN, SCREEN_SAVE_GAME) };
-		stage.onLeftClickIn(save, saveChangeset);
-		stage.onKey('s', saveChangeset);
+		if (gamE.num(TURN) > 0) {
+			y0 += 8*dotDia;
+			Rectangle save = new Rectangle(x0,y0,w,h);
+			stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
+			stage.inFront(SAVE);
+			stage.in(save, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), SAVE);
+			Change[] saveCs = { put(gID, SCREEN, SCREEN_SAVING_GAME) };
+			stage.onLeftClickIn(save, saveCs);
+			stage.onKey('s', saveCs);
+		}
 
 		// back
-		if (g1.has(RETURN_SCREEN) && g1.num(RETURN_SCREEN) != SCREEN_MAIN) {
+		if (gamE.has(RETURN_SCREEN) && gamE.num(RETURN_SCREEN) != SCREEN_MAIN) {
 			y0 += 8*dotDia;
 			Rectangle back = new Rectangle(x0,y0,w,h);
 			stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1)); //TODO other color
 			stage.inFront(BACK);
 			stage.in(back, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), BACK);
-			Change backChange = put(g1.id(), SCREEN, g1.num(RETURN_SCREEN));
+			Change backChange = put(gID, SCREEN, gamE.num(RETURN_SCREEN));
 			stage.onLeftClickIn(back, backChange);
 			stage.onKey(' ', backChange);
 		}
@@ -97,9 +100,9 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
 		stage.inFront(EXIT);
 		stage.in(exit, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1), EXIT);
-		Change exitChange = put(g1.id(), ACTION, ACTION_EXIT);
-		stage.onLeftClickIn(exit, exitChange);
-		stage.onKey(VK_ESCAPE, exitChange);
+		Change exitCs = put(gID, ACTION, ACTION_EXIT);
+		stage.onLeftClickIn(exit, exitCs);
+		stage.onKey(VK_ESCAPE, exitCs);
 	}
 
 }
