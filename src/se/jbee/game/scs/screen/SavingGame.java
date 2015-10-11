@@ -6,6 +6,7 @@ import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 import static se.jbee.game.uni.state.Entity.codePoints;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.uni.gfx.Dimension;
 import se.jbee.game.uni.gfx.Stage;
@@ -32,7 +33,7 @@ public class SavingGame implements Screen, GameComponent, Gfx {
 		stage.inFront(codePoints("SAVING..."));
 		
 		gamE.put(ACTION, ACTION_SAVE);
-		gamE.put(SAVEGAME, codePoints(gamE.text(NAME)+"-"+String.valueOf(gamE.num(TURN))));
+		gamE.put(SAVEGAME, codePoints(Game.savegameName(gamE)));
 		// set return screen as screen so game jumps into last screen before save
 		gamE.put(SCREEN, gamE.num(RETURN_SCREEN));
 		gamE.erase(RETURN_SCREEN);

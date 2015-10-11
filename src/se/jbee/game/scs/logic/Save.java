@@ -11,6 +11,8 @@ import se.jbee.game.uni.state.State;
 
 public class Save implements Progress, GameComponent, UserComponent {
 
+	public static final Progress INSTANCE = new Save();
+	
 	@Override
 	public void progress(State user, State game) {
 		Entity gamE = game.single(GAME);
@@ -20,8 +22,9 @@ public class Save implements Progress, GameComponent, UserComponent {
 		try {
 			game.save(file);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			// TODO write a error journal that is shown in the error screen
+			gamE.put(ACTION, ACTION_ERROR);
 		}		
 	}
 

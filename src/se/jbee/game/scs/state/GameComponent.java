@@ -35,7 +35,9 @@ public interface GameComponent extends Component {
 	ACTION_SETUP = 4, // creates players in a currently setup game
 	ACTION_STEP = 5,  // player is done with an entity; next screen derived from player status
 	ACTION_DONE = 6,  // player is done with a plan; next screen derived from player status
-	ACTION_TURN = 7;  // player is done with its turn; next screen derived from game status
+	ACTION_TURN = 7,  // player is done with its turn; next screen derived from game status
+	ACTION_ERROR = 8
+	;
 
 	/**
 	 * Setup (Indexes)

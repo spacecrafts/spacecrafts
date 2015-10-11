@@ -125,6 +125,14 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		}
 	}
 
+	public static String savegameName(Entity gamE) {
+		return gamE.text(NAME).replace(' ', '_')+"-"+String.valueOf(gamE.num(TURN));
+	}
+	
+	public static String autosavegameName(Entity gamE) {
+		return "auto-"+savegameName(gamE);
+	}
+
 	private static boolean isEndOfTurn(State game) {
 		Entity gamE = game.single(GAME);
 		final int turn = gamE.num(TURN);

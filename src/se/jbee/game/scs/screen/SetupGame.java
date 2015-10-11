@@ -46,9 +46,9 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 
 		int x0 = screen.width/2-200;
 		int y0 = screen.height/3;
-		
+
 		nameField(game, screen, stage, x0, y0);
-		
+
 		upDownSlider(stage, game, x0, y0, "Players", SETUP_NUMBER_OF_PLAYERS);
 		y0 += 60;
 		upDownSlider(stage, game, x0, y0, "AIs", SETUP_NUMBER_OF_AIS);
@@ -62,13 +62,16 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		Entity gamE = game.single(GAME);
 		int gid = gamE.id();
 		int[] name = gamE.list(NAME);
-		if (name.length < 12) {
-			for (char c = 'a'; c <= 'z'; c++) {
-				stage.onKey(c, append(gid, NAME, c));
+		if (gamE.num(TURN) == 0) {
+			if (name.length < 12) {
+				for (char c = 'a'; c <= 'z'; c++) {
+					stage.onKey(c, append(gid, NAME, c));
+				}
+				stage.onKey(' ', append(gid, NAME, ' '));
 			}
-		}
-		if (name.length > 0) {
-			stage.onKey('\b', take(gid, NAME, name.length-1));
+			if (name.length > 0) {
+				stage.onKey('\b', take(gid, NAME, name.length-1));
+			}
 		}
 		int fontSize = screen.height/16;
 		stage.inFront(text(x0, y0-fontSize, FONT_LIGHT, fontSize, COLOR_TEXT_HIGHLIGHT, 1));
