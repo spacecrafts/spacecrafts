@@ -11,8 +11,6 @@ import static se.jbee.game.uni.state.Entity.codePoints;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
@@ -57,7 +55,7 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 		int h = (screen.height - (4*gap)) / 3;
 
 		int n = 0;
-		for (File savegame : pageFiles(user, game)) {
+		for (File savegame : new File[0]) {
 			try {
 				Entity savegamE = State.load(savegame, GAME);
 				stage.inFront(text(x0+w*2/3, y0+h, FONT_LIGHT, h/2, COLOR_TEXT_NORMAL, 1));
@@ -86,26 +84,20 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 		}
 	}
 
-	private List<File> pageFiles(State user, State game) {
-		List<File> page = new ArrayList<File>();
+	private File[][] gameFiles(State user, State game, int pageSize) {
 		String dir = user.single(USER).text(SAVEGAME_DIR);
 		File[] files = new File(dir).listFiles();
 		if (files == null) {
-			return page;
+			return new File[0][];
 		}
-		int offset = 8 * game.single(GAME).num(PAGE);
-		int i = 0;
-		while (page.size() < 8 && i < files.length) {
-			if (files[i].getName().endsWith(".game")) {
-				if (offset > 0) {
-					offset--;
-				} else {
-					page.add(files[i]);
-				}
+		File[][] gameFiles = new File[pageSize][]; 
+		for (File f : files) {
+			if (f.getName().endsWith(".game")) {
 			}
-			i++;
 		}
-		return page;
+		int page = game.single(GAME).num(PAGE);
+		
+		return gameFiles;
 	}
 
 }
