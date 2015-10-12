@@ -44,11 +44,12 @@ public class Init implements Progress, GameComponent, UserComponent {
 		Rnd rnd = new Rnd(seed);
 		while (true) {
 			final String gameName = Name.name(Name.NAME_GALAXIA, rnd.nextLong());
+			final String pattern = gameName+"-";
 			String[] games = dir.list(new FilenameFilter() {
 
 				@Override
 				public boolean accept(File dir, String name) {
-					return !name.contains(gameName);
+					return !name.contains(pattern);
 				}
 			});
 			if (games == null || games.length == 0)
