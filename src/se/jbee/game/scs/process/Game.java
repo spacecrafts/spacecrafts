@@ -1,21 +1,18 @@
 package se.jbee.game.scs.process;
 
-import static se.jbee.game.uni.state.Entity.codePoints;
-
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.jbee.game.scs.logic.Init;
 import se.jbee.game.scs.logic.Turn;
-import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
 import se.jbee.game.uni.gfx.Stage;
 import se.jbee.game.uni.process.Player;
 import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.Name;
 import se.jbee.game.uni.state.State;
 
 /**
@@ -44,10 +41,8 @@ public class Game implements Runnable, GameComponent, UserComponent {
 	@Override
 	public void run() {
 		final State user = State.base().defComponents(UserComponent.class);
-		initUser(user);
-
 		State game = State.base().defComponents(GameComponent.class);
-		initGame(game);
+		new Init().progress(user, game);
 
 		Display display = new Display();
 		Dimension size = display.getSize();
@@ -128,7 +123,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 	public static String savegameName(Entity gamE) {
 		return gamE.text(NAME).replace(' ', '_')+"-"+String.valueOf(gamE.num(TURN));
 	}
-	
+
 	public static String autosavegameName(Entity gamE) {
 		return "auto-"+savegameName(gamE);
 	}
@@ -142,31 +137,6 @@ public class Game implements Runnable, GameComponent, UserComponent {
 				return false;
 		}
 		return true;
-	}
-
-	public static void initGame(State game) {
-		Entity gamE = game.defEntity(GAME);
-		long seed = System.currentTimeMillis();
-		gamE.put(SEED, seed);
-		gamE.put(NAME, codePoints(Name.name(Name.NAME_GALAXIA, seed)));
-		gamE.put(TURN, 0);
-		gamE.put(SCREEN, GameScreen.SCREEN_MAIN);
-		Entity p1 = game.defEntity(PLAYER);
-		p1.put(NO, 1);
-		p1.put(TURN, -1);
-		gamE.put(PLAYERS, p1.id());
-		gamE.put(SETUP, new int[] {1,1,1});
-	}
-
-	public static void initUser(State user) {
-		if (!user.hasComponent(USER)) {
-			user.defComponent(USER);
-			user.defComponent(SAVEGAME_DIR);
-		}
-		if (user.all(USER).length == 0) {
-			Entity u1 = user.defEntity(USER);
-			u1.put(SAVEGAME_DIR, codePoints(System.getProperty("user.home")+File.separator+"spacecrafts"));
-		}
 	}
 
 	private static Thread daemon(Runnable r, String name) {
