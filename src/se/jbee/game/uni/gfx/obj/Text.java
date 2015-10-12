@@ -24,30 +24,34 @@ public class Text implements Gfx, Obj {
 		gfx.setColor(styles.color(color));
 		if (font == FONT_DOTS) {
 			DotFont5x4.draw(gfx, x1, y1, size, data.get(1));
-		} else {
-			gfx.setFont(styles.font(font, size));
-			FontMetrics fm = gfx.getFontMetrics();
-			String text = text(data);
-			int x = x1;
-			switch(align) {
-			case ALIGN_NE:
-			case ALIGN_E :
-			case ALIGN_SE: x=x2-fm.stringWidth(text); break;
-			case ALIGN_N :
-			case ALIGN_EYE:
-			case ALIGN_S : x=x1+(x2-x1-fm.stringWidth(text)) / 2; break;
-			}
-			int y = y1+fm.getAscent();
-			switch(align) {
-			case ALIGN_E :
-			case ALIGN_EYE:
-			case ALIGN_W : y=y1+fm.getAscent()+(y2-y1-fm.getAscent()) / 2; break;
-			case ALIGN_SW:
-			case ALIGN_S:
-			case ALIGN_SE: y=y2;
-			}
-			gfx.drawString(text, x, y);
+			return;
 		}
+		FontMetrics fm = null;
+		String text = text(data);
+		do {
+			gfx.setFont(styles.font(font, size));
+			fm = gfx.getFontMetrics();
+			size-=2;
+		} while (x2 > 0 && fm.stringWidth(text) > (x2-x1));
+		int x = x1;
+		switch(align) {
+		case ALIGN_NE:
+		case ALIGN_E :
+		case ALIGN_SE: x=x2-fm.stringWidth(text); break;
+		case ALIGN_N :
+		case ALIGN_EYE:
+		case ALIGN_S : x=x1+(x2-x1-fm.stringWidth(text)) / 2; break;
+		}
+		int y = y1+fm.getAscent();
+		switch(align) {
+		case ALIGN_E :
+		case ALIGN_EYE:
+		case ALIGN_W : y=y1+fm.getAscent()+(y2-y1-fm.getAscent()) / 2; break;
+		case ALIGN_SW:
+		case ALIGN_S:
+		case ALIGN_SE: y=y2;
+		}
+		gfx.drawString(text, x, y);
 	}
 
 	private String text(List<int[]> data) {
