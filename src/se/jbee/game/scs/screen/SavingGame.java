@@ -29,7 +29,7 @@ public class SavingGame implements Screen, GameComponent, Gfx {
 
 		stage.inFront(background(x0-1, y0-1, w+3, h+3, BG_BLACK));
 		stage.inFront(border(x0, y0, w, h));
-		stage.inFront(text(x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT, 1));
+		stage.inFront(text(1, x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT));
 		stage.inFront(codePoints("SAVING..."));
 		
 		gamE.put(ACTION, ACTION_SAVE);

@@ -16,6 +16,20 @@ public interface Gfx {
 	FONT_DOTS = 3;
 
 	/**
+	 * Alignment
+	 */
+	int
+	ALIGN_N = 0,
+	ALIGN_NE = 1,
+	ALIGN_E = 2,
+	ALIGN_SE = 3,
+	ALIGN_S = 4,
+	ALIGN_SW = 5,
+	ALIGN_W = 6,
+	ALIGN_NW = 7,
+	ALIGN_EYE = 8;
+
+	/**
 	 * Colors
 	 */
 	int

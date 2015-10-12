@@ -23,7 +23,7 @@ public class LoadingGame implements Screen, Gfx {
 		int dotDia = dotDiameter(screen);
 		int x0 = (screen.width-(dotDia*LOADING.length*5-1))/2;
 		int y0 = (screen.height-(dotDia*5)) /2;
-		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1));
+		stage.inFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
 		stage.inFront(LOADING);
 		
 		stage.disableInputs();

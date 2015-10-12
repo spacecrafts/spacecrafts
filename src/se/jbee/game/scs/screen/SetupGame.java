@@ -74,7 +74,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 			}
 		}
 		int fontSize = screen.height/16;
-		stage.inFront(text(x0, y0-fontSize, FONT_LIGHT, fontSize, COLOR_TEXT_HIGHLIGHT, 1));
+		stage.inFront(text(1, x0, y0-fontSize-50, FONT_LIGHT, fontSize, COLOR_TEXT_SPECIAL));
 		stage.inFront(name);
 	}
 
@@ -86,10 +86,10 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 
 		int dotDia = dotDiameter(screen);
 		x0 = x0+400-(dotDia*19);
-		stage.inFront(text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
 		stage.inFront(NEXT);
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
-		stage.in(nextArea, text(x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT, 1),NEXT);
+		stage.in(nextArea, text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT),NEXT);
 		stage.onLeftClickIn(nextArea,
 				put(gamE.id(), ACTION, ACTION_SETUP));
 	}
@@ -97,18 +97,18 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	private void upDownSlider(Stage stage, State game, int x0, int y0, String text, int setupIndex, String...names) {
 		Entity gamE = game.single(GAME);
 		int[] setup = gamE.list(SETUP);
-		stage.inFront(text(x0, y0+40, FONT_THIN, 48, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(text(1, x0, y0, FONT_THIN, 48, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints(text));
-		stage.inFront(knob(x0+200, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK, 1));
+		stage.inFront(knob(1, x0+200, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK));
 		stage.inFront(codePoints("<"));
-		stage.inFront(knob(x0+350, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK, 1));
+		stage.inFront(knob(1, x0+350, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK));
 		stage.inFront(codePoints(">"));
 		int val = setup[setupIndex];
+		int size = names.length == 0 ? 36 : 24;
+		stage.inFront(text(1, x0+250, y0, FONT_LIGHT, size, COLOR_TEXT_HIGHLIGHT, ALIGN_EYE,x0+350,y0+50));
 		if (names.length == 0) {
-			stage.inFront(text(x0+290, y0+40, FONT_LIGHT, 48, COLOR_TEXT_HIGHLIGHT, 1));
 			stage.inFront(codePoints(String.valueOf(val)));
 		} else {
-			stage.inFront(text(x0+270, y0+40, FONT_LIGHT, 24, COLOR_TEXT_HIGHLIGHT, 1));
 			stage.inFront(codePoints(names[val]));
 		}
 		if (val > 1) {

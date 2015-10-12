@@ -23,7 +23,7 @@ public class ErrorJournal implements Screen, GameComponent, Gfx {
 		int h = screen.height/2;
 		int x0 = screen.width/4;
 		int y0 = screen.height/4;
-		stage.inFront(text(x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_WEAPON, 1));
+		stage.inFront(text(1, x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_WEAPON));
 		stage.inFront(codePoints("ERROR"));
 		
 		stage.onKey(VK_ESCAPE, put(game.single(GAME).id(), ACTION, ACTION_EXIT));

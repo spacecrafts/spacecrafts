@@ -58,19 +58,19 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		stage.inFront(planet(700, 400, 200, 0xFF5014, 0));
 		stage.inFront(planet(100, 300, 400, 0x44FF99, 0));
 
-		stage.inFront(text(690, 360, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(text(1, 690, 360, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints("Mars"));
-		stage.inFront(text(690, 380, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(text(1, 690, 380, FONT_LIGHT, 16, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints("Small, Tundra"));
 
-		stage.inFront(text(90, 260, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(text(1, 90, 260, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints("Uranus"));
-		stage.inFront(text(90, 280, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(text(1, 90, 280, FONT_LIGHT, 16, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints("Large, Toxic"));
 
-		stage.inFront(text(20, 20+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(text(1, 20, 20+48, FONT_THIN, 48, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints("Solar System"));
-		stage.inFront(text(20, 20+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(text(1, 20, 20+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints("Type G"));
 
 		stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_ORBIT));

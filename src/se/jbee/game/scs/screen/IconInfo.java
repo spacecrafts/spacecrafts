@@ -45,7 +45,7 @@ public class IconInfo implements Screen, Gfx, GameComponent {
 			y = 20;
 			d += 1;
 		}
-		stage.inFront(knob(300, 300, 100, COLOR_BIOSPHERE, COLOR_BLACK, 1));
+		stage.inFront(knob(1, 300, 300, 100, COLOR_BIOSPHERE, COLOR_BLACK));
 		stage.inFront(codePoints("1%"));
 		stage.in(new Ellipse2D.Float(300f, 300f, 100f, 100f), Cursor.HAND_CURSOR, Objects.border(300, 300, 100, 100));
 

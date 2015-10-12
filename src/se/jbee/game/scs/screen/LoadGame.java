@@ -58,14 +58,14 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 		for (File savegame : new File[0]) {
 			try {
 				Entity savegamE = State.load(savegame, GAME);
-				stage.inFront(text(x0+w*2/3, y0+h, FONT_LIGHT, h/2, COLOR_TEXT_NORMAL, 1));
+				stage.inFront(text(1, x0+w*2/3, y0+h, FONT_LIGHT, h/2, COLOR_TEXT_NORMAL));
 				stage.inFront(codePoints(String.valueOf(savegamE.num(TURN))));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			stage.inFront(border(x0, y0, w, h));
-			stage.inFront(text(x0+gap, y0+h, FONT_REGULAR, h/6, COLOR_TEXT_NORMAL, 1));
+			stage.inFront(text(1, x0+gap, y0+h, FONT_REGULAR, h/6, COLOR_TEXT_NORMAL));
 			int[] name = codePoints(savegame.getName());
 			stage.inFront(name);
 			Rectangle area = new Rectangle(x0, y0, w, h);

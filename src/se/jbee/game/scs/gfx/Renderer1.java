@@ -1,9 +1,10 @@
 package se.jbee.game.scs.gfx;
 
+import static java.util.Arrays.copyOf;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.util.Arrays;
 import java.util.List;
 
 import se.jbee.game.uni.gfx.Dimension;
@@ -21,7 +22,7 @@ public class Renderer1 implements Renderer, Gfx {
 	// wood-like: 100, 2000, 200, 80, 42, 0.2f
 
 	private Obj[] objects = new Obj[64];
-	
+
 	@Override
 	public void render(Stage stage, Dimension screen, Styles styles, Graphics2D gfx) {
 		long drawStart = System.currentTimeMillis();
@@ -36,10 +37,10 @@ public class Renderer1 implements Renderer, Gfx {
 		gfx.setColor(Color.WHITE);
 		gfx.drawString(String.format("%03d  %dM", System.currentTimeMillis() - drawStart, Runtime.getRuntime().freeMemory()/(1024*1024)), 20, 20);
 	}
-	
+
 	public void assoc(int type, Obj obj) {
 		if (type > objects.length) {
-			objects = Arrays.copyOf(objects, objects.length*2);
+			objects = copyOf(objects, objects.length*2);
 		}
 		objects[type] = obj;
 	}

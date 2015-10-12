@@ -52,9 +52,9 @@ public class Orbit implements Screen, Gfx, GameComponent {
 			y0+=d;
 		}
 
-		stage.inFront(text(w-m, w/32+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(text(1, w-m, w/32+48, FONT_THIN, 48, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints("Mars"));
-		stage.inFront(text(w-m, w/32+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, 1));
+		stage.inFront(text(1, w-m, w/32+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints("Orbit"));
 
 
