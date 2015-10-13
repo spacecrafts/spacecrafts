@@ -54,7 +54,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		boolean init = true;
 		while (true) {
 			long loopStart = System.currentTimeMillis();
-
+			// OPEN can/should parts of the logic below go into a Progress?
 			if (init) {
 				System.out.println("Starting a new game...");
 
@@ -120,12 +120,16 @@ public class Game implements Runnable, GameComponent, UserComponent {
 		}
 	}
 
-	public static String savegameName(Entity gamE) {
-		return gamE.text(NAME).replace(' ', '_')+"-"+String.valueOf(gamE.num(TURN));
+	public static String savegamePath(Entity gamE) {
+		return savegameFolder(gamE.text(NAME))+String.valueOf(gamE.num(TURN));
 	}
 
-	public static String autosavegameName(Entity gamE) {
-		return "auto-"+savegameName(gamE);
+	public static String savegameFolder(String name) {
+		return name.replace(' ', '_')+"/";
+	}
+
+	public static String autosavegamePath(Entity gamE) {
+		return savegamePath(gamE)+".auto";
 	}
 
 	private static boolean isEndOfTurn(State game) {
@@ -146,7 +150,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 	}
 
 	/**
-	 * The current player is always dreived from game state. The first player
+	 * The current player is always derived from game state. The first player
 	 * that has not finished the current turn is the current player.
 	 */
 	public static Entity currentPlayer(State game) {

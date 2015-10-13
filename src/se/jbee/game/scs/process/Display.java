@@ -25,6 +25,7 @@ import se.jbee.game.scs.gfx.obj.Border;
 import se.jbee.game.scs.gfx.obj.FocusBox;
 import se.jbee.game.scs.gfx.obj.Icon;
 import se.jbee.game.scs.gfx.obj.Knob;
+import se.jbee.game.scs.gfx.obj.Line;
 import se.jbee.game.scs.gfx.obj.Planet;
 import se.jbee.game.scs.gfx.obj.Ring;
 import se.jbee.game.scs.gfx.obj.Star;
@@ -154,6 +155,8 @@ public class Display extends Canvas implements Runnable, Gfx {
 		r.assoc(OBJ_ICON, new Icon());
 		r.assoc(OBJ_BORDER, new Border());
 		r.assoc(OBJ_FOCUS_BOX, new FocusBox());
+		r.assoc(OBJ_FOCUS_LINE, new Line());
+		r.assoc(OBJ_TIME_LINE, new Line());
 		return r;
 	}
 

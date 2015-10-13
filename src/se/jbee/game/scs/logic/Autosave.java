@@ -1,6 +1,6 @@
 package se.jbee.game.scs.logic;
 
-import static se.jbee.game.scs.process.Game.autosavegameName;
+import static se.jbee.game.scs.process.Game.autosavegamePath;
 import static se.jbee.game.uni.state.Entity.codePoints;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.uni.logic.Progress;
@@ -18,7 +18,7 @@ public class Autosave implements Progress, GameComponent {
 	public void progress(State user, State game) {
 		Entity gamE = game.single(GAME);
 		if (gamE.num(TURN) > 0) {
-			gamE.put(SAVEGAME, codePoints(autosavegameName(gamE))); Save.INSTANCE.progress(user, game);
+			gamE.put(SAVEGAME, codePoints(autosavegamePath(gamE))); Save.INSTANCE.progress(user, game);
 		}
 	}
 

@@ -1,16 +1,21 @@
 package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static java.lang.Math.min;
 import static se.jbee.game.scs.gfx.Objects.background;
-import static se.jbee.game.scs.gfx.Objects.border;
-import static se.jbee.game.scs.gfx.Objects.focusBox;
+import static se.jbee.game.scs.gfx.Objects.icon;
 import static se.jbee.game.scs.gfx.Objects.text;
+import static se.jbee.game.scs.gfx.Objects.timeLine;
 import static se.jbee.game.uni.state.Change.put;
 import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.awt.Rectangle;
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
@@ -33,7 +38,7 @@ import se.jbee.game.uni.state.State;
  * t ----o----o-----o-----o
  * </pre>
  * The time-line start with the name of the game.
- * Auto-saves are shown in different color. 
+ * Auto-saves are shown in different color.
  */
 @ScreenNo(GameScreen.SCREEN_LOAD_GAME)
 public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, GameScreen {
@@ -43,61 +48,76 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 		Entity gamE = game.single(GAME);
 
 		// cancel (ESC override, to not set return screen)
-		stage.onKey(VK_ESCAPE, put(gamE.id(), SCREEN, SCREEN_MAIN));
+		final int gID = gamE.id();
+		stage.onKey(VK_ESCAPE, put(gID, SCREEN, SCREEN_MAIN));
 
 		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 
 
 		int gap = 20;
 		int x0 = gap;
-		int y0 = gap;
+		int y0 = 50;
 		int w = (screen.width - (4*gap)) / 3;
 		int h = (screen.height - (4*gap)) / 3;
 
-		int n = 0;
-		for (File savegame : new File[0]) {
-			try {
-				Entity savegamE = State.load(savegame, GAME);
-				stage.inFront(text(1, x0+w*2/3, y0+h, FONT_LIGHT, h/2, COLOR_TEXT_NORMAL));
-				stage.inFront(codePoints(String.valueOf(savegamE.num(TURN))));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		int gameHeight = 30;
+		int nameWidth = 150;
+		int r = 4;
+		int d = r*2+1;
+		int page = gamE.num(PAGE);
+		int pageSize = screen.height/gameHeight;
+
+		List<File[]> gameFiles = gameFiles(user);
+		gameFiles = gameFiles.subList(min(gameFiles.size()-1, page*pageSize), min(gameFiles.size(), (page+1)*pageSize + 1));
+		int y = y0;
+		for (File[] saves : gameFiles) {
+			stage.inFront(timeLine(x0+nameWidth, y0+r, x0+w, y0+r, 1, COLOR_TEXT_NORMAL));
+			stage.inFront(text(1, x0, y, FONT_REGULAR, 14, COLOR_TEXT_NORMAL, ALIGN_E, x0+nameWidth-10, y+d));
+			stage.inFront(codePoints(saves[0].getParentFile().getName().replace('_', ' ')));
+			for (File save : saves) {
+				int turn = Integer.parseInt(save.getName().substring(0, save.getName().indexOf('.')));
+				int x = x0 + nameWidth + turn * d;
+				stage.inFront(icon(ICON_BUILDING, x, y, d, COLOR_FARM));
+				stage.onLeftClickIn(new Rectangle(x, y, d, d),
+					put(gID, SAVEGAME, codePoints(save.getParentFile().getName()+"/"+save.getName() )),
+					put(gID, SCREEN, SCREEN_LOADING_GAME),
+					put(gID, ACTION, ACTION_LOAD));
 			}
-			stage.inFront(border(x0, y0, w, h));
-			stage.inFront(text(1, x0+gap, y0+h, FONT_REGULAR, h/6, COLOR_TEXT_NORMAL));
-			int[] name = codePoints(savegame.getName());
-			stage.inFront(name);
-			Rectangle area = new Rectangle(x0, y0, w, h);
-			stage.in(area, focusBox(x0, y0, w, h));
-			stage.onLeftClickIn(area,
-					put(gamE.id(), SAVEGAME, name),
-					put(gamE.id(), SCREEN, SCREEN_LOADING_GAME),
-					put(gamE.id(), ACTION, ACTION_LOAD));
-			x0 += w + gap;
-			n++;
-			if (n == 3) {
-				x0 = gap;
-				y0 += gap+h;
-				n = 0;
-			}
+			y+=gameHeight;
 		}
 	}
 
-	private File[][] gameFiles(State user, State game, int pageSize) {
+	private List<File[]> gameFiles(State user) {
 		String dir = user.single(USER).text(SAVEGAME_DIR);
-		File[] files = new File(dir).listFiles();
-		if (files == null) {
-			return new File[0][];
+		File[] games = new File(dir).listFiles();
+		if (games == null) {
+			return Collections.emptyList();
 		}
-		File[][] gameFiles = new File[pageSize][]; 
-		for (File f : files) {
-			if (f.getName().endsWith(".game")) {
+		List<File[]> gameFilesByDate = new ArrayList<>();
+		for (File g : games) {
+			if (g.isDirectory()) {
+				File[] files = g.listFiles();
+				Arrays.sort(files, new Comparator<File>() {
+
+					@Override
+					public int compare(File a, File b) {
+						return a.lastModified() > b.lastModified() ? -1 : 1 ;
+					}
+				});
+				gameFilesByDate.add(files);
 			}
 		}
-		int page = game.single(GAME).num(PAGE);
-		
-		return gameFiles;
+		gameFilesByDate.sort(new Comparator<File[]>() {
+
+			@Override
+			public int compare(File[] a, File[] b) {
+				long at = a[a.length-1].lastModified();
+				long bt = b[b.length-1].lastModified();
+				return at < bt ? -1 : 1;
+			}
+
+		});
+		return gameFilesByDate;
 	}
 
 }

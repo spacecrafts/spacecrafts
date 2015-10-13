@@ -59,8 +59,12 @@ public final class Objects implements Gfx {
 		return new int[] { OBJ_FOCUS_BOX, 0, x,y,w,h };
 	}
 
+	public static int[] timeLine(int x1, int y1, int x2, int y2, int width, int color) {
+		return new int[] { OBJ_TIME_LINE, 0, x1,y1,x2,y2, width, color };
+	}
+
 	public static int[] focusLine(int x1, int y1, int x2, int y2) {
-		return new int[] { OBJ_FOCUS_LINE, 0, x1,y1,x2,y2 };
+		return new int[] { OBJ_FOCUS_LINE, 0, x1,y1,x2,y2, 1, COLOR_TEXT_HIGHLIGHT };
 	}
 
 	public static int[] star(int x, int y, int d, int c, int nrand) {

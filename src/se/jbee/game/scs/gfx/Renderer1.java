@@ -50,7 +50,11 @@ public class Renderer1 implements Renderer, Gfx {
 		while (i < objects.size()) {
 			int[] obj = objects.get(i);
 			List<int[]> data = objects.subList(i, i+1+obj[1]);
-			this.objects[obj[0]].draw(gfx, styles, data);
+			int type = obj[0];
+			Obj o = this.objects[type];
+			if (o != null) {
+				o.draw(gfx, styles, data);
+			}
 			i+= data.size();
 		}
 	}

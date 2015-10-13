@@ -102,6 +102,7 @@ public interface Gfx {
 	OBJ_FOCUS_LINE = 11,
 	OBJ_FOCUS_BOX = 12,
 	OBJ_ROUTE = 13,
+	OBJ_TIME_LINE = 14,
 
 	// information
 	OBJ_TEXT = 30,
