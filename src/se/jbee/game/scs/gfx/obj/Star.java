@@ -11,7 +11,6 @@ import java.awt.MultipleGradientPaint.CycleMethod;
 import java.awt.Paint;
 import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
-import java.awt.Stroke;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -19,6 +18,8 @@ import java.util.List;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.uni.gfx.Obj;
 import se.jbee.game.uni.gfx.Styles;
+import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.Rnd;
 
 public class Star implements Gfx, Obj {
 
@@ -38,79 +39,72 @@ public class Star implements Gfx, Obj {
 		int x0 = obj[2];
 		int y0 = obj[3];
 		int w = obj[4];
-		int rand = obj[6];
+		int[] rnd = data.get(1);
+		int rgba = color(Entity.longValue(rnd[0], rnd[1])).getRGB();
 		if (clip) {
 			BufferedImage stex = styles.texture(TEXTURE_STAR_200x2000_SMALL);
 			TexturePaint ss = new TexturePaint(stex, new Rectangle(x0, 0, stex.getWidth(), stex.getHeight()));
 			BufferedImage ltex = styles.texture(TEXTURE_STAR_200x2000_LARGE);
 			TexturePaint ls = new TexturePaint(ltex, new Rectangle(x0, 0, ltex.getWidth(), ltex.getHeight()));
-			int rgba = rand;
-			rgba = 0x000000;
 			starClip(gfx, x0, y0, w, rgba, ls, ss);
 		} else {
-			starCircle(gfx, x0, y0, w, rand);
+			starCircle(gfx, x0, y0, w, rgba);
 		}
 	}
 
-	private void starCircle(Graphics2D gfx, int x0, int y0, int dia, int rand) {
+	private void starCircle(Graphics2D gfx, int x0, int y0, int dia, int rgba) {
+		int r = new Color(rgba).getRed();
+		int g = new Color(rgba).getGreen();
+		int b = new Color(rgba).getBlue();
+		int a = new Color(rgba, true).getAlpha();
+
+		int k = dia/4;
+		int rad = 2*k;
+
+		if (a > 240) {
+			gfx.setStroke(new BasicStroke(dia/8f));
+			Paint paint = new RadialGradientPaint(x0+rad, y0+rad, rad,
+					new float[] { 0f, 1f },
+					new Color[] { new Color(r,g,b, 255), new Color(r,g,b, 0) });
+			gfx.setPaint(paint);
+			gfx.drawLine(x0+rad, y0, x0+rad, y0+dia-k);
+			gfx.drawLine(x0, y0+rad, x0+dia-k, y0+rad);
+		}
+		Paint paint = new RadialGradientPaint(x0+rad, y0+rad, rad,
+				new float[] { 0f, 0.2f, 0.6f, 0.8f, 1f },
+				new Color[] { new Color(r,g,255,255), new Color(r,g,b, a), new Color(r,g,b/2, a*3/5), new Color(r,g,b/2, a*3/8), new Color(r,g,b, 0) });
+		gfx.setPaint(paint);
+		gfx.fillOval(x0+k, y0+k, rad, rad);
+	}
+
+	public static Color color(long seed) {
 		// brown: 200, 125, 100
 		// orange: 250, 180, 50 (less green makes more red, blue is constant 50)
 		// purple: 200, 50, 250
 		// teal: 200, 250, 250 (more red makes it more white, gb are fix)
-		// colors...
-		int t = rand;
-		int r = 255;
-		int g = 150+t/4;
-		int b = 85-t/3;
-		if ((t % 2) == 0 && t > 150) {
-			r = 255-t/4;
-			g = 255;
-			b = 255;
+
+		Rnd rnd = new Rnd(seed);
+		int dist = rnd.nextInt(255);
+		int r = rnd.nextInt(200, 255);
+		int g = min(255, rnd.nextInt(120, 150)+dist/4);
+		int b = min(255, rnd.nextInt(60, 100)-dist/3);
+		int a = rnd.nextInt(220, 255);
+		if ((dist % 2 == 1)) {
+			if (dist < 50) { // red
+				g = g/2;
+				b = b/2;
+			}
+			if (dist > 200) { // purple
+				g = g/2;
+				b = r*3/5;
+			}
 		}
-		// size correction (larger => brighter)
-		r = min(255, r*14/dia);
-		g = min(255, g*14/dia);
-		b = min(255, b*14/dia);
-
-		int rad = dia/2;
-		int xl = x0-rad;
-		int yl = y0-rad;
-		int dl = dia*2;
-		Paint paint = new RadialGradientPaint(xl+dl/2,
-				yl+dl/2, dl,
-                new float[] { 0f, 0.35f, 1f },
-                new Color[] { new Color(r,g,b, 40), new Color(r/3, g/3, b/3, 25), new Color(0,0,0) });
-		gfx.setPaint(paint);
-		gfx.fillOval(xl, yl, dl, dl);
-
-		if (t > 200) {
-
-			paint = new RadialGradientPaint(xl+dl/2,
-					yl+dl/2, dl,
-					new float[] { 0f, 0.5f, 1f },
-					new Color[] { new Color(r,g,b, 60), new Color(r,g,b, 15), new Color(r,g,b, 0) });
-			//                new Color[] { new Color(0x40FFee00, true), new Color(0x25FF8800, true), new Color(0,0,0) });
-			gfx.setPaint(paint);
-			Stroke s = gfx.getStroke();
-			int len = 0;
-			gfx.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-			gfx.drawLine(x0+rad, y0-len, x0+rad, y0+dia+len);
-			gfx.drawLine(x0-len, y0+rad, x0+dia+len, y0+rad);
-			gfx.setStroke(s);
-
-			gfx.setColor(new Color(255,255,255,50));
-			gfx.drawLine(x0+rad, y0+rad/2, x0+rad, y0+dia-rad/2);
-			gfx.drawLine(x0+rad/2, y0+rad, x0+dia-rad/2, y0+rad);
+		if ((dist % 2) == 0 && dist > 150) { // blue
+			r = max(0, r-dist/2);
+			g = min(255, g + dist/2);
+			b = min(255, b + dist);
 		}
-
-		paint = new RadialGradientPaint(x0+rad,
-				y0+rad, rad,
-                new float[] { 0f, 0.20f, 0.5f, 1f },
-                new Color[] { new Color(r,g,b, 255), new Color(r,g,b, 100), new Color(r,g,b, 0), new Color(0,0,0) });
-//                new Color[] { new Color(0xaaFFFFaa, true), new Color(0x10FFFFaa, true), new Color(0,0,0,50) });
-		gfx.setPaint(paint);
-		gfx.fillOval(x0+rad/2, y0+rad/2, rad, rad);
-
+		return new Color(r, g, b, a);
 	}
 
 	private void starClip(Graphics2D gfx, int x0, int y0, int d, int rgba, TexturePaint ls, TexturePaint ss) {
@@ -125,8 +119,8 @@ public class Star implements Gfx, Obj {
 		// 3d effect (as darkening)
 		Paint paint = new RadialGradientPaint(x0+d/2,
 				y0+d/2, d,
-                new float[] { 0f, 0.8f, 1f },
-                new Color[] { new Color(150,150,0, 40), new Color(150,150,0, 150), new Color(150,150,0, 50) });
+				new float[] { 0f, 0.8f, 1f },
+				new Color[] { new Color(150,150,0, 40), new Color(150,150,0, 150), new Color(150,150,0, 50) });
 		gfx.setPaint(paint);
 		gfx.fillArc(x0+2, y0, d, d, 150, 60);
 		// + 2 on x to make a glowing edge

@@ -18,6 +18,7 @@ import se.jbee.game.uni.gfx.Stage;
 import se.jbee.game.uni.screen.Screen;
 import se.jbee.game.uni.screen.ScreenNo;
 import se.jbee.game.uni.state.Entity;
+import se.jbee.game.uni.state.Rnd;
 import se.jbee.game.uni.state.State;
 
 @ScreenNo(GameScreen.SCREEN_SOLAR_SYSTEM)
@@ -33,7 +34,8 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		int w = screen.width;
 		int h = screen.height;
 		stage.inFront(background(0,0,w, h, BG_SPACE, star.list(SEED)));
-		stage.inFront(starClip(w-h/8, -h/2, h*2, 0xaaaa00, 0)); // g can be altered to increase or decrease red part of sun
+		stage.inFront(starClip(w-h/8, -h/2, h*2)); // nice: 0xaaaa00; g can be altered to increase or decrease red part of sun
+		stage.inFront(star.list(SEED));
 
 		int[] planets = star.list(PLANETS);
 		int ym = screen.height /2;
@@ -49,11 +51,13 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 	private void randomSolarSystem(State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
 		Rectangle area = new Rectangle(690, 390, 220, 220);
+		Rnd rnd = new Rnd(42);
 
 		int w = screen.width;
 		int h = screen.height;
 		stage.inFront(background(0,0,w, h, BG_SPACE));
-		stage.inFront(starClip(w-h/8, -h/2, h*2, 0xaaaa00, 0)); // g can be altered to increase or decrease red part of sun
+		stage.inFront(starClip(w-h/8, -h/2, h*2)); // g can be altered to increase or decrease red part of sun
+		stage.inFront(new int[] {rnd.nextInt(), rnd.nextInt()  });
 
 		stage.inFront(planet(700, 400, 200, 0xFF5014, 0));
 		stage.inFront(planet(100, 300, 400, 0x44FF99, 0));

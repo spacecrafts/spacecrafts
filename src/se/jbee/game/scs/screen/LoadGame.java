@@ -46,6 +46,8 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
+		//TODO add a "cursor" and keyboard support + paging
+
 		Entity gamE = game.single(GAME);
 
 		// cancel (ESC override, to not set return screen)
@@ -87,7 +89,6 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 					x = xLast+d;
 				}
 				xLast = x;
-				System.out.println(save.getName());
 				int color = save.getName().contains(".auto.") ? COLOR_TEXT_NORMAL : COLOR_FARM;
 				stage.inFront(icon(ICON_BUILDING, x, y, d, color));
 				Rectangle area = new Rectangle(x, y, d, d);
@@ -118,7 +119,10 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 						int bn = b.getName().indexOf('.');
 						if (an != bn)
 							return an < bn ? -1 : 1;
-						return a.getName().substring(0, an).compareTo(b.getName().substring(0, bn));
+						int res = a.getName().substring(0, an).compareTo(b.getName().substring(0, bn));
+						if (res != 0)
+							return res;
+						return Long.compare(a.lastModified(), b.lastModified()) ;
 					}
 				});
 				gameFilesByDate.add(files);
