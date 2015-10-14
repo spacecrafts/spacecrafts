@@ -24,6 +24,7 @@ import se.jbee.game.uni.gfx.Dimension;
 import se.jbee.game.uni.gfx.Stage;
 import se.jbee.game.uni.screen.Screen;
 import se.jbee.game.uni.screen.ScreenNo;
+import se.jbee.game.uni.state.Change;
 import se.jbee.game.uni.state.Entity;
 import se.jbee.game.uni.state.State;
 
@@ -53,35 +54,47 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 
 		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 
-
-		int gap = 20;
-		int x0 = gap;
-		int y0 = 50;
-		int w = (screen.width - (4*gap)) / 3;
-		int h = (screen.height - (4*gap)) / 3;
+		Rectangle center = Viewport.centerView(screen);
+		int x0 = center.x;
+		int y0 = center.y;
 
 		int gameHeight = 30;
 		int nameWidth = 150;
+		int lineWidth = center.width-nameWidth;
+		int maxTurn = 1000;
 		int r = 4;
 		int d = r*2+1;
 		int page = gamE.num(PAGE);
-		int pageSize = screen.height/gameHeight;
+		int pageSize = center.height/gameHeight;
 
 		List<File[]> gameFiles = gameFiles(user);
 		gameFiles = gameFiles.subList(min(gameFiles.size()-1, page*pageSize), min(gameFiles.size(), (page+1)*pageSize + 1));
 		int y = y0;
+		Change screenCs = put(gID, SCREEN, SCREEN_LOADING_GAME);
+		Change loadCs = put(gID, ACTION, ACTION_LOAD);
 		for (File[] saves : gameFiles) {
-			stage.inFront(timeLine(x0+nameWidth, y0+r, x0+w, y0+r, 1, COLOR_TEXT_NORMAL));
-			stage.inFront(text(1, x0, y, FONT_REGULAR, 14, COLOR_TEXT_NORMAL, ALIGN_E, x0+nameWidth-10, y+d));
+			stage.inFront(text(1, x0, y, FONT_REGULAR, 14, COLOR_TEXT_NORMAL, ALIGN_E, x0+nameWidth-5, y+d));
 			stage.inFront(codePoints(saves[0].getParentFile().getName().replace('_', ' ')));
-			for (File save : saves) {
+			String highestTrunSave = saves[saves.length-1].getName();
+			int highestTurn = Integer.parseInt(highestTrunSave.substring(0, highestTrunSave.indexOf('.')));
+			stage.inFront(timeLine(x0+nameWidth, y0+r, x0+nameWidth+highestTurn*lineWidth/maxTurn, y0+r, 1, COLOR_TEXT_NORMAL));
+			int xLast = 0;
+			for (int i = 0; i < saves.length; i++) {
+				File save = saves[i];
 				int turn = Integer.parseInt(save.getName().substring(0, save.getName().indexOf('.')));
-				int x = x0 + nameWidth + turn * d;
-				stage.inFront(icon(ICON_BUILDING, x, y, d, COLOR_FARM));
-				stage.onLeftClickIn(new Rectangle(x, y, d, d),
+				int x = x0 + nameWidth + turn * lineWidth/maxTurn;
+				if (x - d < xLast) {
+					x = xLast+d;
+				}
+				xLast = x;
+				System.out.println(save.getName());
+				int color = save.getName().contains(".auto.") ? COLOR_TEXT_NORMAL : COLOR_FARM;
+				stage.inFront(icon(ICON_BUILDING, x, y, d, color));
+				Rectangle area = new Rectangle(x, y, d, d);
+				stage.in(area, icon(ICON_BUILDING, x-2, y-2, d+4, COLOR_TEXT_HIGHLIGHT), text(1, x, y-20, FONT_REGULAR, 14, COLOR_TEXT_HIGHLIGHT), codePoints(String.valueOf(turn)));
+				stage.onLeftClickIn(area,
 					put(gID, SAVEGAME, codePoints(save.getParentFile().getName()+"/"+save.getName() )),
-					put(gID, SCREEN, SCREEN_LOADING_GAME),
-					put(gID, ACTION, ACTION_LOAD));
+					screenCs, loadCs);
 			}
 			y+=gameHeight;
 		}
@@ -101,7 +114,11 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 
 					@Override
 					public int compare(File a, File b) {
-						return a.lastModified() > b.lastModified() ? -1 : 1 ;
+						int an = a.getName().indexOf('.');
+						int bn = b.getName().indexOf('.');
+						if (an != bn)
+							return an < bn ? -1 : 1;
+						return a.getName().substring(0, an).compareTo(b.getName().substring(0, bn));
 					}
 				});
 				gameFilesByDate.add(files);
