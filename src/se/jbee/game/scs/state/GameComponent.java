@@ -116,7 +116,7 @@ public interface GameComponent extends Component {
 	GALAXY = 100,
 		// SEEDS [#,#,...]
 		CLUSTERS = 101, // {*x,*y,*z}
-		SIZE = 102, // side length of x and y axis in value space
+		SIZE = 102, // [#x,#y,#z] side length of x, y and z axis in value space
 
 	CLUSTER = 110,
 		// SEEDS [#,#,...]
@@ -129,6 +129,8 @@ public interface GameComponent extends Component {
 		// POSITION (in the cluster)
 		//FLEETS = {*x,*y,*z} (set of all the fleets arrived/staying in a solar system)
 		MASS = 122,
+		/// STAR_TYPE *x
+		// RGB (derived from SEED, but to be save against algorithm changes)
 
 	PLANET = 130,
 		// SEEDS [#,#,...]
@@ -142,9 +144,11 @@ public interface GameComponent extends Component {
 		// PLANET
 
 	STAR_TYPE = 150,
+		RGB = 151, //[#r,#g,#b] (typical; closest match to actual color determines type)
 		// PROBABILITIES (of types of planets?)
 
 	MAKEUP = 160, // of a planet; or a "planet type" (mostly a description for humans)
+		// RGB
 		MATERIALS = 161, // [*x,*y,...] ref to the material
 		PROBABILITIES = 162, // [#,#,...] of rare materials
 		//CODE (a static constant value known to gfx to draw the appropriate image, random values from planet are used to make each appear somewhat unique

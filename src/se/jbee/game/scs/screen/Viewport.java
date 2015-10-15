@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import se.jbee.game.uni.gfx.Dimension;
 
 /**
- * How the game divides the screen area into views.  
+ * How the game divides the screen area into views.
  */
 public final class Viewport {
 
@@ -17,17 +17,17 @@ public final class Viewport {
 	// 1/32 |___________________________|               ¦ |
 	//      |                           |        T      ¦ |
 	//      |                           |               ¦ |
-	//      |                           |_______________¦_| 
-	//      |                           |_________________| 1/32 
+	//      |                           |_______________¦_|
+	//      |                           |_________________| 1/32
 	//      |                           |               ¦ |
 	//      |             C             |        M      ¦ |
 	//      |                           |               ¦ |
-	//      |                           |_______________¦_| 
+	//      |                           |_______________¦_|
 	//      |                           |_________________| 1/32
 	//      |                           |               ¦ |
 	//      |                           |        B      ¦ |
 	//      |___________________________|               ¦ |
-	// 1/32 |                           |_______________¦_| 
+	// 1/32 |                           |_______________¦_|
 	// 1/32 |___________________________|_________________| 1/32
 	//                                                 1/32
 	// C = Center
@@ -35,29 +35,35 @@ public final class Viewport {
 	// M = Middle
 	// B = Bottom
 	// T, M, B are equally height and show context related mini-screens.
-	
+
 	/**
-	 * A grid of 32x32 (max) is placed in the middle of the C view. 
+	 * A grid of 32x32 (max) is placed in the middle of the C view.
 	 */
 	public static int cellDiameter(Dimension screen) {
 		// height - 2x spacing (left+right) divided by 32 cells (maximum)
-		return (screen.height-(screen.width/8))/32;		
+		return (screen.height-(screen.width/8))/32;
 	}
-	
+
 	public static int dotDiameter(Dimension screen) {
-		return max(200, screen.width/8)/(4*5);		
+		return max(200, screen.width/8)/(4*5);
 	}
-	
+
 	public static Rectangle centerView(Dimension screen) {
 		int w = screen.width;
 		return new Rectangle(0, w/16, w*2/3, screen.height-(w/8));
 	}
-	
+
+	public static Rectangle fullView(Dimension screen) {
+		int w = screen.width;
+		int h = screen.height;
+		return new Rectangle(w/32, w/16, w-(w/16), h-(w/8));
+	}
+
 	public static Rectangle topView(Dimension screen) {
 		int w = screen.width;
 		return new Rectangle(w*2/3, w/32, w/3-w/32, (screen.height-w/8)/3);
 	}
-	
+
 	public static Rectangle middleView(Dimension screen) {
 		int w = screen.width;
 		int h = (screen.height-w/8)/3;

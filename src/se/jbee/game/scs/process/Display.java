@@ -22,11 +22,11 @@ import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Renderer1;
 import se.jbee.game.scs.gfx.obj.Background;
 import se.jbee.game.scs.gfx.obj.Border;
-import se.jbee.game.scs.gfx.obj.FocusBox;
 import se.jbee.game.scs.gfx.obj.Icon;
 import se.jbee.game.scs.gfx.obj.Knob;
-import se.jbee.game.scs.gfx.obj.Line;
+import se.jbee.game.scs.gfx.obj.Path;
 import se.jbee.game.scs.gfx.obj.Planet;
+import se.jbee.game.scs.gfx.obj.Rect;
 import se.jbee.game.scs.gfx.obj.Ring;
 import se.jbee.game.scs.gfx.obj.Star;
 import se.jbee.game.scs.gfx.obj.Techwheel;
@@ -153,10 +153,9 @@ public class Display extends Canvas implements Runnable, Gfx {
 		r.assoc(OBJ_PLANET, Planet.CIRCLE);
 		r.assoc(OBJ_PLANET_CLIP, Planet.CLIP);
 		r.assoc(OBJ_ICON, new Icon());
-		r.assoc(OBJ_BORDER, new Border());
-		r.assoc(OBJ_FOCUS_BOX, new FocusBox());
-		r.assoc(OBJ_FOCUS_LINE, new Line());
-		r.assoc(OBJ_TIME_LINE, new Line());
+		r.assoc(OBJ_PATH, new Border());
+		r.assoc(OBJ_RECT, new Rect());
+		r.assoc(OBJ_PATH, new Path());
 		return r;
 	}
 

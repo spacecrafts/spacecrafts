@@ -1,10 +1,9 @@
 package se.jbee.game.scs.screen;
 
-import static java.lang.Math.min;
 import static se.jbee.game.scs.gfx.Objects.background;
-import static se.jbee.game.scs.gfx.Objects.border;
-import static se.jbee.game.scs.gfx.Objects.focusBox;
+import static se.jbee.game.scs.gfx.Objects.path;
 import static se.jbee.game.scs.gfx.Objects.star;
+import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.uni.state.Change.put;
 
 import java.awt.Rectangle;
@@ -37,11 +36,13 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 
 		stage.inFront(background(0, 0, screen.width, screen.height, BG_SPACE, galaxy.list(SEED)));
 
-		Rectangle center = Viewport.centerView(screen);
-		int wh = min(center.width, center.height);
-		int size = galaxy.num(SIZE);
-		int x0 = center.x+(center.width-wh)/2;
-		int y0 = center.y+(center.height-wh)/2;
+		Rectangle view = Viewport.fullView(screen);
+		int[] size = galaxy.list(SIZE);
+		int sx = size[0];
+		int sy = size[1];
+		double scale = Math.min(view.width/(double)sx, view.height/(double)sy);
+		int xc = view.x + view.width/2;
+		int yc = view.y + view.height/2;
 		int[] stars = galaxy.list(STARS);
 		int playerStar = game.entity(player.num(HOME)).num(STAR);
 		for (int starID : stars) {
@@ -49,17 +50,18 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			long seed = star.longNum(SEED);
 			Rnd rnd = new Rnd(seed);
 			int[] xyz = star.list(POSITION);
-			int x = x0+xyz[0]*wh/size;
-			int y = y0+xyz[1]*wh/size;
-			int dia = rnd.nextInt(14, 22);
-			stage.inFront(star(x, y, dia));
-			stage.inFront(star.list(SEED));
+			int x = xc +(int)((xyz[0]-sx/2)*scale);
+			int y = yc +(int)((xyz[1]-sy/2)*scale);
+			int dia = rnd.nextInt(8, 16);
+			int r = dia/2-1;
 			if (playerStar == starID || star.has(HOME)) {
-				stage.inFront(border(x-5, y-5, dia+10, dia+10));
-				Rectangle area = new Rectangle(x-5, y-5, dia+10, dia+10);
-				stage.in(area, focusBox(x-5, y-5, dia+10, dia+10));
+				stage.inFront(path(PATH_EDGY, COLOR_TEXT_NORMAL, 1, x+r, y+r, x+r+10, y+r-10));
+				stage.inFront(text(1, x+5,y-20,FONT_THIN, 13, COLOR_TEXT_NORMAL)).inFront(star.list(NAME));
+				Rectangle area = new Rectangle(x, y, dia, dia);
+				stage.in(area, text(1, x+5,y-20, FONT_THIN, 13, COLOR_TEXT_HIGHLIGHT), star.list(NAME));
 				stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), put(gamE.id(), SCREEN_ENTITY, starID));
 			}
+			stage.inFront(star(x, y, dia)).inFront(star.list(SEED));
 		}
 	}
 
@@ -89,7 +91,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			} else if (y + 50 > h) {
 				y-=50;
 			}
-			int d = rnd.nextInt(8,18);
+			int d = rnd.nextInt(8,16);
 			stage.inFront(star(x, y, d));
 			stage.inFront(new int[] { rnd.nextInt(), rnd.nextInt() });
 			int box = 2*d;

@@ -7,7 +7,7 @@ import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.uni.gfx.Obj;
 import se.jbee.game.uni.gfx.Styles;
 
-public class FocusBox implements Gfx, Obj {
+public class Rect implements Gfx, Obj {
 
 	@Override
 	public void draw(Graphics2D gfx, Styles styles, List<int[]> data) {

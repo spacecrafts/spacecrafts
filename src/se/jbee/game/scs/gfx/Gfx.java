@@ -58,6 +58,12 @@ public interface Gfx {
 	;
 
 	/**
+	 * Paths
+	 */
+	int
+	PATH_EDGY = 1;
+
+	/**
 	 * Backgrounds
 	 */
 	int
@@ -97,18 +103,17 @@ public interface Gfx {
 	OBJ_PLANET_CLIP = 5,
 	OBJ_TECH_WHEEL = 6,
 
-	// lines
-	OBJ_BORDER = 10,
-	OBJ_FOCUS_LINE = 11,
-	OBJ_FOCUS_BOX = 12,
-	OBJ_ROUTE = 13,
-	OBJ_TIME_LINE = 14,
+	// figures
+	OBJ_PATH = 10,
+	OBJ_RECT = 11,
+	OBJ_RING = 12,
 
 	// information
-	OBJ_TEXT = 30,
-	OBJ_ICON = 31,
-	OBJ_KNOB = 32,
-	OBJ_RING = 33
+	OBJ_TEXT = 20,
+	OBJ_ICON = 21,
+
+	// input elements
+	OBJ_KNOB = 30
 	;
 
 	/**

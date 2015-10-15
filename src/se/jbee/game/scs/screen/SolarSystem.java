@@ -34,8 +34,8 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		int w = screen.width;
 		int h = screen.height;
 		stage.inFront(background(0,0,w, h, BG_SPACE, star.list(SEED)));
-		stage.inFront(starClip(w-h/8, -h/2, h*2)); // nice: 0xaaaa00; g can be altered to increase or decrease red part of sun
-		stage.inFront(star.list(SEED));
+		stage.inFront(starClip(w-h/8, -h/2, h*2)).inFront(star.list(SEED));
+		// nice: 0xaaaa00; g can be altered to increase or decrease red part of sun
 
 		int[] planets = star.list(PLANETS);
 		int ym = screen.height /2;

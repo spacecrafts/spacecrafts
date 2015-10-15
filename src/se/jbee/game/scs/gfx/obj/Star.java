@@ -3,7 +3,6 @@ package se.jbee.game.scs.gfx.obj;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
@@ -61,15 +60,6 @@ public class Star implements Gfx, Obj {
 		int k = dia/4;
 		int rad = 2*k;
 
-		if (a > 240) {
-			gfx.setStroke(new BasicStroke(dia/8f));
-			Paint paint = new RadialGradientPaint(x0+rad, y0+rad, rad,
-					new float[] { 0f, 1f },
-					new Color[] { new Color(r,g,b, 255), new Color(r,g,b, 0) });
-			gfx.setPaint(paint);
-			gfx.drawLine(x0+rad, y0, x0+rad, y0+dia-k);
-			gfx.drawLine(x0, y0+rad, x0+dia-k, y0+rad);
-		}
 		Paint paint = new RadialGradientPaint(x0+rad, y0+rad, rad,
 				new float[] { 0f, 0.2f, 0.6f, 0.8f, 1f },
 				new Color[] { new Color(r,g,255,255), new Color(r,g,b, a), new Color(r,g,b/2, a*3/5), new Color(r,g,b/2, a*3/8), new Color(r,g,b, 0) });
@@ -87,7 +77,7 @@ public class Star implements Gfx, Obj {
 		int dist = rnd.nextInt(255);
 		int r = rnd.nextInt(200, 255);
 		int g = min(255, rnd.nextInt(120, 150)+dist/4);
-		int b = min(255, rnd.nextInt(60, 100)-dist/3);
+		int b = max(0, min(255, rnd.nextInt(60, 100)-dist/3));
 		int a = rnd.nextInt(220, 255);
 		if ((dist % 2 == 1)) {
 			if (dist < 50) { // red

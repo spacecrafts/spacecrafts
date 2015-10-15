@@ -151,6 +151,10 @@ public final class Entity implements Component {
 		return put(comp, new int[] { num });
 	}
 
+	public Entity put(int comp, String text) {
+		return put(comp, codePoints(text));
+	}
+
 	public Entity put(int comp, int... listOrSetOrTxt) {
 		int i = indexOf(comp);
 		if (i < 0) {

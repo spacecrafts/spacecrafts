@@ -52,19 +52,27 @@ public final class Objects implements Gfx {
 	}
 
 	public static int[] border(int x, int y, int w, int h) {
-		return new int[] { OBJ_BORDER, 0, x,y,w,h };
+		return new int[] { OBJ_RECT, 0, x,y,w,h };
 	}
 
 	public static int[] focusBox(int x, int y, int w, int h) {
-		return new int[] { OBJ_FOCUS_BOX, 0, x,y,w,h };
+		return new int[] { OBJ_RECT, 0, x,y,w,h };
 	}
 
-	public static int[] timeLine(int x1, int y1, int x2, int y2, int width, int color) {
-		return new int[] { OBJ_TIME_LINE, 0, x1,y1,x2,y2, width, color };
+	public static int[] path(int type, int color, int stroke, int x1, int y1, int x2, int y2) {
+		return new int[] { OBJ_PATH, 0, type, color, stroke, x1, y1, x2, y2 };
+	}
+
+	public static int[] path(int type, int color, int stroke, int x1, int y1, int x2, int y2, int x3, int y3) {
+		return new int[] { OBJ_PATH, 0, type, color, stroke, x1, y1, x2, y2, x3, y3 };
+	}
+
+	public static int[] timeLine(int x1, int y1, int x2, int y2) {
+		return path(PATH_EDGY, COLOR_TEXT_NORMAL, 1, x1,y1,x2,y2);
 	}
 
 	public static int[] focusLine(int x1, int y1, int x2, int y2) {
-		return new int[] { OBJ_FOCUS_LINE, 0, x1,y1,x2,y2, 1, COLOR_TEXT_HIGHLIGHT };
+		return path(PATH_EDGY, COLOR_TEXT_HIGHLIGHT, 1, x1,y1,x2,y2);
 	}
 
 	public static int[] star(int x, int y, int d) {

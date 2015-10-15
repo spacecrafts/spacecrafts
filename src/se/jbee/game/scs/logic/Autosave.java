@@ -18,7 +18,7 @@ public class Autosave implements Progress, GameComponent {
 	@Override
 	public void progress(State user, State game) {
 		Entity gamE = game.single(GAME);
-		if (gamE.num(TURN) > 0) {
+		if (gamE.num(TURN) > 1) {
 			gamE.put(SAVEGAME, codePoints(autosavegamePath(gamE))); Save.INSTANCE.progress(user, game);
 		}
 	}

@@ -79,7 +79,7 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 			stage.inFront(codePoints(saves[0].getParentFile().getName().replace('_', ' ')));
 			String highestTrunSave = saves[saves.length-1].getName();
 			int highestTurn = Integer.parseInt(highestTrunSave.substring(0, highestTrunSave.indexOf('.')));
-			stage.inFront(timeLine(x0+nameWidth, y0+r, x0+nameWidth+highestTurn*lineWidth/maxTurn, y0+r, 1, COLOR_TEXT_NORMAL));
+			stage.inFront(timeLine(x0+nameWidth, y0+r, x0+nameWidth+highestTurn*lineWidth/maxTurn, y0+r));
 			int xLast = 0;
 			for (int i = 0; i < saves.length; i++) {
 				File save = saves[i];

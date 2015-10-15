@@ -46,7 +46,7 @@ public class Init implements Progress, GameComponent, UserComponent {
 		p1.put(NO, 1);
 		p1.put(TURN, -1);
 		gamE.put(PLAYERS, p1.id());
-		gamE.put(SETUP, new int[] {1,1,1});
+		gamE.put(SETUP, new int[] {1,1,3});
 	}
 
 	private static String uniqueGameName(long seed, State user) {
