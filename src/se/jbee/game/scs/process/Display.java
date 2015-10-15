@@ -135,7 +135,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 
 	private static final Colouring STAR2 = (float rgb) -> {
 		float a = min(0.9f, max(0.3f, (1.5f-rgb)*rgb));
-		Color c = new Color(rgb, rgb-rgb/5, rgb-rgb/4, a/1.6f);
+		Color c = new Color(rgb, rgb-rgb/4, rgb-rgb/5, a/1.4f);
 		return c.getRGB();
 	};
 

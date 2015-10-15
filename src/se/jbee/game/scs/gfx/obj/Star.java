@@ -100,31 +100,37 @@ public class Star implements Gfx, Obj {
 
 	private void starClip(Graphics2D gfx, int x0, int y0, int d, int rgba, TexturePaint ls, TexturePaint ss) {
 		Color c = new Color(rgba);
+		int r = c.getRed();
+		int g = c.getGreen();
+		int b = c.getBlue();
 		Arc2D.Float arc = new Arc2D.Float(x0, y0, d, d, 150, 60, Arc2D.CHORD);
+		Arc2D.Float arc2 = new Arc2D.Float(x0-1, y0, d, d, 150, 60, Arc2D.CHORD);
 
-		gfx.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 255));
-		gfx.fill(arc);
-
-		// texture
-		gfx.setPaint(ss);
-		gfx.fill(arc);
+		gfx.setColor(c);
+		gfx.fill(arc2);
 
 		// 3d effect (as darkening)
 		Paint paint = new RadialGradientPaint(x0+d/2,
 				y0+d/2, d,
 				new float[] { 0f, 0.8f, 1f },
-				new Color[] { new Color(150,150,0, 40), new Color(150,150,0, 150), new Color(150,150,0, 50) });
+				new Color[] { new Color(r,g,b, 40), new Color(r,g,b, 150), new Color(r,g,b, 50) });
 		gfx.setPaint(paint);
-		gfx.fill(new Arc2D.Float(x0+2, y0, d, d, 150, 60, Arc2D.CHORD));
+		gfx.fill(arc);
 		// + 2 on x to make a glowing edge
 
+		// texture
+		gfx.setPaint(ss);
+		gfx.fill(arc);
+
 		// darken upper and lower area
-		paint = new LinearGradientPaint(x0, 0, x0, d/4, new float[] { 0f, 1f }, new Color[] { new Color(0,0,0, 50), new Color(255,255,100, 50)  }, CycleMethod.REFLECT);
+		paint = new LinearGradientPaint(x0, 0, x0, d/4,
+				new float[] { 0f, 1f },
+				new Color[] { new Color(0,0,0, 50), new Color(r,g,b, 50)  }, CycleMethod.REFLECT);
 		gfx.setPaint(paint);
 		gfx.fill(arc);
 
 		gfx.setPaint(ls);
-		gfx.fillArc(x0, y0, d, d, 150, 60);
+		gfx.fill(arc2);
 	}
 
 	public static BufferedImage image(int w, int h, float[] noise) {
