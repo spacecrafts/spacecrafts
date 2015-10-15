@@ -127,13 +127,19 @@ public class Display extends Canvas implements Runnable, Gfx {
 		}
 	}
 
-	private static final Colouring STAR = (float rgb) -> {
+	private static final Colouring STAR_RED = (float rgb) -> {
 		float a = min(0.9f, max(0.3f, (1.5f-rgb)*rgb));
-		Color c = new Color(1f, rgb, rgb/2f, a);
+		Color c = new Color(1f, rgb, rgb/2f, a/1.4f);
 		return c.getRGB();
 	};
 
-	private static final Colouring STAR2 = (float rgb) -> {
+	private static final Colouring STAR_BLUE = (float rgb) -> {
+		float a = min(0.9f, max(0.3f, (1.5f-rgb)*rgb));
+		Color c = new Color(rgb/2f, rgb, 1f, a/1.4f);
+		return c.getRGB();
+	};
+
+	private static final Colouring STAR = (float rgb) -> {
 		float a = min(0.9f, max(0.3f, (1.5f-rgb)*rgb));
 		Color c = new Color(rgb, rgb-rgb/4, rgb-rgb/5, a/1.4f);
 		return c.getRGB();
@@ -166,7 +172,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 	}
 
 	private Styles initStyles(Dimension screen) {
-		final Styles s = new Styles(26, 3, 4, 6);
+		final Styles s = new Styles(26, 3, 4, 7);
 		s.addColor(COLOR_TRANSPARENT, 0x00000000);
 		s.addColor(COLOR_DEFAULT, 0xFF8899FF);
 		s.addColor(COLOR_WHITE, 0xFFffffff);
@@ -200,9 +206,9 @@ public class Display extends Canvas implements Runnable, Gfx {
 		s.addNoise(NOISE_PLANET_SMALL, 100, 40, 6000);
 
 		int h = screen.height;
-		System.out.println("Init textures "+h);
-		s.addTexture(TEXTURE_STAR_200x2000_LARGE, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_LARGE), STAR2); });
-		s.addTexture(TEXTURE_STAR_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_SMALL), STAR2); });
+		s.addTexture(TEXTURE_STAR_200x2000_LARGE_RED, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_LARGE), STAR_RED); });
+		s.addTexture(TEXTURE_STAR_200x2000_LARGE_BLUE, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_LARGE), STAR_BLUE); });
+		s.addTexture(TEXTURE_STAR_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_SMALL), STAR); });
 		s.addTexture(TEXTURE_PLANET_200x2000_LARGE, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_PLANET_LARGE), PLANET); });
 		s.addTexture(TEXTURE_PLANET_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_PLANET_SMALL), PLANET); });
 		s.addTexture(TEXTURE_PLANET_600x600_LARGE, (Styles styles) -> { return Styles.texture(600, 600, styles.noise(NOISE_PLANET_LARGE), PLANET2); });

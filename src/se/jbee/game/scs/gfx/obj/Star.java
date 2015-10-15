@@ -40,11 +40,15 @@ public class Star implements Gfx, Obj {
 		int y0 = obj[3];
 		int w = obj[4];
 		int[] rnd = data.get(1);
-		int rgba = color(Entity.longValue(rnd[0], rnd[1])).getRGB();
+		Color color = color(Entity.longValue(rnd[0], rnd[1]));
+		int rgba = color.getRGB();
 		if (clip) {
 			BufferedImage stex = styles.texture(TEXTURE_STAR_200x2000_SMALL);
 			TexturePaint ss = new TexturePaint(stex, new Rectangle(x0, 0, stex.getWidth(), stex.getHeight()));
-			BufferedImage ltex = styles.texture(TEXTURE_STAR_200x2000_LARGE);
+			int delta = Math.abs(color.getRed() - color.getBlue());
+			BufferedImage ltex =  color.getGreen() > color.getBlue() && color.getBlue() < color.getRed()
+					? styles.texture(TEXTURE_STAR_200x2000_LARGE_RED)
+					: styles.texture(TEXTURE_STAR_200x2000_LARGE_BLUE);
 			TexturePaint ls = new TexturePaint(ltex, new Rectangle(x0, 0, ltex.getWidth(), ltex.getHeight()));
 			starClip(gfx, x0, y0, w, rgba, ls, ss);
 		} else {
