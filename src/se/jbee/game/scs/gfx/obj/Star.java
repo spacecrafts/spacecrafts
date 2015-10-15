@@ -100,13 +100,13 @@ public class Star implements Gfx, Obj {
 
 	private void starClip(Graphics2D gfx, int x0, int y0, int d, int rgba, TexturePaint ls, TexturePaint ss) {
 		Color c = new Color(rgba);
+		Arc2D.Float arc = new Arc2D.Float(x0, y0, d, d, 150, 60, Arc2D.CHORD);
+
+		gfx.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 255));
+		gfx.fill(arc);
 
 		// texture
 		gfx.setPaint(ss);
-		Arc2D.Float arc = new Arc2D.Float(x0, y0, d, d, 150, 60, Arc2D.CHORD);
-		gfx.fill(arc);
-
-		gfx.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 200));
 		gfx.fill(arc);
 
 		// 3d effect (as darkening)
@@ -123,7 +123,7 @@ public class Star implements Gfx, Obj {
 		gfx.setPaint(paint);
 		gfx.fill(arc);
 
-		//gfx.setPaint(ls);
+		gfx.setPaint(ls);
 		gfx.fillArc(x0, y0, d, d, 150, 60);
 	}
 

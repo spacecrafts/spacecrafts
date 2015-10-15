@@ -133,6 +133,12 @@ public class Display extends Canvas implements Runnable, Gfx {
 		return c.getRGB();
 	};
 
+	private static final Colouring STAR2 = (float rgb) -> {
+		float a = min(0.9f, max(0.3f, (1.5f-rgb)*rgb));
+		Color c = new Color(rgb, rgb-rgb/5, rgb-rgb/4, a/1.6f);
+		return c.getRGB();
+	};
+
 	private static final Colouring PLANET = (float rgb) -> {
 		return new Color(rgb, rgb, rgb, 0.25f).getRGB();
 	};
@@ -195,8 +201,8 @@ public class Display extends Canvas implements Runnable, Gfx {
 
 		int h = screen.height;
 		System.out.println("Init textures "+h);
-		s.addTexture(TEXTURE_STAR_200x2000_LARGE, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_LARGE), STAR); });
-		s.addTexture(TEXTURE_STAR_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_SMALL), STAR); });
+		s.addTexture(TEXTURE_STAR_200x2000_LARGE, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_LARGE), STAR2); });
+		s.addTexture(TEXTURE_STAR_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_SMALL), STAR2); });
 		s.addTexture(TEXTURE_PLANET_200x2000_LARGE, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_PLANET_LARGE), PLANET); });
 		s.addTexture(TEXTURE_PLANET_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_PLANET_SMALL), PLANET); });
 		s.addTexture(TEXTURE_PLANET_600x600_LARGE, (Styles styles) -> { return Styles.texture(600, 600, styles.noise(NOISE_PLANET_LARGE), PLANET2); });
