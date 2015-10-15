@@ -127,6 +127,7 @@ public interface GameComponent extends Component {
 		// SEEDS [#,#,...]
 		PLANETS = 121, // {*x,*y,*z} (orbiting)
 		// POSITION (in the cluster)
+		// SIZE [#] (8-16)
 		//FLEETS = {*x,*y,*z} (set of all the fleets arrived/staying in a solar system)
 		MASS = 122,
 		/// STAR_TYPE *x

@@ -86,25 +86,27 @@ public class Turn implements Progress, GameComponent {
 
 	private static void distributeStarsInGalaxy(State game) {
 		Entity gamE = game.single(GAME);
-		int size = gamE.list(SETUP)[SETUP_GALAXY_SIZE];
+		int usize = gamE.list(SETUP)[SETUP_GALAXY_SIZE];
 		Entity galaxy = game.defEntity(GALAXY);
 		long seed = System.currentTimeMillis();
 		galaxy.put(SEED, seed);
 		galaxy.put(SIZE, GALAXY_XS, GALAXY_YS, GALAXY_ZS);
 		gamE.append(GALAXIES, galaxy.id());
 		Rnd rnd = new Rnd(gamE.longNum(SEED));
-		int nos = rnd.nextInt(35, 50) * size;
+		int nos = rnd.nextInt(35, 50) * usize;
 
 		int[] stars = new int[nos];
 		for (int i = 0; i < nos; i++) {
 			int x = rnd.nextInt(0, GALAXY_XS);
 			int y = rnd.nextInt(0, GALAXY_YS);
 			int z = rnd.nextInt(0, GALAXY_ZS);
+			int size = rnd.nextInt(8, 16);
+			long starSeed = rnd.nextLong();
 
 			Entity star = game.defEntity(STAR);
-			long starSeed = rnd.nextLong();
 			star.put(SEED, starSeed);
 			star.put(POSITION, x,y,z);
+			star.put(SIZE, size);
 			star.put(NAME, Name.name(Name.NAME_BEUDONIA, starSeed));
 			stars[i] = star.id();
 		}

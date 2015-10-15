@@ -52,15 +52,15 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			int[] xyz = star.list(POSITION);
 			int x = xc +(int)((xyz[0]-sx/2)*scale);
 			int y = yc +(int)((xyz[1]-sy/2)*scale);
-			int dia = rnd.nextInt(8, 16);
+			int dia = star.num(SIZE);
 			int r = dia/2-1;
+			Rectangle area = new Rectangle(x, y, dia, dia);
 			if (playerStar == starID || star.has(HOME)) {
 				stage.inFront(path(PATH_EDGY, COLOR_TEXT_NORMAL, 1, x+r, y+r, x+r+10, y+r-10));
 				stage.inFront(text(1, x+5,y-20,FONT_THIN, 13, COLOR_TEXT_NORMAL)).inFront(star.list(NAME));
-				Rectangle area = new Rectangle(x, y, dia, dia);
 				stage.in(area, text(1, x+5,y-20, FONT_THIN, 13, COLOR_TEXT_HIGHLIGHT), star.list(NAME));
-				stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), put(gamE.id(), SCREEN_ENTITY, starID));
 			}
+				stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), put(gamE.id(), SCREEN_ENTITY, starID));
 			stage.inFront(star(x, y, dia)).inFront(star.list(SEED));
 		}
 	}

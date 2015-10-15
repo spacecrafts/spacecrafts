@@ -70,6 +70,8 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 		int pageSize = center.height/gameHeight;
 
 		List<File[]> gameFiles = gameFiles(user);
+		if (gameFiles.isEmpty())
+			return;
 		gameFiles = gameFiles.subList(min(gameFiles.size()-1, page*pageSize), min(gameFiles.size(), (page+1)*pageSize + 1));
 		int y = y0;
 		Change screenCs = put(gID, SCREEN, SCREEN_LOADING_GAME);
