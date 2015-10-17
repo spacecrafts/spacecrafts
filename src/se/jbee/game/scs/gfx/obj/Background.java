@@ -7,11 +7,11 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.List;
 
+import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.Styles;
+import se.jbee.game.any.state.Entity;
+import se.jbee.game.any.state.Rnd;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.uni.gfx.Obj;
-import se.jbee.game.uni.gfx.Styles;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.Rnd;
 
 public class Background implements Gfx, Obj {
 

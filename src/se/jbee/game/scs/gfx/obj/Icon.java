@@ -8,9 +8,9 @@ import java.awt.Stroke;
 import java.awt.geom.QuadCurve2D;
 import java.util.List;
 
+import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.Styles;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.uni.gfx.Obj;
-import se.jbee.game.uni.gfx.Styles;
 
 /**
  * Rendering of all the icons used for {@link Gfx#OBJ_ICON}.

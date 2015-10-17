@@ -1,17 +1,17 @@
 package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static se.jbee.game.any.state.Change.put;
+import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
-import static se.jbee.game.uni.state.Change.put;
-import static se.jbee.game.uni.state.Entity.codePoints;
+import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.screen.Screen;
+import se.jbee.game.any.screen.ScreenNo;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.uni.gfx.Dimension;
-import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.screen.Screen;
-import se.jbee.game.uni.screen.ScreenNo;
-import se.jbee.game.uni.state.State;
 
 @ScreenNo(GameScreen.SCREEN_ERROR)
 public class ErrorJournal implements Screen, GameComponent, Gfx {

@@ -1,11 +1,11 @@
 package se.jbee.game.scs.logic;
 
 import static se.jbee.game.scs.screen.GameScreen.SCREEN_SETUP_PLAYER;
+import se.jbee.game.any.logic.Progress;
+import se.jbee.game.any.state.Entity;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.PlayerStatus;
-import se.jbee.game.uni.logic.Progress;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.State;
 
 public class Setup implements Progress, GameComponent {
 

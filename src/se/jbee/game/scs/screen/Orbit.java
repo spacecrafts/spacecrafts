@@ -1,5 +1,7 @@
 package se.jbee.game.scs.screen;
 
+import static se.jbee.game.any.state.Change.put;
+import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.border;
 import static se.jbee.game.scs.gfx.Objects.icon;
@@ -7,20 +9,18 @@ import static se.jbee.game.scs.gfx.Objects.planetClip;
 import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.scs.screen.GameScreen.SCREEN_SOLAR_SYSTEM;
 import static se.jbee.game.scs.screen.Viewport.cellDiameter;
-import static se.jbee.game.uni.state.Change.put;
-import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 
+import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.screen.Screen;
+import se.jbee.game.any.screen.ScreenNo;
+import se.jbee.game.any.state.Change;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.uni.gfx.Dimension;
-import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.screen.Screen;
-import se.jbee.game.uni.screen.ScreenNo;
-import se.jbee.game.uni.state.Change;
-import se.jbee.game.uni.state.State;
 
 @ScreenNo(GameScreen.SCREEN_ORBIT)
 public class Orbit implements Screen, Gfx, GameComponent {

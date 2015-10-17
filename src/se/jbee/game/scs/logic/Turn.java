@@ -1,11 +1,16 @@
 package se.jbee.game.scs.logic;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
+import java.awt.Color;
+
+import se.jbee.game.any.logic.Progress;
+import se.jbee.game.any.state.Entity;
+import se.jbee.game.any.state.Name;
+import se.jbee.game.any.state.Rnd;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.uni.logic.Progress;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.Name;
-import se.jbee.game.uni.state.Rnd;
-import se.jbee.game.uni.state.State;
 
 /**
  * The most important game transition.
@@ -38,6 +43,31 @@ public class Turn implements Progress, GameComponent {
 	private void initialiseNewGameWorld(State game) {
 		distributeStarsInGalaxy(game);
 		distributePlayersAmongStars(game);
+	}
+
+	public static Color starColor(long seed) {
+		Rnd rnd = new Rnd(seed);
+		int dist = rnd.nextInt(255);
+		int r = rnd.nextInt(200, 255);
+		int g = min(255, rnd.nextInt(120, 150)+dist/4);
+		int b = max(0, min(255, rnd.nextInt(60, 100)-dist/3));
+		int a = rnd.nextInt(220, 255);
+		if ((dist % 2 == 1)) {
+			if (dist < 50) { // red
+				g = g/2;
+				b = b/2;
+			}
+			if (dist > 200) { // purple
+				g = g/2;
+				b = r*3/5;
+			}
+		}
+		if ((dist % 2) == 0 && dist > 150) { // blue
+			r = max(0, r-dist/2);
+			g = min(255, g + dist/2);
+			b = min(255, b + dist);
+		}
+		return new Color(r, g, b, a);
 	}
 
 	private static void distributePlayersAmongStars(State game) {
@@ -107,7 +137,8 @@ public class Turn implements Progress, GameComponent {
 			star.put(SEED, starSeed);
 			star.put(POSITION, x,y,z);
 			star.put(SIZE, size);
-			star.put(NAME, Name.name(Name.NAME_BEUDONIA, starSeed));
+			star.put(NAME, Name.name(Name.NAME_BEUDONIA, starSeed)); //TODO check that name is unique
+			star.put(RGBA, starColor(starSeed).getRGB());
 			stars[i] = star.id();
 		}
 		galaxy.put(STARS, stars);

@@ -1,12 +1,12 @@
 package se.jbee.game.scs.screen;
 
+import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.screen.Screen;
+import se.jbee.game.any.screen.ScreenNo;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.uni.gfx.Dimension;
-import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.screen.Screen;
-import se.jbee.game.uni.screen.ScreenNo;
-import se.jbee.game.uni.state.State;
 
 /**
  * Used as {@link GameComponent#SCREEN} when an {@link GameComponent#ACTION} has

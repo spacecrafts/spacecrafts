@@ -5,9 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.util.List;
 
+import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.Styles;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.uni.gfx.Obj;
-import se.jbee.game.uni.gfx.Styles;
 
 public class Ring implements Gfx, Obj {
 

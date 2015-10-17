@@ -7,11 +7,11 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.List;
 
-import se.jbee.game.uni.gfx.Dimension;
-import se.jbee.game.uni.gfx.Obj;
-import se.jbee.game.uni.gfx.Renderer;
-import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.gfx.Styles;
+import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.Renderer;
+import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.gfx.Styles;
 
 /**
  * The first {@link Renderer} I do.

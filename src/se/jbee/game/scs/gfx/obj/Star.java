@@ -15,11 +15,9 @@ import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.Styles;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.uni.gfx.Obj;
-import se.jbee.game.uni.gfx.Styles;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.Rnd;
 
 public class Star implements Gfx, Obj {
 
@@ -39,13 +37,11 @@ public class Star implements Gfx, Obj {
 		int x0 = obj[2];
 		int y0 = obj[3];
 		int w = obj[4];
-		int[] rnd = data.get(1);
-		Color color = color(Entity.longValue(rnd[0], rnd[1]));
-		int rgba = color.getRGB();
+		int rgba = obj[5];
+		Color color = new Color(rgba);
 		if (clip) {
 			BufferedImage stex = styles.texture(TEXTURE_STAR_200x2000_SMALL);
 			TexturePaint ss = new TexturePaint(stex, new Rectangle(x0, 0, stex.getWidth(), stex.getHeight()));
-			int delta = Math.abs(color.getRed() - color.getBlue());
 			BufferedImage ltex =  color.getGreen() > color.getBlue() && color.getBlue() < color.getRed()
 					? styles.texture(TEXTURE_STAR_200x2000_LARGE_RED)
 					: styles.texture(TEXTURE_STAR_200x2000_LARGE_BLUE);
@@ -67,39 +63,9 @@ public class Star implements Gfx, Obj {
 
 		Paint paint = new RadialGradientPaint(x0+rad, y0+rad, rad,
 				new float[] { 0f, 0.2f, 0.6f, 0.8f, 1f },
-				new Color[] { new Color(r,g,255,255), new Color(r,g,b, a), new Color(r,g,b/2, a*3/5), new Color(r,g,b/2, a*3/8), new Color(r,g,b, 0) });
+				new Color[] { new Color(r,g,b,255), new Color(r,g,b, a), new Color(r,g,b/2, a*3/5), new Color(r,g,b/2, a*3/8), new Color(r,g,b, 0) });
 		gfx.setPaint(paint);
 		gfx.fillOval(x0+k, y0+k, rad, rad);
-	}
-
-	public static Color color(long seed) {
-		// brown: 200, 125, 100
-		// orange: 250, 180, 50 (less green makes more red, blue is constant 50)
-		// purple: 200, 50, 250
-		// teal: 200, 250, 250 (more red makes it more white, gb are fix)
-
-		Rnd rnd = new Rnd(seed);
-		int dist = rnd.nextInt(255);
-		int r = rnd.nextInt(200, 255);
-		int g = min(255, rnd.nextInt(120, 150)+dist/4);
-		int b = max(0, min(255, rnd.nextInt(60, 100)-dist/3));
-		int a = rnd.nextInt(220, 255);
-		if ((dist % 2 == 1)) {
-			if (dist < 50) { // red
-				g = g/2;
-				b = b/2;
-			}
-			if (dist > 200) { // purple
-				g = g/2;
-				b = r*3/5;
-			}
-		}
-		if ((dist % 2) == 0 && dist > 150) { // blue
-			r = max(0, r-dist/2);
-			g = min(255, g + dist/2);
-			b = min(255, b + dist);
-		}
-		return new Color(r, g, b, a);
 	}
 
 	private void starClip(Graphics2D gfx, int x0, int y0, int d, int rgba, TexturePaint ls, TexturePaint ss) {

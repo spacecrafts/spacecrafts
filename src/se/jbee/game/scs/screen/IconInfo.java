@@ -1,28 +1,28 @@
 package se.jbee.game.scs.screen;
 
+import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.icon;
 import static se.jbee.game.scs.gfx.Objects.knob;
 import static se.jbee.game.scs.gfx.Objects.ring;
 import static se.jbee.game.scs.gfx.Objects.techwheel;
-import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.awt.Cursor;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 
+import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.Point;
+import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.screen.Screen;
+import se.jbee.game.any.screen.ScreenNo;
+import se.jbee.game.any.state.Change;
+import se.jbee.game.any.state.Entity;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Objects;
 import se.jbee.game.scs.gfx.obj.Techwheel;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.uni.gfx.Dimension;
-import se.jbee.game.uni.gfx.Point;
-import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.screen.Screen;
-import se.jbee.game.uni.screen.ScreenNo;
-import se.jbee.game.uni.state.Change;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.State;
 
 @ScreenNo(GameScreen.SCREEN_ICON_INFO)
 public class IconInfo implements Screen, Gfx, GameComponent {

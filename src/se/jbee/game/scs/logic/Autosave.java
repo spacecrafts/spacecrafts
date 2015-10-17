@@ -1,12 +1,11 @@
 package se.jbee.game.scs.logic;
 
+import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.process.Game.autosavegamePath;
-import static se.jbee.game.uni.state.Entity.codePoints;
-
+import se.jbee.game.any.logic.Progress;
+import se.jbee.game.any.state.Entity;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.uni.logic.Progress;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.State;
 
 /**
  * What happens on when a game should be "auto-saved".

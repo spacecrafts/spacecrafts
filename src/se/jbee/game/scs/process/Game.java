@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.process.Player;
+import se.jbee.game.any.state.Entity;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.logic.Init;
 import se.jbee.game.scs.logic.Turn;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
-import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.process.Player;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.State;
 
 /**
  * The game process it the master process.

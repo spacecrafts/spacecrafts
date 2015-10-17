@@ -1,6 +1,6 @@
 package se.jbee.game.scs.state;
 
-import se.jbee.game.uni.state.Component;
+import se.jbee.game.any.state.Component;
 
 public interface UserComponent extends Component {
 

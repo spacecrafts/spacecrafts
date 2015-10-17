@@ -1,21 +1,21 @@
 package se.jbee.game.scs.logic;
 
-import static se.jbee.game.uni.state.Entity.codePoints;
+import static se.jbee.game.any.state.Entity.codePoints;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import se.jbee.game.any.logic.Progress;
+import se.jbee.game.any.state.Entity;
+import se.jbee.game.any.state.Name;
+import se.jbee.game.any.state.Rnd;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.screen.GameScreen;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
-import se.jbee.game.uni.logic.Progress;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.Name;
-import se.jbee.game.uni.state.Rnd;
-import se.jbee.game.uni.state.State;
 
 /**
  * Initializes game and user entities for a fresh game.

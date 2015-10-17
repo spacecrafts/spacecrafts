@@ -1,25 +1,28 @@
 package se.jbee.game.scs.screen;
 
+import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static se.jbee.game.any.state.Change.put;
+import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.focusBox;
 import static se.jbee.game.scs.gfx.Objects.planet;
 import static se.jbee.game.scs.gfx.Objects.starClip;
 import static se.jbee.game.scs.gfx.Objects.text;
-import static se.jbee.game.uni.state.Change.put;
-import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.awt.Rectangle;
 
+import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.screen.Screen;
+import se.jbee.game.any.screen.ScreenNo;
+import se.jbee.game.any.state.Change;
+import se.jbee.game.any.state.Entity;
+import se.jbee.game.any.state.Rnd;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.gfx.Objects;
 import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.uni.gfx.Dimension;
-import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.screen.Screen;
-import se.jbee.game.uni.screen.ScreenNo;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.Rnd;
-import se.jbee.game.uni.state.State;
 
 @ScreenNo(GameScreen.SCREEN_SOLAR_SYSTEM)
 public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
@@ -28,6 +31,12 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
 
+		int gID = gamE.id();
+		Change[] backToGalaxy = { 
+				put(gID, SCREEN, SCREEN_GALAXY),
+				put(gID, SCREEN_ENTITY, game.single(GALAXY).id()) };
+		stage.onKey(VK_ESCAPE, backToGalaxy);
+		
 		Entity player = Game.currentPlayer(game);
 		Entity star = game.entity(gamE.num(SCREEN_ENTITY));
 
@@ -39,13 +48,14 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		d = (int) (d / (12f/size));
 		int r = d/2;
 		int y = (screen.height-d)/2;
-		stage.inFront(starClip(w-r/8, y, d)).inFront(star.list(SEED));
-		stage.onLeftClickIn(new Rectangle(w-r/8, 0, r/8, screen.height),
-				put(gamE.id(), SCREEN, SCREEN_GALAXY),
-				put(gamE.id(), SCREEN_ENTITY, game.single(GALAXY).id())
-				);
-		// nice: 0xaaaa00; g can be altered to increase or decrease red part of sun
-
+		
+		Rectangle view = Viewport.centerView(screen);
+		
+		stage.inFront(Objects.path(PATH_EDGY, COLOR_TEXT_NORMAL,1, w-150, view.y, w-10, view.y+140));
+		stage.inFront(starClip(w-r/8, y, d, star.num(RGBA)));
+		stage.onLeftClickIn(new Rectangle(w-r/8, 0, r/8, screen.height), backToGalaxy );
+		stage.inFront(text(1, 0, 0, FONT_THIN, 36, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y)).inFront(star.list(NAME));
+		
 		int[] planets = star.list(PLANETS);
 		int ym = screen.height /2;
 		int x0 = screen.width/16;
@@ -65,8 +75,7 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		int w = screen.width;
 		int h = screen.height;
 		stage.inFront(background(0,0,w, h, BG_SPACE));
-		stage.inFront(starClip(w-h/8, -h/2, h*2)); // g can be altered to increase or decrease red part of sun
-		stage.inFront(new int[] {rnd.nextInt(), rnd.nextInt()  });
+		stage.inFront(starClip(w-h/8, -h/2, h*2, rnd.nextInt(0, 255))); // g can be altered to increase or decrease red part of sun
 
 		stage.inFront(planet(700, 400, 200, 0xFF5014, 0));
 		stage.inFront(planet(100, 300, 400, 0x44FF99, 0));

@@ -2,12 +2,12 @@ package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.lang.Math.min;
+import static se.jbee.game.any.state.Change.put;
+import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.icon;
 import static se.jbee.game.scs.gfx.Objects.text;
 import static se.jbee.game.scs.gfx.Objects.timeLine;
-import static se.jbee.game.uni.state.Change.put;
-import static se.jbee.game.uni.state.Entity.codePoints;
 
 import java.awt.Rectangle;
 import java.io.File;
@@ -17,16 +17,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.screen.Screen;
+import se.jbee.game.any.screen.ScreenNo;
+import se.jbee.game.any.state.Change;
+import se.jbee.game.any.state.Entity;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
-import se.jbee.game.uni.gfx.Dimension;
-import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.screen.Screen;
-import se.jbee.game.uni.screen.ScreenNo;
-import se.jbee.game.uni.state.Change;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.State;
 
 /**
  * Shows the games to load each with a in-game time-line left to right

@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import se.jbee.game.uni.state.Entity;
+import se.jbee.game.any.state.Entity;
 
 public final class D3 {
 

@@ -18,10 +18,15 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import se.jbee.game.any.gfx.Colouring;
+import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.Renderer;
+import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.gfx.Styles;
+import se.jbee.game.any.gfx.obj.Text;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Renderer1;
 import se.jbee.game.scs.gfx.obj.Background;
-import se.jbee.game.scs.gfx.obj.Border;
 import se.jbee.game.scs.gfx.obj.Icon;
 import se.jbee.game.scs.gfx.obj.Knob;
 import se.jbee.game.scs.gfx.obj.Path;
@@ -30,12 +35,6 @@ import se.jbee.game.scs.gfx.obj.Rect;
 import se.jbee.game.scs.gfx.obj.Ring;
 import se.jbee.game.scs.gfx.obj.Star;
 import se.jbee.game.scs.gfx.obj.Techwheel;
-import se.jbee.game.uni.gfx.Colouring;
-import se.jbee.game.uni.gfx.Dimension;
-import se.jbee.game.uni.gfx.Renderer;
-import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.gfx.Styles;
-import se.jbee.game.uni.gfx.obj.Text;
 
 /**
  * The screen or canvas the game is drawn on.
@@ -165,7 +164,6 @@ public class Display extends Canvas implements Runnable, Gfx {
 		r.assoc(OBJ_PLANET, Planet.CIRCLE);
 		r.assoc(OBJ_PLANET_CLIP, Planet.CLIP);
 		r.assoc(OBJ_ICON, new Icon());
-		r.assoc(OBJ_PATH, new Border());
 		r.assoc(OBJ_RECT, new Rect());
 		r.assoc(OBJ_PATH, new Path());
 		return r;

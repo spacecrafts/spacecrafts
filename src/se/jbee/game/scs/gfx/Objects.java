@@ -75,12 +75,12 @@ public final class Objects implements Gfx {
 		return path(PATH_EDGY, COLOR_TEXT_HIGHLIGHT, 1, x1,y1,x2,y2);
 	}
 
-	public static int[] star(int x, int y, int d) {
-		return new int[] { OBJ_STAR, 1, x,y,d };
+	public static int[] star(int x, int y, int d, int rgba) {
+		return new int[] { OBJ_STAR, 0, x,y,d, rgba };
 	}
 
-	public static int[] starClip(int x, int y, int d) {
-		return new int[] { OBJ_STAR_CLIP, 1, x,y,d };
+	public static int[] starClip(int x, int y, int d, int rgba) {
+		return new int[] { OBJ_STAR_CLIP, 0, x,y, d, rgba };
 	}
 
 	public static int[] planet(int x, int y, int d, int c, int nrand) {

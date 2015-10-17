@@ -1,6 +1,6 @@
 package se.jbee.game.scs.state;
 
-import se.jbee.game.uni.state.Component;
+import se.jbee.game.any.state.Component;
 
 /**
  * A list of ALL the components used in the game.
@@ -131,7 +131,7 @@ public interface GameComponent extends Component {
 		//FLEETS = {*x,*y,*z} (set of all the fleets arrived/staying in a solar system)
 		MASS = 122,
 		/// STAR_TYPE *x
-		// RGB (derived from SEED, but to be save against algorithm changes)
+		RGBA = 123, //[#] (derived from SEED, but to be save against algorithm changes)
 
 	PLANET = 130,
 		// SEEDS [#,#,...]

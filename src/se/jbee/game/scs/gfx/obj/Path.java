@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.util.List;
 
-import se.jbee.game.uni.gfx.Obj;
-import se.jbee.game.uni.gfx.Styles;
+import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.Styles;
 
 public final class Path implements Obj {
 

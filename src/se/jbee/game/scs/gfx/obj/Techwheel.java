@@ -6,10 +6,10 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.util.List;
 
+import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.Point;
+import se.jbee.game.any.gfx.Styles;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.uni.gfx.Obj;
-import se.jbee.game.uni.gfx.Point;
-import se.jbee.game.uni.gfx.Styles;
 
 public class Techwheel implements Gfx, Obj {
 

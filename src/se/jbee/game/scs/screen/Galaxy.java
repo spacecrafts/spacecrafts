@@ -1,24 +1,24 @@
 package se.jbee.game.scs.screen;
 
+import static se.jbee.game.any.state.Change.put;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.path;
 import static se.jbee.game.scs.gfx.Objects.star;
 import static se.jbee.game.scs.gfx.Objects.text;
-import static se.jbee.game.uni.state.Change.put;
 
 import java.awt.Rectangle;
 
+import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.screen.Screen;
+import se.jbee.game.any.screen.ScreenNo;
+import se.jbee.game.any.state.Entity;
+import se.jbee.game.any.state.Rnd;
+import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.Objects;
 import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.uni.gfx.Dimension;
-import se.jbee.game.uni.gfx.Stage;
-import se.jbee.game.uni.screen.Screen;
-import se.jbee.game.uni.screen.ScreenNo;
-import se.jbee.game.uni.state.Entity;
-import se.jbee.game.uni.state.Rnd;
-import se.jbee.game.uni.state.State;
 
 @ScreenNo(GameScreen.SCREEN_GALAXY)
 public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
@@ -60,8 +60,8 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 				stage.inFront(text(1, x+5,y-20,FONT_THIN, 13, COLOR_TEXT_NORMAL)).inFront(star.list(NAME));
 				stage.in(area, text(1, x+5,y-20, FONT_THIN, 13, COLOR_TEXT_HIGHLIGHT), star.list(NAME));
 			}
-				stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), put(gamE.id(), SCREEN_ENTITY, starID));
-			stage.inFront(star(x, y, dia)).inFront(star.list(SEED));
+			stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), put(gamE.id(), SCREEN_ENTITY, starID));
+			stage.inFront(star(x, y, dia, star.num(RGBA)));
 		}
 	}
 
@@ -92,8 +92,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 				y-=50;
 			}
 			int d = rnd.nextInt(8,16);
-			stage.inFront(star(x, y, d));
-			stage.inFront(new int[] { rnd.nextInt(), rnd.nextInt() });
+			stage.inFront(star(x, y, d, rnd.nextInt(0, 255)));
 			int box = 2*d;
 			Rectangle area = new Rectangle(x-d/2,y-d/2,box,box);
 			stage.in(area, Objects.focusBox(x-d/2, y-d/2, box, box));
