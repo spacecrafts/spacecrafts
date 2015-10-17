@@ -49,22 +49,26 @@ public class Turn implements Progress, GameComponent {
 		Rnd rnd = new Rnd(seed);
 		int dist = rnd.nextInt(255);
 		int r = rnd.nextInt(200, 255);
-		int g = min(255, rnd.nextInt(120, 150)+dist/4);
-		int b = max(0, min(255, rnd.nextInt(60, 100)-dist/3));
+		int g = min(255, rnd.nextInt(120, 180)+dist/4);
+		int b = max(0, min(255, rnd.nextInt(60, 120)-dist/3));
 		int a = rnd.nextInt(220, 255);
+		if (dist < 15) { // white
+			return new Color(255-dist,255,255,a);
+		}
 		if ((dist % 2 == 1)) {
 			if (dist < 50) { // red
 				g = g/2;
 				b = b/2;
 			}
-			if (dist > 200) { // purple
-				g = g/2;
-				b = r*3/5;
+			if (dist > 220) { // purple
+				g = g*2/3;
+				b = min(255,r+100);
+				r = r-75;
 			}
 		}
 		if ((dist % 2) == 0 && dist > 150) { // blue
-			r = max(0, r-dist/2);
-			g = min(255, g + dist/2);
+			r = max(0, r-dist/3);
+			g = min(255, g + dist*2/3);
 			b = min(255, b + dist);
 		}
 		return new Color(r, g, b, a);
@@ -116,32 +120,39 @@ public class Turn implements Progress, GameComponent {
 
 	private static void distributeStarsInGalaxy(State game) {
 		Entity gamE = game.single(GAME);
-		int usize = gamE.list(SETUP)[SETUP_GALAXY_SIZE];
+		int gsize = gamE.list(SETUP)[SETUP_GALAXY_SIZE];
 		Entity galaxy = game.defEntity(GALAXY);
 		long seed = System.currentTimeMillis();
 		galaxy.put(SEED, seed);
 		galaxy.put(SIZE, GALAXY_XS, GALAXY_YS, GALAXY_ZS);
 		gamE.append(GALAXIES, galaxy.id());
 		Rnd rnd = new Rnd(gamE.longNum(SEED));
-		int nos = rnd.nextInt(35, 50) * usize;
+		int nos = rnd.nextInt(35, 50) * gsize;
 
 		int[] stars = new int[nos];
+		Entity[] eStars = new Entity[nos];
 		for (int i = 0; i < nos; i++) {
 			int x = rnd.nextInt(0, GALAXY_XS);
 			int y = rnd.nextInt(0, GALAXY_YS);
 			int z = rnd.nextInt(0, GALAXY_ZS);
-			int size = rnd.nextInt(8, 16);
+			int size = rnd.nextChance(5) ? rnd.nextInt(14, 17) : rnd.nextChance(5) ? 6 : rnd.nextInt(7, 13); //TODO derive from color
 			long starSeed = rnd.nextLong();
 
 			Entity star = game.defEntity(STAR);
 			star.put(SEED, starSeed);
 			star.put(POSITION, x,y,z);
 			star.put(SIZE, size);
-			star.put(NAME, Name.name(Name.NAME_BEUDONIA, starSeed)); //TODO check that name is unique
+			star.put(NAME, Name.unique(Name.NAME_BEUDONIA, starSeed)); //TODO name lazy when system is discovered
 			star.put(RGBA, starColor(starSeed).getRGB());
 			stars[i] = star.id();
+			eStars[i] = star;
 		}
 		galaxy.put(STARS, stars);
+		// set the minimum distance to next star for all the stars
+		for (int i = 0; i < nos; i++) {
+			Entity star = eStars[i];
+			star.put(CLOSEST, (int)D3.closestDistance2D(star, POSITION, eStars));
+		}
 	}
 
 

@@ -62,10 +62,10 @@ public class Star implements Gfx, Obj {
 		int rad = 2*k;
 
 		Paint paint = new RadialGradientPaint(x0+rad, y0+rad, rad,
-				new float[] { 0f, 0.2f, 0.6f, 0.8f, 1f },
-				new Color[] { new Color(r,g,b,255), new Color(r,g,b, a), new Color(r,g,b/2, a*3/5), new Color(r,g,b/2, a*3/8), new Color(r,g,b, 0) });
+				new float[] { 0f, 0.4f, 0.6f, 0.70f, 1f },
+				new Color[] { new Color(r,g,b,255), new Color(r,g,b, a), new Color(r,g,b, a/2), new Color(r,g,b, a/10), new Color(r,g,b,0) });
 		gfx.setPaint(paint);
-		gfx.fillOval(x0+k, y0+k, rad, rad);
+		gfx.fillOval(x0, y0, dia, dia);
 	}
 
 	private void starClip(Graphics2D gfx, int x0, int y0, int d, int rgba, TexturePaint ls, TexturePaint ss) {

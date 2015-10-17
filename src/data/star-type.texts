@@ -1,0 +1,21 @@
+# Star Types
+# n = name
+# k = kind
+#
+S.n.D=Type D
+S.k.D=White Dwarf
+S.n.M=Type M
+S.n.K=Type K
+S.n.G=Type G
+S.n.F=Type F
+S.n.A=Type A
+S.n.B=Type B
+S.n.O=Type O
+S.n.m=Type M
+S.k.m=Giant
+S.n.k=Type K
+S.k.k=Giant
+S.n.g=Type G
+S.k.g=Giant
+S.n.f=Type F
+S.k.f=Giant

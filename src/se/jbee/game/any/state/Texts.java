@@ -136,7 +136,10 @@ public final class Texts {
 
 	public static int parse(String sac) {
 		String[] sx = sac.split("\\.");
-		return encode(sx[0].charAt(0), sx[1].charAt(0), parseInt(sx[2]));
+		String code = sx[2];
+		char c0 = code.charAt(0);
+		int c = c0 >= '0' && c0 <= '9' ? parseInt(code) : c0;
+		return encode(sx[0].charAt(0), sx[1].charAt(0), c);
 	}
 
 	public static String print(int sac) {

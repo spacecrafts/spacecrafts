@@ -132,6 +132,7 @@ public interface GameComponent extends Component {
 		MASS = 122,
 		/// STAR_TYPE *x
 		RGBA = 123, //[#] (derived from SEED, but to be save against algorithm changes)
+		CLOSEST = 124, // distance to the closest other star
 
 	PLANET = 130,
 		// SEEDS [#,#,...]
@@ -146,6 +147,8 @@ public interface GameComponent extends Component {
 
 	STAR_TYPE = 150,
 		RGB = 151, //[#r,#g,#b] (typical; closest match to actual color determines type)
+		// SIZE [#] (8-16=small-huge)
+		ABUNDANCE = 152, // [#%] at what chance does it occur 
 		// PROBABILITIES (of types of planets?)
 
 	MAKEUP = 160, // of a planet; or a "planet type" (mostly a description for humans)

@@ -67,6 +67,8 @@ public final class Data {
 				case '{' : // set
 					c = in.read();
 					while (c == ' ' || c == '\t') { c = in.read(); }
+					if (c == ']' || c == '}')
+						break;
 					bufpos = 0;
 					do {
 						int num = 0;
@@ -90,6 +92,12 @@ public final class Data {
 					} while (c != '"');
 					c = in.read();
 					e.put(comps[col], copyOf(buf, bufpos));
+					break;
+				case '\'': // char
+					c = in.read();
+					e.put(comps[col], c);
+					in.read(); // '
+					c = in.read();
 					break;
 				default  : // number
 					int num = 0;

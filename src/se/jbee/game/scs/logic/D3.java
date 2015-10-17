@@ -18,10 +18,23 @@ public final class D3 {
 		int dx = xyz1[0] - xyz0[0];
 		int dy = xyz1[1] - xyz0[1];
 		if (xyz0.length == 2 && xyz1.length == 2) {
-			return sqrt(dx*dx+dy*dy);
+			return sqrt(dx*dx + dy*dy);
 		}
 		int dz = xyz1[2] - xyz0[2];
-		return sqrt(dx*dx+dy*dy+dz*dz);
+		return sqrt(dx*dx + dy*dy + dz*dz);
+	}
+	
+	public static double closestDistance2D(Entity e, int xyzComp, Entity... entities) {
+		final int[] xyz1 = e.list(xyzComp).clone();
+		double min = Double.MAX_VALUE;
+		for (Entity b : entities) {
+			if (e != b) {
+				int[] xyz2 = b.list(xyzComp);
+				xyz1[2] = xyz2[2]; // ignore z
+				min = Math.min(min, distance(xyz1, xyz2));
+			}
+		}
+		return min;
 	}
 
 	/**
@@ -134,34 +147,6 @@ public final class D3 {
 			}
 		}
 		return minIndex;
-	}
-	
-	/**
-	 * This assumes points of radius 1 and all input points are given in terms of their center. 
-	 * So a circle has diameter 2. As a consequence the grid of such points has 1|1, 1|3, 1|5, ... 3|1, 3|3, 3|5 ...
-	 * 
-	 * A circle with center at 1|1 has 
-	 * - its N position at 1|0
-	 * - its S position at 1|2
-	 * - its W position at 0|1
-	 * - its E position at 2|1
-	 */
-	static int[] surroundingPoints(int[] xys, int shape) {
-		int[] dx_dys = new int[xys.length];
-		for (int p = 0; p < xys.length; p+=2) {
-			// where are the other points?
-			int[] dirSums = new int[4];
-			for (int k = 0; k < xys.length; k+=2) {
-				if (p != k) {
-					dirSums[dir(xys[p], xys[p+1], xys[k], xys[k+1]).ordinal()]++;
-				}
-			}
-			// what are dx/dy than?
-			
-		}
-		
-		
-		return xys;
 	}
 	
 	static Dir dir(int x0, int y0, int x1, int y1) {

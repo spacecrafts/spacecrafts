@@ -7,16 +7,15 @@ import static se.jbee.game.scs.gfx.Objects.star;
 import static se.jbee.game.scs.gfx.Objects.text;
 
 import java.awt.Rectangle;
+import java.awt.geom.Ellipse2D;
 
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.screen.Screen;
 import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.any.state.Entity;
-import se.jbee.game.any.state.Rnd;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.scs.gfx.Objects;
 import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
 
@@ -26,11 +25,6 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
-		if (!gamE.has(SCREEN_ENTITY)) {
-			randomGalaxy(game, screen, stage);
-			return;
-		}
-
 		Entity player = Game.currentPlayer(game);
 		Entity galaxy = game.entity(gamE.num(SCREEN_ENTITY));
 
@@ -47,14 +41,13 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 		int playerStar = game.entity(player.num(HOME)).num(STAR);
 		for (int starID : stars) {
 			Entity star = game.entity(starID);
-			long seed = star.longNum(SEED);
-			Rnd rnd = new Rnd(seed);
 			int[] xyz = star.list(POSITION);
 			int x = xc +(int)((xyz[0]-sx/2)*scale);
 			int y = yc +(int)((xyz[1]-sy/2)*scale);
 			int dia = star.num(SIZE);
 			int r = dia/2-1;
-			Rectangle area = new Rectangle(x, y, dia, dia);
+			int touch = (int) (scale * star.num(CLOSEST)/2);
+			Ellipse2D area = new Ellipse2D.Float(x+r-touch, y+r-touch, touch+touch, touch+touch);
 			if (playerStar == starID || star.has(HOME)) {
 				stage.inFront(path(PATH_EDGY, COLOR_TEXT_NORMAL, 1, x+r, y+r, x+r+10, y+r-10));
 				stage.inFront(text(1, x+5,y-20,FONT_THIN, 13, COLOR_TEXT_NORMAL)).inFront(star.list(NAME));
@@ -62,44 +55,6 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			}
 			stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), put(gamE.id(), SCREEN_ENTITY, starID));
 			stage.inFront(star(x, y, dia, star.num(RGBA)));
-		}
-	}
-
-	private void randomGalaxy(State game, Dimension screen, Stage stage) {
-		int w = screen.width;
-		int h = screen.height;
-		stage.inFront(background(0, 0, w, h, BG_SPACE));
-
-		Entity gamE = game.single(GAME);
-
-		Rnd rnd = new Rnd(56);
-
-		int concentration = 100;
-		int cr = 200-concentration;
-		int systems = (w/cr)*(h/cr);
-
-		for (int i = 0; i < systems; i++) {
-			int x = rnd.nextInt(w);
-			if (x -50 < 0) {
-				x += 50;
-			} else if (x + 50 > w) {
-				x-=50;
-			}
-			int y = rnd.nextInt(h);
-			if (y -50 < 0) {
-				y += 50;
-			} else if (y + 50 > h) {
-				y-=50;
-			}
-			int d = rnd.nextInt(8,16);
-			stage.inFront(star(x, y, d, rnd.nextInt(0, 255)));
-			int box = 2*d;
-			Rectangle area = new Rectangle(x-d/2,y-d/2,box,box);
-			stage.in(area, Objects.focusBox(x-d/2, y-d/2, box, box));
-			stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM));
-
-			// draw straight lines for all systems that can be reached for the currently selected fleet
-			// draw dashed/dotted lines for all systems that can be reached given the current technology
 		}
 	}
 
