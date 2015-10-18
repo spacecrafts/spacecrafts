@@ -1,5 +1,6 @@
 package se.jbee.game.scs.screen;
 
+import static java.lang.Math.max;
 import static se.jbee.game.any.state.Change.put;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.path;
@@ -15,9 +16,11 @@ import se.jbee.game.any.screen.Screen;
 import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
+import se.jbee.game.any.state.Texts;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
+import data.Data;
 
 @ScreenNo(GameScreen.SCREEN_GALAXY)
 public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
@@ -39,12 +42,18 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 		int yc = view.y + view.height/2;
 		int[] stars = galaxy.list(STARS);
 		int playerStar = game.entity(player.num(HOME)).num(STAR);
+		
+		Texts texts = new Texts();
+		texts.index(Data.class, "star-type.texts");
+		
 		for (int starID : stars) {
 			Entity star = game.entity(starID);
+			Entity type = game.entity(star.num(STAR_TYPE));
 			int[] xyz = star.list(POSITION);
 			int x = xc +(int)((xyz[0]-sx/2)*scale);
 			int y = yc +(int)((xyz[1]-sy/2)*scale);
-			int dia = star.num(SIZE);
+			//TODO scaling must be automatic adapting to star types occuring
+			int dia = (int) max(7, star.num(SIZE)/1.6f);
 			int r = dia/2-1;
 			int touch = (int) (scale * star.num(CLOSEST)/2);
 			Ellipse2D area = new Ellipse2D.Float(x+r-touch, y+r-touch, touch+touch, touch+touch);
@@ -55,6 +64,8 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			}
 			stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), put(gamE.id(), SCREEN_ENTITY, starID));
 			stage.inFront(star(x, y, dia, star.num(RGBA)));
+			
+			//stage.inFront(text(1, x,y-15, FONT_LIGHT, 14,COLOR_TEXT_NORMAL)).inFront(Entity.codePoints(texts.lookup(Texts.encode('S', 'n', type.num(CODE)))));
 		}
 	}
 

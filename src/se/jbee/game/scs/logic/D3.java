@@ -3,6 +3,7 @@ package se.jbee.game.scs.logic;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
+import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
@@ -12,26 +13,30 @@ import java.util.List;
 
 import se.jbee.game.any.state.Entity;
 
+/**
+ * Math in 2D and 3D space.
+ */
 public final class D3 {
 
 	public static double distance(int[] xyz0, int[] xyz1) {
 		int dx = xyz1[0] - xyz0[0];
 		int dy = xyz1[1] - xyz0[1];
-		if (xyz0.length == 2 && xyz1.length == 2) {
-			return sqrt(dx*dx + dy*dy);
-		}
 		int dz = xyz1[2] - xyz0[2];
 		return sqrt(dx*dx + dy*dy + dz*dz);
 	}
+
+	public static double distance2D(int[] xy0, int[] xy1) {
+		int dx = xy1[0] - xy0[0];
+		int dy = xy1[1] - xy0[1];
+		return sqrt(dx*dx + dy*dy);
+	}
 	
 	public static double closestDistance2D(Entity e, int xyzComp, Entity... entities) {
-		final int[] xyz1 = e.list(xyzComp).clone();
+		final int[] xyz1 = e.list(xyzComp);
 		double min = Double.MAX_VALUE;
 		for (Entity b : entities) {
 			if (e != b) {
-				int[] xyz2 = b.list(xyzComp);
-				xyz1[2] = xyz2[2]; // ignore z
-				min = Math.min(min, distance(xyz1, xyz2));
+				min = Math.min(min, distance2D(xyz1, b.list(xyzComp)));
 			}
 		}
 		return min;
@@ -115,38 +120,13 @@ public final class D3 {
 		// pick member of each set that has smallest distance to others
 		int[] res = new int[n];
 		for (int i = 0; i < n; i++) {
-			res[i] = mostCentralIn(clusters.get(i), xyzComp, entities);
+			res[i] = mostConnectedIn(clusters.get(i), xyzComp, entities);
 		} 
 		return res;
 	}
 	
-	static int mostCentralIn(BitSet group, int comp, Entity... entities) {
-		int[] total=new int[3];
-		int s = 0;
-		int k = group.cardinality();
-		for (int i = 0; i < k; i++) {
-			s = group.nextSetBit(s);
-			int[] xyz = entities[s++].list(comp);
-			total[0]+=xyz[0];
-			total[1]+=xyz[1];
-			total[2]+=xyz[2];
-		}
-		total[0] /= k;
-		total[1] /= k;
-		total[2] /= k;
-		double min = Float.MAX_VALUE;
-		int minIndex = 0;
-		s=0;
-		for (int i = 0; i < k; i++) {
-			s = group.nextSetBit(s);
-			int[] xyz = entities[s++].list(comp);
-			double dist = distance(total, xyz);
-			if (dist < min) {
-				min = dist;
-				minIndex = s-1;
-			}
-		}
-		return minIndex;
+	static int mostConnectedIn(BitSet cluster, int xyzComp, Entity... entities) {
+		return cluster.nextSetBit(0); //FIXME real impl.
 	}
 	
 	static Dir dir(int x0, int y0, int x1, int y1) {
@@ -160,4 +140,12 @@ public final class D3 {
 	}
 	
 	static enum Dir { N,S,E,W }
+
+	public static boolean overlaps(int x, int y, List<Shape> shapes) {
+		for (Shape s : shapes) {
+			if (s.contains(x, y))
+				return true;
+		}
+		return false;
+	}
 }

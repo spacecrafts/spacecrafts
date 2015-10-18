@@ -14,9 +14,9 @@ import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.screen.Screen;
 import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.any.state.Change;
+import se.jbee.game.any.state.Change.Op;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
-import se.jbee.game.any.state.Change.Op;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 

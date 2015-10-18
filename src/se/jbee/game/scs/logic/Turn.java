@@ -4,13 +4,19 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+import java.util.List;
 
+import se.jbee.game.any.gfx.RGBA;
 import se.jbee.game.any.logic.Progress;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.Name;
 import se.jbee.game.any.state.Rnd;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.state.GameComponent;
+import data.Data;
 
 /**
  * The most important game transition.
@@ -41,8 +47,17 @@ public class Turn implements Progress, GameComponent {
 	}
 
 	private void initialiseNewGameWorld(State game) {
+		initialiseGameData(game);
 		distributeStarsInGalaxy(game);
 		distributePlayersAmongStars(game);
+	}
+
+	private void initialiseGameData(State game) {
+		try {
+			Data.load("/data/", game);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static Color starColor(long seed) {
@@ -67,7 +82,7 @@ public class Turn implements Progress, GameComponent {
 			}
 		}
 		if ((dist % 2) == 0 && dist > 150) { // blue
-			r = max(0, r-dist/3);
+			r = dist > 200 ? max(0, r) :  max(0, r-dist/2);
 			g = min(255, g + dist*2/3);
 			b = min(255, b + dist);
 		}
@@ -126,24 +141,36 @@ public class Turn implements Progress, GameComponent {
 		galaxy.put(SEED, seed);
 		galaxy.put(SIZE, GALAXY_XS, GALAXY_YS, GALAXY_ZS);
 		gamE.append(GALAXIES, galaxy.id());
-		Rnd rnd = new Rnd(gamE.longNum(SEED));
+		Rnd rnd = new Rnd(seed);
 		int nos = rnd.nextInt(35, 50) * gsize;
 
+		final Entity[] starTypeDistribution = starTypeDistribution(game);
+		
 		int[] stars = new int[nos];
+		List<Shape> blockedAreas = new ArrayList<Shape>();
+		int minimumGap = 60; // how close stars can be in 2D space in the original scale
 		Entity[] eStars = new Entity[nos];
 		for (int i = 0; i < nos; i++) {
-			int x = rnd.nextInt(0, GALAXY_XS);
-			int y = rnd.nextInt(0, GALAXY_YS);
-			int z = rnd.nextInt(0, GALAXY_ZS);
-			int size = rnd.nextChance(5) ? rnd.nextInt(14, 17) : rnd.nextChance(5) ? 6 : rnd.nextInt(7, 13); //TODO derive from color
-			long starSeed = rnd.nextLong();
 
+			long starSeed = rnd.nextLong();
+			Rnd starRnd = new Rnd(starSeed);
 			Entity star = game.defEntity(STAR);
+			// position
+			int x, y = 0;
+			do {
+				x = starRnd.nextInt(0, GALAXY_XS);
+				y = starRnd.nextInt(0, GALAXY_YS);
+			} while (D3.overlaps(x, y, blockedAreas));
+			blockedAreas.add(new Ellipse2D.Float(x-minimumGap, y-minimumGap, minimumGap*2, minimumGap*2));
+			int z = starRnd.nextInt(0, GALAXY_ZS);
 			star.put(SEED, starSeed);
 			star.put(POSITION, x,y,z);
-			star.put(SIZE, size);
 			star.put(NAME, Name.unique(Name.NAME_BEUDONIA, starSeed)); //TODO name lazy when system is discovered
-			star.put(RGBA, starColor(starSeed).getRGB());
+			Entity type = starTypeDistribution[starRnd.nextInt(99)];
+			star.put(STAR_TYPE, type.id());
+			int[] sizes = type.list(SIZE);
+			star.put(SIZE, sizes[starRnd.nextInt(sizes.length-1)]);
+			star.put(RGBA, new RGBA(type.list(RGB)).shift(starRnd, 30).toRGBA());
 			stars[i] = star.id();
 			eStars[i] = star;
 		}
@@ -155,5 +182,16 @@ public class Turn implements Progress, GameComponent {
 		}
 	}
 
+	private static Entity[] starTypeDistribution(State game) {
+		Entity[] dist = new Entity[101];
+		int j = 0;
+		for (Entity type : game.entities(game.all(STAR_TYPE))) {
+			int n = type.num(ABUNDANCE);
+			for (int k = 0; k < n; k++) {
+				dist[j++] = type;
+			}
+		}
+		return dist;
+	}
 
 }

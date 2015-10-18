@@ -5,6 +5,7 @@ import static se.jbee.game.any.state.Change.put;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.focusBox;
+import static se.jbee.game.scs.gfx.Objects.path;
 import static se.jbee.game.scs.gfx.Objects.planet;
 import static se.jbee.game.scs.gfx.Objects.starClip;
 import static se.jbee.game.scs.gfx.Objects.text;
@@ -19,10 +20,11 @@ import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.Rnd;
 import se.jbee.game.any.state.State;
+import se.jbee.game.any.state.Texts;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.scs.gfx.Objects;
 import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
+import data.Data;
 
 @ScreenNo(GameScreen.SCREEN_SOLAR_SYSTEM)
 public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
@@ -45,16 +47,20 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		stage.inFront(background(0,0,w, h, BG_SPACE, star.list(SEED)));
 		int d = h*2;
 		int size = star.num(SIZE);
-		d = (int) (d / (12f/size));
+		d = (int) (d / (20f/size));
 		int r = d/2;
 		int y = (screen.height-d)/2;
 		
 		Rectangle view = Viewport.centerView(screen);
 		
-		stage.inFront(Objects.path(PATH_EDGY, COLOR_TEXT_NORMAL,1, w-150, view.y, w-10, view.y+140));
+		stage.inFront(path(PATH_EDGY, COLOR_TEXT_NORMAL,1, w-150, view.y, w-10, view.y+140));
 		stage.inFront(starClip(w-r/8, y, d, star.num(RGBA)));
 		stage.onLeftClickIn(new Rectangle(w-r/8, 0, r/8, screen.height), backToGalaxy );
 		stage.inFront(text(1, 0, 0, FONT_THIN, 36, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y)).inFront(star.list(NAME));
+		Texts texts = new Texts();
+		texts.index(Data.class, "star-type.texts");
+		Entity type = game.entity(star.num(STAR_TYPE));
+		stage.inFront(text(1, 0, view.y, FONT_THIN, 24, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y+30)).inFront(codePoints(texts.lookup(Texts.encode('S', 'n', type.num(CODE)))));
 		
 		int[] planets = star.list(PLANETS);
 		int ym = screen.height /2;

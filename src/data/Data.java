@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 import se.jbee.game.any.state.Component;
 import se.jbee.game.any.state.Entity;
@@ -33,7 +34,22 @@ public final class Data {
 	public static void load(Class<?> path, String filename, State target) throws IOException, URISyntaxException {
 		load(new File(path.getResource(filename).toURI()), target);
 	}
-	
+
+	public static void load(String path, State target) throws URISyntaxException, IOException {
+		URL url = State.class.getResource(path);
+		if (url == null) {
+			// error - missing folder
+		} else {
+			File dir;
+			dir = new File(url.toURI());
+			for (File f : dir.listFiles()) {
+				if (f.isFile() && f.getName().endsWith(".data") && !f.getName().contains("test")) {
+					load(f, target);
+				}
+			}
+		}		
+	}
+
 	public static void load(File source, State target) throws IOException {
 		try (BufferedReader in = new BufferedReader(new FileReader(source))) {
 			String[] columns = in.readLine().split("\\s+");

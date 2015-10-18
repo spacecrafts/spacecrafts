@@ -58,11 +58,10 @@ public class Star implements Gfx, Obj {
 		int b = new Color(rgba).getBlue();
 		int a = new Color(rgba, true).getAlpha();
 
-		int k = dia/4;
-		int rad = 2*k;
+		int rad = dia/2;
 
 		Paint paint = new RadialGradientPaint(x0+rad, y0+rad, rad,
-				new float[] { 0f, 0.4f, 0.6f, 0.70f, 1f },
+				new float[] { 0f, 0.4f, 0.60f, 0.70f, 1f },
 				new Color[] { new Color(r,g,b,255), new Color(r,g,b, a), new Color(r,g,b, a/2), new Color(r,g,b, a/10), new Color(r,g,b,0) });
 		gfx.setPaint(paint);
 		gfx.fillOval(x0, y0, dia, dia);
