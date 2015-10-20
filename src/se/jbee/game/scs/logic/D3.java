@@ -52,10 +52,8 @@ public final class D3 {
 	}
 
 	public static int[][] pointClouds(int n_points, int n_clouds, int s_x, int s_y, int s_z, int s_void, int s_cloud, long seed) {
-		int[][] points = new int[n_points][3];
-		Rnd rnd = new Rnd(seed);
-		List<Shape> blockedAreas = new ArrayList<Shape>();
 		int n_pointsInCloud = min(8, max(5, n_points/3/n_clouds));
+		n_points = max(n_points, n_pointsInCloud * n_clouds * 2);
 		s_cloud = max(s_cloud, s_void*(n_pointsInCloud/2));
 		int n_col = min(n_clouds, s_x/2/s_cloud);
 		int n_row = n_clouds/n_col;
@@ -65,18 +63,11 @@ public final class D3 {
 		int w = s_x/n_col;
 		int h = s_y/n_row;
 
-		LinkedList<Point> cells = new LinkedList<>();
-		int y_c = 0;
-		for (int r = 0; r < n_row; r++) {
-			int x_c = 0;
-			for (int c = 0; c < n_col; c++) {
-				cells.add(new Point(x_c, y_c));
-				x_c+=w;
-			}
-			y_c+=h;
-		}
-		// make a list of cells for clouds, than pick one from list at random
+		LinkedList<Point> cells = cells(n_col, n_row, w, h);
 
+		Rnd rnd = new Rnd(seed);
+		List<Shape> blockedAreas = new ArrayList<Shape>();
+		int[][] points = new int[n_points][3];
 		// create clusters first
 		int p = 0;
 		int s = min(min(s_cloud, w),h);
@@ -125,5 +116,19 @@ public final class D3 {
 			p++;
 		}
 		return points;
+	}
+
+	private static LinkedList<Point> cells(int cols, int rows, int w, int h) {
+		LinkedList<Point> cells = new LinkedList<>();
+		int y_c = 0;
+		for (int r = 0; r < rows; r++) {
+			int x_c = 0;
+			for (int c = 0; c < cols; c++) {
+				cells.add(new Point(x_c, y_c));
+				x_c+=w;
+			}
+			y_c+=h;
+		}
+		return cells;
 	}
 }
