@@ -4,11 +4,8 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 import java.awt.Color;
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
-import java.util.List;
 
+import data.Data;
 import se.jbee.game.any.gfx.RGBA;
 import se.jbee.game.any.logic.Progress;
 import se.jbee.game.any.state.Entity;
@@ -16,7 +13,6 @@ import se.jbee.game.any.state.Name;
 import se.jbee.game.any.state.Rnd;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.state.GameComponent;
-import data.Data;
 
 /**
  * The most important game transition.
@@ -48,8 +44,7 @@ public class Turn implements Progress, GameComponent {
 
 	private void initialiseNewGameWorld(State game) {
 		initialiseGameData(game);
-		distributeStarsInGalaxy(game);
-		distributePlayersAmongStars(game);
+		createHomeWorldOfPlayers(game, distributeStarsInGalaxy(game));
 	}
 
 	private void initialiseGameData(State game) {
@@ -89,15 +84,13 @@ public class Turn implements Progress, GameComponent {
 		return new Color(r, g, b, a);
 	}
 
-	private static void distributePlayersAmongStars(State game) {
+	private static void createHomeWorldOfPlayers(State game, Entity[] homes) {
 		Entity gamE = game.single(GAME);
 		// for now just pick random places
 		Rnd rnd = new Rnd(gamE.longNum(SEED));
 		int[] players = gamE.list(PLAYERS);
-		Entity[] stars = game.entities(game.single(GALAXY).list(STARS));
-		int[] homes = D3.distantClusters(players.length, POSITION, stars);
 		for (int i = 0; i < players.length; i++) {
-			Entity star = stars[homes[i]];
+			Entity star = homes[i];
 			Entity player = game.entity(players[i]);
 			star.put(SEED, rnd.nextLong());
 			star.put(HOME, player.id());
@@ -133,53 +126,52 @@ public class Turn implements Progress, GameComponent {
 		star.put(PLANETS, planets);
 	}
 
-	private static void distributeStarsInGalaxy(State game) {
+	private static Entity[] distributeStarsInGalaxy(State game) {
 		Entity gamE = game.single(GAME);
+		int[] players = gamE.list(PLAYERS);
 		int gsize = gamE.list(SETUP)[SETUP_GALAXY_SIZE];
+
 		Entity galaxy = game.defEntity(GALAXY);
 		long seed = System.currentTimeMillis();
 		galaxy.put(SEED, seed);
 		galaxy.put(SIZE, GALAXY_XS, GALAXY_YS, GALAXY_ZS);
 		gamE.append(GALAXIES, galaxy.id());
+
 		Rnd rnd = new Rnd(seed);
+
 		int nos = rnd.nextInt(35, 50) * gsize;
-
 		final Entity[] starTypeDistribution = starTypeDistribution(game);
-		
-		int[] stars = new int[nos];
-		List<Shape> blockedAreas = new ArrayList<Shape>();
-		int minimumGap = 60; // how close stars can be in 2D space in the original scale
-		Entity[] eStars = new Entity[nos];
-		for (int i = 0; i < nos; i++) {
 
+		int[] starIDs = new int[nos];
+		Entity[] eStars = new Entity[nos];
+		int[][] positions = D3.pointClouds(nos, players.length, GALAXY_XS, GALAXY_YS, GALAXY_ZS, 60, GALAXY_XS/8, seed);
+		Entity[] homes = new Entity[players.length];
+		for (int i = 0; i < nos; i++) {
 			long starSeed = rnd.nextLong();
 			Rnd starRnd = new Rnd(starSeed);
 			Entity star = game.defEntity(STAR);
-			// position
-			int x, y = 0;
-			do {
-				x = starRnd.nextInt(0, GALAXY_XS);
-				y = starRnd.nextInt(0, GALAXY_YS);
-			} while (D3.overlaps(x, y, blockedAreas));
-			blockedAreas.add(new Ellipse2D.Float(x-minimumGap, y-minimumGap, minimumGap*2, minimumGap*2));
-			int z = starRnd.nextInt(0, GALAXY_ZS);
+
 			star.put(SEED, starSeed);
-			star.put(POSITION, x,y,z);
+			star.put(POSITION, positions[i]);
 			star.put(NAME, Name.unique(Name.NAME_BEUDONIA, starSeed)); //TODO name lazy when system is discovered
 			Entity type = starTypeDistribution[starRnd.nextInt(99)];
 			star.put(STAR_TYPE, type.id());
 			int[] sizes = type.list(SIZE);
 			star.put(SIZE, sizes[starRnd.nextInt(sizes.length-1)]);
 			star.put(RGBA, new RGBA(type.list(RGB)).shift(starRnd, 30).toRGBA());
-			stars[i] = star.id();
+			starIDs[i] = star.id();
 			eStars[i] = star;
+			if (i < homes.length) {
+				homes[i] = star;
+			}
 		}
-		galaxy.put(STARS, stars);
+		galaxy.put(STARS, starIDs);
 		// set the minimum distance to next star for all the stars
 		for (int i = 0; i < nos; i++) {
 			Entity star = eStars[i];
 			star.put(CLOSEST, (int)D3.closestDistance2D(star, POSITION, eStars));
 		}
+		return homes;
 	}
 
 	private static Entity[] starTypeDistribution(State game) {
