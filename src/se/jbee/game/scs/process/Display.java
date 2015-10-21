@@ -145,11 +145,25 @@ public class Display extends Canvas implements Runnable, Gfx {
 	};
 
 	private static final Colouring PLANET = (float rgb) -> {
-		return new Color(rgb, rgb, rgb, 0.25f).getRGB();
+		return new Color(rgb, rgb, rgb, rgb/4).getRGB();
 	};
 
 	private static final Colouring PLANET2 = (float rgb) -> {
-		return new Color(rgb, rgb, rgb, 0.15f).getRGB();
+		return new Color(rgb, rgb, rgb, 0.10f).getRGB();
+	};
+
+	private static final Colouring CLOUDS = (float rgb) -> {
+		return  rgb > 0.4f
+				? new Color(rgb, rgb, rgb, rgb/2).getRGB()
+				: new Color(rgb, rgb, rgb, 0f).getRGB();
+	};
+
+	private static final Colouring CRATARS = (float rgb) -> {
+		return  rgb > 0.55f && rgb < 0.6f
+				? new Color(0.3f, 0.4f, 0.3f, (1f-rgb)/3f).getRGB()
+				: rgb > 0.6f && rgb < 0.8f
+					? new Color(0.2f, 0.3f, 0.2f, (1f-rgb)/3f).getRGB()
+					: new Color(rgb, rgb, rgb, 0f).getRGB();
 	};
 
 	private Renderer initRenderer() {

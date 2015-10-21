@@ -1,13 +1,13 @@
 package se.jbee.game.any.state;
 
 import static java.lang.Integer.parseInt;
+import static java.util.Arrays.copyOf;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
 /**
  * {@linkplain Texts} are game data that is independent of the game state itself.
@@ -54,34 +54,78 @@ public final class Texts {
 			// should not occur - otherwise ignore
 		}
 	}
-	
+
 	public void index(File texts) {
 		try (BufferedReader in = new BufferedReader(new FileReader(texts))) {
-			String line = in.readLine();
-			while (line != null) {
-				if (!line.startsWith("#")) {
-					int eq = line.indexOf('=');
-					if (eq > 0) {
-						int sac = parse(line.substring(0, eq));
-						String text = line.substring(eq+1);
-						StringBuilder block = new StringBuilder();
-						if (text.startsWith("/")) {
-							line = in.readLine();
-							while (line != null && !line.startsWith("/")) {
-								block.append(line).append('\n');
-								line = in.readLine();
-							}
-							block.setLength(block.length()-1);
-							text = block.toString();
-						}
-						index(sac, text);
-					}
-				}
-				line = in.readLine();
+			if (texts.getName().endsWith(".lines")) {
+				indexLines(in);
+			} else {
+				indexTexts(in);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
+	}
+
+	/**
+	 * series and attribute are state first, key value pairs just add code part.
+	 *
+	 * <pre>
+	 * Technology
+	 * name
+	 * a=b
+	 * </pre>
+	 *
+	 * becomes <code>T.n.a=b</code>
+	 */
+	private void indexTexts(BufferedReader in) throws IOException {
+		String line = in.readLine();
+		char[] sa = new char[2];
+		int i = 0;
+		while (line != null) {
+			if (!line.startsWith("#")) {
+				int eq = line.indexOf('=');
+				if (eq < 0) {
+					if (line.length() > 0 && line.charAt(0) >= '0' && line.charAt(0) <= 'z') {
+						sa[i%sa.length] = line.charAt(0);
+						i++;
+					}
+				} else {
+					index(encode(sa[0], sa[1], parseCode(line.substring(0, eq))), readText(in, line.substring(eq+1)) );
+				}
+			}
+			line = in.readLine();
+		}
+	}
+
+	/**
+	 * Each entry on a new line (classical properties style)
+	 */
+	private void indexLines(BufferedReader in) throws IOException {
+		String line = in.readLine();
+		while (line != null) {
+			if (!line.startsWith("#")) {
+				int eq = line.indexOf('=');
+				if (eq > 0) {
+					index(parse(line.substring(0, eq)), readText(in, line.substring(eq+1)));
+				}
+			}
+			line = in.readLine();
+		}
+	}
+
+	private static String readText(BufferedReader in, String text) throws IOException {
+		StringBuilder block = new StringBuilder();
+		if (text.startsWith("/")) {
+			String line = in.readLine();
+			while (line != null && !line.startsWith("/")) {
+				block.append(line).append('\n');
+				line = in.readLine();
+			}
+			block.setLength(block.length()-1);
+			text = block.toString();
+		}
+		return text;
 	}
 
 	public void index(int sac, String text) {
@@ -91,7 +135,7 @@ public final class Texts {
 		if (series == null)
 			series = new String[code+1];
 		if (series.length <= code) {
-			series = Arrays.copyOf(series, code+1);
+			series = copyOf(series, code+1);
 		}
 		texts[off] = series;
 		series[code] = text;
@@ -137,9 +181,13 @@ public final class Texts {
 	public static int parse(String sac) {
 		String[] sx = sac.split("\\.");
 		String code = sx[2];
-		char c0 = code.charAt(0);
-		int c = c0 >= '0' && c0 <= '9' ? parseInt(code) : c0;
+		int c = parseCode(code);
 		return encode(sx[0].charAt(0), sx[1].charAt(0), c);
+	}
+
+	private static int parseCode(String code) {
+		char c0 = code.charAt(0);
+		return c0 >= '0' && c0 <= '9' ? parseInt(code) : c0;
 	}
 
 	public static String print(int sac) {

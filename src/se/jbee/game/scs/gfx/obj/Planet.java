@@ -36,11 +36,11 @@ public class Planet implements Gfx, Obj {
 		int x0 = obj[2];
 		int y0 = obj[3];
 		int w = obj[4];
-		int rand = obj[6];
+		int rgba = obj[6];
 		if (clip) {
-			planetClip(styles, gfx, x0, y0, w, rand);
+			planetClip(styles, gfx, x0, y0, w, rgba);
 		} else {
-			planetCircle(styles, gfx, x0, y0, w, rand);
+			planetCircle(styles, gfx, x0, y0, w, rgba);
 		}
 	}
 
@@ -75,33 +75,38 @@ public class Planet implements Gfx, Obj {
 		drawClip(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_200x2000_LARGE), new Rectangle(0, y0, 200, 2000)));
 	}
 
-	private void planetCircle(Styles styles, Graphics2D gfx, int x0, int y0, int d, int... rand) {
-		Color c = new Color(rand[0]);
+	private void planetCircle(Styles styles, Graphics2D gfx, int x0, int y0, int d, int rgba) {
+		Color c = new Color(rgba);
 		int r = c.getRed();
 		int g = c.getGreen();
-		int b = c.getGreen();
+		int b = c.getBlue();
 
 		// 3d effect
 		Paint paint = new RadialGradientPaint(x0+d/2,
-				y0+d/2, d,
-                new float[] { 0f, 0.8f, 0.9f, 1f },
-                new Color[] { new Color(r,g,b), new Color(r/8,g/8,b/8), new Color(r/128,g/128,b/128), Color.black });
+				y0+d/2, d/2,
+                new float[] { 0f, 0.9f, 0.95f, 1f },
+                new Color[] { new Color(r,g,b), new Color(r/6,g/6,b/6), new Color(r/12,g/12,b/12), Color.black });
 		drawCircle(gfx, x0-1, y0, d+1, paint);
 
-		// texture
-		drawCircle(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_600x600_LARGE), new Rectangle(x0, y0, 600, 600)));
-		drawCircle(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_600x600_SMALL), new Rectangle(x0-(d/50), y0, 600, 600)));
+		if (false)
+			return;
 
+		// texture
+		if (true) {
+		drawCircle(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_600x600_LARGE), new Rectangle(x0, y0, 600, 300)));
+		drawCircle(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_600x600_SMALL), new Rectangle(x0/2, y0, 1600, 600)));
+		}
         // star-light
-        Color lc = new Color(min(255,r+50),min(255,g+50),max(0,b-50), 100);
-		paint = new RadialGradientPaint(new Point(x0 + d+(d/3),
+        Color lc = new Color(min(255,r+50),min(255,g+50),max(0,b-50), 150);
+		paint = new RadialGradientPaint(new Point(x0 + d+(d/4),
                 y0+(d / 2)), d,
                 new float[] { 0f, 1f },
                 // it turned out that usual light appears somewhat blueish for most planet colors therefore this color change
                 // but this can also be used to give different stars different light color.
-                new Color[] { lc, new Color(0.0f, 0.0f, 0.0f, 0.4f) });
+                new Color[] { lc, new Color(0.0f, 0.0f, 0.0f, 0.6f) });
 				// using the original color c as 1st param almost appears as some kind of shield
         drawCircle(gfx, x0-1, y0, d+1, paint);
+
 	}
 
 	private static void drawCircle(Graphics2D gfx, int x0, int y0, int d, Paint paint) {

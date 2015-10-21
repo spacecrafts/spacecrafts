@@ -12,6 +12,7 @@ import static se.jbee.game.scs.gfx.Objects.text;
 
 import java.awt.Rectangle;
 
+import data.Data;
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.screen.Screen;
@@ -24,7 +25,6 @@ import se.jbee.game.any.state.Texts;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.process.Game;
 import se.jbee.game.scs.state.GameComponent;
-import data.Data;
 
 @ScreenNo(GameScreen.SCREEN_SOLAR_SYSTEM)
 public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
@@ -32,15 +32,20 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
+		int starID = gamE.num(SCREEN_ENTITY);
+		if (starID == 0) {
+			randomSolarSystem(game, screen, stage);
+			return;
+		}
 
 		int gID = gamE.id();
-		Change[] backToGalaxy = { 
+		Change[] backToGalaxy = {
 				put(gID, SCREEN, SCREEN_GALAXY),
 				put(gID, SCREEN_ENTITY, game.single(GALAXY).id()) };
 		stage.onKey(VK_ESCAPE, backToGalaxy);
-		
+
 		Entity player = Game.currentPlayer(game);
-		Entity star = game.entity(gamE.num(SCREEN_ENTITY));
+		Entity star = game.entity(starID);
 
 		int w = screen.width;
 		int h = screen.height;
@@ -50,9 +55,9 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		d = (int) (d / (20f/size));
 		int r = d/2;
 		int y = (screen.height-d)/2;
-		
+
 		Rectangle view = Viewport.centerView(screen);
-		
+
 		stage.inFront(path(PATH_EDGY, COLOR_TEXT_NORMAL,1, w-150, view.y, w-10, view.y+140));
 		stage.inFront(starClip(w-r/8, y, d, star.num(RGBA)));
 		stage.onLeftClickIn(new Rectangle(w-r/8, 0, r/8, screen.height), backToGalaxy );
@@ -61,14 +66,14 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		texts.index(Data.class, "star-type.texts");
 		Entity type = game.entity(star.num(STAR_TYPE));
 		stage.inFront(text(1, 0, view.y, FONT_THIN, 24, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y+30)).inFront(codePoints(texts.lookup(Texts.encode('S', 'n', type.num(CODE)))));
-		
+
 		int[] planets = star.list(PLANETS);
 		int ym = screen.height /2;
 		int x0 = screen.width/16;
 		for (int i = 0; i < planets.length; i++) {
 			Entity planet = game.entity(planets[i]);
 			int dia = 200;
-			stage.inFront(planet(x0, ym-dia/2, dia, 0xFF5014, 0));
+			stage.inFront(planet(x0, ym-dia/2, dia, 0x45852c, 0));
 			x0 += dia+screen.width/16;
 		}
 	}
@@ -80,11 +85,11 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 
 		int w = screen.width;
 		int h = screen.height;
-		stage.inFront(background(0,0,w, h, BG_SPACE));
-		stage.inFront(starClip(w-h/8, -h/2, h*2, rnd.nextInt(0, 255))); // g can be altered to increase or decrease red part of sun
+		stage.inFront(background(0,0,w, h, BG_SPACE, 34, 45));
+		stage.inFront(starClip(w-h/8, -h/2, h*2, 0xFFFFFF00));
 
-		stage.inFront(planet(700, 400, 200, 0xFF5014, 0));
-		stage.inFront(planet(100, 300, 400, 0x44FF99, 0));
+		stage.inFront(planet(700, 400, 200, 0, 0xFF5014));
+		stage.inFront(planet(100, 300, 300, 0, 0x0000FF));
 
 		stage.inFront(text(1, 690, 360, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints("Mars"));

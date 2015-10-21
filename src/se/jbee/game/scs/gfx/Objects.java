@@ -83,12 +83,12 @@ public final class Objects implements Gfx {
 		return new int[] { OBJ_STAR_CLIP, 0, x,y, d, rgba };
 	}
 
-	public static int[] planet(int x, int y, int d, int c, int nrand) {
-		return new int[] { OBJ_PLANET, 0, x,y,d,c,nrand };
+	public static int[] planet(int x, int y, int d, int type, int rgba) {
+		return new int[] { OBJ_PLANET, 0, x,y,d,type,rgba };
 	}
 
-	public static int[] planetClip(int x, int y, int d, int c, int nrand) {
-		return new int[] { OBJ_PLANET_CLIP, 0, x,y,d,c,nrand };
+	public static int[] planetClip(int x, int y, int d, int c, int rgba) {
+		return new int[] { OBJ_PLANET_CLIP, 0, x,y,d,c,rgba };
 	}
 
 }

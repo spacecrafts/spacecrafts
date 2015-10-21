@@ -26,7 +26,7 @@ public class TestTexts {
 	@Test
 	public void textsLoadFromFiles() throws URISyntaxException {
 		Texts texts = new Texts();
-		texts.index(Data.class, "test.texts");
+		texts.index(Data.class, "test.lines");
 
 		assertEquals("Tech 1 Name", texts.lookup(Texts.encode('T', 'n', 1)));
 		assertEquals("Tech 1 Description", texts.lookup(Texts.encode('T', 'd', 1)));
