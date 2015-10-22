@@ -1,13 +1,13 @@
 package se.jbee.game.any.state;
 
 import static java.lang.System.arraycopy;
+import static java.util.Arrays.binarySearch;
 import static java.util.Arrays.copyOf;
 import static java.util.Arrays.sort;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * The design assumes that most entities do not have lots of components.
@@ -139,23 +139,27 @@ public final class Entity implements Component {
 		return num(TYPE);
 	}
 
+	public int code() {
+		return num(CODE);
+	}
+
 	public Entity name(String name) {
-		return put(NAME, codePoints(name));
+		return set(NAME, codePoints(name));
 	}
 
-	public Entity put(int comp, long num) {
-		return put(comp, (int)(num >> 32), (int)num);
+	public Entity set(int comp, long num) {
+		return set(comp, (int)(num >> 32), (int)num);
 	}
 
-	public Entity put(int comp, int num) {
-		return put(comp, new int[] { num });
+	public Entity set(int comp, int num) {
+		return set(comp, new int[] { num });
 	}
 
-	public Entity put(int comp, String text) {
-		return put(comp, codePoints(text));
+	public Entity set(int comp, String text) {
+		return set(comp, codePoints(text));
 	}
 
-	public Entity put(int comp, int... listOrSetOrTxt) {
+	public Entity set(int comp, int... listOrSetOrTxt) {
 		int i = indexOf(comp);
 		if (i < 0) {
 			i = indexOf(-1); // reuse some?
@@ -176,7 +180,7 @@ public final class Entity implements Component {
 		return this;
 	}
 
-	public void erase(int comp) {
+	public void unset(int comp) {
 		int i = indexOf(comp);
 		if (i >= 0) {
 			cs[i] = -1;
@@ -211,7 +215,7 @@ public final class Entity implements Component {
 	public void append(int comp, int e) {
 		int i = indexOf(comp);
 		if (i < 0) {
-			put(comp, new int[] { e });
+			set(comp, new int[] { e });
 			return;
 		}
 		int[] list = vs[i];
@@ -223,7 +227,7 @@ public final class Entity implements Component {
 	public void append(int comp, int[] tail) {
 		int i = indexOf(comp);
 		if (i < 0) {
-			put(comp, tail);
+			set(comp, tail);
 			return;
 		}
 		int[] list = vs[i];
@@ -239,7 +243,7 @@ public final class Entity implements Component {
 	public void prepend(int comp, int e) {
 		int i = indexOf(comp);
 		if (i < 0) {
-			put(comp, new int[] { e });
+			set(comp, new int[] { e });
 			return;
 		}
 		int[] list = vs[i];
@@ -252,7 +256,7 @@ public final class Entity implements Component {
 	public void prepend(int comp, int[] head) {
 		int i = indexOf(comp);
 		if (i < 0) {
-			put(comp, head);
+			set(comp, head);
 			return;
 		}
 		int[] list = vs[i];
@@ -308,53 +312,113 @@ public final class Entity implements Component {
 		int i = indexOf(comp);
 		if (i < 0)
 			return -1;
-		return Arrays.binarySearch(vs[i], member);
+		return binarySearch(vs[i], member);
+	}
+
+	/*
+	 * maps
+	 */
+
+	public void put(int comp, int key, int value) {
+		int i = indexOf(comp);
+		if (i < 0) {
+			set(comp, key, value);
+		} else {
+			int[] map = vs[i];
+			for (int k = 0; k < map.length; k+=2) {
+				if (map[k] == key) {
+					map[k+1] = value;
+					return;
+				}
+			}
+			append(comp, new int[] {key, value});
+		}
+	}
+
+	public int unput(int comp, int key) {
+		int i = indexOf(comp);
+		if (i < 0)
+			return 0;
+		int[] map = vs[i];
+		for (int k = 0; k < map.length; k+=2) {
+			if (map[k] == key) {
+				if (map.length == 2) {
+					unset(comp);
+				} else {
+					int[] map2 = new int[map.length-2];
+					if (k > 0) {
+						arraycopy(map, 0, map2, 0, k);
+					}
+					if (k+2 < map.length) {
+						arraycopy(map, k+2, map2, k, map2.length-k);
+					}
+					set(comp, map2);
+				}
+				return map[k+1];
+			}
+		}
+		return 0;
+	}
+
+	public int get(int comp, int key) {
+		int i = indexOf(comp);
+		if (i < 0)
+			return 0;
+		int[] map = vs[i];
+		for (int k = 0; k < map.length; k+=2) {
+			if (map[k] == key)
+				return map[k+1];
+		}
+		return 0;
 	}
 
 	/*
 	 * bitset
 	 */
 
-	public void setbits(int comp, int...flags) {
+	public void setBits(int comp, int...flags) {
 		for (int flag : flags) {
-			set(comp, flag);
+			setBits(comp, flag);
 		}
 	}
 
-	public void set(int comp, int flag) {
+	public void setBits(int comp, int flag) {
 		int i = indexOf(comp);
 		if (i < 0) {
-			put(comp, 1 << flag);
+			set(comp, 1 << flag);
 		} else {
 			vs[i][0] |= 1 << flag;
 		}
 	}
 
-	public void unsetbits(int comp, int...flags) {
+	public void unsetBits(int comp, int...flags) {
 		for (int flag : flags) {
-			unset(comp, flag);
+			unsetBits(comp, flag);
 		}
 	}
 
-	public void unset(int comp, int flag) {
+	public void unsetBits(int comp, int flag) {
 		int i = indexOf(comp);
 		if (i >= 0) {
 			vs[i][0] &= ~(1 << flag);
 		}
 	}
 
-	public <E extends Enum<E>> void set(int comp, E flag) {
-		set(comp, flag.ordinal());
+	public <E extends Enum<E>> void setBits(int comp, E flag) {
+		setBits(comp, flag.ordinal());
 	}
 
-	public <E extends Enum<E>> void unset(int comp, E flag) {
-		unset(comp, flag.ordinal());
+	public <E extends Enum<E>> void unsetBits(int comp, E flag) {
+		unsetBits(comp, flag.ordinal());
 	}
 
-	public <E extends Enum<E>> boolean isSet(int comp, E flag) {
+	public <E extends Enum<E>> boolean isBitSet(int comp, E flag) {
+		return IsBitSet(comp, flag.ordinal());
+	}
+
+	public boolean IsBitSet(int comp, int n) {
 		int i = indexOf(comp);
-		int ord = flag.ordinal();
-		return i >= 0 && vs[i].length > 0 && ((vs[i][0] >> ord) & 1) == 1;
+		return i >= 0 && vs[i].length > 0 && ((vs[i][0] >> n) & 1) == 1;
 	}
 
 	/*

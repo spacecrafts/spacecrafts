@@ -1,7 +1,7 @@
 package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
-import static se.jbee.game.any.state.Change.put;
+import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.text;
@@ -54,9 +54,9 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
 		stage.in(nextArea, text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT),NEXT);
 		Change[] nextCs = {
-				put(player.id(), TURN, 0),
-				put(gamE.id(), ACTION, ACTION_STEP),
-				put(gamE.id(), SCREEN, GameScreen.SCREEN_BLANK)
+				set(player.id(), TURN, 0),
+				set(gamE.id(), ACTION, ACTION_STEP),
+				set(gamE.id(), SCREEN, GameScreen.SCREEN_BLANK)
 		};
 		stage.onLeftClickIn(nextArea, nextCs);
 		stage.onGlobalKey(VK_ENTER, nextCs);

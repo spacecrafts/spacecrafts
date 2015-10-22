@@ -1,4 +1,4 @@
-Star Types
+Star Classes
 name
 D=Type D
 M=Type M
@@ -13,10 +13,10 @@ k=Type K
 g=Type G
 f=Type F
 
-Star Types
+Star Classes
 kind
 D=White Dwarf
-m=Giant
-k=Giant
-g=Giant
-f=Giant
+m=Red Giant
+k=Red Giant
+g=Red Giant
+f=Red Giant

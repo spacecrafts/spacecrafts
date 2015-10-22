@@ -130,13 +130,14 @@ public interface GameComponent extends Component {
 		// SIZE [#] (8-16)
 		//FLEETS = {*x,*y,*z} (set of all the fleets arrived/staying in a solar system)
 		MASS = 122,
-		/// STAR_TYPE *x
+		/// STAR_CLASS *x
 		RGBA = 123, //[#] (derived from SEED, but to be save against algorithm changes)
 		CLOSEST = 124, // distance to the closest other star
 
 	PLANET = 130,
+		// RGBA
 		// SEEDS [#,#,...]
-		// MAKEUP *x
+		// PLANET_CLASS *x
 		// WEALTH *x
 		// COLONY *y (cross ref)
 		// POSITION (in the solar system)
@@ -145,17 +146,21 @@ public interface GameComponent extends Component {
 	MOON = 140,
 		// PLANET
 
-	STAR_TYPE = 150,
+	STAR_CLASS = 150,
+		// CODE
 		RGB = 151, //[#r,#g,#b] (typical; closest match to actual color determines type)
-		// SIZE [#] (8-16=small-huge)
-		ABUNDANCE = 152, // [#%] at what chance does it occur 
-		// PROBABILITIES (of types of planets?)
+		// SIZE [#] (~8-30=small-huge)
+		ABUNDANCE = 152, // [#%] at what chance does it occur
 
-	MAKEUP = 160, // of a planet; or a "planet type" (mostly a description for humans)
-		// RGB
-		MATERIALS = 161, // [*x,*y,...] ref to the material
-		PROBABILITIES = 162, // [#,#,...] of rare materials
+	PLANET_CLASS = 160, // of a planet; or a "planet type" (mostly a description for humans)
 		//CODE (a static constant value known to gfx to draw the appropriate image, random values from planet are used to make each appear somewhat unique
+		// RGB (typical, see star types)
+		// ABUNDANCE
+		ATMOSPHERE = 161,
+		SUFRACE = 162,
+		ZONE = 163, // (hot/cold/Ecosphere/rogue)
+		LIFE = 164, // how suitable it the planet for colonization ( high temp, high pressure, etc)
+		MATERIALS = 165, // [#:#,*y,...] map: material(code) => prop
 
 	WEALTH = 170, // of rare materials on a planet (mostly a description for humans)
 		RATE = 171, // # (percentage of depots in relation to all planet slots)

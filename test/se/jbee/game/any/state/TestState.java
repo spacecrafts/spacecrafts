@@ -19,7 +19,7 @@ public class TestState {
 	@Test
 	public void newlyDefinedEntitiesGetAnUniqueID() {
 		State s = State.base();
-		Entity e = s.defComponent(GameComponent.GAME).put(Component.NAME, codePoints("GAME"));
+		Entity e = s.defComponent(GameComponent.GAME).set(Component.NAME, codePoints("GAME"));
 
 		assertEquals(s.size()-1, e.num(Component.ID));
 		assertEquals(0, e.num(Component.TYPE));
@@ -60,7 +60,7 @@ public class TestState {
 
 		g.defComponent(someType);
 		Entity e = g.defEntity(someType);
-		e.put(Component.NAME, codePoints("foo"));
+		e.set(Component.NAME, codePoints("foo"));
 
 		File f = File.createTempFile("saveExtractEntity", ".game");
 		g.save(f);

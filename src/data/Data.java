@@ -47,10 +47,11 @@ public final class Data {
 					load(f, target);
 				}
 			}
-		}		
+		}
 	}
 
 	public static void load(File source, State target) throws IOException {
+		System.out.println("loading data: "+source.getName());
 		try (BufferedReader in = new BufferedReader(new FileReader(source))) {
 			String[] columns = in.readLine().split("\\s+");
 			int[] comps = new int[columns.length];
@@ -71,47 +72,53 @@ public final class Data {
 			int col = 0;
 			boolean newline = true;
 			Entity e = null;
-			int[] buf = new int[512];
+			int[] seq = new int[512];
 			int bufpos = 0;
 			while (c >= 0) {
 				switch (c) {
 				case '\n': col = 0; newline=true; c = in.read(); break;
 				case '\t':
-				case ' ' : if (!newline) { col++; } do { c = in.read(); } while (c == ' ' || c == '\t'); break;
+				case ' ' : if (!newline) { col++; } do { c = in.read(); } while (isWhitespace(c)); break;
 				case '-' : c = in.read(); break;
 				case '[' : // list
 				case '{' : // set
 					c = in.read();
-					while (c == ' ' || c == '\t') { c = in.read(); }
+					while (isWhitespace(c)) { c = in.read(); }
 					if (c == ']' || c == '}')
 						break;
 					bufpos = 0;
 					do {
-						int num = 0;
-						do {
-							num *= 10;
-							num += c - '0';
+						if (c =='\'') {
+							seq[bufpos++] = in.read();
+							in.read(); // '
 							c = in.read();
-						} while (isDigit(c));
-						buf[bufpos++] = num;
-						while (c == ' ' || c == '\t') { c = in.read(); }
+						} else {
+							int num = 0;
+							do {
+								num *= 10;
+								num += c - '0';
+								c = in.read();
+							} while (isDigit(c));
+							seq[bufpos++] = num;
+						}
+						while (isWhitespace(c)) { c = in.read(); }
 					} while (c != ']' && c != '}');
 					c = in.read();
-					e.put(comps[col], copyOf(buf, bufpos));
+					e.set(comps[col], copyOf(seq, bufpos));
 					break;
 				case '"' : // text
 					bufpos = 0;
 					c = in.read();
 					do {
-						buf[bufpos++] = c;
+						seq[bufpos++] = c;
 						c = in.read();
 					} while (c != '"');
 					c = in.read();
-					e.put(comps[col], copyOf(buf, bufpos));
+					e.set(comps[col], copyOf(seq, bufpos));
 					break;
 				case '\'': // char
 					c = in.read();
-					e.put(comps[col], c);
+					e.set(comps[col], c);
 					in.read(); // '
 					c = in.read();
 					break;
@@ -125,12 +132,16 @@ public final class Data {
 					if (comps[col] == Component.COMP) {
 						e = target.defEntity(num);
 					} else {
-						e.put(comps[col], num);
+						e.set(comps[col], num);
 					}
 				}
 				newline=false;
 			}
 		}
+	}
+
+	private static boolean isWhitespace(int c) {
+		return c == ' ' || c == '\t' || c == ',' || c == ';' || c == ':';
 	}
 
 	private static boolean isDigit(int c) {

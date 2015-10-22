@@ -46,7 +46,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 
 		Display display = new Display();
 		Dimension size = display.getSize();
-		user.single(USER).put(RESOLUTION, new int[] {size.width, size.height});
+		user.single(USER).set(RESOLUTION, new int[] {size.width, size.height});
 		Thread displayThread = daemon(display, "SCS Display");
 
 		List<Player> players = new ArrayList<Player>();

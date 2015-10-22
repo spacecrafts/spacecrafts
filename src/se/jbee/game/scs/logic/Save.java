@@ -17,14 +17,14 @@ public class Save implements Progress, GameComponent, UserComponent {
 	public void progress(State user, State game) {
 		Entity gamE = game.single(GAME);
 		File file = new File(user.single(USER).text(SAVEGAME_DIR), gamE.text(SAVEGAME)+".game");
-		gamE.erase(ACTION);
-		gamE.erase(SAVEGAME);
+		gamE.unset(ACTION);
+		gamE.unset(SAVEGAME);
 		try {
 			game.save(file);
 		} catch (IOException e) {
 			e.printStackTrace();
 			// TODO write a error journal that is shown in the error screen
-			gamE.put(ACTION, ACTION_ERROR);
+			gamE.set(ACTION, ACTION_ERROR);
 		}		
 	}
 

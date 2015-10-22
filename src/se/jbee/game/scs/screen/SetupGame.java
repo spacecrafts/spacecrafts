@@ -1,7 +1,7 @@
 package se.jbee.game.scs.screen;
 
 import static se.jbee.game.any.state.Change.append;
-import static se.jbee.game.any.state.Change.put;
+import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Change.replace;
 import static se.jbee.game.any.state.Change.take;
 import static se.jbee.game.any.state.Entity.codePoints;
@@ -82,7 +82,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		Entity gamE = game.single(GAME);
 		if (gamE.list(NAME).length < 1)
 			return;
-		stage.onKey('\n', put(gamE.id(), ACTION, ACTION_SETUP));
+		stage.onKey('\n', set(gamE.id(), ACTION, ACTION_SETUP));
 
 		int dotDia = dotDiameter(screen);
 		x0 = x0+400-(dotDia*19);
@@ -91,7 +91,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
 		stage.in(nextArea, text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT),NEXT);
 		stage.onLeftClickIn(nextArea,
-				put(gamE.id(), ACTION, ACTION_SETUP));
+				set(gamE.id(), ACTION, ACTION_SETUP));
 	}
 
 	private void upDownSlider(Stage stage, State game, int x0, int y0, String text, int setupIndex, String...names) {

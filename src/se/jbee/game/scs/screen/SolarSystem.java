@@ -1,7 +1,7 @@
 package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
-import static se.jbee.game.any.state.Change.put;
+import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.focusBox;
@@ -40,8 +40,8 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 
 		int gID = gamE.id();
 		Change[] backToGalaxy = {
-				put(gID, SCREEN, SCREEN_GALAXY),
-				put(gID, SCREEN_ENTITY, game.single(GALAXY).id()) };
+				set(gID, SCREEN, SCREEN_GALAXY),
+				set(gID, SCREEN_ENTITY, game.single(GALAXY).id()) };
 		stage.onKey(VK_ESCAPE, backToGalaxy);
 
 		Entity player = Game.currentPlayer(game);
@@ -63,8 +63,8 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		stage.onLeftClickIn(new Rectangle(w-r/8, 0, r/8, screen.height), backToGalaxy );
 		stage.inFront(text(1, 0, 0, FONT_THIN, 36, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y)).inFront(star.list(NAME));
 		Texts texts = new Texts();
-		texts.index(Data.class, "star-type.texts");
-		Entity type = game.entity(star.num(STAR_TYPE));
+		texts.index(Data.class, "star-class.texts");
+		Entity type = game.entity(star.num(STAR_CLASS));
 		stage.inFront(text(1, 0, view.y, FONT_THIN, 24, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y+30)).inFront(codePoints(texts.lookup(Texts.encode('S', 'n', type.num(CODE)))));
 
 		int[] planets = star.list(PLANETS);
@@ -106,11 +106,11 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		stage.inFront(text(1, 20, 20+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
 		stage.inFront(codePoints("Type G"));
 
-		stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_ORBIT));
+		stage.onLeftClickIn(area, set(gamE.id(), SCREEN, SCREEN_ORBIT));
 		stage.in(area, focusBox(690, 390, 220, 220));
 
 		area = new Rectangle(90, 290, 420, 420);
-		stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_ORBIT));
+		stage.onLeftClickIn(area, set(gamE.id(), SCREEN, SCREEN_ORBIT));
 		stage.in(area, focusBox(90, 290, 420, 420));
 	}
 

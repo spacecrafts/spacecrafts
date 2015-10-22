@@ -1,6 +1,6 @@
 package se.jbee.game.scs.screen;
 
-import static se.jbee.game.any.state.Change.put;
+import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.border;
@@ -63,7 +63,7 @@ public class Orbit implements Screen, Gfx, GameComponent {
 
 		stage.inFront(border(w-m, w/16+hb+hb+w/32, m-w/32, hb));
 
-		Change gotoColony = put(game.single(GAME).id(), SCREEN, SCREEN_SOLAR_SYSTEM);
+		Change gotoColony = set(game.single(GAME).id(), SCREEN, SCREEN_SOLAR_SYSTEM);
 		stage.onLeftClickIn(new Rectangle(0, 0, h/8, screen.height), gotoColony);
 		stage.onKey('c', gotoColony);
 	}

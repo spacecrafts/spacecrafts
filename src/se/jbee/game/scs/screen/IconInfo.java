@@ -60,7 +60,7 @@ public class IconInfo implements Screen, Gfx, GameComponent {
 					stage.inFront(ring(c.x, c.y, 50, 3, COLOR_YARD));
 					Rectangle area = new Rectangle(c.x-25, c.y-5, 50, 50);
 					stage.in(area, ring(c.x, c.y, 50, 3, COLOR_ENERGY));
-					stage.onLeftClickIn(area, Change.put(gamE.id(), SCREEN, GameScreen.SCREEN_MAIN));
+					stage.onLeftClickIn(area, Change.set(gamE.id(), SCREEN, GameScreen.SCREEN_MAIN));
 				}
 			}
 		}

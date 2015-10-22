@@ -31,22 +31,22 @@ public class Init implements Progress, GameComponent, UserComponent {
 	public static void initUser(State user) {
 		if (user.all(USER).length == 0) {
 			Entity u1 = user.defEntity(USER);
-			u1.put(SAVEGAME_DIR, codePoints(System.getProperty("user.home")+File.separator+"spacecrafts"));
+			u1.set(SAVEGAME_DIR, codePoints(System.getProperty("user.home")+File.separator+"spacecrafts"));
 		}
 	}
 
 	public static void initGame(State game, State user) {
 		Entity gamE = game.defEntity(GAME);
 		long seed = System.currentTimeMillis();
-		gamE.put(SEED, seed);
-		gamE.put(NAME, codePoints(uniqueGameName(seed, user)));
-		gamE.put(TURN, 0);
-		gamE.put(SCREEN, GameScreen.SCREEN_MAIN);
+		gamE.set(SEED, seed);
+		gamE.set(NAME, codePoints(uniqueGameName(seed, user)));
+		gamE.set(TURN, 0);
+		gamE.set(SCREEN, GameScreen.SCREEN_MAIN);
 		Entity p1 = game.defEntity(PLAYER);
-		p1.put(NO, 1);
-		p1.put(TURN, -1);
-		gamE.put(PLAYERS, p1.id());
-		gamE.put(SETUP, new int[] {1,1,3});
+		p1.set(NO, 1);
+		p1.set(TURN, -1);
+		gamE.set(PLAYERS, p1.id());
+		gamE.set(SETUP, new int[] {1,1,3});
 	}
 
 	private static String uniqueGameName(long seed, State user) {

@@ -33,13 +33,13 @@ public final class State implements Component {
 
 	public static State base() {
 		State g = new State();
-		g.es[COMP] = new Entity(COMP, COMP).put(CODE, COMP).put(NAME, codePoints("COMP")).put(COMP, new int[1]);
+		g.es[COMP] = new Entity(COMP, COMP).set(CODE, COMP).set(NAME, codePoints("COMP")).set(COMP, new int[1]);
 		g.size = 1;
 		// make sure TYPE, ID and NAME are available as they are used already (each entity has an ID and TYPE, these have a NAME)
-		g.defComponent(TYPE).put(NAME, codePoints("TYPE"));
-		g.defComponent(ID).put(NAME, codePoints("ID"));
-		g.defComponent(NAME).put(NAME, codePoints("NAME"));
-		g.defComponent(CODE).put(NAME, codePoints("CODE"));
+		g.defComponent(TYPE).set(NAME, codePoints("TYPE"));
+		g.defComponent(ID).set(NAME, codePoints("ID"));
+		g.defComponent(NAME).set(NAME, codePoints("NAME"));
+		g.defComponent(CODE).set(NAME, codePoints("CODE"));
 		return g;
 	}
 
@@ -52,7 +52,7 @@ public final class State implements Component {
 			try {
 				int type = f.getInt(null);
 				if (!hasComponent(type)) {
-					defComponent(type).put(NAME, codePoints(f.getName()));
+					defComponent(type).set(NAME, codePoints(f.getName()));
 				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
@@ -68,11 +68,11 @@ public final class State implements Component {
 	 */
 	public Entity defComponent(int type) {
 		Entity e = defEntity(COMP);
-		e.put(CODE, type);
+		e.set(CODE, type);
 		int[] TYPE2ID = es[COMP].list(COMP);
 		if (TYPE2ID.length <= type) {
 			TYPE2ID = copyOf(TYPE2ID, type+1);
-			es[COMP].put(COMP, TYPE2ID);
+			es[COMP].set(COMP, TYPE2ID);
 		}
 		TYPE2ID[type] = e.num(ID);
 		return e;

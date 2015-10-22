@@ -2,7 +2,7 @@ package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.lang.Math.min;
-import static se.jbee.game.any.state.Change.put;
+import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.icon;
@@ -52,7 +52,7 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 
 		// cancel (ESC override, to not set return screen)
 		final int gID = gamE.id();
-		stage.onKey(VK_ESCAPE, put(gID, SCREEN, SCREEN_MAIN));
+		stage.onKey(VK_ESCAPE, set(gID, SCREEN, SCREEN_MAIN));
 
 		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 
@@ -74,8 +74,8 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 			return;
 		gameFiles = gameFiles.subList(min(gameFiles.size()-1, page*pageSize), min(gameFiles.size(), (page+1)*pageSize + 1));
 		int y = y0;
-		Change screenCs = put(gID, SCREEN, SCREEN_LOADING_GAME);
-		Change loadCs = put(gID, ACTION, ACTION_LOAD);
+		Change screenCs = set(gID, SCREEN, SCREEN_LOADING_GAME);
+		Change loadCs = set(gID, ACTION, ACTION_LOAD);
 		for (File[] saves : gameFiles) {
 			stage.inFront(text(1, x0, y, FONT_REGULAR, 14, COLOR_TEXT_NORMAL, ALIGN_E, x0+nameWidth-5, y+d));
 			stage.inFront(codePoints(saves[0].getParentFile().getName().replace('_', ' ')));
@@ -96,7 +96,7 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 				Rectangle area = new Rectangle(x, y, d, d);
 				stage.in(area, icon(ICON_BUILDING, x-2, y-2, d+4, COLOR_TEXT_HIGHLIGHT), text(1, x, y-20, FONT_REGULAR, 14, COLOR_TEXT_HIGHLIGHT), codePoints(String.valueOf(turn)));
 				stage.onLeftClickIn(area,
-					put(gID, SAVEGAME, codePoints(save.getParentFile().getName()+"/"+save.getName() )),
+					set(gID, SAVEGAME, codePoints(save.getParentFile().getName()+"/"+save.getName() )),
 					screenCs, loadCs);
 			}
 			y+=gameHeight;

@@ -54,7 +54,7 @@ public class AI implements Runnable, Player, GameComponent {
 	private void makeTurnMoves() {
 		// TODO Auto-generated method stub
 		
-		aiPlayer.put(TURN, game.single(GAME).num(TURN)); // AI is done
+		aiPlayer.set(TURN, game.single(GAME).num(TURN)); // AI is done
 	}
 
 	private void doMove() {

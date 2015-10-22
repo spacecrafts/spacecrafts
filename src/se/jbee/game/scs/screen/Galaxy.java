@@ -1,6 +1,6 @@
 package se.jbee.game.scs.screen;
 
-import static se.jbee.game.any.state.Change.put;
+import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.scs.gfx.Objects.background;
 import static se.jbee.game.scs.gfx.Objects.path;
 import static se.jbee.game.scs.gfx.Objects.star;
@@ -43,7 +43,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 		int playerStar = game.entity(player.num(HOME)).num(STAR);
 
 		Texts texts = new Texts();
-		texts.index(Data.class, "star-type.texts");
+		texts.index(Data.class, "star-class.texts");
 
 		for (int starID : stars) {
 			Entity star = game.entity(starID);
@@ -60,7 +60,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 				stage.inFront(text(1, x+5,y-20,FONT_THIN, 13, COLOR_TEXT_NORMAL)).inFront(star.list(NAME));
 				stage.in(area, text(1, x+5,y-20, FONT_THIN, 13, COLOR_TEXT_HIGHLIGHT), star.list(NAME));
 			}
-			stage.onLeftClickIn(area, put(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), put(gamE.id(), SCREEN_ENTITY, starID));
+			stage.onLeftClickIn(area, set(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), set(gamE.id(), SCREEN_ENTITY, starID));
 			stage.inFront(star(x, y, dia, star.num(RGBA)));
 		}
 	}

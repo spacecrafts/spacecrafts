@@ -1,0 +1,76 @@
+Planet Classes
+name
+A=Geothermal
+B=Geomorteus
+C=Geoinactive
+D=Dwarf
+E=Geoplastic
+F=Geometallic
+G=Geocrystalline
+H=Desert
+I=Ice Giant
+J=Gas Giant
+K=Adaptable
+L=Marginal
+M=Terrestrial
+N=Reducing
+O=Pelagic
+P=Glaciated
+Q=Variable
+R=Rogue
+S=Gas Supergiant
+U=Gas Ultragiant
+X=Chthonian
+Y=Demon
+
+# enumeration like data...
+Planet Class
+zone
+c=cold
+e=ecosphere
+h=hot
+r=rogue
+
+Planet Class
+atmosphere
+a=ammonia
+A=argon
+c=Hydrogen compounds
+C=carbon dioxide
+d=very dense
+e=Extremely tenuous
+h=helium
+H=hydrogen
+n=none
+N=nitrogen
+m=metals
+M=methane
+O=oxygen
+r=toxic radiation
+S=sulfides
+T=Thin
+t=turbulent
+v=volcanic outgassing
+
+Planet Class
+sufrace
+a=arid
+A=archipelagos
+b=barren
+c=cold
+C=cratered
+d=deuterium
+e=extremely hot
+f=frozen water
+F=frozen
+m=molten
+h=very hot
+j=jungle
+l=Liquid metallic hydrogen
+M=methane
+n=ammonia
+r=rocky
+t=temperate
+v=volcanic
+w=partially water
+W=abundant water

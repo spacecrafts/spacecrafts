@@ -129,23 +129,23 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		int action = gamE.num(ACTION);
 		switch(action) {
 		case ACTION_EXIT  : Autosave.INSTANCE.progress(user, game); System.exit(0); break;
-		case ACTION_ERROR : gamE.put(SCREEN, GameScreen.SCREEN_ERROR); break;
+		case ACTION_ERROR : gamE.set(SCREEN, GameScreen.SCREEN_ERROR); break;
 		case ACTION_SAVE  : Save.INSTANCE.progress(user, game); break;
 		case ACTION_SETUP : new Setup().progress(user, game); break;
 		case ACTION_TURN  : //
 		case ACTION_DONE  : // Intentional fall-through (these 3 are almost the same except that players intentions are explicit in ending a plan or turn)
 		case ACTION_STEP  : new Step().progress(user, game); break;
-		case ACTION_LOAD  : Autosave.INSTANCE.progress(user, game); gamE.put(ACTION, ACTION_INIT); // Intentional fall-through 
+		case ACTION_LOAD  : Autosave.INSTANCE.progress(user, game); gamE.set(ACTION, ACTION_INIT); // Intentional fall-through 
 		case ACTION_INIT  : doWait(); return; // in case player wakes up before it is quit when loading we just wait again
 		}
-		gamE.erase(ACTION);
+		gamE.unset(ACTION);
 	}
 
 	private static void initGlobalKeys(State game, Stage stage) {
 		int gameId = game.single(GAME).id();
 		stage.onGlobalKey(KeyEvent.VK_ESCAPE,
 				new Change(gameId, RETURN_SCREEN, Op.COPY, gameId, SCREEN),
-				new Change(gameId, SCREEN, Op.PUT, GameScreen.SCREEN_MAIN));
+				new Change(gameId, SCREEN, Op.SET, GameScreen.SCREEN_MAIN));
 	} 
 	
 	/*

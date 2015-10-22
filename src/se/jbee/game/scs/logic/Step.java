@@ -24,7 +24,7 @@ public class Step implements Progress, GameComponent, GameScreen {
 			// in general when a process attached to the entity has ended (completed or canceled)
 			Entity gamE = game.single(GAME);
 			// the galaxy as seen by player 1
-			gamE.put(SCREEN, SCREEN_GALAXY).put(SCREEN_ENTITY, gamE.num(GALAXIES));
+			gamE.set(SCREEN, SCREEN_GALAXY).set(SCREEN_ENTITY, gamE.num(GALAXIES));
 		}
 	}
 
@@ -34,12 +34,12 @@ public class Step implements Progress, GameComponent, GameScreen {
 		for (int i = 0; i < players.length; i++) {
 			Entity player = game.entity(players[i]);
 			if (player.has(NO) && player.num(TURN) < 0) {
-				gamE.put(SCREEN, SCREEN_SETUP_PLAYER);
+				gamE.set(SCREEN, SCREEN_SETUP_PLAYER);
 				return;
 			}
 		}
 		// now all players are setup, the game process will forward from turn 0 to turn 1, until then inputs are look by the following screen
-		gamE.put(SCREEN, SCREEN_ENCOUNTER);
+		gamE.set(SCREEN, SCREEN_ENCOUNTER);
 	}
 
 }

@@ -38,8 +38,8 @@ public class Turn implements Progress, GameComponent {
 
 
 
-		gamE.put(TURN, turn+1); // forward turn
-		gamE.put(ACTION, ACTION_STEP); // make the right screen appear for the first player
+		gamE.set(TURN, turn+1); // forward turn
+		gamE.set(ACTION, ACTION_STEP); // make the right screen appear for the first player
 	}
 
 	private void initialiseNewGameWorld(State game) {
@@ -92,23 +92,23 @@ public class Turn implements Progress, GameComponent {
 		for (int i = 0; i < players.length; i++) {
 			Entity star = homes[i];
 			Entity player = game.entity(players[i]);
-			star.put(SEED, rnd.nextLong());
-			star.put(HOME, player.id());
-			player.put(STAR, star.id());
+			star.set(SEED, rnd.nextLong());
+			star.set(HOME, player.id());
+			player.set(STAR, star.id());
 			distributePlanetsInSolarSystem(game, star);
 			int[] planets = star.list(PLANETS);
 			// we just pick the first for now
 			int planetID = planets[0];
-			player.put(HOME, planetID);
+			player.set(HOME, planetID);
 			Entity colony = game.defEntity(COLONY);
-			colony.put(PLAYER, player.id());
-			colony.put(PLANET, planetID);
+			colony.set(PLAYER, player.id());
+			colony.set(PLANET, planetID);
 			Entity planet = game.entity(planetID);
-			planet.put(COLONY, colony.id());
+			planet.set(COLONY, colony.id());
 			Entity orbit = game.defEntity(ORBIT);
-			orbit.put(PLANET, planetID);
-			orbit.put(COLONY, colony.id());
-			colony.put(ORBIT, orbit.id());
+			orbit.set(PLANET, planetID);
+			orbit.set(COLONY, colony.id());
+			colony.set(ORBIT, orbit.id());
 		}
 	}
 
@@ -118,12 +118,12 @@ public class Turn implements Progress, GameComponent {
 		int[] planets = new int[nop];
 		for (int i = 0; i < nop; i++) {
 			Entity planet = game.defEntity(PLANET);
-			planet.put(STAR, star.id());
-			planet.put(POSITION, i+1); // as a planet orbits around the star it does not have a fix position in overall space, the position is simply the distance from the star, here simplified by its position
+			planet.set(STAR, star.id());
+			planet.set(POSITION, i+1); // as a planet orbits around the star it does not have a fix position in overall space, the position is simply the distance from the star, here simplified by its position
 
 			planets[i] = planet.id();
 		}
-		star.put(PLANETS, planets);
+		star.set(PLANETS, planets);
 	}
 
 	private static Entity[] distributeStarsInGalaxy(State game) {
@@ -133,8 +133,8 @@ public class Turn implements Progress, GameComponent {
 
 		Entity galaxy = game.defEntity(GALAXY);
 		long seed = System.currentTimeMillis();
-		galaxy.put(SEED, seed);
-		galaxy.put(SIZE, GALAXY_XS, GALAXY_YS, GALAXY_ZS);
+		galaxy.set(SEED, seed);
+		galaxy.set(SIZE, GALAXY_XS, GALAXY_YS, GALAXY_ZS);
 		gamE.append(GALAXIES, galaxy.id());
 
 		Rnd rnd = new Rnd(seed);
@@ -151,25 +151,25 @@ public class Turn implements Progress, GameComponent {
 			Rnd starRnd = new Rnd(starSeed);
 			Entity star = game.defEntity(STAR);
 
-			star.put(SEED, starSeed);
-			star.put(POSITION, positions[i]);
-			star.put(NAME, Name.unique(Name.NAME_BEUDONIA, starSeed)); //TODO name lazy when system is discovered
+			star.set(SEED, starSeed);
+			star.set(POSITION, positions[i]);
+			star.set(NAME, Name.unique(Name.NAME_BEUDONIA, starSeed)); //TODO name lazy when system is discovered
 			Entity type = starTypeDistribution[starRnd.nextInt(99)];
-			star.put(STAR_TYPE, type.id());
+			star.set(STAR_CLASS, type.id());
 			int[] sizes = type.list(SIZE);
-			star.put(SIZE, sizes[starRnd.nextInt(sizes.length-1)]);
-			star.put(RGBA, new RGBA(type.list(RGB)).shift(starRnd, 30).toRGBA());
+			star.set(SIZE, sizes[starRnd.nextInt(sizes.length-1)]);
+			star.set(RGBA, new RGBA(type.list(RGB)).shift(starRnd, 30).toRGBA());
 			starIDs[i] = star.id();
 			eStars[i] = star;
 			if (i < homes.length) {
 				homes[i] = star;
 			}
 		}
-		galaxy.put(STARS, starIDs);
+		galaxy.set(STARS, starIDs);
 		// set the minimum distance to next star for all the stars
 		for (int i = 0; i < nos; i++) {
 			Entity star = eStars[i];
-			star.put(CLOSEST, (int)D3.closestDistance2D(star, POSITION, eStars));
+			star.set(CLOSEST, (int)D3.closestDistance2D(star, POSITION, eStars));
 		}
 		return homes;
 	}
@@ -177,7 +177,7 @@ public class Turn implements Progress, GameComponent {
 	private static Entity[] starTypeDistribution(State game) {
 		Entity[] dist = new Entity[101];
 		int j = 0;
-		for (Entity type : game.entities(game.all(STAR_TYPE))) {
+		for (Entity type : game.entities(game.all(STAR_CLASS))) {
 			int n = type.num(ABUNDANCE);
 			for (int k = 0; k < n; k++) {
 				dist[j++] = type;
