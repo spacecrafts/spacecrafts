@@ -46,6 +46,10 @@ public final class Change {
 	public static Change put(int entity, int comp, int key, int value) {
 		return new Change(entity, comp, Op.PUT, key, value);
 	}
+	
+	public static Change move(int entityFrome, int comp, int key, int entityTo) {
+		return new Change(entityFrome, comp, Op.MOVE, key, entityTo);
+	}
 
 	public final int entity;   // which entity is manipulated
 	public final int comp;     // component of the entity that is manipulated (if not clearing all)

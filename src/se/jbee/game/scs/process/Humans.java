@@ -24,7 +24,7 @@ import se.jbee.game.any.state.Change.Op;
 import se.jbee.game.scs.logic.Autosave;
 import se.jbee.game.scs.logic.Save;
 import se.jbee.game.scs.logic.Setup;
-import se.jbee.game.scs.logic.Step;
+import se.jbee.game.scs.logic.Ready;
 import se.jbee.game.scs.screen.Blank;
 import se.jbee.game.scs.screen.Colony;
 import se.jbee.game.scs.screen.Encounter;
@@ -128,14 +128,14 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 		final Entity gamE = game.single(GAME);
 		int action = gamE.num(ACTION);
 		switch(action) {
-		case ACTION_EXIT  : Autosave.INSTANCE.progress(user, game); System.exit(0); break;
+		case ACTION_EXIT  : Autosave.INSTANCE.transit(user, game); System.exit(0); break;
 		case ACTION_ERROR : gamE.set(SCREEN, GameScreen.SCREEN_ERROR); break;
-		case ACTION_SAVE  : Save.INSTANCE.progress(user, game); break;
-		case ACTION_SETUP : new Setup().progress(user, game); break;
+		case ACTION_SAVE  : Save.INSTANCE.transit(user, game); break;
+		case ACTION_SETUP : new Setup().transit(user, game); break;
 		case ACTION_TURN  : //
 		case ACTION_DONE  : // Intentional fall-through (these 3 are almost the same except that players intentions are explicit in ending a plan or turn)
-		case ACTION_STEP  : new Step().progress(user, game); break;
-		case ACTION_LOAD  : Autosave.INSTANCE.progress(user, game); gamE.set(ACTION, ACTION_INIT); // Intentional fall-through 
+		case ACTION_READY  : new Ready().transit(user, game); break;
+		case ACTION_LOAD  : Autosave.INSTANCE.transit(user, game); gamE.set(ACTION, ACTION_INIT); // Intentional fall-through 
 		case ACTION_INIT  : doWait(); return; // in case player wakes up before it is quit when loading we just wait again
 		}
 		gamE.unset(ACTION);

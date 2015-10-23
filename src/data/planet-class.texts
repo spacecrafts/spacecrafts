@@ -24,14 +24,14 @@ X=Chthonian
 Y=Demon
 
 # enumeration like data...
-Planet Class
+Planet
 zone
 c=cold
 e=ecosphere
 h=hot
 r=rogue
 
-Planet Class
+Planet
 atmosphere
 a=ammonia
 A=argon
@@ -52,8 +52,8 @@ T=Thin
 t=turbulent
 v=volcanic outgassing
 
-Planet Class
-sufrace
+Planet
+surface
 a=arid
 A=archipelagos
 b=barren

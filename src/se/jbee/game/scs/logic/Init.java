@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import se.jbee.game.any.logic.Progress;
+import se.jbee.game.any.logic.Transition;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.Name;
 import se.jbee.game.any.state.Rnd;
@@ -20,10 +20,10 @@ import se.jbee.game.scs.state.UserComponent;
 /**
  * Initializes game and user entities for a fresh game.
  */
-public class Init implements Progress, GameComponent, UserComponent {
+public class Init implements Transition, GameComponent, UserComponent {
 
 	@Override
-	public void progress(State user, State game) {
+	public void transit(State user, State game) {
 		initUser(user);
 		initGame(game, user);
 	}

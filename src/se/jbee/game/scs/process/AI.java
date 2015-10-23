@@ -11,7 +11,7 @@ import se.jbee.game.scs.state.GameComponent;
  * 
  * The process pauses when all changes are done for the current turn. It is
  * notified to continue by the main game process when a new turn has started.
- * However, it might also start after a game is loaded so it has to check if it
+ * It might, however, also start after a game is loaded so it has to check if it
  * is already done when it becomes active.
  * 
  * This AI does all the economic and strategic decisions but is not concerned
@@ -20,14 +20,14 @@ import se.jbee.game.scs.state.GameComponent;
 public class AI implements Runnable, Player, GameComponent {
 
 	private final State game;
-	private final Entity aiPlayer;
+	private final Entity ai;
 
 	private boolean quit = false;
 	
-	public AI(State game, int aiPlayer) {
+	public AI(State game, int eAI) {
 		super();
 		this.game = game;
-		this.aiPlayer = game.entity(aiPlayer);
+		this.ai = game.entity(eAI);
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class AI implements Runnable, Player, GameComponent {
 	private void makeTurnMoves() {
 		// TODO Auto-generated method stub
 		
-		aiPlayer.set(TURN, game.single(GAME).num(TURN)); // AI is done
+		ai.set(TURN, game.single(GAME).num(TURN)); // AI is done
 	}
 
 	private void doMove() {

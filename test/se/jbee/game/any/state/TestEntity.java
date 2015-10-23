@@ -31,20 +31,20 @@ public class TestEntity {
 		e.put(5, 2, 3);
 		e.put(5, 3, 4);
 
-		assertEquals(3, e.get(5, 2));
-		assertEquals(4, e.get(5, 3));
-		assertEquals(0, e.get(5, 8));
+		assertEquals(3, e.lookup(5, 2, 0));
+		assertEquals(4, e.lookup(5, 3, 0));
+		assertEquals(0, e.lookup(5, 8, 0));
 
 		e.unput(5, 2);
-		assertEquals(0, e.get(5, 2));
-		assertEquals(4, e.get(5, 3));
+		assertEquals(0, e.lookup(5, 2, 0));
+		assertEquals(4, e.lookup(5, 3, 0));
 
 		e.unput(5, 8); // key 8 is not set
-		assertEquals(0, e.get(5, 2));
-		assertEquals(4, e.get(5, 3));
+		assertEquals(0, e.lookup(5, 2, 0));
+		assertEquals(4, e.lookup(5, 3, 0));
 
 		e.unput(5, 3);
-		assertEquals(0, e.get(5, 2));
-		assertEquals(0, e.get(5, 3));
+		assertEquals(0, e.lookup(5, 2, 0));
+		assertEquals(0, e.lookup(5, 3, 0));
 	}
 }

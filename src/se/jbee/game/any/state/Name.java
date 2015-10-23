@@ -139,9 +139,15 @@ public final class Name {
 		return name.toString();
 	}
 
-	private static final Set<String> used = new HashSet<>();
-	
-	public static String unique(int type, long seed) {
+	public static String uniqueIn(State context, int type, long seed) {
+		final Set<String> used = new HashSet<>();
+		for (int i = 0; i < context.size(); i++) {
+			Entity e = context.entity(i);
+			String n = e.name();
+			if (!n.isEmpty()) {
+				used.add(n);
+			}
+		}
 		String name = name(type, seed);
 		Rnd rnd = new Rnd(seed);
 		while (used.contains(name)) {

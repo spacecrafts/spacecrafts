@@ -13,10 +13,7 @@ import se.jbee.game.any.gfx.Renderer;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.gfx.Styles;
 
-/**
- * The first {@link Renderer} I do.
- */
-public class Renderer1 implements Renderer, Gfx {
+public class ObjectRenderer implements Renderer, Gfx {
 
 	// make horizontal scratch: 300, 1000, 1000, 80, 42, 0.2f (has been caused by using a rectangle that had another shape)
 	// wood-like: 100, 2000, 200, 80, 42, 0.2f

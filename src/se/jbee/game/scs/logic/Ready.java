@@ -1,6 +1,6 @@
 package se.jbee.game.scs.logic;
 
-import se.jbee.game.any.logic.Progress;
+import se.jbee.game.any.logic.Transition;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.screen.GameScreen;
@@ -9,14 +9,15 @@ import se.jbee.game.scs.state.GameComponent;
 /**
  * The second most important game transition after {@link Turn}.
  * 
- * A step is change of plan, plan participant or player.
+ * The player has indicated that he is ready with the current entity 
+ * (and wants to be guided to the next one needing input).
  */
-public class Step implements Progress, GameComponent, GameScreen {
+public class Ready implements Transition, GameComponent, GameScreen {
 
 	@Override
-	public void progress(State user, State game) {
+	public void transit(State user, State game) {
 		if (game.single(GAME).num(TURN) == 0) {
-			setupThePlayerNotSetupYet(game);
+			selectPlayerToSetup(game);
 		} else {
 			// TODO
 			// this is far more complicated - finding the active player, finding the active plan, finding the active entity within the plan
@@ -28,7 +29,7 @@ public class Step implements Progress, GameComponent, GameScreen {
 		}
 	}
 
-	private static void setupThePlayerNotSetupYet(State game) {
+	private static void selectPlayerToSetup(State game) {
 		Entity gamE = game.single(GAME);
 		int[] players = gamE.list(PLAYERS);
 		for (int i = 0; i < players.length; i++) {

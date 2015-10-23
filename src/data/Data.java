@@ -19,16 +19,9 @@ import se.jbee.game.any.state.State;
  * This is a simple extension to the {@link State} container that allows to read
  * entities from text files. Each row describes an entity. Columns are separated
  * by whitespace. The first row however defines the columns given by the
- * component types. These are expected to exist in the target.
+ * component types as their id or name. These are expected to exist in the target.
  *
- * A file could look like this:
- *
- * <pre>
- *  0  43 44 45
- *  42 1  "a" [1 2]
- *  42 2	"bc" {3}
- *  42 3 - [4 555 66]
- * </pre>
+ * Limitations: The first column has to be the component type {@link Component#COMP}
  */
 public final class Data {
 
@@ -87,8 +80,12 @@ public final class Data {
 					break;
 				bufpos = 0;
 				do {
+					int last = Integer.MIN_VALUE;
 					if (c =='\'') { // char
-						seq[bufpos++] = in.read();
+						int v = in.read();
+						sorted &= v <= last;
+						last = v;
+						seq[bufpos++] = v;
 						in.read(); // '
 						c = in.read();
 					} else { // number
@@ -106,6 +103,8 @@ public final class Data {
 								c = in.read();
 							}
 						} while (isHexDigit(c, base == 16));
+						sorted &= num <= last;
+						last = num;
 						seq[bufpos++] = num;
 					}
 					while (isWhitespace(c)) { c = in.read(); }

@@ -51,13 +51,31 @@ public final class D3 {
 		return false;
 	}
 
-	public static int[][] pointClouds(int n_points, int n_clouds, int s_x, int s_y, int s_z, int s_void, int s_cloud, long seed) {
-		int n_pointsInCloud = min(8, max(5, n_points/3/n_clouds));
-		n_points = max(n_points, n_pointsInCloud * n_clouds * 2);
-		s_cloud = max(s_cloud, s_void*(n_pointsInCloud/2));
-		int n_col = min(n_clouds, s_x/2/s_cloud);
-		int n_row = n_clouds/n_col;
-		if (n_col *n_row < n_clouds) {
+	/**
+	 * The point clouds created by this method do fit well to the distribution
+	 * of stars as stars do not occur at random. They form in a region. Crowded
+	 * and empty areas are realistic in this case.
+	 * 
+	 * The first n points returned will be fair starting points for player in
+	 * one of the clouds.
+	 * 
+	 * @param n number of points
+	 * @param delta minimum distance between points 
+	 * @param m number of clouds
+	 * @param dia (maximum) diameter of a cloud
+	 * 
+	 * @param seed random seed
+	 */
+	public static int[][] pointClouds(int n, int delta, int m, int dia, int[] size, long seed) {
+		int pointsInCloud = min(8, max(5, n/3/m));
+		n = max(n, pointsInCloud * m * 2);
+		dia = max(dia, delta*(pointsInCloud/2));
+		int s_x = size[0];
+		int s_y = size[1];
+		int s_z = size[2];
+		int n_col = min(m, s_x/2/dia);
+		int n_row = m/n_col;
+		if (n_col *n_row < m) {
 			n_row++;
 		}
 		int w = s_x/n_col;
@@ -67,31 +85,31 @@ public final class D3 {
 
 		Rnd rnd = new Rnd(seed);
 		List<Shape> blockedAreas = new ArrayList<Shape>();
-		int[][] points = new int[n_points][3];
+		int[][] points = new int[n][3];
 		// create clusters first
 		int p = 0;
-		int s = min(min(s_cloud, w),h);
-		for (int i = 0; i < n_clouds; i++) {
+		int d = min(min(dia, w),h);
+		for (int i = 0; i < m; i++) {
 			Point c0 = cells.remove(rnd.nextInt(cells.size()-1));
-			int x0 = c0.x+rnd.nextInt(w-s);
-			int y0 = c0.y+rnd.nextInt(h-s);
+			int x0 = c0.x+rnd.nextInt(w-d);
+			int y0 = c0.y+rnd.nextInt(h-d);
 			double min = Double.MAX_VALUE;
-			int pMin = p-n_pointsInCloud;
-			int[] center = { x0+s/2, y0+s/2, 0 };
-			for (int j = 0; j < n_pointsInCloud; j++) {
+			int pMin = p-pointsInCloud;
+			int[] center = { x0+d/2, y0+d/2, 0 };
+			for (int j = 0; j < pointsInCloud; j++) {
 				int x, y = 0;
 				do {
-					x = x0+rnd.nextInt(s);
-					y = y0+rnd.nextInt(s);
+					x = x0+rnd.nextInt(d);
+					y = y0+rnd.nextInt(d);
 				} while (D3.overlaps(x, y, blockedAreas));
-				blockedAreas.add(new Ellipse2D.Float(x-s_void, y-s_void, s_void*2, s_void*2));
+				blockedAreas.add(new Ellipse2D.Float(x-delta, y-delta, delta*2, delta*2));
 				int z = rnd.nextInt(0, s_z);
 				points[p][0] = x;
 				points[p][1] = y;
 				points[p][2] = z;
-				double d = D3.distance2D(center, points[p]);
-				if (d < min) {
-					min = d;
+				double dist = D3.distance2D(center, points[p]);
+				if (dist < min) {
+					min = dist;
 					pMin = p;
 				}
 				p++;
@@ -102,13 +120,13 @@ public final class D3 {
 				points[pMin] = t;
 			}
 		}
-		while (p < n_points) {
+		while (p < n) {
 			int x, y = 0;
 			do {
 				x = rnd.nextInt(s_x);
 				y = rnd.nextInt(s_y);
 			} while (D3.overlaps(x, y, blockedAreas));
-			blockedAreas.add(new Ellipse2D.Float(x-s_void, y-s_void, s_void*2, s_void*2));
+			blockedAreas.add(new Ellipse2D.Float(x-delta, y-delta, delta*2, delta*2));
 			int z = rnd.nextInt(s_z);
 			points[p][0] = x;
 			points[p][1] = y;

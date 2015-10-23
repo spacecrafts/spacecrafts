@@ -20,12 +20,11 @@ import javax.swing.JPanel;
 
 import se.jbee.game.any.gfx.Colouring;
 import se.jbee.game.any.gfx.Dimension;
-import se.jbee.game.any.gfx.Renderer;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.gfx.Styles;
 import se.jbee.game.any.gfx.obj.Text;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.scs.gfx.Renderer1;
+import se.jbee.game.scs.gfx.ObjectRenderer;
 import se.jbee.game.scs.gfx.obj.Background;
 import se.jbee.game.scs.gfx.obj.Icon;
 import se.jbee.game.scs.gfx.obj.Knob;
@@ -97,7 +96,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 		final BufferStrategy strategy = getBufferStrategy();
 		final Dimension screen = new Dimension(getSize());
 		final Styles styles = initStyles(screen);
-		final Renderer renderer = initRenderer();
+		final ObjectRenderer renderer = initRenderer();
 		int frameDone = -1;
 		boolean onlyDrawOnChange = false;
 		while (true) {
@@ -166,8 +165,8 @@ public class Display extends Canvas implements Runnable, Gfx {
 					: new Color(rgb, rgb, rgb, 0f).getRGB();
 	};
 
-	private Renderer initRenderer() {
-		Renderer1 r = new Renderer1();
+	private ObjectRenderer initRenderer() {
+		ObjectRenderer r = new ObjectRenderer();
 		r.assoc(OBJ_TEXT, new Text());
 		r.assoc(OBJ_TECH_WHEEL, new Techwheel());
 		r.assoc(OBJ_KNOB, new Knob());

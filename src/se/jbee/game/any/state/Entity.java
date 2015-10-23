@@ -360,16 +360,16 @@ public final class Entity implements Component {
 		return 0;
 	}
 
-	public int get(int comp, int key) {
+	public int lookup(int comp, int key, int def) {
 		int i = indexOf(comp);
 		if (i < 0)
-			return 0;
+			return def;
 		int[] map = vs[i];
 		for (int k = 0; k < map.length; k+=2) {
 			if (map[k] == key)
 				return map[k+1];
 		}
-		return 0;
+		return def;
 	}
 
 	/*

@@ -55,7 +55,7 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		stage.in(nextArea, text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT),NEXT);
 		Change[] nextCs = {
 				set(player.id(), TURN, 0),
-				set(gamE.id(), ACTION, ACTION_STEP),
+				set(gamE.id(), ACTION, ACTION_READY),
 				set(gamE.id(), SCREEN, GameScreen.SCREEN_BLANK)
 		};
 		stage.onLeftClickIn(nextArea, nextCs);

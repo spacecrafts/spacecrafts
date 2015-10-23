@@ -42,7 +42,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 	public void run() {
 		final State user = State.base().defComponents(UserComponent.class);
 		State game = State.base().defComponents(GameComponent.class);
-		new Init().progress(user, game);
+		new Init().transit(user, game);
 
 		Display display = new Display();
 		Dimension size = display.getSize();
@@ -68,10 +68,11 @@ public class Game implements Runnable, GameComponent, UserComponent {
 
 				humanPlayers.start();
 				if (displayThread.getState() == java.lang.Thread.State.NEW) {
+					System.out.print("Starting display... ");
 					displayThread.start();
+					System.out.println("done ("+Thread.activeCount()+")");
 				}
 				init = false;
-				System.out.println(Thread.activeCount()+" threads running...");
 			}
 
 			if (game.single(GAME).num(ACTION) == ACTION_INIT) { // should another game be loaded?
@@ -85,7 +86,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 					// TODO run encounters (battles ordered or resulting from an conflict due to simultaneous space occupation.
 
 					// advance to next turn
-					new Turn().progress(user, game);
+					new Turn().transit(user, game);
 
 					// wake-up players
 					move(players);

@@ -11,11 +11,11 @@ import se.jbee.game.any.state.State;
  * 
  * At some point it also may allow for easier generic programming.
  */
-public interface Progress {
+public interface Transition {
 
 	/**
 	 * The game state is manipulated so that the game advances according to the
-	 * logic of this {@link Progress}. The user state should only be read.
+	 * logic of this {@link Transition}. The user state usually is just read.
 	 */
-	void progress(State user, State game);
+	void transit(State user, State game);
 }

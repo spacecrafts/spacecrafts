@@ -1,16 +1,19 @@
 package se.jbee.game.scs.logic;
 
 import static se.jbee.game.scs.screen.GameScreen.SCREEN_SETUP_PLAYER;
-import se.jbee.game.any.logic.Progress;
+import se.jbee.game.any.logic.Transition;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.PlayerStatus;
 
-public class Setup implements Progress, GameComponent {
+/**
+ * Creating a game... 
+ */
+public class Setup implements Transition, GameComponent {
 
 	@Override
-	public void progress(State user, State game) {
+	public void transit(State user, State game) {
 		Entity gamE = game.single(GAME);
 		int[] setup = gamE.list(SETUP);
 		for (int i = 1; i < setup[SETUP_NUMBER_OF_PLAYERS]; i++) {
