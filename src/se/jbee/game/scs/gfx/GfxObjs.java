@@ -16,30 +16,30 @@ public final class GfxObjs implements Gfx {
 
 	//int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
 
-	public static int[] flextext(int key, int x, int y, int font, int size, int color) {
-		return flextext(key, x,y,font,size,color, ALIGN_NW, -1, -1);
+	public static int[] text(int key, int left, int top, int font, int size, int color) {
+		return text(key, left,top,font,size,color, ALIGN_NW, -1, -1);
 	}
 	
-	public static int[] flextext(int key, int x, int y, int font, int size, int color, int align, int x2, int y2) {
-		return new int[] { OBJ_TEXT, x,y, font, size, color, align, x2, y2, 0, key };
+	public static int[] text(int key, int left, int top, int font, int size, int color, int align, int right, int bottom) {
+		return new int[] { OBJ_TEXT, left,top, right, bottom, font, size, color, align, 0, key };
 	}
 	
-	public static int[] text(int x, int y, int font, int size, int color, int[] text) {
-		return text(x,y,font,size,color, ALIGN_NW, -1, -1, text);
+	public static int[] fixtext(int left, int top, int font, int size, int color, int[] text) {
+		return fixtext(left,top,font,size,color, ALIGN_NW, -1, -1, text);
 	}
 
 	//TODO stretch (making size so that the text takes X/Y bounds given)
-	public static int[] text(int x, int y, int font, int size, int color, int align, int x2, int y2, int[] text) {
+	public static int[] fixtext(int left, int top, int font, int size, int color, int align, int right, int bottom, int[] text) {
 		int[] res = new int[10+text.length];
 		res[0] = OBJ_TEXT;
-		res[1] = x;
-		res[2] = y;
-		res[3] = font;
-		res[4] = size;
-		res[5] = color;
-		res[6] = align;
-		res[7] = x2;
-		res[8] = y2;
+		res[1] = left;
+		res[2] = top;
+		res[3] = right;
+		res[4] = bottom;
+		res[5] = font;
+		res[6] = size;
+		res[7] = color;
+		res[8] = align;
 		res[9] = 1;
 		System.arraycopy(text, 0, res, 10, text.length);
 		return res;

@@ -6,7 +6,7 @@ import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.GfxObjs.background;
 import static se.jbee.game.scs.gfx.GfxObjs.icon;
-import static se.jbee.game.scs.gfx.GfxObjs.text;
+import static se.jbee.game.scs.gfx.GfxObjs.fixtext;
 import static se.jbee.game.scs.gfx.GfxObjs.timeLine;
 
 import java.awt.Rectangle;
@@ -77,7 +77,7 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 		Change screenCs = set(gID, SCREEN, SCREEN_LOADING_GAME);
 		Change loadCs = set(gID, ACTION, ACTION_LOAD);
 		for (File[] saves : gameFiles) {
-			stage.atFront(text(x0, y, FONT_REGULAR, 14, COLOR_TEXT_NORMAL, ALIGN_E, x0+nameWidth-5, y+d, codePoints(saves[0].getParentFile().getName().replace('_', ' '))));
+			stage.atFront(fixtext(x0, y, FONT_REGULAR, 14, COLOR_TEXT_NORMAL, ALIGN_E, x0+nameWidth-5, y+d, codePoints(saves[0].getParentFile().getName().replace('_', ' '))));
 			String highestTrunSave = saves[saves.length-1].getName();
 			int highestTurn = Integer.parseInt(highestTrunSave.substring(0, highestTrunSave.indexOf('.')));
 			stage.atFront(timeLine(x0+nameWidth, y0+r, x0+nameWidth+highestTurn*lineWidth/maxTurn, y0+r));
@@ -93,7 +93,7 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 				int color = save.getName().contains(".auto.") ? COLOR_TEXT_NORMAL : COLOR_FARM;
 				stage.atFront(icon(ICON_BUILDING, x, y, d, color));
 				Rectangle area = new Rectangle(x, y, d, d);
-				stage.in(area, icon(ICON_BUILDING, x-2, y-2, d+4, COLOR_TEXT_HIGHLIGHT), text(x, y-20, FONT_REGULAR, 14, COLOR_TEXT_HIGHLIGHT, codePoints(String.valueOf(turn))));
+				stage.in(area, icon(ICON_BUILDING, x-2, y-2, d+4, COLOR_TEXT_HIGHLIGHT), fixtext(x, y-20, FONT_REGULAR, 14, COLOR_TEXT_HIGHLIGHT, codePoints(String.valueOf(turn))));
 				stage.onLeftClickIn(area,
 					set(gID, SAVEGAME, codePoints(save.getParentFile().getName()+"/"+save.getName() )),
 					screenCs, loadCs);

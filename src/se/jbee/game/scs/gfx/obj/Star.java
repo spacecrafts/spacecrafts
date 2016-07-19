@@ -20,14 +20,14 @@ import se.jbee.game.scs.gfx.Gfx;
 
 public class Star implements Gfx, ObjClass {
 
-	public static final Star CLIP = new Star(true);
-	public static final Star CIRCLE = new Star(false);
+	public static final Star CUT = new Star(true);
+	public static final Star FULL = new Star(false);
 
-	private final boolean clip;
+	private final boolean cut;
 
-	private Star(boolean clip) {
+	private Star(boolean cut) {
 		super();
-		this.clip = clip;
+		this.cut = cut;
 	}
 
 	@Override
@@ -37,20 +37,20 @@ public class Star implements Gfx, ObjClass {
 		int w = obj[3];
 		int rgba = obj[4];
 		Color color = new Color(rgba);
-		if (clip) {
+		if (cut) {
 			BufferedImage stex = resources.texture(TEXTURE_STAR_200x2000_SMALL);
 			TexturePaint ss = new TexturePaint(stex, new Rectangle(x0, 0, stex.getWidth(), stex.getHeight()));
 			BufferedImage ltex =  color.getGreen() > color.getBlue() && color.getBlue() < color.getRed()
 					? resources.texture(TEXTURE_STAR_200x2000_LARGE_RED)
 					: resources.texture(TEXTURE_STAR_200x2000_LARGE_BLUE);
 			TexturePaint ls = new TexturePaint(ltex, new Rectangle(x0, 0, ltex.getWidth(), ltex.getHeight()));
-			starClip(gfx, x0, y0, w, rgba, ls, ss);
+			starCut(gfx, x0, y0, w, rgba, ls, ss);
 		} else {
-			starCircle(gfx, x0, y0, w, rgba);
+			starFull(gfx, x0, y0, w, rgba);
 		}
 	}
 
-	private void starCircle(Graphics2D gfx, int x0, int y0, int dia, int rgba) {
+	private void starFull(Graphics2D gfx, int x0, int y0, int dia, int rgba) {
 		int r = new Color(rgba).getRed();
 		int g = new Color(rgba).getGreen();
 		int b = new Color(rgba).getBlue();
@@ -65,7 +65,7 @@ public class Star implements Gfx, ObjClass {
 		gfx.fillOval(x0, y0, dia, dia);
 	}
 
-	private void starClip(Graphics2D gfx, int x0, int y0, int d, int rgba, TexturePaint ls, TexturePaint ss) {
+	private void starCut(Graphics2D gfx, int x0, int y0, int d, int rgba, TexturePaint ls, TexturePaint ss) {
 		Color c = new Color(rgba);
 		int r = c.getRed();
 		int g = c.getGreen();

@@ -19,14 +19,14 @@ import se.jbee.game.scs.gfx.Gfx;
 
 public class Planet implements Gfx, ObjClass {
 
-	public static final Planet CLIP = new Planet(true);
-	public static final Planet CIRCLE = new Planet(false);
+	public static final Planet CUT = new Planet(true);
+	public static final Planet FULL = new Planet(false);
 
-	private final boolean clip;
+	private final boolean cut;
 
-	private Planet(boolean clip) {
+	private Planet(boolean cut) {
 		super();
-		this.clip = clip;
+		this.cut = cut;
 	}
 
 	@Override
@@ -35,14 +35,14 @@ public class Planet implements Gfx, ObjClass {
 		int y0 = obj[2];
 		int w = obj[3];
 		int rgba = obj[5];
-		if (clip) {
-			planetClip(resources, gfx, x0, y0, w, rgba);
+		if (cut) {
+			planetCut(resources, gfx, x0, y0, w, rgba);
 		} else {
-			planetCircle(resources, gfx, x0, y0, w, rgba);
+			planetFull(resources, gfx, x0, y0, w, rgba);
 		}
 	}
 
-	private void planetClip(Resources styles, Graphics2D gfx, int x0, int y0, int d, int rand) {
+	private void planetCut(Resources styles, Graphics2D gfx, int x0, int y0, int d, int rand) {
 		Color c = new Color(rand);
 		int r = c.getRed();
 		int g = c.getGreen();
@@ -53,10 +53,10 @@ public class Planet implements Gfx, ObjClass {
 				y0+d/2, d,
                 new float[] { 0f, 0.84f, 0.9f },
                 new Color[] { c, new Color(r/128,g/128,b/128), Color.black });
-		drawClip(gfx, x0-1, y0, d+1, paint);
+		drawArc(gfx, x0-1, y0, d+1, paint);
 
 		// texture
-		drawClip(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_200x2000_SMALL), new Rectangle(0, y0, 200, 2000)));
+		drawArc(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_200x2000_SMALL), new Rectangle(0, y0, 200, 2000)));
 
 		// 3d effect (as darkening)
 		paint = new RadialGradientPaint(x0+d/2,
@@ -68,12 +68,12 @@ public class Planet implements Gfx, ObjClass {
 
 		// darken upper and lower area
 		paint = new LinearGradientPaint(x0, 0, x0, d/4, new float[] { 0f, 1f }, new Color[] { new Color(r/4,g/4,b/4, 100), new Color(r,g,b,100)  }, CycleMethod.REFLECT);
-		drawClip(gfx, x0, y0, d, paint);
+		drawArc(gfx, x0, y0, d, paint);
 
-		drawClip(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_200x2000_LARGE), new Rectangle(0, y0, 200, 2000)));
+		drawArc(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_200x2000_LARGE), new Rectangle(0, y0, 200, 2000)));
 	}
 
-	private void planetCircle(Resources styles, Graphics2D gfx, int x0, int y0, int d, int rgba) {
+	private void planetFull(Resources styles, Graphics2D gfx, int x0, int y0, int d, int rgba) {
 		Color c = new Color(rgba);
 		int r = c.getRed();
 		int g = c.getGreen();
@@ -111,7 +111,7 @@ public class Planet implements Gfx, ObjClass {
 		gfx.setPaint(old);
 	}
 
-	private static void drawClip(Graphics2D gfx, int x0, int y0, int d, Paint paint) {
+	private static void drawArc(Graphics2D gfx, int x0, int y0, int d, Paint paint) {
 		Paint old = gfx.getPaint();
 		gfx.setPaint(paint);
 		gfx.fillArc(x0, y0, d, d, -30, 60);

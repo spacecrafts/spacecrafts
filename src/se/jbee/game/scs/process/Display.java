@@ -173,10 +173,10 @@ public class Display extends Canvas implements Runnable, Gfx {
 		r.register(OBJ_BUTTON, new Button());
 		r.register(OBJ_RING, new Ring());
 		r.register(OBJ_BACKGROUND, new Background());
-		r.register(OBJ_STAR, Star.CIRCLE);
-		r.register(OBJ_STAR_CLIP, Star.CLIP);
-		r.register(OBJ_PLANET, Planet.CIRCLE);
-		r.register(OBJ_PLANET_CLIP, Planet.CLIP);
+		r.register(OBJ_STAR, Star.FULL);
+		r.register(OBJ_STAR_CLIP, Star.CUT);
+		r.register(OBJ_PLANET, Planet.FULL);
+		r.register(OBJ_PLANET_CLIP, Planet.CUT);
 		r.register(OBJ_ICON, new Icon());
 		r.register(OBJ_RECT, new Rect());
 		r.register(OBJ_PATH, new Path());

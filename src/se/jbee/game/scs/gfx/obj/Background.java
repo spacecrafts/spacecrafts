@@ -14,10 +14,10 @@ import se.jbee.game.scs.gfx.Gfx;
 
 public class Background implements Gfx, ObjClass {
 
-	private int _w;
-	private int _h;
-	private long _seed;
-	private int[] precomputed;
+	private int doneWidth;
+	private int doneHeight;
+	private long doneSeed;
+	private int[] doneData;
 
 	@Override
 	public void draw(Graphics2D gfx, Resources resources, int[] obj) {
@@ -39,14 +39,14 @@ public class Background implements Gfx, ObjClass {
 	private void paintSpace(Graphics2D gfx, int x0, int y0, int w, int h, long seed) {
 		gfx.setColor(Color.black);
 		gfx.fillRect(x0, y0, w, h);
-		if (w != _w || h != _h || _seed != seed) {
-			precomputed = makeSpace(w, h, seed);
-			_w = w;
-			_h = h;
-			_seed = seed;
+		if (w != doneWidth || h != doneHeight || doneSeed != seed) {
+			doneData = computeSpaceBackgroundData(w, h, seed);
+			doneWidth = w;
+			doneHeight = h;
+			doneSeed = seed;
 		}
 		int j = 0;
-		int[] sp = precomputed;
+		int[] sp = doneData;
 		for (int i = 0; i < w/2; i++) {
 			int r = sp[j++];
 			int g = sp[j++];
@@ -82,7 +82,7 @@ public class Background implements Gfx, ObjClass {
 		}
 	}
 
-	private static int[] makeSpace(int w, int h, long seed) {
+	private static int[] computeSpaceBackgroundData(int w, int h, long seed) {
 		Rnd rnd = new Rnd(seed);
 		int[] space = new int[w/2*6];
 		int j = 0;

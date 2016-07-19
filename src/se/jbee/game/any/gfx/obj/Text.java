@@ -13,12 +13,12 @@ public class Text implements Gfx, ObjClass {
 	public void draw(Graphics2D gfx, Resources resources, int[] obj) {
 		int x1 = obj[1];
 		int y1 = obj[2];
-		int font = obj[3];
-		int size = obj[4];
-		int color = obj[5];
-		int align = obj[6];
-		int x2 = obj[7];
-		int y2 = obj[8];
+		int x2 = obj[3];
+		int y2 = obj[4];
+		int font = obj[5];
+		int size = obj[6];
+		int color = obj[7];
+		int align = obj[8];
 		int type = obj[9];
 		String text = "???";
 		switch(type) {

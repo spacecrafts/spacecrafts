@@ -8,8 +8,8 @@ import static se.jbee.game.any.state.Change.take;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.GfxObjs.background;
 import static se.jbee.game.scs.gfx.GfxObjs.button;
-import static se.jbee.game.scs.gfx.GfxObjs.flextext;
 import static se.jbee.game.scs.gfx.GfxObjs.text;
+import static se.jbee.game.scs.gfx.GfxObjs.fixtext;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 
 import java.awt.Rectangle;
@@ -74,7 +74,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 			}
 		}
 		int fontSize = screen.height/16;
-		stage.atFront(text(x0, y0-fontSize-50, FONT_LIGHT, fontSize, COLOR_TEXT_SPECIAL, name));
+		stage.atFront(fixtext(x0, y0-fontSize-50, FONT_LIGHT, fontSize, COLOR_TEXT_SPECIAL, name));
 	}
 
 	private void nextButton(State game, Dimension screen, Stage stage, int x0, int y0) {
@@ -85,9 +85,9 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 
 		int dotDia = dotDiameter(screen);
 		x0 = x0+400-(dotDia*19);
-		stage.atFront(flextext(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
+		stage.atFront(text(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
-		stage.in(nextArea, flextext(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
+		stage.in(nextArea, text(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
 		stage.onLeftClickIn(nextArea,
 				set(gamE.id(), ACTION, ACTION_SETUP));
 	}
@@ -95,7 +95,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	private void upDownSlider(Stage stage, State game, int x0, int y0, String text, int setupIndex, String...names) {
 		Entity gamE = game.single(GAME);
 		int[] setup = gamE.list(SETUP);
-		stage.atFront(text(x0, y0, FONT_THIN, 48, COLOR_TEXT_NORMAL, codePoints(text)));
+		stage.atFront(fixtext(x0, y0, FONT_THIN, 48, COLOR_TEXT_NORMAL, codePoints(text)));
 		stage.atFront(button(x0+200, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK));
 		//FIXME stage.atFront(codePoints("<"));
 		stage.atFront(button(x0+350, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK));
@@ -105,7 +105,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		int[] txt = names.length == 0
 			? codePoints(String.valueOf(val)) 
 			: codePoints(names[val]);
-		stage.atFront(text(x0+250, y0, FONT_LIGHT, size, COLOR_TEXT_HIGHLIGHT, ALIGN_EYE,x0+350,y0+50, txt));
+		stage.atFront(fixtext(x0+250, y0, FONT_LIGHT, size, COLOR_TEXT_HIGHLIGHT, ALIGN_EYE,x0+350,y0+50, txt));
 		if (val > 1) {
 			stage.onLeftClickIn(new Rectangle(x0+200, y0, 50,50), replace(gamE.id(), SETUP, setupIndex, val-1));
 		}
