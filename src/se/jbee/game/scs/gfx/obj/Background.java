@@ -5,15 +5,14 @@ import static java.lang.Math.min;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.List;
 
-import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.ObjClass;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.Rnd;
 import se.jbee.game.scs.gfx.Gfx;
 
-public class Background implements Gfx, Obj {
+public class Background implements Gfx, ObjClass {
 
 	private int _w;
 	private int _h;
@@ -21,15 +20,14 @@ public class Background implements Gfx, Obj {
 	private int[] precomputed;
 
 	@Override
-	public void draw(Graphics2D gfx, Resources styles, List<int[]> data) {
-		int[] obj = data.get(0);
-		int x0 = obj[2];
-		int y0 = obj[3];
-		int w = obj[4];
-		int h = obj[5];
-		int type = obj[6];
-		int seed1 = obj[7];
-		int seed2 = obj[8];
+	public void draw(Graphics2D gfx, Resources resources, int[] obj) {
+		int x0 = obj[1];
+		int y0 = obj[2];
+		int w = obj[3];
+		int h = obj[4];
+		int type = obj[5];
+		int seed1 = obj[6];
+		int seed2 = obj[7];
 		switch (type) {
 		default:
 		case Gfx.BG_BLACK: gfx.setColor(Color.black); gfx.fillRect(x0,y0,w,h); break;

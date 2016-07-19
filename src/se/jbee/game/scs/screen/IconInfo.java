@@ -1,9 +1,8 @@
 package se.jbee.game.scs.screen;
 
-import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.GfxObjs.background;
 import static se.jbee.game.scs.gfx.GfxObjs.icon;
-import static se.jbee.game.scs.gfx.GfxObjs.knob;
+import static se.jbee.game.scs.gfx.GfxObjs.button;
 import static se.jbee.game.scs.gfx.GfxObjs.ring;
 import static se.jbee.game.scs.gfx.GfxObjs.techwheel;
 
@@ -45,8 +44,7 @@ public class IconInfo implements Screen, Gfx, GameComponent {
 			y = 20;
 			d += 1;
 		}
-		stage.atFront(knob(1, 300, 300, 100, COLOR_BIOSPHERE, COLOR_BLACK));
-		stage.atFront(codePoints("1%"));
+		stage.atFront(button(300, 300, 100, COLOR_BIOSPHERE, COLOR_BLACK));
 		stage.in(new Ellipse2D.Float(300f, 300f, 100f, 100f), Cursor.HAND_CURSOR, GfxObjs.border(300, 300, 100, 100));
 
 		stage.atFront(techwheel(400, 400, 800, COLOR_TEXT_NORMAL));

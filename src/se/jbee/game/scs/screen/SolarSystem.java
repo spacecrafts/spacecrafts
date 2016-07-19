@@ -61,7 +61,7 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		stage.atFront(path(PATH_EDGY, COLOR_TEXT_NORMAL,1, w-150, view.y, w-10, view.y+140));
 		stage.atFront(starClip(w-r/8, y, d, star.num(RGB)));
 		stage.onLeftClickIn(new Rectangle(w-r/8, 0, r/8, screen.height), backToGalaxy );
-		stage.atFront(text(1, 0, 0, FONT_LIGHT, 32, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y)).atFront(star.list(NAME));
+		stage.atFront(text(0, 0, FONT_LIGHT, 32, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y, star.list(NAME)));
 		Entity type = game.entity(star.num(STAR_CLASS));
 		stage.atFront(flextext(textKey('S', 'n', type.num(CODE)), 0, view.y, FONT_LIGHT, 18, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y+30));
 
@@ -91,20 +91,14 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		stage.atFront(planet(700, 400, 200, 0, 0xFF5014));
 		stage.atFront(planet(100, 300, 300, 0, 0x0000FF));
 
-		stage.atFront(text(1, 690, 360, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
-		stage.atFront(codePoints("Mars"));
-		stage.atFront(text(1, 690, 380, FONT_LIGHT, 16, COLOR_TEXT_NORMAL));
-		stage.atFront(codePoints("Small, Tundra"));
+		stage.atFront(text(690, 360, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, codePoints("Mars")));
+		stage.atFront(text(690, 380, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, codePoints("Small, Tundra")));
 
-		stage.atFront(text(1, 90, 260, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
-		stage.atFront(codePoints("Uranus"));
-		stage.atFront(text(1, 90, 280, FONT_LIGHT, 16, COLOR_TEXT_NORMAL));
-		stage.atFront(codePoints("Large, Toxic"));
+		stage.atFront(text(90, 260, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, codePoints("Uranus")));
+		stage.atFront(text(90, 280, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, codePoints("Large, Toxic")));
 
-		stage.atFront(text(1, 20, 20+48, FONT_THIN, 48, COLOR_TEXT_NORMAL));
-		stage.atFront(codePoints("Solar System"));
-		stage.atFront(text(1, 20, 20+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
-		stage.atFront(codePoints("Type G"));
+		stage.atFront(text(20, 20+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, codePoints("Solar System")));
+		stage.atFront(text(20, 20+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, codePoints("Type G")));
 
 		stage.onLeftClickIn(area, set(gamE.id(), SCREEN, SCREEN_ORBIT));
 		stage.in(area, focusBox(690, 390, 220, 220));

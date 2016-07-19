@@ -4,24 +4,22 @@ import static java.lang.Math.toRadians;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
-import java.util.List;
 
-import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.ObjClass;
 import se.jbee.game.any.gfx.Point;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
 
-public class Techwheel implements Gfx, Obj {
+public class Techwheel implements Gfx, ObjClass {
 
 	@Override
-	public void draw(Graphics2D gfx, Resources styles, List<int[]> data) {
-		int[] obj=data.get(0);
-		int xc = obj[2];
-		int yc = obj[3];
-		int d = obj[4];
-		int color = obj[5];
+	public void draw(Graphics2D gfx, Resources resources, int[] obj) {
+		int xc = obj[1];
+		int yc = obj[2];
+		int d = obj[3];
+		int color = obj[4];
 		gfx.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		gfx.setColor(styles.color(color));
+		gfx.setColor(resources.color(color));
 
 		int ring = d/12;
 

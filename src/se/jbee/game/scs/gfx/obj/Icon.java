@@ -6,16 +6,15 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.QuadCurve2D;
-import java.util.List;
 
-import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.ObjClass;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
 
 /**
  * Rendering of all the icons used for {@link Gfx#OBJ_ICON}.
  */
-public class Icon implements Gfx, Obj {
+public class Icon implements Gfx, ObjClass {
 
 	public static void draw( Graphics2D gfx, int type, int x0, int y0, int d) {
 		Stroke s = gfx.getStroke();
@@ -76,10 +75,9 @@ public class Icon implements Gfx, Obj {
 	}
 	
 	@Override
-	public void draw(Graphics2D gfx, Resources styles, List<int[]> data) {
-		int[] obj = data.get(0);
-		gfx.setColor(styles.color(obj[6]));	
-		draw(gfx, obj[2], obj[3], obj[4], obj[5]);		
+	public void draw(Graphics2D gfx, Resources resources, int[] obj) {
+		gfx.setColor(resources.color(obj[5]));	
+		draw(gfx, obj[1], obj[2], obj[3], obj[4]);		
 	}
 
 	private static void drawNoEnergy( Graphics2D gfx, int x0, int y0, int d) {

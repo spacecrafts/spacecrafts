@@ -27,7 +27,7 @@ import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.gfx.GfxRenderer;
 import se.jbee.game.scs.gfx.obj.Background;
 import se.jbee.game.scs.gfx.obj.Icon;
-import se.jbee.game.scs.gfx.obj.Knob;
+import se.jbee.game.scs.gfx.obj.Button;
 import se.jbee.game.scs.gfx.obj.Path;
 import se.jbee.game.scs.gfx.obj.Planet;
 import se.jbee.game.scs.gfx.obj.Rect;
@@ -170,7 +170,7 @@ public class Display extends Canvas implements Runnable, Gfx {
 		GfxRenderer r = new GfxRenderer();
 		r.register(OBJ_TEXT, new Text());
 		r.register(OBJ_TECH_WHEEL, new Techwheel());
-		r.register(OBJ_KNOB, new Knob());
+		r.register(OBJ_BUTTON, new Button());
 		r.register(OBJ_RING, new Ring());
 		r.register(OBJ_BACKGROUND, new Background());
 		r.register(OBJ_STAR, Star.CIRCLE);

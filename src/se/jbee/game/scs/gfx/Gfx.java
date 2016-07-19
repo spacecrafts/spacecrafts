@@ -114,7 +114,7 @@ public interface Gfx {
 	OBJ_ICON = 21,
 
 	// input elements
-	OBJ_KNOB = 30
+	OBJ_BUTTON = 30
 	;
 
 	/**

@@ -17,44 +17,54 @@ public final class GfxObjs implements Gfx {
 	//int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
 
 	public static int[] flextext(int key, int x, int y, int font, int size, int color) {
-		return null; //TODO the key is one from Texts.encode
+		return flextext(key, x,y,font,size,color, ALIGN_NW, -1, -1);
 	}
 	
 	public static int[] flextext(int key, int x, int y, int font, int size, int color, int align, int x2, int y2) {
-		return null;
+		return new int[] { OBJ_TEXT, x,y, font, size, color, align, x2, y2, 0, key };
 	}
 	
-	@Deprecated
-	public static int[] text(int n, int x, int y, int font, int size, int color) {
-		return text(n,x,y,font,size,color, ALIGN_NW, -1, -1);
+	public static int[] text(int x, int y, int font, int size, int color, int[] text) {
+		return text(x,y,font,size,color, ALIGN_NW, -1, -1, text);
 	}
 
-	@Deprecated // all texts can be based on a key + variables - if really just a dynamic text should be set one can use an "empty" template
 	//TODO stretch (making size so that the text takes X/Y bounds given)
-	public static int[] text(int n, int x, int y, int font, int size, int color, int align, int x2, int y2) {
-		return new int[] { OBJ_TEXT, n, x,y, font, size, color, align, x2, y2 };
+	public static int[] text(int x, int y, int font, int size, int color, int align, int x2, int y2, int[] text) {
+		int[] res = new int[10+text.length];
+		res[0] = OBJ_TEXT;
+		res[1] = x;
+		res[2] = y;
+		res[3] = font;
+		res[4] = size;
+		res[5] = color;
+		res[6] = align;
+		res[7] = x2;
+		res[8] = y2;
+		res[9] = 1;
+		System.arraycopy(text, 0, res, 10, text.length);
+		return res;
 	}
 
-	public static int[] knob(int n, int x, int y, int d, int piecolor, int textcolor) {
-		return new int[] { OBJ_KNOB, n, x, y, d, piecolor, textcolor};
+	public static int[] button(int x, int y, int d, int piecolor, int textcolor) {
+		return new int[] { OBJ_BUTTON, x, y, d, piecolor, textcolor};
 	}
 
 	public static int[] icon(int type, int x, int y, int d, int color) { //TODO add color-effect
-		return new int[] { OBJ_ICON, 0, type,x,y,d,color };
+		return new int[] { OBJ_ICON, type,x,y,d,color };
 	}
 
 	public static int[] techwheel(int xc, int yc, int d, int color) {
-		return new int[] { OBJ_TECH_WHEEL, 0, xc,yc,d,color};
+		return new int[] { OBJ_TECH_WHEEL, xc,yc,d,color};
 	}
 
 	public static int[] ring(int xc, int yc, int d, int thickness, int fg) {
-		return new int[] { OBJ_RING, 0, xc,yc,d, thickness, fg};
+		return new int[] { OBJ_RING, xc,yc,d, thickness, fg};
 	}
 
 	public static int[] background(int x, int y, int w, int h, int no, int... seeds) {
 		return seeds.length < 2
-				? new int[] { OBJ_BACKGROUND, 0, x,y,w,h, no, 0, 0 }
-				: new int[] { OBJ_BACKGROUND, 0, x,y,w,h, no, seeds[0], seeds[1] };
+				? new int[] { OBJ_BACKGROUND, x,y,w,h, no, 0, 0 }
+				: new int[] { OBJ_BACKGROUND, x,y,w,h, no, seeds[0], seeds[1] };
 	}
 
 	public static int[] border(Rectangle area) {
@@ -62,19 +72,19 @@ public final class GfxObjs implements Gfx {
 	}
 
 	public static int[] border(int x, int y, int w, int h) {
-		return new int[] { OBJ_RECT, 0, x,y,w,h };
+		return new int[] { OBJ_RECT, x,y,w,h };
 	}
 
 	public static int[] focusBox(int x, int y, int w, int h) {
-		return new int[] { OBJ_RECT, 0, x,y,w,h };
+		return new int[] { OBJ_RECT, x,y,w,h };
 	}
 
 	public static int[] path(int type, int color, int stroke, int x1, int y1, int x2, int y2) {
-		return new int[] { OBJ_PATH, 0, type, color, stroke, x1, y1, x2, y2 };
+		return new int[] { OBJ_PATH, type, color, stroke, x1, y1, x2, y2 };
 	}
 
 	public static int[] path(int type, int color, int stroke, int x1, int y1, int x2, int y2, int x3, int y3) {
-		return new int[] { OBJ_PATH, 0, type, color, stroke, x1, y1, x2, y2, x3, y3 };
+		return new int[] { OBJ_PATH, type, color, stroke, x1, y1, x2, y2, x3, y3 };
 	}
 
 	public static int[] timeLine(int x1, int y1, int x2, int y2) {
@@ -86,19 +96,19 @@ public final class GfxObjs implements Gfx {
 	}
 
 	public static int[] star(int x, int y, int d, int rgba) {
-		return new int[] { OBJ_STAR, 0, x,y,d, rgba };
+		return new int[] { OBJ_STAR, x,y,d, rgba };
 	}
 
 	public static int[] starClip(int x, int y, int d, int rgba) {
-		return new int[] { OBJ_STAR_CLIP, 0, x,y, d, rgba };
+		return new int[] { OBJ_STAR_CLIP, x,y, d, rgba };
 	}
 
 	public static int[] planet(int x, int y, int d, int type, int rgba) {
-		return new int[] { OBJ_PLANET, 0, x,y,d,type,rgba };
+		return new int[] { OBJ_PLANET, x,y,d,type,rgba };
 	}
 
 	public static int[] planetClip(int x, int y, int d, int c, int rgba) {
-		return new int[] { OBJ_PLANET_CLIP, 0, x,y,d,c,rgba };
+		return new int[] { OBJ_PLANET_CLIP, x,y,d,c,rgba };
 	}
 
 }

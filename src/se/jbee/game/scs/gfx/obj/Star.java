@@ -13,13 +13,12 @@ import java.awt.Rectangle;
 import java.awt.TexturePaint;
 import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
-import java.util.List;
 
-import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.ObjClass;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
 
-public class Star implements Gfx, Obj {
+public class Star implements Gfx, ObjClass {
 
 	public static final Star CLIP = new Star(true);
 	public static final Star CIRCLE = new Star(false);
@@ -32,19 +31,18 @@ public class Star implements Gfx, Obj {
 	}
 
 	@Override
-	public void draw(Graphics2D gfx, Resources styles, List<int[]> data) {
-		int[] obj = data.get(0);
-		int x0 = obj[2];
-		int y0 = obj[3];
-		int w = obj[4];
-		int rgba = obj[5];
+	public void draw(Graphics2D gfx, Resources resources, int[] obj) {
+		int x0 = obj[1];
+		int y0 = obj[2];
+		int w = obj[3];
+		int rgba = obj[4];
 		Color color = new Color(rgba);
 		if (clip) {
-			BufferedImage stex = styles.texture(TEXTURE_STAR_200x2000_SMALL);
+			BufferedImage stex = resources.texture(TEXTURE_STAR_200x2000_SMALL);
 			TexturePaint ss = new TexturePaint(stex, new Rectangle(x0, 0, stex.getWidth(), stex.getHeight()));
 			BufferedImage ltex =  color.getGreen() > color.getBlue() && color.getBlue() < color.getRed()
-					? styles.texture(TEXTURE_STAR_200x2000_LARGE_RED)
-					: styles.texture(TEXTURE_STAR_200x2000_LARGE_BLUE);
+					? resources.texture(TEXTURE_STAR_200x2000_LARGE_RED)
+					: resources.texture(TEXTURE_STAR_200x2000_LARGE_BLUE);
 			TexturePaint ls = new TexturePaint(ltex, new Rectangle(x0, 0, ltex.getWidth(), ltex.getHeight()));
 			starClip(gfx, x0, y0, w, rgba, ls, ss);
 		} else {

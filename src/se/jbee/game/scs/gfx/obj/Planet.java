@@ -12,13 +12,12 @@ import java.awt.Point;
 import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
-import java.util.List;
 
-import se.jbee.game.any.gfx.Obj;
+import se.jbee.game.any.gfx.ObjClass;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
 
-public class Planet implements Gfx, Obj {
+public class Planet implements Gfx, ObjClass {
 
 	public static final Planet CLIP = new Planet(true);
 	public static final Planet CIRCLE = new Planet(false);
@@ -31,16 +30,15 @@ public class Planet implements Gfx, Obj {
 	}
 
 	@Override
-	public void draw(Graphics2D gfx, Resources styles, List<int[]> data) {
-		int[] obj = data.get(0);
-		int x0 = obj[2];
-		int y0 = obj[3];
-		int w = obj[4];
-		int rgba = obj[6];
+	public void draw(Graphics2D gfx, Resources resources, int[] obj) {
+		int x0 = obj[1];
+		int y0 = obj[2];
+		int w = obj[3];
+		int rgba = obj[5];
 		if (clip) {
-			planetClip(styles, gfx, x0, y0, w, rgba);
+			planetClip(resources, gfx, x0, y0, w, rgba);
 		} else {
-			planetCircle(styles, gfx, x0, y0, w, rgba);
+			planetCircle(resources, gfx, x0, y0, w, rgba);
 		}
 	}
 

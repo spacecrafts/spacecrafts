@@ -6,11 +6,15 @@ import se.jbee.game.any.gfx.ObjClass;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
 
-public class Rect implements Gfx, ObjClass {
+public class Button implements Gfx, ObjClass {
 
 	@Override
 	public void draw(Graphics2D gfx, Resources resources, int[] obj) {
-		gfx.setColor(resources.color(COLOR_TEXT_HIGHLIGHT)); gfx.drawRect(obj[1], obj[2], obj[3], obj[4]);		
-	}
+		int x = obj[1];
+		int y = obj[2];
+		int d = obj[3];
+		gfx.setColor(resources.color(obj[4]));
+		gfx.fillOval(x, y, d, d);
+	}		
 
 }

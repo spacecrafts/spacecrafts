@@ -39,10 +39,7 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		Entity player = Game.currentPlayer(game);
 
 		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
-
-		stage.atFront(text(2, 100, 100, FONT_THIN, 48, COLOR_TEXT_NORMAL));
-		stage.atFront(codePoints("Player"));
-		stage.atFront(codePoints(String.valueOf(player.num(NO))));
+		stage.atFront(text(100, 100, FONT_THIN, 48, COLOR_TEXT_NORMAL, codePoints("Player "+String.valueOf(player.num(NO)))));
 
 		// next
 		int dotDia = dotDiameter(screen);

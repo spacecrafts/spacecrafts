@@ -1,6 +1,11 @@
 Game
 menu
 Title=SPACECRAFTS
+Open=OPEN
+Back=BACK
+Exit=EXIT
+Save=SAVE
+Load=LOAD
 
 Game
 interface
