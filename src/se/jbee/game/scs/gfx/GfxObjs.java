@@ -12,14 +12,24 @@ import java.awt.Rectangle;
  * - index 0 holds the object type
  * - index 1 holds the number of successive data elements that belong to the object
  */
-public final class Objects implements Gfx {
+public final class GfxObjs implements Gfx {
 
 	//int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
 
+	public static int[] flextext(int key, int x, int y, int font, int size, int color) {
+		return null; //TODO the key is one from Texts.encode
+	}
+	
+	public static int[] flextext(int key, int x, int y, int font, int size, int color, int align, int x2, int y2) {
+		return null;
+	}
+	
+	@Deprecated
 	public static int[] text(int n, int x, int y, int font, int size, int color) {
 		return text(n,x,y,font,size,color, ALIGN_NW, -1, -1);
 	}
 
+	@Deprecated // all texts can be based on a key + variables - if really just a dynamic text should be set one can use an "empty" template
 	//TODO stretch (making size so that the text takes X/Y bounds given)
 	public static int[] text(int n, int x, int y, int font, int size, int color, int align, int x2, int y2) {
 		return new int[] { OBJ_TEXT, n, x,y, font, size, color, align, x2, y2 };

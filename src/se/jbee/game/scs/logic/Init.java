@@ -46,11 +46,11 @@ public class Init implements Transition, GameComponent, UserComponent {
 		p1.set(NO, 1);
 		p1.set(TURN, -1);
 		gamE.set(PLAYERS, p1.id());
-		gamE.set(SETUP, new int[] {1,1,3});
+		gamE.set(SETUP, new int[] {1,20,3});
 	}
 
 	private static String uniqueGameName(long seed, State user) {
-		File dir = new File(user.defEntity(USER).text(SAVEGAME_DIR));
+		File dir = new File(user.defEntity(USER).string(SAVEGAME_DIR));
 		Rnd rnd = new Rnd(seed);
 		Set<String> games = new HashSet<>();
 		String[] files = dir.list();

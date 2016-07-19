@@ -11,10 +11,11 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 /**
- * A utility to manage graphic related resources like colors and fonts.
+ * A utility to manage graphic related resources like colors, fonts and texts.
  */
-public final class Styles {
+public final class Resources {
 
+	public final Texts texts;
 	private final Color[] colors;
 	private final Font[] fonts;
 	private final Font[][] derivedFonts;
@@ -26,8 +27,9 @@ public final class Styles {
 	private final Resource<BufferedImage>[] lazyImages;
 
 	@SuppressWarnings("unchecked")
-	public Styles(int colors, int fonts, int noises, int images) {
+	public Resources(int colors, int fonts, int noises, int images) {
 		super();
+		this.texts = new Texts();
 		this.colors = new Color[colors];
 		this.fonts = new Font[fonts];
 		this.derivedFonts = new Font[fonts][64];
@@ -68,7 +70,7 @@ public final class Styles {
 				for (int i = 0; i < resources.length; i++) {
 					Resource<T> resource = resources[i];
 					if (resource != null) {
-						instances[i] = resource.yield(Styles.this);
+						instances[i] = resource.yield(Resources.this);
 					}
 				}
 			}

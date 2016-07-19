@@ -1,13 +1,15 @@
 package se.jbee.game.scs.screen;
 
+import static se.jbee.game.any.gfx.Texts.textKey;
 import static se.jbee.game.any.state.Change.append;
-import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Change.replace;
+import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Change.take;
 import static se.jbee.game.any.state.Entity.codePoints;
-import static se.jbee.game.scs.gfx.Objects.background;
-import static se.jbee.game.scs.gfx.Objects.knob;
-import static se.jbee.game.scs.gfx.Objects.text;
+import static se.jbee.game.scs.gfx.GfxObjs.background;
+import static se.jbee.game.scs.gfx.GfxObjs.flextext;
+import static se.jbee.game.scs.gfx.GfxObjs.knob;
+import static se.jbee.game.scs.gfx.GfxObjs.text;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 
 import java.awt.Rectangle;
@@ -27,12 +29,10 @@ import se.jbee.game.scs.state.GameComponent;
 @ScreenNo(GameScreen.SCREEN_SETUP_GAME)
 public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 
-	private static final int[] NEXT = codePoints("NEXT");
-
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
 
-		stage.inFront(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 
 		// # players
 		// # AI
@@ -74,8 +74,8 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 			}
 		}
 		int fontSize = screen.height/16;
-		stage.inFront(text(1, x0, y0-fontSize-50, FONT_LIGHT, fontSize, COLOR_TEXT_SPECIAL));
-		stage.inFront(name);
+		stage.atFront(text(1, x0, y0-fontSize-50, FONT_LIGHT, fontSize, COLOR_TEXT_SPECIAL));
+		stage.atFront(name);
 	}
 
 	private void nextButton(State game, Dimension screen, Stage stage, int x0, int y0) {
@@ -86,10 +86,9 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 
 		int dotDia = dotDiameter(screen);
 		x0 = x0+400-(dotDia*19);
-		stage.inFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
-		stage.inFront(NEXT);
+		stage.atFront(flextext(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
-		stage.in(nextArea, text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT),NEXT);
+		stage.in(nextArea, flextext(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
 		stage.onLeftClickIn(nextArea,
 				set(gamE.id(), ACTION, ACTION_SETUP));
 	}
@@ -97,19 +96,19 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	private void upDownSlider(Stage stage, State game, int x0, int y0, String text, int setupIndex, String...names) {
 		Entity gamE = game.single(GAME);
 		int[] setup = gamE.list(SETUP);
-		stage.inFront(text(1, x0, y0, FONT_THIN, 48, COLOR_TEXT_NORMAL));
-		stage.inFront(codePoints(text));
-		stage.inFront(knob(1, x0+200, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK));
-		stage.inFront(codePoints("<"));
-		stage.inFront(knob(1, x0+350, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK));
-		stage.inFront(codePoints(">"));
+		stage.atFront(text(1, x0, y0, FONT_THIN, 48, COLOR_TEXT_NORMAL));
+		stage.atFront(codePoints(text));
+		stage.atFront(knob(1, x0+200, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK));
+		stage.atFront(codePoints("<"));
+		stage.atFront(knob(1, x0+350, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK));
+		stage.atFront(codePoints(">"));
 		int val = setup[setupIndex];
 		int size = names.length == 0 ? 36 : 24;
-		stage.inFront(text(1, x0+250, y0, FONT_LIGHT, size, COLOR_TEXT_HIGHLIGHT, ALIGN_EYE,x0+350,y0+50));
+		stage.atFront(text(1, x0+250, y0, FONT_LIGHT, size, COLOR_TEXT_HIGHLIGHT, ALIGN_EYE,x0+350,y0+50));
 		if (names.length == 0) {
-			stage.inFront(codePoints(String.valueOf(val)));
+			stage.atFront(codePoints(String.valueOf(val)));
 		} else {
-			stage.inFront(codePoints(names[val]));
+			stage.atFront(codePoints(names[val]));
 		}
 		if (val > 1) {
 			stage.onLeftClickIn(new Rectangle(x0+200, y0, 50,50), replace(gamE.id(), SETUP, setupIndex, val-1));

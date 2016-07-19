@@ -2,12 +2,14 @@ package se.jbee.game.scs.tool;
 
 public class SCSInfo {
 
-	static final int[][] ENERGY = {{7,1}, {6,3}, {5,5}};
+	// pairs of { base value, linkage percent }
+	
+	static final int[][] REACTORS = {{9,1}, {7,4}, {6,5}};
 	static final int[][] FOOD = {{2,3},{3,3},{4,3}}; 
 	static final int[][] WISDOM = {{2,3},{4,3}};
 	
 	public static void main(String[] args) {
-		componentBank(1, 150, WISDOM);
+		componentBank(3, 50, REACTORS);
 	}
 
 	/**

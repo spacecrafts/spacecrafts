@@ -200,7 +200,7 @@ public final class Entity implements Component {
 		return i < 0 ? EMPTY_LIST : vs[i];
 	}
 
-	public String text(int comp) {
+	public String string(int comp) {
 		int idx = indexOf(comp);
 		if (idx < 0)
 			return "";
@@ -209,7 +209,7 @@ public final class Entity implements Component {
 	}
 
 	public String name() {
-		return text(NAME);
+		return string(NAME);
 	}
 
 	public void append(int comp, int e) {

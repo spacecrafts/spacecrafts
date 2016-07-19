@@ -1,9 +1,10 @@
 package se.jbee.game.scs.screen;
 
+import static se.jbee.game.any.gfx.Texts.textKey;
 import static se.jbee.game.any.state.Entity.codePoints;
-import static se.jbee.game.scs.gfx.Objects.background;
-import static se.jbee.game.scs.gfx.Objects.border;
-import static se.jbee.game.scs.gfx.Objects.text;
+import static se.jbee.game.scs.gfx.GfxObjs.background;
+import static se.jbee.game.scs.gfx.GfxObjs.border;
+import static se.jbee.game.scs.gfx.GfxObjs.flextext;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Stage;
@@ -27,10 +28,9 @@ public class SavingGame implements Screen, GameComponent, Gfx {
 		
 		Entity gamE = game.single(GAME);
 
-		stage.inFront(background(x0-1, y0-1, w+3, h+3, BG_BLACK));
-		stage.inFront(border(x0, y0, w, h));
-		stage.inFront(text(1, x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT));
-		stage.inFront(codePoints("SAVING..."));
+		stage.atFront(background(x0-1, y0-1, w+3, h+3, BG_BLACK));
+		stage.atFront(border(x0, y0, w, h));
+		stage.atFront(flextext(textKey('G', 'i', 's'), x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT));
 		
 		gamE.set(ACTION, ACTION_SAVE);
 		gamE.set(SAVEGAME, codePoints(Game.savegamePath(gamE)));

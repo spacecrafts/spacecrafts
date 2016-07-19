@@ -11,9 +11,9 @@ import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Obj;
 import se.jbee.game.any.gfx.Renderer;
 import se.jbee.game.any.gfx.Stage;
-import se.jbee.game.any.gfx.Styles;
+import se.jbee.game.any.gfx.Resources;
 
-public class ObjectRenderer implements Renderer, Gfx {
+public class GfxRenderer implements Renderer, Gfx {
 
 	// make horizontal scratch: 300, 1000, 1000, 80, 42, 0.2f (has been caused by using a rectangle that had another shape)
 	// wood-like: 100, 2000, 200, 80, 42, 0.2f
@@ -21,7 +21,7 @@ public class ObjectRenderer implements Renderer, Gfx {
 	private Obj[] objects = new Obj[64];
 
 	@Override
-	public void render(Stage stage, Dimension screen, Styles styles, Graphics2D gfx) {
+	public void render(Stage stage, Dimension screen, Resources styles, Graphics2D gfx) {
 		long drawStart = System.currentTimeMillis();
 
 		antialias(gfx);
@@ -35,14 +35,14 @@ public class ObjectRenderer implements Renderer, Gfx {
 		gfx.drawString(String.format("%03d  %dM", System.currentTimeMillis() - drawStart, Runtime.getRuntime().freeMemory()/(1024*1024)), 20, 20);
 	}
 
-	public void assoc(int type, Obj obj) {
+	public void register(int type, Obj obj) {
 		if (type > objects.length) {
 			objects = copyOf(objects, objects.length*2);
 		}
 		objects[type] = obj;
 	}
 
-	private void render(Graphics2D gfx, Styles styles, List<int[]> objects) {
+	private void render(Graphics2D gfx, Resources styles, List<int[]> objects) {
 		int i = 0;
 		while (i < objects.size()) {
 			int[] obj = objects.get(i);

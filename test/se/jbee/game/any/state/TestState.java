@@ -68,7 +68,7 @@ public class TestState {
 		Entity e2 = State.load(f, someType);
 
 		assertEquals(e.num(Component.ID), e2.num(Component.ID));
-		assertEquals("foo", e2.text(Component.NAME));
+		assertEquals("foo", e2.string(Component.NAME));
 	}
 
 	@Test

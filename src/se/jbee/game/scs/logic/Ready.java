@@ -25,7 +25,7 @@ public class Ready implements Transition, GameComponent, GameScreen {
 			// in general when a process attached to the entity has ended (completed or canceled)
 			Entity gamE = game.single(GAME);
 			// the galaxy as seen by player 1
-			gamE.set(SCREEN, SCREEN_GALAXY).set(SCREEN_ENTITY, gamE.num(GALAXIES));
+			gamE.set(SCREEN, SCREEN_GALAXY).set(BASE_ENTITY, gamE.num(GALAXIES));
 		}
 	}
 

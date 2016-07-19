@@ -6,12 +6,12 @@ import java.awt.Stroke;
 import java.util.List;
 
 import se.jbee.game.any.gfx.Obj;
-import se.jbee.game.any.gfx.Styles;
+import se.jbee.game.any.gfx.Resources;
 
 public final class Path implements Obj {
 
 	@Override
-	public void draw(Graphics2D gfx, Styles styles, List<int[]> data) {
+	public void draw(Graphics2D gfx, Resources styles, List<int[]> data) {
 		int[] obj = data.get(0);
 		int type = obj[2];
 		int color = obj[3];

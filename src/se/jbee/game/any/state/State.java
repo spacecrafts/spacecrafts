@@ -17,11 +17,14 @@ import java.util.NoSuchElementException;
  * The "system" of an {@link Entity}-{@link Component}-System.
  *
  * A state object is a container for generic state, what is more or less a list
- * of entities, each having a couple of components.
+ * of entities, each having a couple of components. Everything that should be
+ * saved to a game-file is part of a game's {@link State}. Everything that
+ * should not be held in a game-file must not be part of a game's
+ * {@linkplain State}.
  *
  * During a game entities are only introduced to a state universe but never
  * removed. An entity might be cleared though just leaving its ID component
- * intact to have all other data GCed.
+ * intact to have all other data GC-ed.
  */
 public final class State implements Component {
 
@@ -119,6 +122,9 @@ public final class State implements Component {
 		return type == 0 || type < mapping.length && mapping[type] > 0;
 	}
 
+	/**
+	 * @return The {@link Entity} that describes the component of the given type.
+	 */
 	public Entity component(int type) {
 		if (type == 0)
 			return es[0];
@@ -128,6 +134,9 @@ public final class State implements Component {
 		return entity(id);
 	}
 
+	/**
+	 * @return The {@link Entity} that describes the component of the given name.
+	 */
 	public Entity component(String name) {
 		if (name.equals(entity(COMP).name())) {
 			return entity(COMP);

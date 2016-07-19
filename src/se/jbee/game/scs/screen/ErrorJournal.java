@@ -1,9 +1,9 @@
 package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static se.jbee.game.any.gfx.Texts.textKey;
 import static se.jbee.game.any.state.Change.set;
-import static se.jbee.game.any.state.Entity.codePoints;
-import static se.jbee.game.scs.gfx.Objects.text;
+import static se.jbee.game.scs.gfx.GfxObjs.flextext;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Stage;
@@ -23,8 +23,7 @@ public class ErrorJournal implements Screen, GameComponent, Gfx {
 		int h = screen.height/2;
 		int x0 = screen.width/4;
 		int y0 = screen.height/4;
-		stage.inFront(text(1, x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_WEAPON));
-		stage.inFront(codePoints("ERROR"));
+		stage.atFront(flextext(textKey('G', 'j', 'T'), x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_WEAPON));
 		
 		stage.onKey(VK_ESCAPE, set(game.single(GAME).id(), ACTION, ACTION_EXIT));
 	}

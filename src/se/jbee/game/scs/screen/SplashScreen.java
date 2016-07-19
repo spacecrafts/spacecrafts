@@ -1,10 +1,12 @@
 package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static se.jbee.game.any.gfx.Texts.textKey;
 import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
-import static se.jbee.game.scs.gfx.Objects.background;
-import static se.jbee.game.scs.gfx.Objects.text;
+import static se.jbee.game.scs.gfx.GfxObjs.background;
+import static se.jbee.game.scs.gfx.GfxObjs.flextext;
+import static se.jbee.game.scs.gfx.GfxObjs.text;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 
 import java.awt.Rectangle;
@@ -34,15 +36,14 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
 
-		stage.inFront(background(0,0, screen.width, screen.height, BG_SPACE, 42, 42));
+		stage.atFront(background(0,0, screen.width, screen.height, BG_SPACE, 42, 42));
 
 		int dotDia = 20;
 		String title = "SPACECRAFTS";
 		while (title.length()*5*dotDia > screen.width) {
 			dotDia--;
 		}
-		stage.inFront(text(1, (screen.width-(title.length()*5*dotDia)+dotDia)/2, screen.height/4-(5*dotDia), FONT_DOTS, dotDia, COLOR_TEXT_SPECIAL));
-		stage.inFront(codePoints(title));
+		stage.atFront(flextext(textKey('G', 'm', 'T'), (screen.width-(title.length()*5*dotDia)+dotDia)/2, screen.height/4-(5*dotDia), FONT_DOTS, dotDia, COLOR_TEXT_SPECIAL));
 
 		dotDia = dotDiameter(screen);
 		int w = 4*5*dotDia-dotDia;
@@ -53,8 +54,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 
 		// open
 		Rectangle open = new Rectangle(x0,y0,w,h);
-		stage.inFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
-		stage.inFront(OPEN);
+		stage.atFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
+		stage.atFront(OPEN);
 		stage.in(open, text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT), OPEN);
 		Change[] openCs = { new Change(gID, SCREEN, Op.SET, SCREEN_SETUP_GAME) };
 		stage.onLeftClickIn(open, openCs);
@@ -63,8 +64,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		// load
 		y0 += 8*dotDia;
 		Rectangle load = new Rectangle(x0,y0,w,h);
-		stage.inFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
-		stage.inFront(LOAD);
+		stage.atFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
+		stage.atFront(LOAD);
 		stage.in(load, text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT), LOAD);
 		Change[] loadCs = { set(gID, SCREEN, SCREEN_LOAD_GAME) };
 		stage.onLeftClickIn(load, loadCs);
@@ -74,20 +75,20 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		if (gamE.num(TURN) > 0) {
 			y0 += 8*dotDia;
 			Rectangle save = new Rectangle(x0,y0,w,h);
-			stage.inFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
-			stage.inFront(SAVE);
+			stage.atFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
+			stage.atFront(SAVE);
 			stage.in(save, text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT), SAVE);
 			Change[] saveCs = { set(gID, SCREEN, SCREEN_SAVING_GAME) };
 			stage.onLeftClickIn(save, saveCs);
 			stage.onKey('s', saveCs);
 		}
 
-		// back
+		// back (link)
 		if (gamE.has(RETURN_SCREEN) && gamE.num(RETURN_SCREEN) != SCREEN_MAIN) {
 			y0 += 8*dotDia;
 			Rectangle back = new Rectangle(x0,y0,w,h);
-			stage.inFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL)); //TODO other color
-			stage.inFront(BACK);
+			stage.atFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL)); //TODO other color
+			stage.atFront(BACK);
 			stage.in(back, text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT), BACK);
 			Change backChange = set(gID, SCREEN, gamE.num(RETURN_SCREEN));
 			stage.onLeftClickIn(back, backChange);
@@ -97,8 +98,8 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		// exit
 		y0 += 8*dotDia;
 		Rectangle exit = new Rectangle(x0,y0,w,h);
-		stage.inFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
-		stage.inFront(EXIT);
+		stage.atFront(text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
+		stage.atFront(EXIT);
 		stage.in(exit, text(1, x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT), EXIT);
 		Change exitCs = set(gID, ACTION, ACTION_EXIT);
 		stage.onLeftClickIn(exit, exitCs);

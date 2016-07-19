@@ -17,6 +17,10 @@ public final class RGBA {
 				: new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
 	}
 	
+	public RGBA(int rgb) {
+		this.c = new Color(rgb);
+	}
+	
 	private RGBA(Color c) {
 		super();
 		this.c = c;

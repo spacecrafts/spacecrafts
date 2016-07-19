@@ -5,13 +5,13 @@ import java.awt.Graphics2D;
 import java.util.List;
 
 import se.jbee.game.any.gfx.Obj;
-import se.jbee.game.any.gfx.Styles;
+import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
 
 public class Knob implements Gfx, Obj {
 
 	@Override
-	public void draw(Graphics2D gfx, Styles styles, List<int[]> data) {
+	public void draw(Graphics2D gfx, Resources styles, List<int[]> data) {
 		int[] obj = data.get(0);
 		gfx.setColor(styles.color(obj[5]));
 		int x = obj[2];

@@ -55,6 +55,17 @@ public class Turn implements Transition, GameComponent {
 		}
 	}
 
+	public static boolean isEndOfTurn(State game) {
+		Entity gamE = game.single(GAME);
+		final int turn = gamE.num(TURN);
+		int[] players = gamE.list(PLAYERS);
+		for (int i = 0; i < players.length; i++) {
+			if (game.entity(players[i]).num(TURN) != turn)
+				return false;
+		}
+		return true;
+	}
+
 	public static Color starColor(long seed) {
 		Rnd rnd = new Rnd(seed);
 		int dist = rnd.nextInt(255);
@@ -116,11 +127,17 @@ public class Turn implements Transition, GameComponent {
 		Rnd rnd = new Rnd(star.longNum(SEED));
 		int nop = rnd.nextInt(2, 4);
 		int[] planets = new int[nop];
+		int[] classes = game.all(PLANET_CLASS);
 		for (int i = 0; i < nop; i++) {
 			Entity planet = game.defEntity(PLANET);
 			planet.set(STAR, star.id());
 			planet.set(POSITION, i+1); // as a planet orbits around the star it does not have a fix position in overall space, the position is simply the distance from the star, here simplified by its position
-
+			Entity cls = game.entity(classes[rnd.nextInt(classes.length-1)]);
+			planet.set(PLANET_CLASS, cls.id());
+			planet.set(RGB, cls.num(RGB));
+			int[] sizeMinMax = cls.list(SIZE);
+			planet.set(SIZE, rnd.nextInt(sizeMinMax[0], sizeMinMax[1]));
+			
 			planets[i] = planet.id();
 		}
 		star.set(PLANETS, planets);
@@ -157,7 +174,7 @@ public class Turn implements Transition, GameComponent {
 			star.set(STAR_CLASS, type.id());
 			int[] sizes = type.list(SIZE);
 			star.set(SIZE, sizes[starRnd.nextInt(sizes.length-1)]);
-			star.set(RGBA, new RGBA(type.list(RGB)).shift(starRnd, 30).toRGBA());
+			star.set(RGB, new RGBA(type.num(RGB)).shift(starRnd, 30).toRGBA());
 			starIDs[i] = star.id();
 			eStars[i] = star;
 			if (i < homes.length) {

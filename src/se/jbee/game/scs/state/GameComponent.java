@@ -65,9 +65,10 @@ public interface GameComponent extends Component {
 
 		// view control
 		SCREEN = 20,
-		SCREEN_ENTITY = 21, // {*a,..} ( what; galaxy; e.g. the colony in the colony screen, the galaxy in the galaxy screen; the appearance of each screen might be linked to a set of entities; their type is usually an expected one)
+		BASE_ENTITY = 21, // {*a,..} ( what; galaxy; e.g. the colony in the colony screen, the galaxy in the galaxy screen; the appearance of each screen might be linked to a set of entities; their type is usually an expected one)
 		RETURN_SCREEN = 22, // the screen one goes back to from e.g. load/save dialog screen
 		PAGE = 23, // # (used for paging - e.g. load screen)
+		CURSOR = 24, // like the tab stop in the browser - each view makes sense of the number given, if it is too big it does a modulo so that any number has a position (if there is cursor support)
 
 		// action state
 		ACTION = 30, // 0 = exit, 1 = save
@@ -131,11 +132,11 @@ public interface GameComponent extends Component {
 		//FLEETS = {*x,*y,*z} (set of all the fleets arrived/staying in a solar system)
 		MASS = 122,
 		/// STAR_CLASS *x
-		RGBA = 123, //[#] (derived from SEED, but to be save against algorithm changes)
+		RGB = 123, //[#] (an int, bytes as follows RRGGBB; derived from SEED, but to be save against algorithm changes)
 		CLOSEST = 124, // distance to the closest other star
 
 	PLANET = 130,
-		// RGBA
+		// RGB
 		// SEEDS [#,#,...]
 		// PLANET_CLASS *x
 		// WEALTH *x
@@ -148,7 +149,7 @@ public interface GameComponent extends Component {
 
 	STAR_CLASS = 150,
 		// CODE
-		RGB = 151, //[#r,#g,#b] (typical; closest match to actual color determines type)
+		// RGB (typical; closest match to actual color determines type)
 		// SIZE [#] (~8-30=small-huge)
 		ABUNDANCE = 152, // [#%] at what chance does it occur
 

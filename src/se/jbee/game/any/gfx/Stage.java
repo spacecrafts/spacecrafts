@@ -36,14 +36,14 @@ public final class Stage {
 		}
 	}
 
-	public static final class AreaObject {
+	public static final class Hover {
 		public final Shape area;
 		public final int cursor;
 		public final List<int[]> objects;
-		public AreaObject(Shape area, int cursor, int[] object) {
+		public Hover(Shape area, int cursor, int[] object) {
 			this(area, cursor, Collections.singletonList(object));
 		}
-		public AreaObject(Shape area, int cursor, List<int[]> objects) {
+		public Hover(Shape area, int cursor, List<int[]> objects) {
 			super();
 			this.area = area;
 			this.cursor = cursor;
@@ -55,7 +55,7 @@ public final class Stage {
 	public final List<AreaMapping> onLeftClick = new ArrayList<>();
 	public final List<AreaMapping> onRightClick = new ArrayList<>();
 	//TODO make this "pointing"
-	public final List<AreaObject> onMouseOver = new ArrayList<>();
+	public final List<Hover> onHover = new ArrayList<>();
 	//TODO incorporate mouse and keys into a more abstract concept of interaction that connects meaning with actual inputs
 	// something that asks: what is the player trying to do? (not how is the input for ...)
 	public final List<KeyMapping>  onKeyPress = new ArrayList<>();
@@ -95,7 +95,7 @@ public final class Stage {
 		inputsDisabled.set(false);
 		onLeftClick.clear();
 		onRightClick.clear();
-		onMouseOver.clear();
+		onHover.clear();
 		onKeyPress.clear();
 		highlights.set(Collections.<int[]>emptyList());
 		nextObjects = new ArrayList<int[]>();
@@ -123,16 +123,18 @@ public final class Stage {
 
 	/**
 	 * Adds the object in the front of the current stage.
+	 * (an object painted after all already added)
 	 */
-	public Stage inFront(int[] object) {
+	public Stage atFront(int[] object) {
 		nextObjects.add(object);
 		return this;
 	}
 
 	/**
 	 * Adds the object in the back of the current stage.
+	 * (an object painted before all already added)
 	 */
-	public Stage inBack(int[] object) {
+	public Stage atBack(int[] object) {
 		nextObjects.add(0, object);
 		return this;
 	}
@@ -152,7 +154,7 @@ public final class Stage {
 	}
 
 	public Stage in(Shape area, int cursor, int[]...objects) {
-		onMouseOver.add(new AreaObject(area, cursor, Arrays.asList(objects)));
+		onHover.add(new Hover(area, cursor, Arrays.asList(objects)));
 		return this;
 	}
 

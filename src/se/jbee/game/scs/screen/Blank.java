@@ -15,6 +15,8 @@ import se.jbee.game.scs.state.GameComponent;
  * While this screen is blank it will not change the monitor screen as it appears
  * since it simply does not paint something over the content of the current
  * canvas.
+ * 
+ * While the screen is blank no user inputs are accepted. 
  */
 @ScreenNo(GameScreen.SCREEN_BLANK)
 public class Blank implements Screen, GameComponent, Gfx {

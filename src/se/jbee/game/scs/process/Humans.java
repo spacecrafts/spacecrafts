@@ -12,7 +12,7 @@ import java.util.List;
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.gfx.Stage.AreaMapping;
-import se.jbee.game.any.gfx.Stage.AreaObject;
+import se.jbee.game.any.gfx.Stage.Hover;
 import se.jbee.game.any.gfx.Stage.KeyMapping;
 import se.jbee.game.any.process.Player;
 import se.jbee.game.any.screen.Screen;
@@ -174,7 +174,7 @@ public final class Humans implements Runnable, Player, GameComponent, UserCompon
 	public void mouseMoved(MouseEvent e) {
 		if (!stage.isReady())
 			return;
-		for (AreaObject m : stage.onMouseOver) {
+		for (Hover m : stage.onHover) {
 			if (m.area.contains(e.getPoint())) {
 				stage.highlight(m.objects);
 				if (m.cursor >= 0) {

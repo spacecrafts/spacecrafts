@@ -6,13 +6,13 @@ import java.awt.Stroke;
 import java.util.List;
 
 import se.jbee.game.any.gfx.Obj;
-import se.jbee.game.any.gfx.Styles;
+import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
 
 public class Ring implements Gfx, Obj {
 
 	@Override
-	public void draw(Graphics2D gfx, Styles styles, List<int[]> data) {
+	public void draw(Graphics2D gfx, Resources styles, List<int[]> data) {
 		int[] obj = data.get(0);
 		int xc = obj[2];
 		int yc = obj[3];

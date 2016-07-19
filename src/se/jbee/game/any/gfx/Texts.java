@@ -1,4 +1,4 @@
-package se.jbee.game.any.state;
+package se.jbee.game.any.gfx;
 
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.copyOf;
@@ -52,6 +52,7 @@ public final class Texts {
 			index(new File(path.getResource(filename).toURI()));
 		} catch (URISyntaxException e) {
 			// should not occur - otherwise ignore
+			//TODO journal error
 		}
 	}
 
@@ -91,7 +92,7 @@ public final class Texts {
 						i++;
 					}
 				} else {
-					index(encode(sa[0], sa[1], parseCode(line.substring(0, eq))), readText(in, line.substring(eq+1)) );
+					index(textKey(sa[0], sa[1], parseKeyCode(line.substring(0, eq))), readText(in, line.substring(eq+1)) );
 				}
 			}
 			line = in.readLine();
@@ -107,7 +108,7 @@ public final class Texts {
 			if (!line.startsWith("#")) {
 				int eq = line.indexOf('=');
 				if (eq > 0) {
-					index(parse(line.substring(0, eq)), readText(in, line.substring(eq+1)));
+					index(parseKey(line.substring(0, eq)), readText(in, line.substring(eq+1)));
 				}
 			}
 			line = in.readLine();
@@ -147,13 +148,13 @@ public final class Texts {
 		if (series != null && n < series.length && series[n] != null) {
 			return series[n];
 		}
-		return "?"+print(sac)+"?";
+		return "?"+keyToString(sac)+"?";
 	}
 
 	private int offset(int sac) {
-		int e = s(sac);
+		int s = s(sac);
 		int a = a(sac);
-		return 26*(e-'A')+(a-'a');
+		return 26*(s-'A')+(a-'a');
 	}
 
 	private static int a(int sac) {
@@ -162,11 +163,11 @@ public final class Texts {
 
 	// code handling
 
-	public static int encode(char s, char a, int c) {
+	public static int textKey(char s, char a, int c) {
 		return (s << 24) | (a << 16) | c;
 	}
 
-	public static int[] decode(int sac) {
+	public static int[] textKeyComponents(int sac) {
 		return new int[] { s(sac), a(sac), c(sac) };
 	}
 
@@ -178,19 +179,19 @@ public final class Texts {
 		return sac >> 24;
 	}
 
-	public static int parse(String sac) {
+	public static int parseKey(String sac) {
 		String[] sx = sac.split("\\.");
 		String code = sx[2];
-		int c = parseCode(code);
-		return encode(sx[0].charAt(0), sx[1].charAt(0), c);
+		int c = parseKeyCode(code);
+		return textKey(sx[0].charAt(0), sx[1].charAt(0), c);
 	}
 
-	private static int parseCode(String code) {
+	private static int parseKeyCode(String code) {
 		char c0 = code.charAt(0);
 		return c0 >= '0' && c0 <= '9' ? parseInt(code) : c0;
 	}
 
-	public static String print(int sac) {
+	public static String keyToString(int sac) {
 		return Character.valueOf((char) s(sac)) +"."+ Character.valueOf((char) a(sac)) +"."+ String.valueOf(c(sac));
 	}
 }

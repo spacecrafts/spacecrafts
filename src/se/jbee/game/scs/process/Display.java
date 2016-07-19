@@ -20,11 +20,11 @@ import javax.swing.JPanel;
 
 import se.jbee.game.any.gfx.Colouring;
 import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.any.gfx.Stage;
-import se.jbee.game.any.gfx.Styles;
 import se.jbee.game.any.gfx.obj.Text;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.scs.gfx.ObjectRenderer;
+import se.jbee.game.scs.gfx.GfxRenderer;
 import se.jbee.game.scs.gfx.obj.Background;
 import se.jbee.game.scs.gfx.obj.Icon;
 import se.jbee.game.scs.gfx.obj.Knob;
@@ -34,6 +34,7 @@ import se.jbee.game.scs.gfx.obj.Rect;
 import se.jbee.game.scs.gfx.obj.Ring;
 import se.jbee.game.scs.gfx.obj.Star;
 import se.jbee.game.scs.gfx.obj.Techwheel;
+import data.Data;
 
 /**
  * The screen or canvas the game is drawn on.
@@ -95,8 +96,8 @@ public class Display extends Canvas implements Runnable, Gfx {
 	public void run() {
 		final BufferStrategy strategy = getBufferStrategy();
 		final Dimension screen = new Dimension(getSize());
-		final Styles styles = initStyles(screen);
-		final ObjectRenderer renderer = initRenderer();
+		final Resources styles = initStyles(screen);
+		final GfxRenderer renderer = initRenderer();
 		int frameDone = -1;
 		boolean onlyDrawOnChange = false;
 		while (true) {
@@ -165,25 +166,32 @@ public class Display extends Canvas implements Runnable, Gfx {
 					: new Color(rgb, rgb, rgb, 0f).getRGB();
 	};
 
-	private ObjectRenderer initRenderer() {
-		ObjectRenderer r = new ObjectRenderer();
-		r.assoc(OBJ_TEXT, new Text());
-		r.assoc(OBJ_TECH_WHEEL, new Techwheel());
-		r.assoc(OBJ_KNOB, new Knob());
-		r.assoc(OBJ_RING, new Ring());
-		r.assoc(OBJ_BACKGROUND, new Background());
-		r.assoc(OBJ_STAR, Star.CIRCLE);
-		r.assoc(OBJ_STAR_CLIP, Star.CLIP);
-		r.assoc(OBJ_PLANET, Planet.CIRCLE);
-		r.assoc(OBJ_PLANET_CLIP, Planet.CLIP);
-		r.assoc(OBJ_ICON, new Icon());
-		r.assoc(OBJ_RECT, new Rect());
-		r.assoc(OBJ_PATH, new Path());
+	private GfxRenderer initRenderer() {
+		GfxRenderer r = new GfxRenderer();
+		r.register(OBJ_TEXT, new Text());
+		r.register(OBJ_TECH_WHEEL, new Techwheel());
+		r.register(OBJ_KNOB, new Knob());
+		r.register(OBJ_RING, new Ring());
+		r.register(OBJ_BACKGROUND, new Background());
+		r.register(OBJ_STAR, Star.CIRCLE);
+		r.register(OBJ_STAR_CLIP, Star.CLIP);
+		r.register(OBJ_PLANET, Planet.CIRCLE);
+		r.register(OBJ_PLANET_CLIP, Planet.CLIP);
+		r.register(OBJ_ICON, new Icon());
+		r.register(OBJ_RECT, new Rect());
+		r.register(OBJ_PATH, new Path());
 		return r;
 	}
 
-	private Styles initStyles(Dimension screen) {
-		final Styles s = new Styles(26, 3, 4, 7);
+	private Resources initStyles(Dimension screen) {
+		final Resources s = new Resources(26, 3, 4, 7);
+		// game texts
+		s.texts.index(Data.class, "game.texts");
+		s.texts.index(Data.class, "star-class.texts");
+		s.texts.index(Data.class, "star-class.texts");
+		s.texts.index(Data.class, "planet-class.texts");
+
+		// base colors
 		s.addColor(COLOR_TRANSPARENT, 0x00000000);
 		s.addColor(COLOR_DEFAULT, 0xFF8899FF);
 		s.addColor(COLOR_WHITE, 0xFFffffff);
@@ -217,13 +225,13 @@ public class Display extends Canvas implements Runnable, Gfx {
 		s.addNoise(NOISE_PLANET_SMALL, 100, 40, 6000);
 
 		int h = screen.height;
-		s.addTexture(TEXTURE_STAR_200x2000_LARGE_RED, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_LARGE), STAR_RED); });
-		s.addTexture(TEXTURE_STAR_200x2000_LARGE_BLUE, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_LARGE), STAR_BLUE); });
-		s.addTexture(TEXTURE_STAR_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_STAR_SMALL), STAR); });
-		s.addTexture(TEXTURE_PLANET_200x2000_LARGE, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_PLANET_LARGE), PLANET); });
-		s.addTexture(TEXTURE_PLANET_200x2000_SMALL, (Styles styles) -> { return Styles.texture(200, h, styles.noise(NOISE_PLANET_SMALL), PLANET); });
-		s.addTexture(TEXTURE_PLANET_600x600_LARGE, (Styles styles) -> { return Styles.texture(600, 600, styles.noise(NOISE_PLANET_LARGE), PLANET2); });
-		s.addTexture(TEXTURE_PLANET_600x600_SMALL, (Styles styles) -> { return Styles.texture(600, 600, styles.noise(NOISE_PLANET_SMALL), PLANET2); });
+		s.addTexture(TEXTURE_STAR_200x2000_LARGE_RED, (Resources resources) -> { return Resources.texture(200, h, resources.noise(NOISE_STAR_LARGE), STAR_RED); });
+		s.addTexture(TEXTURE_STAR_200x2000_LARGE_BLUE, (Resources resources) -> { return Resources.texture(200, h, resources.noise(NOISE_STAR_LARGE), STAR_BLUE); });
+		s.addTexture(TEXTURE_STAR_200x2000_SMALL, (Resources resources) -> { return Resources.texture(200, h, resources.noise(NOISE_STAR_SMALL), STAR); });
+		s.addTexture(TEXTURE_PLANET_200x2000_LARGE, (Resources resources) -> { return Resources.texture(200, h, resources.noise(NOISE_PLANET_LARGE), PLANET); });
+		s.addTexture(TEXTURE_PLANET_200x2000_SMALL, (Resources resources) -> { return Resources.texture(200, h, resources.noise(NOISE_PLANET_SMALL), PLANET); });
+		s.addTexture(TEXTURE_PLANET_600x600_LARGE, (Resources resources) -> { return Resources.texture(600, 600, resources.noise(NOISE_PLANET_LARGE), PLANET2); });
+		s.addTexture(TEXTURE_PLANET_600x600_SMALL, (Resources resources) -> { return Resources.texture(600, 600, resources.noise(NOISE_PLANET_SMALL), PLANET2); });
 
 		s.ready();
 		return s;

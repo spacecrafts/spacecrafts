@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface Obj {
 
-	void draw(Graphics2D gfx, Styles styles, List<int[]> data);
+	void draw(Graphics2D gfx, Resources styles, List<int[]> data);
 }

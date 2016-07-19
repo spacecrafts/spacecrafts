@@ -2,11 +2,11 @@ package se.jbee.game.scs.screen;
 
 import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
-import static se.jbee.game.scs.gfx.Objects.background;
-import static se.jbee.game.scs.gfx.Objects.border;
-import static se.jbee.game.scs.gfx.Objects.icon;
-import static se.jbee.game.scs.gfx.Objects.planetClip;
-import static se.jbee.game.scs.gfx.Objects.text;
+import static se.jbee.game.scs.gfx.GfxObjs.background;
+import static se.jbee.game.scs.gfx.GfxObjs.border;
+import static se.jbee.game.scs.gfx.GfxObjs.icon;
+import static se.jbee.game.scs.gfx.GfxObjs.planetClip;
+import static se.jbee.game.scs.gfx.GfxObjs.text;
 import static se.jbee.game.scs.screen.GameScreen.SCREEN_SOLAR_SYSTEM;
 import static se.jbee.game.scs.screen.Viewport.cellDiameter;
 
@@ -30,12 +30,12 @@ public class Orbit implements Screen, Gfx, GameComponent {
 
 		int w = screen.width;
 		int h = screen.height;
-		stage.inFront(background(0, 0, w, h, BG_SPACE, 42,42)); //TODO use seed from planet
+		stage.atFront(background(0, 0, w, h, BG_SPACE, 42,42)); //TODO use seed from planet
 
 		int d = h*2;
 		int x = -d+h/8;
 		int y = -h/2;
-		stage.inFront(planetClip(x, y, d, 0xFF5014, 0));
+		stage.atFront(planetClip(x, y, d, 0xFF5014, 0));
 
 		int m = screen.width/3;
 		d = cellDiameter(screen);
@@ -44,7 +44,7 @@ public class Orbit implements Screen, Gfx, GameComponent {
 		int y0 = (screen.height-32*d)/2;
 		for (int i = 0; i < 32; i++) {
 			for (int j = 0; j < 32; j++) {
-				stage.inFront(icon(ICON_SLOT, x0, y0, d, COLOR_SLOT));
+				stage.atFront(icon(ICON_SLOT, x0, y0, d, COLOR_SLOT));
 				stage.in(new Ellipse2D.Float(x0, y0, d, d), icon(ICON_SLOT, x0, y0, d, COLOR_TEXT_HIGHLIGHT));
 				x0 += d;
 			}
@@ -52,16 +52,16 @@ public class Orbit implements Screen, Gfx, GameComponent {
 			y0+=d;
 		}
 
-		stage.inFront(text(1, w-m, w/32+48, FONT_THIN, 48, COLOR_TEXT_NORMAL));
-		stage.inFront(codePoints("Mars"));
-		stage.inFront(text(1, w-m, w/32+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
-		stage.inFront(codePoints("Orbit"));
+		stage.atFront(text(1, w-m, w/32+48, FONT_THIN, 48, COLOR_TEXT_NORMAL));
+		stage.atFront(codePoints("Mars"));
+		stage.atFront(text(1, w-m, w/32+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL));
+		stage.atFront(codePoints("Orbit"));
 
 
 		int hb = (h-w/8)/3;
-		stage.inFront(border(w-m, w/16+hb, m-w/32, hb));
+		stage.atFront(border(w-m, w/16+hb, m-w/32, hb));
 
-		stage.inFront(border(w-m, w/16+hb+hb+w/32, m-w/32, hb));
+		stage.atFront(border(w-m, w/16+hb+hb+w/32, m-w/32, hb));
 
 		Change gotoColony = set(game.single(GAME).id(), SCREEN, SCREEN_SOLAR_SYSTEM);
 		stage.onLeftClickIn(new Rectangle(0, 0, h/8, screen.height), gotoColony);

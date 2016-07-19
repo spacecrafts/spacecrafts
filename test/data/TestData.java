@@ -24,9 +24,9 @@ public class TestData {
 
 		Data.load(Data.class, "test.data", s);
 
-		assertEquals(16, s.size());
+		assertEquals(17, s.size());
 		int[] es = s.all(42);
-		assertEquals(7, es.length);
+		assertEquals(8, es.length);
 
 		Entity e1 = s.entity(es[0]);
 		assertEquals(1, e1.num(43));
@@ -62,6 +62,10 @@ public class TestData {
 		assertEquals(7, e7.num(43));
 		assertEquals(73, e7.num(44));
 		assertArrayEquals(new int[] {2,3}, e7.list(45));
+		
+		Entity e8 = s.entity(es[7]);
+		assertEquals(8, e8.num(43));
+		assertArrayEquals(e8.list(44), e8.list(45));
 	}
 
 	@Test

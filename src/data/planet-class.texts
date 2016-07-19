@@ -29,7 +29,7 @@ zone
 c=cold
 e=ecosphere
 h=hot
-r=rogue
+i=interstellar space
 
 Planet
 atmosphere
@@ -39,12 +39,13 @@ c=Hydrogen compounds
 C=carbon dioxide
 d=very dense
 e=Extremely tenuous
+E=trace elements
 h=helium
 H=hydrogen
-n=none
-N=nitrogen
 m=metals
 M=methane
+n=none
+N=nitrogen
 O=oxygen
 r=toxic radiation
 S=sulfides
@@ -61,13 +62,13 @@ c=cold
 C=cratered
 d=deuterium
 e=extremely hot
-f=frozen water
-F=frozen
-m=molten
+i=i
+f=frozen
 h=very hot
 j=jungle
 l=Liquid metallic hydrogen
 M=methane
+m=molten
 n=ammonia
 r=rocky
 t=temperate

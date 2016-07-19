@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Renderer;
 import se.jbee.game.any.gfx.Stage;
-import se.jbee.game.any.gfx.Styles;
+import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.any.gfx.Stage.KeyMapping;
 
 public class OnScreenKeyboad implements Renderer, Gfx {
 
 
 	@Override
-	public void render(Stage stage, Dimension screen, Styles styles, Graphics2D gfx) {
+	public void render(Stage stage, Dimension screen, Resources styles, Graphics2D gfx) {
 
 		//TODO not here but in a post processing to setting the stage, like a stage decoration (so that addition area mappings are only done once.
 		int x = 20;

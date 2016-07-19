@@ -1,0 +1,17 @@
+Game
+menu
+Title=SPACECRAFTS
+
+Game
+interface
+l=LOADING...
+s=SAVING...
+e=ENCOUNTER...
+
+Game
+journal
+Title=ERROR
+
+Game
+setup
+n=NEXT

@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.logic.Transition;
 import se.jbee.game.any.process.Player;
+import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.logic.Init;
@@ -31,6 +33,8 @@ import se.jbee.game.scs.state.UserComponent;
  * - add finished researches
  * - unroll previously undiscovered galaxies/clusters/solar systems
  * - ...
+ * 
+ * The actual {@link State} {@link Change}s are done using {@link Transition}s.
  */
 public class Game implements Runnable, GameComponent, UserComponent {
 
@@ -78,11 +82,11 @@ public class Game implements Runnable, GameComponent, UserComponent {
 			if (game.single(GAME).num(ACTION) == ACTION_INIT) { // should another game be loaded?
 				System.out.println("Loading game...");
 				quit(players);
-				game = loadGame(user.single(USER).text(SAVEGAME_DIR), game.single(GAME).text(SAVEGAME));
+				game = loadGame(user.single(USER).string(SAVEGAME_DIR), game.single(GAME).string(SAVEGAME));
 				game.defComponents(GameComponent.class); // also done for loaded game so that one can be sure that the current code has all the components.
 				init = true;
 			} else {
-				if (isEndOfTurn(game)) {
+				if (Turn.isEndOfTurn(game)) {
 					// TODO run encounters (battles ordered or resulting from an conflict due to simultaneous space occupation.
 
 					// advance to next turn
@@ -122,7 +126,7 @@ public class Game implements Runnable, GameComponent, UserComponent {
 	}
 
 	public static String savegamePath(Entity gamE) {
-		return savegameFolder(gamE.text(NAME))+String.valueOf(gamE.num(TURN));
+		return savegameFolder(gamE.string(NAME))+String.valueOf(gamE.num(TURN));
 	}
 
 	public static String savegameFolder(String name) {
@@ -131,17 +135,6 @@ public class Game implements Runnable, GameComponent, UserComponent {
 
 	public static String autosavegamePath(Entity gamE) {
 		return savegamePath(gamE)+".auto";
-	}
-
-	private static boolean isEndOfTurn(State game) {
-		Entity gamE = game.single(GAME);
-		final int turn = gamE.num(TURN);
-		int[] players = gamE.list(PLAYERS);
-		for (int i = 0; i < players.length; i++) {
-			if (game.entity(players[i]).num(TURN) != turn)
-				return false;
-		}
-		return true;
 	}
 
 	private static Thread daemon(Runnable r, String name) {
