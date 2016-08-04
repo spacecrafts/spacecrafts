@@ -10,7 +10,7 @@ import se.jbee.game.scs.state.GameComponent;
 /**
  * The second most important game transition after {@link Turn}.
  * 
- * The player has indicated that he is done with the current entity 
+ * The player has indicated that he is done with the current unit of work 
  * (and wants to be guided to the next one needing input if available).
  */
 public class Next implements Transition, GameComponent, GameScreen {

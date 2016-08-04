@@ -14,10 +14,6 @@ import se.jbee.game.any.state.Change.Op;
 import se.jbee.game.any.state.ChangeListener;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
-import se.jbee.game.scs.logic.Autosave;
-import se.jbee.game.scs.logic.Next;
-import se.jbee.game.scs.logic.Save;
-import se.jbee.game.scs.logic.Setup;
 import se.jbee.game.scs.screen.Blank;
 import se.jbee.game.scs.screen.Colony;
 import se.jbee.game.scs.screen.Encounter;
@@ -116,10 +112,6 @@ public final class User implements Runnable, Player, GameComponent, UserComponen
 				stage.startOver();
 				screens[currentScreen].show(user, game, screen, stage);
 				stage.ready();
-				
-				if (gamE.has(ACTION)) {
-					doAction();
-				}
 				lastScreen = currentScreen;
 			}
 			// sleep so that drawing + sleeping = loop time
@@ -129,24 +121,6 @@ public final class User implements Runnable, Player, GameComponent, UserComponen
 			}
 		}
 		System.out.println("Shuting down human players interface");
-	}
-
-	// move action handling into a Transition
-	private void doAction() {
-		final Entity gamE = game.single(GAME);
-		int action = gamE.num(ACTION);
-		switch(action) {
-		case ACTION_EXIT  : logic.run(Autosave.class, game); System.exit(0); break;
-		case ACTION_ERROR : gamE.set(SCREEN, GameScreen.SCREEN_ERROR); break;
-		case ACTION_SAVE  : logic.run(Save.class, game); break;
-		case ACTION_SETUP : logic.run(Setup.class, game); break;
-		case ACTION_DONE :  //
-		case ACTION_NEXT_PLAN : // Intentional fall-through (these 3 are almost the same except that players intentions are explicit in ending a plan or turn)
-		case ACTION_NEXT_TASK : logic.run(Next.class, game); break;
-		case ACTION_LOAD  : logic.run(Autosave.class, game); gamE.set(ACTION, ACTION_INIT); // Intentional fall-through 
-		case ACTION_INIT  : return; // in case player wakes up before it is quit when loading we just wait again
-		}
-		gamE.unset(ACTION);
 	}
 
 	//TODO should not be here...

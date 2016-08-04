@@ -13,6 +13,9 @@ import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
+/**
+ * The loading is in progress... 
+ */
 @ScreenNo(GameScreen.SCREEN_LOADING_GAME)
 public class LoadingGame implements Screen, Gfx, GameComponent {
 
@@ -23,7 +26,7 @@ public class LoadingGame implements Screen, Gfx, GameComponent {
 		stage.atFront(text(textKey('G', 'i', 'l'), 0, 0, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT, ALIGN_EYE, screen.width, screen.height));
 		
 		Entity gamE = game.single(GAME);
-		gamE.set(ACTION, ACTION_SAVE);		
+		gamE.set(ACTION, ACTION_LOAD);		
 	}
 
 }
