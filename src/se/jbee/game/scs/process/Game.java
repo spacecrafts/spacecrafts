@@ -1,27 +1,21 @@
 package se.jbee.game.scs.process;
 
 import java.awt.Dimension;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import se.jbee.game.any.gfx.Stage;
+import se.jbee.game.any.logic.Logic;
 import se.jbee.game.any.logic.Transition;
 import se.jbee.game.any.process.Player;
 import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
-import se.jbee.game.scs.logic.Init;
-import se.jbee.game.scs.logic.Turn;
 import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.UserComponent;
 
 /**
- * The game process it the master process.
+ * The game process it the "master control program" process.
  * It is the only process existing when starting or loading a game.
  *
- * Dependent on the game state it spawns the {@link Humans} and {@link AI} processes.
+ * Dependent on the game state it spawns the {@link User} and {@link AI} processes.
  * It also monitors their health and restarts them should that be necessary.
  *
  * Usually it polls the game state to see if all players are done.
@@ -38,124 +32,51 @@ import se.jbee.game.scs.state.UserComponent;
  */
 public class Game implements Runnable, GameComponent, UserComponent {
 
-	public static void main(String[] args) {
-		new Game().run();
+	private static final int CYCLE_TIME_MS = 20;
+	
+	private final Logic logic;
+	
+	public Game(Logic logic) {
+		super();
+		this.logic = logic;
 	}
 
 	@Override
 	public void run() {
 		final State user = State.base().defComponents(UserComponent.class);
-		State game = State.base().defComponents(GameComponent.class);
-		new Init().transit(user, game);
+		initUser(user);
 
-		Display display = new Display();
-		Dimension size = display.getSize();
+		UI ui = new UI();
+		Dimension size = ui.getSize();
+		//TODO not a game thing here - move
 		user.single(USER).set(RESOLUTION, new int[] {size.width, size.height});
-		Thread displayThread = daemon(display, "SCS Display");
-
-		List<Player> players = new ArrayList<Player>();
-
-		boolean init = true;
+		
+		Thread painter = Player.daemon(ui, "Game Paint Loop");
+		State game = logic.runLoop(null);
+		User users = new User(game, user, logic, ui.getStage());
+		Thread controller = Player.daemon(users, "Game Screen Loop");
+		painter.start();
+		controller.start();
 		while (true) {
 			long loopStart = System.currentTimeMillis();
-			// OPEN can/should parts of the logic below go into a Progress?
-			if (init) {
-				System.out.println("Starting a new game...");
 
-				Stage stage = new Stage();
-				Humans humans = new Humans(game, user, stage);
-				Thread humanPlayers = daemon(humans, "SCS Players");
-				players.add(humans);
-
-				display.setStage(stage);
-				display.setInputHandler(humans);
-
-				humanPlayers.start();
-				if (displayThread.getState() == java.lang.Thread.State.NEW) {
-					System.out.print("Starting display... ");
-					displayThread.start();
-					System.out.println("done ("+Thread.activeCount()+")");
-				}
-				init = false;
-			}
-
-			if (game.single(GAME).num(ACTION) == ACTION_INIT) { // should another game be loaded?
-				System.out.println("Loading game...");
-				quit(players);
-				game = loadGame(user.single(USER).string(SAVEGAME_DIR), game.single(GAME).string(SAVEGAME));
-				game.defComponents(GameComponent.class); // also done for loaded game so that one can be sure that the current code has all the components.
-				init = true;
-			} else {
-				if (Turn.isEndOfTurn(game)) {
-					// TODO run encounters (battles ordered or resulting from an conflict due to simultaneous space occupation.
-
-					// advance to next turn
-					new Turn().transit(user, game);
-
-					// wake-up players
-					move(players);
-				}
+			State game2 = logic.runLoop(game);
+			if (game != game2) {
+				game = game2;
+				users.setGame(game);
 			}
 
 			// sleep so that drawing + sleeping = loop time
 			long cycleTimeMs = System.currentTimeMillis() - loopStart;
-			if (cycleTimeMs < 20) {
-				try { Thread.sleep(20 - cycleTimeMs); } catch (Exception e) {}
+			if (cycleTimeMs < CYCLE_TIME_MS) {
+				try { Thread.sleep(CYCLE_TIME_MS - cycleTimeMs); } catch (Exception e) {}
 			}
 		}
 	}
-
-	private static void quit(List<Player> players) {
-		for (Player p : players) {
-			p.quit();
+	
+	public static void initUser(State user) {
+		if (user.all(USER).length == 0) {
+			Entity u1 = user.defEntity(USER);
 		}
-	}
-
-	private static void move(List<Player> players) {
-		for (Player p : players) {
-			p.move();
-		}
-	}
-
-	private State loadGame(String dir, String file) {
-		try {
-			return State.load(new File(dir, file));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public static String savegamePath(Entity gamE) {
-		return savegameFolder(gamE.string(NAME))+String.valueOf(gamE.num(TURN));
-	}
-
-	public static String savegameFolder(String name) {
-		return name.replace(' ', '_')+"/";
-	}
-
-	public static String autosavegamePath(Entity gamE) {
-		return savegamePath(gamE)+".auto";
-	}
-
-	private static Thread daemon(Runnable r, String name) {
-		Thread t = new Thread(r, name);
-		t.setDaemon(true);
-		return t;
-	}
-
-	/**
-	 * The current player is always derived from game state. The first player
-	 * that has not finished the current turn is the current player.
-	 */
-	public static Entity currentPlayer(State game) {
-		Entity gamE = game.single(GAME);
-		int turn = gamE.num(TURN);
-		int[] players = gamE.list(PLAYERS);
-		for (int i = 0; i < players.length; i++) {
-			Entity player = game.entity(players[i]);
-			if (player.num(TURN) < turn)
-				return player;
-		}
-		return null;
 	}
 }

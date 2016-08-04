@@ -45,7 +45,7 @@ public final class Data {
 	}
 
 	public static void load(File source, State target) throws IOException {
-		System.out.println("loading data: "+source.getName());
+		System.out.println("💾 "+source.getName());
 		try (BufferedReader in = new BufferedReader(new FileReader(source))) {
 			readRows(in, target, readColumnHeaders(in, target));
 		}

@@ -33,7 +33,7 @@ public final class State implements Component {
 	private Entity[] es = new Entity[INITIAL_SIZE];
 
 	private int size = 0;
-
+	
 	public static State base() {
 		State g = new State();
 		g.es[COMP] = new Entity(COMP, COMP).set(CODE, COMP).set(NAME, codePoints("COMP")).set(COMP, new int[1]);
@@ -49,7 +49,7 @@ public final class State implements Component {
 	private State() {
 		// used directly during load
 	}
-
+	
 	public State defComponents(Class<? extends Component> components) {
 		for (Field f : components.getDeclaredFields()) {
 			try {
@@ -114,7 +114,7 @@ public final class State implements Component {
 	}
 
 	public boolean hasEntity(int id) {
-		return id < size && id >= 0;
+		return id < size && id >= 0 && es[id] != null;
 	}
 
 	public boolean hasComponent(int type) {
@@ -175,10 +175,11 @@ public final class State implements Component {
 		return res;
 	}
 
-	public void save(File file) throws IOException {
-		//TODO as soon as multiple threads change state save may only occur in-between complete change-sets have been applied
-		// the simplest would be a sync on this object but this would prevent AIs and Human interaction to happen fully parallel.
-		// while the only problem is the save. Therefore some atomic might do better as only save/change has to be synct.
+	/**
+	 * OBS!!! This is not synchronized at all. The assumption is that state does
+	 * not change while writing to file.
+	 */
+	public void saveTo(File file) throws IOException {
 		if (!file.getParentFile().exists()) {
 			if (!file.getParentFile().mkdirs()) {
 				throw new IOException("Could not create path: "+file.getParentFile());
@@ -192,7 +193,7 @@ public final class State implements Component {
 		}
 	}
 
-	public static State load(File file) throws IOException {
+	public static State loadFrom(File file) throws IOException {
 		State g = new State();
 		try (DataInputStream in = new DataInputStream(new FileInputStream(file))) {
 			g.size = in.readInt();

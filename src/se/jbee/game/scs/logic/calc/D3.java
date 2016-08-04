@@ -1,4 +1,4 @@
-package se.jbee.game.scs.logic;
+package se.jbee.game.scs.logic.calc;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;

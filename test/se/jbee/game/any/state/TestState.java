@@ -44,9 +44,9 @@ public class TestState {
 		State g = State.base();
 
 		File f = File.createTempFile("saveLoadRoundtrip", ".game");
-		g.save(f);
+		g.saveTo(f);
 
-		State g2 = State.load(f);
+		State g2 = State.loadFrom(f);
 
 		assertEquals(g.size(), g2.size());
 		assertEquals(g.toString(), g2.toString());
@@ -63,7 +63,7 @@ public class TestState {
 		e.set(Component.NAME, codePoints("foo"));
 
 		File f = File.createTempFile("saveExtractEntity", ".game");
-		g.save(f);
+		g.saveTo(f);
 
 		Entity e2 = State.load(f, someType);
 

@@ -13,7 +13,7 @@ import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.scs.process.Game;
+import se.jbee.game.scs.logic.Save;
 import se.jbee.game.scs.state.GameComponent;
 
 @ScreenNo(GameScreen.SCREEN_SAVING_GAME)
@@ -26,19 +26,16 @@ public class SavingGame implements Screen, GameComponent, Gfx {
 		int x0 = screen.width/4;
 		int y0 = screen.height/4;
 		
-		Entity gamE = game.single(GAME);
-
+		stage.disableInputs();
 		stage.atFront(background(x0-1, y0-1, w+3, h+3, BG_BLACK));
 		stage.atFront(border(x0, y0, w, h));
 		stage.atFront(text(textKey('G', 'i', 's'), x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT));
 		
+		Entity gamE = game.single(GAME);
 		gamE.set(ACTION, ACTION_SAVE);
-		gamE.set(SAVEGAME, codePoints(Game.savegamePath(gamE)));
-		// set return screen as screen so game jumps into last screen before save
-		gamE.set(SCREEN, gamE.num(RETURN_SCREEN));
-		gamE.unset(RETURN_SCREEN);
-
-		stage.disableInputs();
+		if (!gamE.has(SAVEGAME)) {
+			gamE.set(SAVEGAME, codePoints(Save.gamePath(gamE)));
+		}
 	}
 
 }

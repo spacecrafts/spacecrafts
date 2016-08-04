@@ -5,8 +5,8 @@ import static java.lang.Math.min;
 import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.GfxObjs.background;
-import static se.jbee.game.scs.gfx.GfxObjs.icon;
 import static se.jbee.game.scs.gfx.GfxObjs.fixtext;
+import static se.jbee.game.scs.gfx.GfxObjs.icon;
 import static se.jbee.game.scs.gfx.GfxObjs.timeLine;
 
 import java.awt.Rectangle;
@@ -26,7 +26,6 @@ import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
-import se.jbee.game.scs.state.UserComponent;
 
 /**
  * Shows the games to load each with a in-game time-line left to right
@@ -42,7 +41,7 @@ import se.jbee.game.scs.state.UserComponent;
  * Auto-saves are shown in different color.
  */
 @ScreenNo(GameScreen.SCREEN_LOAD_GAME)
-public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, GameScreen {
+public class LoadGame implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
@@ -69,13 +68,12 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 		int page = gamE.num(PAGE);
 		int pageSize = center.height/gameHeight;
 
-		List<File[]> gameFiles = gameFiles(user);
+		List<File[]> gameFiles = gameFiles(gamE);
 		if (gameFiles.isEmpty())
 			return;
 		gameFiles = gameFiles.subList(min(gameFiles.size()-1, page*pageSize), min(gameFiles.size(), (page+1)*pageSize + 1));
 		int y = y0;
 		Change screenCs = set(gID, SCREEN, SCREEN_LOADING_GAME);
-		Change loadCs = set(gID, ACTION, ACTION_LOAD);
 		for (File[] saves : gameFiles) {
 			stage.atFront(fixtext(x0, y, FONT_REGULAR, 14, COLOR_TEXT_NORMAL, ALIGN_E, x0+nameWidth-5, y+d, codePoints(saves[0].getParentFile().getName().replace('_', ' '))));
 			String highestTrunSave = saves[saves.length-1].getName();
@@ -96,14 +94,14 @@ public class LoadGame implements Screen, UserComponent, GameComponent, Gfx, Game
 				stage.in(area, icon(ICON_BUILDING, x-2, y-2, d+4, COLOR_TEXT_HIGHLIGHT), fixtext(x, y-20, FONT_REGULAR, 14, COLOR_TEXT_HIGHLIGHT, codePoints(String.valueOf(turn))));
 				stage.onLeftClickIn(area,
 					set(gID, SAVEGAME, codePoints(save.getParentFile().getName()+"/"+save.getName() )),
-					screenCs, loadCs);
+					screenCs);
 			}
 			y+=gameHeight;
 		}
 	}
 
-	private List<File[]> gameFiles(State user) {
-		String dir = user.single(USER).string(SAVEGAME_DIR);
+	private List<File[]> gameFiles(Entity gamE) {
+		String dir = gamE.string(SAVEGAME_DIR);
 		File[] games = new File(dir).listFiles();
 		if (games == null) {
 			return Collections.emptyList();

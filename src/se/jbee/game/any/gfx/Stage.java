@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import se.jbee.game.any.state.Change;
+import se.jbee.game.any.state.ChangeListener;
 
 public final class Stage {
 
@@ -54,8 +55,7 @@ public final class Stage {
 	//TODO  make this primary and secondary button
 	public final List<AreaMapping> onLeftClick = new ArrayList<>();
 	public final List<AreaMapping> onRightClick = new ArrayList<>();
-	//TODO make this "pointing"
-	public final List<Hover> onHover = new ArrayList<>();
+	public final List<Hover> onPointing = new ArrayList<>();
 	//TODO incorporate mouse and keys into a more abstract concept of interaction that connects meaning with actual inputs
 	// something that asks: what is the player trying to do? (not how is the input for ...)
 	public final List<KeyMapping>  onKeyPress = new ArrayList<>();
@@ -68,6 +68,7 @@ public final class Stage {
 	private List<int[]> nextHighlights;
 	private AtomicBoolean ready = new AtomicBoolean(false);
 	private AtomicBoolean inputsDisabled = new AtomicBoolean(false);
+	public ChangeListener listener;
 
 	/**
 	 * The frame tracks any changes to the stage so that displaying device can
@@ -79,7 +80,7 @@ public final class Stage {
 		return frame;
 	}
 
-	public List<int[]> accents() {
+	public List<int[]> highlights() {
 		return highlights.get();
 	}
 
@@ -95,7 +96,7 @@ public final class Stage {
 		inputsDisabled.set(false);
 		onLeftClick.clear();
 		onRightClick.clear();
-		onHover.clear();
+		onPointing.clear();
 		onKeyPress.clear();
 		highlights.set(Collections.<int[]>emptyList());
 		nextObjects = new ArrayList<int[]>();
@@ -154,7 +155,7 @@ public final class Stage {
 	}
 
 	public Stage in(Shape area, int cursor, int[]...objects) {
-		onHover.add(new Hover(area, cursor, Arrays.asList(objects)));
+		onPointing.add(new Hover(area, cursor, Arrays.asList(objects)));
 		return this;
 	}
 

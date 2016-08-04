@@ -1,5 +1,6 @@
 package se.jbee.game.scs.logic;
 
+import se.jbee.game.any.logic.Logic;
 import se.jbee.game.any.logic.Transition;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
@@ -9,13 +10,13 @@ import se.jbee.game.scs.state.GameComponent;
 /**
  * The second most important game transition after {@link Turn}.
  * 
- * The player has indicated that he is ready with the current entity 
- * (and wants to be guided to the next one needing input).
+ * The player has indicated that he is done with the current entity 
+ * (and wants to be guided to the next one needing input if available).
  */
-public class Ready implements Transition, GameComponent, GameScreen {
+public class Next implements Transition, GameComponent, GameScreen {
 
 	@Override
-	public void transit(State user, State game) {
+	public State transit(State game, Logic logic) {
 		if (game.single(GAME).num(TURN) == 0) {
 			selectPlayerToSetup(game);
 		} else {
@@ -27,6 +28,7 @@ public class Ready implements Transition, GameComponent, GameScreen {
 			// the galaxy as seen by player 1
 			gamE.set(SCREEN, SCREEN_GALAXY).set(BASE_ENTITY, gamE.num(GALAXIES));
 		}
+		return game;
 	}
 
 	private static void selectPlayerToSetup(State game) {

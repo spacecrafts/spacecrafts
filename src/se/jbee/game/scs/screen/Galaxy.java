@@ -16,7 +16,7 @@ import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.scs.process.Game;
+import se.jbee.game.scs.logic.Turn;
 import se.jbee.game.scs.state.GameComponent;
 
 @ScreenNo(GameScreen.SCREEN_GALAXY)
@@ -25,7 +25,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
-		Entity player = Game.currentPlayer(game);
+		Entity player = Turn.currentPlayer(game);
 		Entity galaxy = game.entity(gamE.num(BASE_ENTITY));
 
 		stage.atFront(background(0, 0, screen.width, screen.height, BG_SPACE, galaxy.list(SEED)));

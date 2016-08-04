@@ -6,11 +6,13 @@ import static java.lang.Math.min;
 import java.awt.Color;
 
 import se.jbee.game.any.gfx.RGBA;
+import se.jbee.game.any.logic.Logic;
 import se.jbee.game.any.logic.Transition;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.Name;
 import se.jbee.game.any.state.Rnd;
 import se.jbee.game.any.state.State;
+import se.jbee.game.scs.logic.calc.D3;
 import se.jbee.game.scs.state.GameComponent;
 import data.Data;
 
@@ -27,7 +29,7 @@ public class Turn implements Transition, GameComponent {
 	private static final int GALAXY_YS = 2500;
 
 	@Override
-	public void transit(State user, State game) {
+	public State transit(State game, Logic logic) {
 		final Entity gamE = game.single(GAME);
 		final int turn = gamE.num(TURN);
 
@@ -39,7 +41,8 @@ public class Turn implements Transition, GameComponent {
 
 
 		gamE.set(TURN, turn+1);         // forward turn
-		gamE.set(ACTION, ACTION_READY); // make the right screen appear for the first player
+		gamE.set(ACTION, ACTION_NEXT_TASK); // make the right screen appear for the first player
+		return game;
 	}
 
 	private void initialiseUniverse(State game) {
@@ -55,6 +58,22 @@ public class Turn implements Transition, GameComponent {
 		}
 	}
 
+	/**
+	 * The current player is always derived from game state. The first player
+	 * that has not finished the current turn is the current player.
+	 */
+	public static Entity currentPlayer(State game) {
+		Entity gamE = game.single(GAME);
+		int turn = gamE.num(TURN);
+		int[] players = gamE.list(PLAYERS);
+		for (int i = 0; i < players.length; i++) {
+			Entity player = game.entity(players[i]);
+			if (player.num(TURN) < turn)
+				return player;
+		}
+		return null;
+	}
+
 	public static boolean isEndOfTurn(State game) {
 		Entity gamE = game.single(GAME);
 		final int turn = gamE.num(TURN);
@@ -64,6 +83,10 @@ public class Turn implements Transition, GameComponent {
 				return false;
 		}
 		return true;
+	}
+	
+	public static void done(Entity player, State game) {
+		
 	}
 
 	public static Color starColor(long seed) {
@@ -130,6 +153,7 @@ public class Turn implements Transition, GameComponent {
 		int[] classes = game.all(PLANET_CLASS);
 		for (int i = 0; i < nop; i++) {
 			Entity planet = game.defEntity(PLANET);
+			planet.set(SEED, rnd.nextLong());
 			planet.set(STAR, star.id());
 			planet.set(POSITION, i+1); // as a planet orbits around the star it does not have a fix position in overall space, the position is simply the distance from the star, here simplified by its position
 			Entity cls = game.entity(classes[rnd.nextInt(classes.length-1)]);

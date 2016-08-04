@@ -95,4 +95,10 @@ public final class Change {
 		return String.format("%s e%d c%d %s", op.name(), entity, comp, Arrays.toString(value) );
 	}
 
+	public static void apply(Change[] changeset, State game) {
+		for (Change c : changeset) {
+			c.apply(game);
+		}
+	}
+
 }

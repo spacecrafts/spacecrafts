@@ -28,7 +28,7 @@ public class GfxRenderer implements Renderer, Gfx {
 		textAntialias(gfx);
 
 		render(gfx, styles, stage.objects.get());
-		render(gfx, styles, stage.accents());
+		render(gfx, styles, stage.highlights());
 
 		gfx.setFont(styles.font(FONT_REGULAR, 12));
 		gfx.setColor(Color.WHITE);

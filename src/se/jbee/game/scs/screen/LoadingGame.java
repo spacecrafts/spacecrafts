@@ -8,17 +8,22 @@ import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.screen.Screen;
 import se.jbee.game.any.screen.ScreenNo;
+import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.state.GameComponent;
 
 @ScreenNo(GameScreen.SCREEN_LOADING_GAME)
-public class LoadingGame implements Screen, Gfx {
+public class LoadingGame implements Screen, Gfx, GameComponent {
 
 	@Override
 	public void show(State user, State game, Dimension screen, Stage stage) {
+		stage.disableInputs();
 		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 		stage.atFront(text(textKey('G', 'i', 'l'), 0, 0, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT, ALIGN_EYE, screen.width, screen.height));
-		stage.disableInputs();
+		
+		Entity gamE = game.single(GAME);
+		gamE.set(ACTION, ACTION_SAVE);		
 	}
 
 }

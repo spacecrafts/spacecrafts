@@ -15,7 +15,16 @@ public interface Transition {
 
 	/**
 	 * The game state is manipulated so that the game advances according to the
-	 * logic of this {@link Transition}. The user state usually is just read.
+	 * logic of this {@link Transition}.
+	 * 
+	 * The {@link Logic} gives "abstract" access to other {@link Transition}s
+	 * that might be incorporated into this transition. This however doesn't
+	 * change the fact that a {@link Transition} only can change {@link State}
+	 * and has no other side effects.
+	 * 
+	 * @return the new game state. return null to indicate no change, the given
+	 *         state to indicate mutable change or a fresh instance to indicate
+	 *         complete state change.
 	 */
-	void transit(State user, State game);
+	State transit(State game, Logic logic) throws Exception;
 }

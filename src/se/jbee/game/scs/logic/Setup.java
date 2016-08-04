@@ -1,6 +1,7 @@
 package se.jbee.game.scs.logic;
 
 import static se.jbee.game.scs.screen.GameScreen.SCREEN_SETUP_PLAYER;
+import se.jbee.game.any.logic.Logic;
 import se.jbee.game.any.logic.Transition;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
@@ -8,12 +9,12 @@ import se.jbee.game.scs.state.GameComponent;
 import se.jbee.game.scs.state.PlayerStatus;
 
 /**
- * Creating a game... 
+ * Controls the steps to setup the customized parts of a fresh game.
  */
 public class Setup implements Transition, GameComponent {
 
 	@Override
-	public void transit(State user, State game) {
+	public State transit(State game, Logic logic) {
 		Entity gamE = game.single(GAME);
 		int[] setup = gamE.list(SETUP);
 		for (int i = 1; i < setup[SETUP_NUMBER_OF_PLAYERS]; i++) {
@@ -29,6 +30,7 @@ public class Setup implements Transition, GameComponent {
 			gamE.append(PLAYERS, ai.id());
 		}
 		gamE.set(SCREEN, SCREEN_SETUP_PLAYER);
+		return game;
 	}
 
 }

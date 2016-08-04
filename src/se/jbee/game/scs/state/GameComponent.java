@@ -28,14 +28,16 @@ public interface GameComponent extends Component {
 	 * Actions
 	 */
 	int
+	// game is "paused" (AI threads are terminated)
 	ACTION_EXIT = 0,
 	ACTION_SAVE = 1,
 	ACTION_LOAD = 2,
 	ACTION_INIT = 3,
 	ACTION_SETUP = 4, // creates players in a currently setup game
-	ACTION_READY = 5, // player is done with an entity; next screen derived from player status
-	ACTION_DONE = 6,  // player is done with a plan; next screen derived from player status
-	ACTION_TURN = 7,  // player is done with its turn; next screen derived from game status
+	// game is on its way (AI threads might be active)
+	ACTION_NEXT_TASK = 5,  // player is done with an entity; next screen derived from player status
+	ACTION_NEXT_PLAN = 6,  // player is done with a plan; next screen derived from player status
+	ACTION_DONE = 7,       // (next player) player is done (with turn); next screen derived from game status
 	ACTION_ERROR = 8
 	;
 
@@ -58,6 +60,7 @@ public interface GameComponent extends Component {
 	 * Game and Players
 	 */
 	GAME = 10,
+		// game as an entity
 		SEED = 11,
 		SEEDS = 12,   // [#,#,...] for any pseudo random progression
 		TURN = 13, // # (0 = game setup, 1 is first active turn)
@@ -67,13 +70,15 @@ public interface GameComponent extends Component {
 		SCREEN = 20,
 		BASE_ENTITY = 21, // {*a,..} ( what; galaxy; e.g. the colony in the colony screen, the galaxy in the galaxy screen; the appearance of each screen might be linked to a set of entities; their type is usually an expected one)
 		RETURN_SCREEN = 22, // the screen one goes back to from e.g. load/save dialog screen
-		PAGE = 23, // # (used for paging - e.g. load screen)
-		CURSOR = 24, // like the tab stop in the browser - each view makes sense of the number given, if it is too big it does a modulo so that any number has a position (if there is cursor support)
+		PAGE = 23, // # (used for paging - e.g. on load screen)
+		CURSOR = 24, // similar to the tab stop in the browser - each view makes sense of the number given, if it is too big it does a modulo so that any number has a position (if there is cursor support)
 
 		// action state
-		ACTION = 30, // 0 = exit, 1 = save
-		SAVEGAME = 31, // name of the game to save/saved
-		RENAME = 32, // [*entity, *comp, #font, #size, #x, #y, #w, #h]
+		ACTION = 30, // like 0 = exit, 1 = save
+		SAVEGAME_DIR = 31, // the directory where to store savegames
+		SAVEGAME = 32, // name of the game to save/saved
+		RENAME = 33, // [*entity, *comp, #font, #size, #x, #y, #w, #h]
+		ACTIVE_PLAYERS = 34, // [*x,*y,*z] players that are still doing something (AI with thread or human)
 
 		// domain data
 		PLAYERS = 41, // [*x,*y,*z]

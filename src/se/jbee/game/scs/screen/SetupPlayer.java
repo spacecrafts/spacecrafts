@@ -19,7 +19,7 @@ import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.scs.process.Game;
+import se.jbee.game.scs.logic.Turn;
 import se.jbee.game.scs.state.GameComponent;
 
 /**
@@ -36,7 +36,7 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		// expects the screen entity to point to the player to setup
 
 		Entity gamE = game.single(GAME);
-		Entity player = Game.currentPlayer(game);
+		Entity player = Turn.currentPlayer(game);
 
 		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 		stage.atFront(fixtext(100, 100, FONT_THIN, 48, COLOR_TEXT_NORMAL, codePoints("Player "+String.valueOf(player.num(NO)))));
@@ -50,7 +50,7 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		stage.in(nextArea, text(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
 		Change[] nextCs = {
 				set(player.id(), TURN, 0),
-				set(gamE.id(), ACTION, ACTION_READY),
+				set(gamE.id(), ACTION, ACTION_NEXT_TASK),
 				set(gamE.id(), SCREEN, GameScreen.SCREEN_BLANK)
 		};
 		stage.onLeftClickIn(nextArea, nextCs);

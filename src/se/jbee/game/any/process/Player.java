@@ -11,4 +11,29 @@ public interface Player {
 	 * instructs the player to stop (terminate)
 	 */
 	void quit();
+
+	/**
+	 * move all...
+	 */
+	static void move(Iterable<Player> players) {
+		for (Player p : players) {
+			p.move();
+		}
+	}
+
+	/**
+	 * quit all... 
+	 */
+	static void quit(Iterable<Player> players) {
+		for (Player p : players) {
+			p.quit();
+		}
+	}
+
+	static Thread daemon(Runnable r, String name) {
+		Thread t = new Thread(r, name);
+		t.setDaemon(true);
+		return t;
+	}
+
 }

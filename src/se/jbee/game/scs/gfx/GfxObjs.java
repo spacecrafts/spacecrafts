@@ -99,7 +99,7 @@ public final class GfxObjs implements Gfx {
 		return new int[] { OBJ_STAR, x,y,d, rgba };
 	}
 
-	public static int[] starClip(int x, int y, int d, int rgba) {
+	public static int[] starCut(int x, int y, int d, int rgba) {
 		return new int[] { OBJ_STAR_CLIP, x,y, d, rgba };
 	}
 
@@ -107,7 +107,7 @@ public final class GfxObjs implements Gfx {
 		return new int[] { OBJ_PLANET, x,y,d,type,rgba };
 	}
 
-	public static int[] planetClip(int x, int y, int d, int c, int rgba) {
+	public static int[] planetCut(int x, int y, int d, int c, int rgba) {
 		return new int[] { OBJ_PLANET_CLIP, x,y,d,c,rgba };
 	}
 
