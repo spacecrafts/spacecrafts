@@ -26,7 +26,7 @@ public class TechWheelScreen implements Screen, Gfx, GameComponent {
 		stage.atFront(techwheel(400, 400, 800, COLOR_TEXT_NORMAL));
 		stage.atFront(techwheel(900, 400, 200, COLOR_TEXT_NORMAL));
 
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		for (int sec = 0; sec < 8; sec++) {
 			for (int lev = 1; lev <= 5; lev++) {
 				for (int i = 0; i < lev; i++) {
@@ -34,7 +34,7 @@ public class TechWheelScreen implements Screen, Gfx, GameComponent {
 					stage.atFront(ring(c.x, c.y, 50, 3, COLOR_YARD));
 					Rectangle area = new Rectangle(c.x-25, c.y-5, 50, 50);
 					stage.in(area, ring(c.x, c.y, 50, 3, COLOR_ENERGY));
-					stage.onLeftClickIn(area, Change.set(gamE.id(), SCREEN, GameScreen.SCREEN_MAIN));
+					stage.onLeftClickIn(area, Change.set(gamE.id(), SCREEN, GameScreen.SCREEN_MENU));
 				}
 			}
 		}

@@ -17,7 +17,7 @@ public class Save implements Transition, GameComponent {
 
 	@Override
 	public State transit(State game, Logic logic) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		File file = new File(gamE.string(SAVEGAME_DIR), gamE.string(SAVEGAME)+".game");
 		gamE.unset(ACTION);
 		gamE.unset(SAVEGAME);

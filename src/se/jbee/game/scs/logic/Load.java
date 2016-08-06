@@ -13,7 +13,7 @@ public class Load implements Transition, GameComponent {
 
 	@Override
 	public State transit(State game, Logic logic) throws IOException {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		game = State.loadFrom(new File(gamE.string(SAVEGAME_DIR), gamE.string(SAVEGAME)));
 		// also done for loaded game so that one can be sure that the current code has all the components.
 		game.defComponents(GameComponent.class); 

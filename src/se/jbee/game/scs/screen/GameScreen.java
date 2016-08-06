@@ -3,7 +3,7 @@ package se.jbee.game.scs.screen;
 public interface GameScreen {
 
 	int
-		SCREEN_MAIN = 0,
+		SCREEN_MENU = 0,
 		SCREEN_LOAD_GAME = 1,
 		SCREEN_LOADING_GAME = 2,
 		SCREEN_ERROR = 3,

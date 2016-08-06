@@ -102,14 +102,13 @@ public class Display extends Canvas implements Runnable, KeyListener, MouseListe
 		final BufferStrategy strategy = getBufferStrategy();
 		final Dimension screen = new Dimension(getSize());
 		int frameDone = -1;
-		boolean onlyDrawOnChange = true;
 		while (true) {
 			long loopStart = System.currentTimeMillis();
 
 			Stage currentStage = stage;
 			if (currentStage != null) {
 				int frame = currentStage.frame();
-				if (!onlyDrawOnChange || frameDone != frame) { // only draw if something has changed
+				if (frameDone != frame) { // only draw if something has changed
 					frameDone = frame;
 
 					Graphics2D gfx = (Graphics2D) strategy.getDrawGraphics();

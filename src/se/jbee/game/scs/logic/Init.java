@@ -31,7 +31,7 @@ public class Init implements Transition, GameComponent {
 		gamE.set(NAME, codePoints(uniqueGameName(seed, game)));
 		gamE.set(TURN, 0);
 		gamE.set(SAVEGAME_DIR, codePoints(System.getProperty("user.home")+File.separator+"spacecrafts"));
-		gamE.set(RETURN_SCREEN, GameScreen.SCREEN_MAIN);
+		gamE.set(RETURN_SCREEN, GameScreen.SCREEN_MENU);
 		gamE.set(SCREEN, GameScreen.SCREEN_SETUP_CONTROLLS);
 		Entity p1 = game.defEntity(PLAYER);
 		p1.set(NO, 1);
@@ -42,7 +42,7 @@ public class Init implements Transition, GameComponent {
 	}
 
 	private static String uniqueGameName(long seed, State game) {
-		File dir = new File(game.single(GAME).string(SAVEGAME_DIR));
+		File dir = new File(game.root().string(SAVEGAME_DIR));
 		Rnd rnd = new Rnd(seed);
 		Set<String> games = new HashSet<>();
 		String[] files = dir.list();

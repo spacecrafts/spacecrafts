@@ -15,17 +15,18 @@ public class Setup implements Transition, GameComponent {
 
 	@Override
 	public State transit(State game, Logic logic) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		int[] setup = gamE.list(SETUP);
 		for (int i = 1; i < setup[SETUP_NUMBER_OF_PLAYERS]; i++) {
 			Entity player = game.defEntity(PLAYER);
 			player.set(NO, i+1);
 			player.set(TURN, -1);
+			player.setBits(STATUS, PlayerStatus.ALIVE);
 			gamE.append(PLAYERS, player.id());
 		}
 		for (int i = 0; i < setup[SETUP_NUMBER_OF_AIS]; i++) {
 			Entity ai = game.defEntity(PLAYER);
-			ai.setBits(STATUS, PlayerStatus.AI);
+			ai.setBits(STATUS, PlayerStatus.AI, PlayerStatus.ALIVE);
 			ai.set(TURN, 0);
 			gamE.append(PLAYERS, ai.id());
 		}

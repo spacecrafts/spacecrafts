@@ -31,8 +31,8 @@ public class SavingGame implements Screen, GameComponent, Gfx {
 		stage.atFront(border(x0, y0, w, h));
 		stage.atFront(text(textKey('G', 'i', 's'), x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT));
 		
-		Entity gamE = game.single(GAME);
-		gamE.set(ACTION, ACTION_SAVE);
+		Entity gamE = game.root();
+		gamE.set(ACTION, ACTION_QUIT_AI, ACTION_SAVE, ACTION_MOVE_AI);
 		if (!gamE.has(SAVEGAME)) {
 			gamE.set(SAVEGAME, codePoints(Save.gamePath(gamE)));
 		}

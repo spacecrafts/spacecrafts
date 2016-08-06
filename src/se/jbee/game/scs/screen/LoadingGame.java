@@ -25,8 +25,8 @@ public class LoadingGame implements Screen, Gfx, GameComponent {
 		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 		stage.atFront(text(textKey('G', 'i', 'l'), 0, 0, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT, ALIGN_EYE, screen.width, screen.height));
 		
-		Entity gamE = game.single(GAME);
-		gamE.set(ACTION, ACTION_LOAD);		
+		Entity gamE = game.root();
+		gamE.set(ACTION, ACTION_QUIT_AI, ACTION_AUTOSAVE, ACTION_LOAD, ACTION_MOVE_AI);		
 	}
 
 }

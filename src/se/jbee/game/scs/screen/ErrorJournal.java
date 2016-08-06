@@ -25,7 +25,7 @@ public class ErrorJournal implements Screen, GameComponent, Gfx {
 		int y0 = screen.height/4;
 		stage.atFront(text(textKey('G', 'j', 'T'), x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_WEAPON));
 		
-		stage.onKey(VK_ESCAPE, set(game.single(GAME).id(), ACTION, ACTION_EXIT));
+		stage.onKey(VK_ESCAPE, set(State.ROOT, ACTION, ACTION_EXIT));
 	}
 
 }

@@ -60,7 +60,7 @@ public class Orbit implements Screen, Gfx, GameComponent {
 
 		stage.atFront(border(w-m, w/16+hb+hb+w/32, m-w/32, hb));
 
-		Change gotoColony = set(game.single(GAME).id(), SCREEN, SCREEN_SOLAR_SYSTEM);
+		Change gotoColony = set(State.ROOT, SCREEN, SCREEN_SOLAR_SYSTEM);
 		stage.onLeftClickIn(new Rectangle(0, 0, h/8, screen.height), gotoColony);
 		stage.onKey('c', gotoColony);
 	}

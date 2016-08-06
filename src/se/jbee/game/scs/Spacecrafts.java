@@ -48,7 +48,7 @@ import se.jbee.game.scs.screen.SavingGame;
 import se.jbee.game.scs.screen.SetupGame;
 import se.jbee.game.scs.screen.SetupPlayer;
 import se.jbee.game.scs.screen.SolarSystem;
-import se.jbee.game.scs.screen.SplashScreen;
+import se.jbee.game.scs.screen.MenuScreen;
 import se.jbee.game.scs.screen.UserSettings;
 import data.Data;
 
@@ -80,7 +80,7 @@ public class Spacecrafts implements Gfx {
 	}
 	
 	private static Screen[] initScreens() {
-		return ScreenNo.Init.screens(GlobalControls.class, ErrorJournal.class, Blank.class, IconInfo.class, SplashScreen.class, SavingGame.class, LoadGame.class, LoadingGame.class, UserSettings.class, SetupGame.class, SetupPlayer.class, Encounter.class, 
+		return ScreenNo.Init.screens(GlobalControls.class, ErrorJournal.class, Blank.class, IconInfo.class, MenuScreen.class, SavingGame.class, LoadGame.class, LoadingGame.class, UserSettings.class, SetupGame.class, SetupPlayer.class, Encounter.class, 
 				Galaxy.class, SolarSystem.class, Orbit.class, Colony.class);		
 	}
 	

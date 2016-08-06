@@ -47,11 +47,11 @@ public class LoadGame implements Screen, GameComponent, Gfx, GameScreen {
 	public void show(State game, Dimension screen, Stage stage) {
 		//TODO add a "cursor" and keyboard support + paging
 
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 
 		// cancel (ESC override, to not set return screen)
 		final int gID = gamE.id();
-		stage.onKey(VK_ESCAPE, set(gID, SCREEN, SCREEN_MAIN));
+		stage.onKey(VK_ESCAPE, set(gID, SCREEN, SCREEN_MENU));
 
 		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 

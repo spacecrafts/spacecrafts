@@ -24,7 +24,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 
 	@Override
 	public void show(State game, Dimension screen, Stage stage) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		Entity player = Turn.currentPlayer(game);
 		Entity galaxy = game.entity(gamE.num(BASE_ENTITY));
 

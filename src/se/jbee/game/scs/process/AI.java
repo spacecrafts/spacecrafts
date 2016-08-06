@@ -1,6 +1,5 @@
 package se.jbee.game.scs.process;
 
-import se.jbee.game.any.process.Player;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.state.GameComponent;
@@ -17,7 +16,7 @@ import se.jbee.game.scs.state.GameComponent;
  * This AI does all the economic and strategic decisions but is not concerned
  * with fighting battles.
  */
-public class AI implements Runnable, Player, GameComponent {
+public class AI implements Runnable, GameComponent {
 
 	private final State game;
 	private final Entity ai;
@@ -30,43 +29,21 @@ public class AI implements Runnable, Player, GameComponent {
 		this.ai = game.entity(eAI);
 	}
 	
-	@Override
-	public void move() {
-		doMove();
-	}
-	
-	@Override
 	public void quit() {
 		quit = true;
-		doMove();
 	}
 	
 	@Override
 	public void run() {
-		while (!quit) {
+		while (!quit) { //TODO an AI just quits when its done
 			makeTurnMoves();
-			if (!quit) {
-				doWait();
-			}
 		}
 	}
 
 	private void makeTurnMoves() {
 		// TODO Auto-generated method stub
 		
-		ai.set(TURN, game.single(GAME).num(TURN)); // AI is done
-	}
-
-	private void doMove() {
-		synchronized (this) {
-			notify();
-		}		
-	}
-	
-	private void doWait() {
-		try { synchronized (this) {
-			wait();
-		} } catch ( InterruptedException e) {}
+		ai.set(TURN, game.root().num(TURN)); // AI is done
 	}
 
 }

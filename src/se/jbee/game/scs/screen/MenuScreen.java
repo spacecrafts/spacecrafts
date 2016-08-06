@@ -20,12 +20,12 @@ import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
-@ScreenNo(GameScreen.SCREEN_MAIN)
-public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
+@ScreenNo(GameScreen.SCREEN_MENU)
+public class MenuScreen implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
 	public void show(State game, Dimension screen, Stage stage) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 
 		stage.atFront(background(0,0, screen.width, screen.height, BG_SPACE, 42, 42));
 
@@ -72,7 +72,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		}
 
 		// back (link)
-		if (gamE.has(RETURN_SCREEN) && gamE.num(RETURN_SCREEN) != SCREEN_MAIN) {
+		if (gamE.has(RETURN_SCREEN) && gamE.num(RETURN_SCREEN) != SCREEN_MENU) {
 			y0 += 8*dotDia;
 			Rectangle back = new Rectangle(x0,y0,w,h);
 			stage.atFront(text(textKey('G', 'm', 'B'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL)); //TODO other color
@@ -87,7 +87,7 @@ public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 		Rectangle exit = new Rectangle(x0,y0,w,h);
 		stage.atFront(text(textKey('G', 'm', 'E'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
 		stage.in(exit, text(textKey('G', 'm', 'E'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
-		Change exitCs = set(gID, ACTION, ACTION_EXIT);
+		Change exitCs = set(gID, ACTION, ACTION_QUIT_AI, ACTION_AUTOSAVE, ACTION_EXIT);
 		stage.onLeftClickIn(exit, exitCs);
 		stage.onKey(VK_ESCAPE, exitCs);
 	}

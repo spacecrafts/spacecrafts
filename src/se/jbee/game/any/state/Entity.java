@@ -407,6 +407,12 @@ public final class Entity implements Component {
 	public <E extends Enum<E>> void setBits(int comp, E flag) {
 		setBits(comp, flag.ordinal());
 	}
+	
+	public <E extends Enum<E>> void setBits(int comp, @SuppressWarnings("unchecked") E... flags) {
+		for (E flag : flags) {
+			setBits(comp, flag);
+		}
+	}
 
 	public <E extends Enum<E>> void unsetBits(int comp, E flag) {
 		unsetBits(comp, flag.ordinal());

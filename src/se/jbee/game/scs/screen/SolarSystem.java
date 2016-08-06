@@ -30,7 +30,7 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
 	public void show(State game, Dimension screen, Stage stage) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		int starID = gamE.num(BASE_ENTITY);
 		if (starID == 0) {
 			//TODO jornal error
@@ -82,7 +82,7 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 	}
 
 	private void randomSolarSystem(State game, Dimension screen, Stage stage) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		Rectangle area = new Rectangle(690, 390, 220, 220);
 
 		int w = screen.width;

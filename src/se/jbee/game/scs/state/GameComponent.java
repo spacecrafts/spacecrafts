@@ -28,16 +28,19 @@ public interface GameComponent extends Component {
 	 * Actions
 	 */
 	int
-	// game is "paused" (AI threads are terminated)
+	// (AI threads should be terminated)
 	ACTION_EXIT = 0,
-	ACTION_SAVE = 1,
-	ACTION_LOAD = 2,
-	ACTION_SETUP = 4, // creates players in a currently setup game
-	// game is on its way (AI threads might be active)
-	ACTION_NEXT_TASK = 5,  // player is done with an entity; next screen derived from player status
-	ACTION_NEXT_PLAN = 6,  // player is done with a plan; next screen derived from player status
-	ACTION_DONE = 7,       // (next player) player is done (with turn); next screen derived from game status
-	ACTION_ERROR = 8
+	ACTION_ERROR = 1,
+	ACTION_SAVE = 2,
+	ACTION_AUTOSAVE = 3,
+	ACTION_LOAD = 4,
+	ACTION_SETUP = 5, // creates players in a currently setup game
+	ACTION_MOVE_AI = 6,
+	ACTION_QUIT_AI = 7,
+	// (AI threads might be active)
+	ACTION_NEXT_TASK = 10,  // player is done with an entity; next screen derived from player status
+	ACTION_NEXT_PLAN = 11,  // player is done with a plan; next screen derived from player status
+	ACTION_DONE = 12        // (next player) player is done (with turn); next screen derived from game status
 	;
 
 	/**

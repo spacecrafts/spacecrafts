@@ -20,7 +20,7 @@ public class Colony implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
 	public void show(State game, Dimension screen, Stage stage) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		int colonyID = gamE.num(BASE_ENTITY);
 		if (colonyID == 0) {
 			return;

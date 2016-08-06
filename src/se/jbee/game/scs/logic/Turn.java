@@ -30,7 +30,7 @@ public class Turn implements Transition, GameComponent {
 
 	@Override
 	public State transit(State game, Logic logic) {
-		final Entity gamE = game.single(GAME);
+		final Entity gamE = game.root();
 		final int turn = gamE.num(TURN);
 
 		if (turn == 0) {
@@ -63,7 +63,7 @@ public class Turn implements Transition, GameComponent {
 	 * that has not finished the current turn is the current player.
 	 */
 	public static Entity currentPlayer(State game) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		int turn = gamE.num(TURN);
 		int[] players = gamE.list(PLAYERS);
 		for (int i = 0; i < players.length; i++) {
@@ -75,7 +75,7 @@ public class Turn implements Transition, GameComponent {
 	}
 
 	public static boolean isEndOfTurn(State game) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		final int turn = gamE.num(TURN);
 		int[] players = gamE.list(PLAYERS);
 		for (int i = 0; i < players.length; i++) {
@@ -119,7 +119,7 @@ public class Turn implements Transition, GameComponent {
 	}
 
 	private static void createHomePlanetOfPlayersIn(State game, Entity[] homes) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		// for now just pick random places
 		Rnd rnd = new Rnd(gamE.longNum(SEED));
 		int[] players = gamE.list(PLAYERS);
@@ -168,7 +168,7 @@ public class Turn implements Transition, GameComponent {
 	}
 
 	private static Entity[] distributeStarsInGalaxy(State game) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		int[] players = gamE.list(PLAYERS);
 
 		Entity galaxy = game.defEntity(GALAXY);

@@ -35,7 +35,7 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 	public void show(State game, Dimension screen, Stage stage) {
 		// expects the screen entity to point to the player to setup
 
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		Entity player = Turn.currentPlayer(game);
 
 		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));

@@ -14,7 +14,7 @@ public class Autosave implements Transition, GameComponent {
 
 	@Override
 	public State transit(State game, Logic logic) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		if (gamE.num(TURN) > 1) {
 			gamE.set(SAVEGAME, codePoints(gamePath(gamE))); 
 			return logic.run(Save.class, game);

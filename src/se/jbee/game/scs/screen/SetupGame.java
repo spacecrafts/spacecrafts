@@ -8,8 +8,8 @@ import static se.jbee.game.any.state.Change.take;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.GfxObjs.background;
 import static se.jbee.game.scs.gfx.GfxObjs.button;
-import static se.jbee.game.scs.gfx.GfxObjs.text;
 import static se.jbee.game.scs.gfx.GfxObjs.fixtext;
+import static se.jbee.game.scs.gfx.GfxObjs.text;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 
 import java.awt.Rectangle;
@@ -59,7 +59,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	}
 
 	private void nameField(State game, Dimension screen, Stage stage, int x0, int y0) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		int gid = gamE.id();
 		int[] name = gamE.list(NAME);
 		if (gamE.num(TURN) == 0) {
@@ -78,7 +78,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	}
 
 	private void nextButton(State game, Dimension screen, Stage stage, int x0, int y0) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		if (gamE.list(NAME).length < 1)
 			return;
 		stage.onKey('\n', set(gamE.id(), ACTION, ACTION_SETUP));
@@ -93,7 +93,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	}
 
 	private void upDownSlider(Stage stage, State game, int x0, int y0, String text, int setupIndex, String...names) {
-		Entity gamE = game.single(GAME);
+		Entity gamE = game.root();
 		int[] setup = gamE.list(SETUP);
 		stage.atFront(fixtext(x0, y0, FONT_THIN, 48, COLOR_TEXT_NORMAL, codePoints(text)));
 		stage.atFront(button(x0+200, y0, 50, COLOR_TEXT_NORMAL, COLOR_BLACK));
