@@ -25,13 +25,14 @@ public class Init implements Transition, GameComponent {
 	@Override
 	public State transit(State game, Logic logic) {
 		game.defComponents(GameComponent.class);
-		Entity gamE = game.defEntity(GAME);
+		Entity gamE = game.defRoot(GAME);
 		long seed = System.currentTimeMillis();
 		gamE.set(SEED, seed);
 		gamE.set(NAME, codePoints(uniqueGameName(seed, game)));
 		gamE.set(TURN, 0);
 		gamE.set(SAVEGAME_DIR, codePoints(System.getProperty("user.home")+File.separator+"spacecrafts"));
-		gamE.set(SCREEN, GameScreen.SCREEN_MAIN);
+		gamE.set(RETURN_SCREEN, GameScreen.SCREEN_MAIN);
+		gamE.set(SCREEN, GameScreen.SCREEN_SETUP_CONTROLLS);
 		Entity p1 = game.defEntity(PLAYER);
 		p1.set(NO, 1);
 		p1.set(TURN, -1);

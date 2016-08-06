@@ -7,5 +7,5 @@ import se.jbee.game.any.state.State;
 
 public interface Screen {
 
-	void show(State user, State game, Dimension screen, Stage stage);
+	void show(State game, Dimension screen, Stage stage);
 }

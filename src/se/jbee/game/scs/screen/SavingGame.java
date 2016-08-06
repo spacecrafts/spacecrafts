@@ -20,7 +20,7 @@ import se.jbee.game.scs.state.GameComponent;
 public class SavingGame implements Screen, GameComponent, Gfx {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 		int w = screen.width/2;
 		int h = screen.height/2;
 		int x0 = screen.width/4;

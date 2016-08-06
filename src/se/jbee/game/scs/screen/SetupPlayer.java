@@ -32,7 +32,7 @@ import se.jbee.game.scs.state.GameComponent;
 public class SetupPlayer implements Screen, Gfx, GameComponent {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 		// expects the screen entity to point to the player to setup
 
 		Entity gamE = game.single(GAME);

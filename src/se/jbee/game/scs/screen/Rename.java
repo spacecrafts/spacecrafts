@@ -19,7 +19,7 @@ import se.jbee.game.scs.state.GameComponent;
 public class Rename implements Screen, GameComponent, Gfx {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 		// TODO Auto-generated method stub
 		
 	}

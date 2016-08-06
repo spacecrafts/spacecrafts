@@ -14,7 +14,7 @@ import se.jbee.game.scs.state.GameComponent;
 public class IconInfo implements Screen, Gfx, GameComponent {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
 
 		int x = 100;

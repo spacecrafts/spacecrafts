@@ -21,7 +21,7 @@ import se.jbee.game.scs.state.GameComponent;
 public class TechWheelScreen implements Screen, Gfx, GameComponent {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 
 		stage.atFront(techwheel(400, 400, 800, COLOR_TEXT_NORMAL));
 		stage.atFront(techwheel(900, 400, 200, COLOR_TEXT_NORMAL));

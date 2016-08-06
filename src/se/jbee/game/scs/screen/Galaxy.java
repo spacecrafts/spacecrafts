@@ -23,7 +23,7 @@ import se.jbee.game.scs.state.GameComponent;
 public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
 		Entity player = Turn.currentPlayer(game);
 		Entity galaxy = game.entity(gamE.num(BASE_ENTITY));

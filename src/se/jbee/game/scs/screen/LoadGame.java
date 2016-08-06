@@ -44,7 +44,7 @@ import se.jbee.game.scs.state.GameComponent;
 public class LoadGame implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 		//TODO add a "cursor" and keyboard support + paging
 
 		Entity gamE = game.single(GAME);

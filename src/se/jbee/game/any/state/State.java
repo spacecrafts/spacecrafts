@@ -28,11 +28,16 @@ import java.util.NoSuchElementException;
  */
 public final class State implements Component {
 
+	/**
+	 * The ID of the "root" entity (defined using {@link #defRoot(int)}).
+	 */
+	public static final int ROOT = -1; 
+	
 	private static final int INITIAL_SIZE = 128;
 
 	private Entity[] es = new Entity[INITIAL_SIZE];
-
 	private int size = 0;
+	private int root = -1;
 	
 	public static State base() {
 		State g = new State();
@@ -80,6 +85,12 @@ public final class State implements Component {
 		TYPE2ID[type] = e.num(ID);
 		return e;
 	}
+	
+	public Entity defRoot(int type) {
+		Entity root = defEntity(type);
+		this.root = root.id();
+		return root;
+	}
 
 	public Entity defEntity(int type) {
 		Entity e = new Entity(size, type);
@@ -89,6 +100,12 @@ public final class State implements Component {
 		es[size] = e;
 		size++;
 		return e;
+	}
+	
+	public Entity root() {
+		if (root < 0)
+			throw new NoSuchElementException("Root has not been defined yet!");
+		return es[root];
 	}
 
 	public Entity single(int type) {
@@ -154,7 +171,9 @@ public final class State implements Component {
 	}
 
 	public Entity entity(int id) {
-		if (id > size)
+		if (id == ROOT)
+			return root();
+		if (id > size || id < 0)
 			throw new NoSuchElementException("This is a programming error!");
 		return es[id];
 	}
@@ -186,6 +205,7 @@ public final class State implements Component {
 			}
 		}
 		try (DataOutputStream out = new DataOutputStream(new FileOutputStream(file))) {
+			out.writeInt(root);
 			out.writeInt(size);
 			for (int i = 0; i < size; i++) {
 				es[i].save(out);
@@ -196,6 +216,7 @@ public final class State implements Component {
 	public static State loadFrom(File file) throws IOException {
 		State g = new State();
 		try (DataInputStream in = new DataInputStream(new FileInputStream(file))) {
+			g.root = in.readInt();
 			g.size = in.readInt();
 			g.es = new Entity[g.size+(g.size%128)];
 			for (int i = 0; i < g.size; i++) {

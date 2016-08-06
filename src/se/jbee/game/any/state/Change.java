@@ -50,6 +50,14 @@ public final class Change {
 	public static Change move(int entityFrome, int comp, int key, int entityTo) {
 		return new Change(entityFrome, comp, Op.MOVE, key, entityTo);
 	}
+	
+	public static Change copy(int entityFrom, int compFrom, int entityTo, int compTo) {
+		return new Change(entityFrom, compFrom, Op.COPY, entityTo, compTo);
+	}
+	
+	public static Change copy(int entity, int compFrom, int compTo) {
+		return copy(entity, compFrom, entity, compTo);
+	}
 
 	public final int entity;   // which entity is manipulated
 	public final int comp;     // component of the entity that is manipulated (if not clearing all)

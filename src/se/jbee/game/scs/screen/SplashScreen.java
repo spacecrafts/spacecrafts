@@ -24,7 +24,7 @@ import se.jbee.game.scs.state.GameComponent;
 public class SplashScreen implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
 
 		stage.atFront(background(0,0, screen.width, screen.height, BG_SPACE, 42, 42));

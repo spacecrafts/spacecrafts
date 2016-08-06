@@ -29,7 +29,7 @@ import se.jbee.game.scs.state.GameComponent;
 public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 		Entity gamE = game.single(GAME);
 		int starID = gamE.num(BASE_ENTITY);
 		if (starID == 0) {

@@ -8,7 +8,7 @@ import se.jbee.game.any.state.State;
 public class DesignShip implements Screen {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 		
 		// flow:
 		// 1. player marks all cells that should be contained in the new module

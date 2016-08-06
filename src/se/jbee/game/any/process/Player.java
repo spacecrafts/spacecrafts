@@ -30,10 +30,4 @@ public interface Player {
 		}
 	}
 
-	static Thread daemon(Runnable r, String name) {
-		Thread t = new Thread(r, name);
-		t.setDaemon(true);
-		return t;
-	}
-
 }

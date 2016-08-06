@@ -15,6 +15,16 @@ import se.jbee.game.scs.state.GameComponent;
  * The game loop has completed one time, see what has happened and react.
  * 
  * The main game loop also takes care of controlling the AI players. 
+ * 
+ * Usually it polls the game state to see if all players are done.
+ * Than all battles (with or without human players) are carried out.
+ * Finally the game state is advanced a turn. This includes:
+ *
+ * - moving spaceships
+ * - accumulating incomes and outgoings
+ * - add finished researches
+ * - unroll previously undiscovered galaxies/clusters/solar systems
+ * - ...
  */
 public class Loop implements Transition, GameComponent {
 
@@ -37,12 +47,14 @@ public class Loop implements Transition, GameComponent {
 			case ACTION_DONE  : // Intentional fall-through (these 3 are almost the same except that players intentions are explicit in ending a plan or turn)
 			case ACTION_NEXT_PLAN : 
 			case ACTION_NEXT_TASK : logic.run(Next.class, game); break;
-			case ACTION_INIT  : break; // ??? 
 			case ACTION_LOAD  :  
 				Player.quit(AIs);
 				logic.run(Autosave.class, game);
 				game = logic.run(Load.class, game);
+				Player.move(AIs);
 			}
+			//TODO idea: have an action that stops AIs and syncs/waits until they are stopped
+			// and another one that starts them again.
 		}
 
 		if (Turn.isEndOfTurn(game)) { // TODO do this within the "default" transition? return null can be used to indicate no change => no move

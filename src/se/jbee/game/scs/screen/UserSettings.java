@@ -11,7 +11,7 @@ import se.jbee.game.any.state.State;
 public class UserSettings implements Screen {
 
 	@Override
-	public void show(State user, State game, Dimension screen, Stage stage) {
+	public void show(State game, Dimension screen, Stage stage) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -32,7 +32,6 @@ public interface GameComponent extends Component {
 	ACTION_EXIT = 0,
 	ACTION_SAVE = 1,
 	ACTION_LOAD = 2,
-	ACTION_INIT = 3,
 	ACTION_SETUP = 4, // creates players in a currently setup game
 	// game is on its way (AI threads might be active)
 	ACTION_NEXT_TASK = 5,  // player is done with an entity; next screen derived from player status
@@ -72,6 +71,7 @@ public interface GameComponent extends Component {
 		RETURN_SCREEN = 22, // the screen one goes back to from e.g. load/save dialog screen
 		PAGE = 23, // # (used for paging - e.g. on load screen)
 		CURSOR = 24, // similar to the tab stop in the browser - each view makes sense of the number given, if it is too big it does a modulo so that any number has a position (if there is cursor support)
+		RESOLUTION = 25, // [#w, #h]		
 
 		// action state
 		ACTION = 30, // like 0 = exit, 1 = save
