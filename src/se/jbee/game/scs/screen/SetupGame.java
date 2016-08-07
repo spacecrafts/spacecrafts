@@ -65,12 +65,12 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		if (gamE.num(TURN) == 0) {
 			if (name.length < 12) {
 				for (char c = 'a'; c <= 'z'; c++) {
-					stage.onKey(c, append(gid, NAME, c));
+					stage.onKey(c, append(State.ROOT, NAME, c));
 				}
-				stage.onKey(' ', append(gid, NAME, ' '));
+				stage.onKey(' ', append(State.ROOT, NAME, ' '));
 			}
 			if (name.length > 0) {
-				stage.onKey('\b', take(gid, NAME, name.length-1));
+				stage.onKey('\b', take(State.ROOT, NAME, name.length-1));
 			}
 		}
 		int fontSize = screen.height/16;
@@ -81,7 +81,6 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		Entity gamE = game.root();
 		if (gamE.list(NAME).length < 1)
 			return;
-		stage.onKey('\n', set(gamE.id(), ACTION, ACTION_SETUP));
 
 		int dotDia = dotDiameter(screen);
 		x0 = x0+400-(dotDia*19);
@@ -89,7 +88,9 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
 		stage.in(nextArea, text(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
 		stage.onLeftClickIn(nextArea,
-				set(gamE.id(), ACTION, ACTION_SETUP));
+				set(State.ROOT, ACTION, ACTION_SETUP));
+		stage.onKey('\n', 
+				set(State.ROOT, ACTION, ACTION_SETUP));
 	}
 
 	private void upDownSlider(Stage stage, State game, int x0, int y0, String text, int setupIndex, String...names) {
@@ -107,10 +108,10 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 			: codePoints(names[val]);
 		stage.atFront(fixtext(x0+250, y0, FONT_LIGHT, size, COLOR_TEXT_HIGHLIGHT, ALIGN_EYE,x0+350,y0+50, txt));
 		if (val > 1) {
-			stage.onLeftClickIn(new Rectangle(x0+200, y0, 50,50), replace(gamE.id(), SETUP, setupIndex, val-1));
+			stage.onLeftClickIn(new Rectangle(x0+200, y0, 50,50), replace(State.ROOT, SETUP, setupIndex, val-1));
 		}
 		if (names.length == 0 || val < names.length-1) {
-			stage.onLeftClickIn(new Rectangle(x0+350, y0, 50,50), replace(gamE.id(), SETUP, setupIndex, val+1));
+			stage.onLeftClickIn(new Rectangle(x0+350, y0, 50,50), replace(State.ROOT, SETUP, setupIndex, val+1));
 		}
 	}
 

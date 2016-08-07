@@ -21,7 +21,7 @@ import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
 @ScreenNo(GameScreen.SCREEN_MENU)
-public class MenuScreen implements Screen, GameComponent, Gfx, GameScreen {
+public class Menu implements Screen, GameComponent, Gfx, GameScreen {
 
 	@Override
 	public void show(State game, Dimension screen, Stage stage) {

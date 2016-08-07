@@ -32,6 +32,10 @@ public class GlobalControls implements Screen, GameComponent {
 		stage.onGlobalKey(KeyEvent.VK_I,
 				copy(State.ROOT, RETURN_SCREEN, SCREEN),
 				set(State.ROOT, SCREEN, GameScreen.SCREEN_ICON_INFO));
+		stage.onGlobalKey(KeyEvent.VK_T,
+				copy(State.ROOT, RETURN_SCREEN, SCREEN),
+				set(State.ROOT, SCREEN, GameScreen.SCREEN_TECH_WHEEL));
+
 		
 		// the return screen holds the target screen after the setup is done
 		Entity gamE = game.root();

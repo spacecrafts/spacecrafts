@@ -113,6 +113,8 @@ public interface GameComponent extends Component {
 		// SHIPS {*x,*y,*z} (of other players)
 		// MODULES {*x,*y,*z}
 		// COMPONENTS {*x,*y,*z} (what can be used by a player)
+		//-- AI only --
+		UNHANDLED = 71, // [*x, *y, *z] a list of entities that should be managed during the current turn 
 
 	PLAN = 80,
 		PARTICIPANTS = 71, // {*x,*y,... } (a set of colonies, orbits, space-crafts, constructions) that belong to the plan

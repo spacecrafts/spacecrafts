@@ -46,6 +46,10 @@ public class AI implements Runnable, GameComponent {
 	private void makeTurnMoves() {
 		// TODO Auto-generated method stub
 		
+		// the general attempt is:
+		// 1. make a list of entities to be "managed" during the turn
+		// 2. "manage" one of them, remove it from list, check for last? terminate, otherwise check for pause, if not do next 
+		
 		ai.set(TURN, game.root().num(TURN)); // AI is done
 	}
 	
