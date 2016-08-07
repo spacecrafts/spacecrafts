@@ -5,7 +5,7 @@ import java.util.List;
 
 import se.jbee.game.any.logic.Logic;
 import se.jbee.game.any.logic.Transition;
-import se.jbee.game.any.process.Game;
+import se.jbee.game.any.logic.WorkerPool;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.process.AI;
@@ -31,7 +31,8 @@ import se.jbee.game.scs.state.PlayerStatus;
 public class Loop implements Transition, GameComponent {
 
 	private final List<AI> AIs = new ArrayList<AI>();
-	private final List<Thread> AIworkers = new ArrayList<Thread>();
+	private final WorkerPool AIworkers = new WorkerPool(Math.max(1, Runtime.getRuntime().availableProcessors()-2));
+	private State AIsGame;
 	
 	@Override
 	public State transit(State game, Logic logic) throws Exception {
@@ -47,7 +48,7 @@ public class Loop implements Transition, GameComponent {
 			
 			// advance to next turn
 			logic.run(Turn.class, game);
-			moveAIs(game);
+			resumeAIs(game);
 		}
 		return game;
 	}
@@ -63,8 +64,8 @@ public class Loop implements Transition, GameComponent {
 			case ACTION_AUTOSAVE: logic.run(Autosave.class, game); break;
 			case ACTION_SAVE  : logic.run(Save.class, game); break;
 			case ACTION_LOAD  :	game = logic.run(Load.class, game); break;
-			case ACTION_MOVE_AI: moveAIs(game); break;
-			case ACTION_QUIT_AI: quitAIs(); break;
+			case ACTION_MOVE_AI: resumeAIs(game); break;
+			case ACTION_QUIT_AI: pauseAIs(); break;
 			case ACTION_SETUP : logic.run(Setup.class, game); break;
 			case ACTION_DONE  : // Intentional fall-through (these 3 are almost the same except that players intentions are explicit in ending a plan or turn)
 			case ACTION_NEXT_PLAN : 
@@ -74,33 +75,27 @@ public class Loop implements Transition, GameComponent {
 		return game;
 	}
 	
-	private void moveAIs(State game) throws InterruptedException {
-		if (!AIworkers.isEmpty()) {
-			quitAIs();
-		}
-		if (AIs.isEmpty()) {
+	private void resumeAIs(State game) throws InterruptedException {
+		pauseAIs();
+		if (AIsGame != game) {
+			AIs.clear(); // get rid of AIs not belonging to current game
 			for (Entity player : game.entities(game.root().list(PLAYERS))) {
 				if (player.isBitSet(STATUS, PlayerStatus.AI)) {
 					AIs.add(new AI(game, player.id()));
 				}
 			}
+			AIsGame = game; // the game the AIs belong to
 		}
-		for (Runnable ai : AIs) {
-			AIworkers.add(Game.daemon(ai, "AI "));
+		for (AI ai : AIs) {
+			ai.resume();
+			AIworkers.run(ai);
 		}
-		for (Thread worker : AIworkers)
-			worker.start();
 	}
 	
-	private void quitAIs() throws InterruptedException {
+	private void pauseAIs() throws InterruptedException {
 		for (AI ai : AIs) 
-			ai.quit();
-		for(Thread worker : AIworkers)
-			if (worker.isAlive())
-				worker.join();
-		AIworkers.clear();
-		//FIXME after load AIs need to be rebuild but not otherwise - new separate action
-		// this can be done "automatically" by tracking change of game instance! 
+			ai.pause();
+		AIworkers.cancel();
 	}
 	
 }

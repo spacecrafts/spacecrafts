@@ -19,7 +19,6 @@ public class Save implements Transition, GameComponent {
 	public State transit(State game, Logic logic) {
 		Entity gamE = game.root();
 		File file = new File(gamE.string(SAVEGAME_DIR), gamE.string(SAVEGAME)+".game");
-		gamE.unset(ACTION);
 		gamE.unset(SAVEGAME);
 		// set return screen as screen so game jumps into last screen when loaded
 		gamE.set(SCREEN, gamE.num(RETURN_SCREEN));

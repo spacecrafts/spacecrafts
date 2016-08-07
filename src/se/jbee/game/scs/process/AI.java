@@ -21,29 +21,37 @@ public class AI implements Runnable, GameComponent {
 	private final State game;
 	private final Entity ai;
 
-	private boolean quit = false;
+	private boolean pause = false;
 	
 	public AI(State game, int eAI) {
 		super();
 		this.game = game;
 		this.ai = game.entity(eAI);
 	}
+
 	
-	public void quit() {
-		quit = true;
+	public void resume() {
+		pause = false;
+	}
+	
+	public void pause() {
+		pause = true;
 	}
 	
 	@Override
 	public void run() {
-		while (!quit) { //TODO an AI just quits when its done
-			makeTurnMoves();
-		}
+		makeTurnMoves();
 	}
 
 	private void makeTurnMoves() {
 		// TODO Auto-generated method stub
 		
 		ai.set(TURN, game.root().num(TURN)); // AI is done
+	}
+	
+	@Override
+	public String toString() {
+		return ""+ai.id();
 	}
 
 }
