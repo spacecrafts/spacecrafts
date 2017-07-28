@@ -4,10 +4,11 @@ import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.lang.Math.min;
 import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
-import static se.jbee.game.scs.gfx.GfxObjs.background;
-import static se.jbee.game.scs.gfx.GfxObjs.fixtext;
-import static se.jbee.game.scs.gfx.GfxObjs.icon;
-import static se.jbee.game.scs.gfx.GfxObjs.timeLine;
+import static se.jbee.game.scs.gfx.Draw.background;
+import static se.jbee.game.scs.gfx.Draw.fixtext;
+import static se.jbee.game.scs.gfx.Draw.icon;
+import static se.jbee.game.scs.gfx.Draw.timeLine;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.REGULAR;
 
 import java.awt.Rectangle;
 import java.io.File;
@@ -25,6 +26,7 @@ import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.gfx.Hue;
 import se.jbee.game.scs.state.GameComponent;
 
 /**
@@ -75,7 +77,7 @@ public class LoadGame implements Screen, GameComponent, Gfx, GameScreen {
 		int y = y0;
 		Change screenCs = set(gID, SCREEN, SCREEN_LOADING_GAME);
 		for (File[] saves : gameFiles) {
-			stage.atFront(fixtext(x0, y, FONT_REGULAR, 14, COLOR_TEXT_NORMAL, ALIGN_E, x0+nameWidth-5, y+d, codePoints(saves[0].getParentFile().getName().replace('_', ' '))));
+			stage.atFront(fixtext(x0, y, REGULAR, 14, Hue.TEXT_NORMAL, Align.E, x0+nameWidth-5, y+d, codePoints(saves[0].getParentFile().getName().replace('_', ' '))));
 			String highestTrunSave = saves[saves.length-1].getName();
 			int highestTurn = Integer.parseInt(highestTrunSave.substring(0, highestTrunSave.indexOf('.')));
 			stage.atFront(timeLine(x0+nameWidth, y0+r, x0+nameWidth+highestTurn*lineWidth/maxTurn, y0+r));
@@ -88,10 +90,10 @@ public class LoadGame implements Screen, GameComponent, Gfx, GameScreen {
 					x = xLast+d;
 				}
 				xLast = x;
-				int color = save.getName().contains(".auto.") ? COLOR_TEXT_NORMAL : COLOR_FARM;
+				Hue color = save.getName().contains(".auto.") ? Hue.TEXT_NORMAL : Hue.FARM;
 				stage.atFront(icon(ICON_BUILDING, x, y, d, color));
 				Rectangle area = new Rectangle(x, y, d, d);
-				stage.in(area, icon(ICON_BUILDING, x-2, y-2, d+4, COLOR_TEXT_HIGHLIGHT), fixtext(x, y-20, FONT_REGULAR, 14, COLOR_TEXT_HIGHLIGHT, codePoints(String.valueOf(turn))));
+				stage.in(area, icon(ICON_BUILDING, x-2, y-2, d+4, Hue.TEXT_HIGHLIGHT), fixtext(x, y-20, REGULAR, 14, Hue.TEXT_HIGHLIGHT, codePoints(String.valueOf(turn))));
 				stage.onLeftClickIn(area,
 					set(gID, SAVEGAME, codePoints(save.getParentFile().getName()+"/"+save.getName() )),
 					screenCs);

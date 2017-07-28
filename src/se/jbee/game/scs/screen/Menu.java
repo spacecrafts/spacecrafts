@@ -3,8 +3,10 @@ package se.jbee.game.scs.screen;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static se.jbee.game.any.gfx.Texts.textKey;
 import static se.jbee.game.any.state.Change.set;
-import static se.jbee.game.scs.gfx.GfxObjs.background;
-import static se.jbee.game.scs.gfx.GfxObjs.text;
+import static se.jbee.game.scs.gfx.Draw.background;
+import static se.jbee.game.scs.gfx.Draw.text;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.DOTS;
+import static se.jbee.game.scs.gfx.Hue.*;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 
 import java.awt.Rectangle;
@@ -34,7 +36,7 @@ public class Menu implements Screen, GameComponent, Gfx, GameScreen {
 		while (title.length()*5*dotDia > screen.width) {
 			dotDia--;
 		}
-		stage.atFront(text(textKey('G', 'm', 'T'), (screen.width-(title.length()*5*dotDia)+dotDia)/2, screen.height/4-(5*dotDia), FONT_DOTS, dotDia, COLOR_TEXT_SPECIAL));
+		stage.atFront(text(textKey('G', 'm', 'T'), (screen.width-(title.length()*5*dotDia)+dotDia)/2, screen.height/4-(5*dotDia), DOTS, dotDia, TEXT_SPECIAL));
 
 		dotDia = dotDiameter(screen);
 		int w = 4*5*dotDia-dotDia;
@@ -45,8 +47,8 @@ public class Menu implements Screen, GameComponent, Gfx, GameScreen {
 
 		// open
 		Rectangle open = new Rectangle(x0,y0,w,h);
-		stage.atFront(text(textKey('G', 'm', 'O'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
-		stage.in(open, text(textKey('G', 'm', 'O'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
+		stage.atFront(text(textKey('G', 'm', 'O'), x0, y0, DOTS, dotDia, TEXT_NORMAL));
+		stage.in(open, text(textKey('G', 'm', 'O'), x0, y0, DOTS, dotDia, TEXT_HIGHLIGHT));
 		Change[] openCs = { new Change(gID, SCREEN, Op.SET, SCREEN_SETUP_GAME) };
 		stage.onLeftClickIn(open, openCs);
 		stage.onKey('o', openCs);
@@ -54,8 +56,8 @@ public class Menu implements Screen, GameComponent, Gfx, GameScreen {
 		// load
 		y0 += 8*dotDia;
 		Rectangle load = new Rectangle(x0,y0,w,h);
-		stage.atFront(text(textKey('G', 'm', 'L'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
-		stage.in(load, text(textKey('G', 'm', 'L'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
+		stage.atFront(text(textKey('G', 'm', 'L'), x0, y0, DOTS, dotDia, TEXT_NORMAL));
+		stage.in(load, text(textKey('G', 'm', 'L'), x0, y0, DOTS, dotDia, TEXT_HIGHLIGHT));
 		Change[] loadCs = { set(gID, SCREEN, SCREEN_LOAD_GAME) };
 		stage.onLeftClickIn(load, loadCs);
 		stage.onKey('l', loadCs);
@@ -64,8 +66,8 @@ public class Menu implements Screen, GameComponent, Gfx, GameScreen {
 		if (gamE.num(TURN) > 0) {
 			y0 += 8*dotDia;
 			Rectangle save = new Rectangle(x0,y0,w,h);
-			stage.atFront(text(textKey('G', 'm', 'S'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
-			stage.in(save, text(textKey('G', 'm', 'S'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
+			stage.atFront(text(textKey('G', 'm', 'S'), x0, y0, DOTS, dotDia, TEXT_NORMAL));
+			stage.in(save, text(textKey('G', 'm', 'S'), x0, y0, DOTS, dotDia, TEXT_HIGHLIGHT));
 			Change[] saveCs = { set(gID, SCREEN, SCREEN_SAVING_GAME) };
 			stage.onLeftClickIn(save, saveCs);
 			stage.onKey('s', saveCs);
@@ -75,8 +77,8 @@ public class Menu implements Screen, GameComponent, Gfx, GameScreen {
 		if (gamE.has(RETURN_SCREEN) && gamE.num(RETURN_SCREEN) != SCREEN_MENU) {
 			y0 += 8*dotDia;
 			Rectangle back = new Rectangle(x0,y0,w,h);
-			stage.atFront(text(textKey('G', 'm', 'B'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL)); //TODO other color
-			stage.in(back, text(textKey('G', 'm', 'B'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
+			stage.atFront(text(textKey('G', 'm', 'B'), x0, y0, DOTS, dotDia, TEXT_NORMAL)); //TODO other color
+			stage.in(back, text(textKey('G', 'm', 'B'), x0, y0, DOTS, dotDia, TEXT_HIGHLIGHT));
 			Change backChange = set(gID, SCREEN, gamE.num(RETURN_SCREEN));
 			stage.onLeftClickIn(back, backChange);
 			stage.onKey(' ', backChange);
@@ -85,8 +87,8 @@ public class Menu implements Screen, GameComponent, Gfx, GameScreen {
 		// exit
 		y0 += 8*dotDia;
 		Rectangle exit = new Rectangle(x0,y0,w,h);
-		stage.atFront(text(textKey('G', 'm', 'E'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
-		stage.in(exit, text(textKey('G', 'm', 'E'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
+		stage.atFront(text(textKey('G', 'm', 'E'), x0, y0, DOTS, dotDia, TEXT_NORMAL));
+		stage.in(exit, text(textKey('G', 'm', 'E'), x0, y0, DOTS, dotDia, TEXT_HIGHLIGHT));
 		Change exitCs = set(gID, ACTIONS, ACTION_STOP_AI, ACTION_AUTOSAVE, ACTION_EXIT);
 		stage.onLeftClickIn(exit, exitCs);
 		stage.onKey(VK_ESCAPE, exitCs);

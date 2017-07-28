@@ -8,13 +8,13 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-import se.jbee.game.any.gfx.GfxObj;
+import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.Rnd;
 import se.jbee.game.scs.gfx.Gfx;
 
-public final class Background implements Gfx, GfxObj {
+public final class Background implements Gfx, Drawable {
 
 	private final int x0;
 	private final int y0;

@@ -1,13 +1,15 @@
 package se.jbee.game.scs.screen;
 
-import static se.jbee.game.scs.gfx.GfxObjs.background;
-import static se.jbee.game.scs.gfx.GfxObjs.icon;
+import static se.jbee.game.scs.gfx.Draw.background;
+import static se.jbee.game.scs.gfx.Draw.icon;
+import static se.jbee.game.scs.gfx.Hue.*;
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.screen.Screen;
 import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.gfx.Hue;
 import se.jbee.game.scs.state.GameComponent;
 
 @ScreenNo(GameScreen.SCREEN_ICON_INFO)
@@ -21,7 +23,7 @@ public class IconInfo implements Screen, Gfx, GameComponent {
 		int y = 100;
 		int d = 8;
 		int[] types = {ICON_BUILDING, ICON_BUILDING, ICON_BUILDING, ICON_BUILDING, ICON_BUILDING};
-		int[] colors = {COLOR_ACADEMY, COLOR_BIOSPHERE, COLOR_FARM, COLOR_LAB, COLOR_YARD};
+		Hue[] colors = {ACADEMY, BIOSPHERE, FARM, LAB, YARD};
 		if (false) {
 			for (int s = 0; s <= 16; s++) {
 				for (int i = 0; i <  types.length; i++) {
@@ -36,7 +38,7 @@ public class IconInfo implements Screen, Gfx, GameComponent {
 		}
 		d = 16;
 		for (int i = 1; i < 50; i++) {
-			stage.atFront(icon(i, x, y, d, COLOR_LAB));
+			stage.atFront(icon(i, x, y, d, LAB));
 			x+=d+d;
 			if (x > screen.width) {
 				x= 0;

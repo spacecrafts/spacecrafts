@@ -2,18 +2,19 @@ package se.jbee.game.scs.gfx.obj;
 
 import java.awt.Graphics2D;
 
-import se.jbee.game.any.gfx.GfxObj;
+import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.gfx.Hue;
 
-public final class Button implements Gfx, GfxObj {
+public final class Button implements Gfx, Drawable {
 
 	private final int x;
 	private final int y;
 	private final int d;
-	private final int color;
+	private final Hue color;
 
-	public Button(int x, int y, int d, int color) {
+	public Button(int x, int y, int d, Hue color) {
 		super();
 		this.x = x;
 		this.y = y;

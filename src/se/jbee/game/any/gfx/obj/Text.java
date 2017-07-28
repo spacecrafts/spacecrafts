@@ -3,27 +3,28 @@ package se.jbee.game.any.gfx.obj;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 
-import se.jbee.game.any.gfx.GfxObj;
+import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.gfx.Hue;
 
-public final class Text implements Gfx, GfxObj {
+public final class Text implements Gfx, Drawable {
 
 	private final int x1;
 	private final int y1;
 	private final int x2;
 	private final int y2;
-	private final int font;
+	private final FontStyle font;
 	private int size;
-	private int color;
-	private final int align;
+	private Hue color;
+	private final Align align;
 	private final int key;
 	private final String text;
 	
 	private boolean sized = false;
 
-	public Text(int x1, int y1, int x2, int y2, int font, int size, int color,
-			int align, int key, String text) {
+	public Text(int x1, int y1, int x2, int y2, FontStyle font, int size, Hue color,
+			Align align, int key, String text) {
 		super();
 		this.x1 = x1;
 		this.y1 = y1;
@@ -37,7 +38,7 @@ public final class Text implements Gfx, GfxObj {
 		this.text = text;
 	}
 	
-	public GfxObj withColor(int color) {
+	public Drawable withColor(Hue color) {
 		return new Text(x1, y1, x2, y2, font, size, color, align, key, text);
 	}
 
@@ -50,7 +51,7 @@ public final class Text implements Gfx, GfxObj {
 			text=this.text;
 		}
 		gfx.setColor(resources.color(color));
-		if (font == FONT_DOTS) {
+		if (font == FontStyle.DOTS) {
 			// in case of dot font the size is the diameter of the dots
 			//TODO align calc
 			DotFont5x4.draw(gfx, x1, y1, size, text);
@@ -65,24 +66,26 @@ public final class Text implements Gfx, GfxObj {
 		} while (!sized);
 		int x = x1;
 		switch(align) {
-		case ALIGN_NE:
-		case ALIGN_E :
-		case ALIGN_SE: x=x2-fm.stringWidth(text); break;
-		case ALIGN_N :
-		case ALIGN_EYE:
-		case ALIGN_S : x=x1+(x2-x1-fm.stringWidth(text)) / 2; break;
-		case ALIGN_CENTER: x=x1-(fm.stringWidth(text)/2); break;
+		case NE:
+		case E :
+		case SE: x=x2-fm.stringWidth(text); break;
+		case EYE:
+		case N :
+		case S : x=x1+(x2-x1-fm.stringWidth(text)) / 2; break;
+		case HCENTER: x=x1-(fm.stringWidth(text)/2); break;
+		default:
 		}
 		int ascent = fm.getAscent();
 		int y = y1+ascent;
 		switch(align) {
-		case ALIGN_E :
-		case ALIGN_EYE:
-		case ALIGN_W : y=y1+ascent+(y2-y1-ascent) / 2; break;
-		case ALIGN_SW:
-		case ALIGN_S:
-		case ALIGN_SE: y=y2; break;
-		case ALIGN_CENTER: y=y1+ascent; break;
+		case EYE:
+		case E :
+		case W : y=y1+ascent+(y2-y1-ascent) / 2; break;
+		case SW:
+		case S:
+		case SE: y=y2; break;
+		case HCENTER: y=y1+ascent; break;
+		default:
 		}
 		gfx.drawString(text, x, y);
 	}

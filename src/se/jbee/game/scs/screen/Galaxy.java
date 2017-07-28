@@ -1,10 +1,11 @@
 package se.jbee.game.scs.screen;
 
 import static se.jbee.game.any.state.Change.set;
-import static se.jbee.game.scs.gfx.GfxObjs.background;
-import static se.jbee.game.scs.gfx.GfxObjs.fixtext;
-import static se.jbee.game.scs.gfx.GfxObjs.path;
-import static se.jbee.game.scs.gfx.GfxObjs.star;
+import static se.jbee.game.scs.gfx.Draw.background;
+import static se.jbee.game.scs.gfx.Draw.fixtext;
+import static se.jbee.game.scs.gfx.Draw.path;
+import static se.jbee.game.scs.gfx.Draw.star;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.THIN;
 
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
@@ -17,6 +18,7 @@ import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.gfx.Hue;
 import se.jbee.game.scs.logic.Turn;
 import se.jbee.game.scs.state.GameComponent;
 
@@ -51,9 +53,9 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			int touch = (int) (scale * star.num(CLOSEST)/2);
 			Ellipse2D area = new Ellipse2D.Float(x+r-touch, y+r-touch, touch+touch, touch+touch);
 			if (playerStar == starID || star.has(HOME)) {
-				Text name = fixtext(x,y+13,FONT_THIN, 13, COLOR_TEXT_NORMAL, ALIGN_CENTER, -1, -1, star.list(NAME));
+				Text name = fixtext(x,y+13, THIN, 13, Hue.TEXT_NORMAL, Align.HCENTER, -1, -1, star.list(NAME));
 				stage.atFront(name);
-				stage.in(area, name.withColor(COLOR_TEXT_HIGHLIGHT));
+				stage.in(area, name.withColor(Hue.TEXT_HIGHLIGHT));
 			}
 			stage.onLeftClickIn(area, set(gamE.id(), SCREEN, SCREEN_SOLAR_SYSTEM), set(gamE.id(), BASE_ENTITY, starID));
 			stage.atFront(star(x, y, dia, star.num(RGB)));

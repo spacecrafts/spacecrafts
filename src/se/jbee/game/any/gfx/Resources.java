@@ -27,21 +27,22 @@ public final class Resources {
 	private final Resource<BufferedImage>[] lazyImages;
 
 	@SuppressWarnings("unchecked")
-	public Resources(int colors, int fonts, int noises, int images) {
+	public Resources(Class<? extends Enum<?>> colors, Class<? extends Enum<?>> fonts, int noises, int images) {
 		super();
 		this.texts = new Texts();
-		this.colors = new Color[colors];
-		this.fonts = new Font[fonts];
-		this.derivedFonts = new Font[fonts][64];
+		this.colors = new Color[colors.getEnumConstants().length];
+		int fontCount = fonts.getEnumConstants().length;
+		this.fonts = new Font[fontCount];
+		this.derivedFonts = new Font[fontCount][64];
 		this.noises = new Noise[noises];
 		this.images = new BufferedImage[images];
-		this.lazyFonts = new Resource[fonts];
+		this.lazyFonts = new Resource[fontCount];
 		this.lazyNoises = new Resource[noises];
 		this.lazyImages = new Resource[images];
 	}
 
-	public void addFont(int type, String file) {
-		lazyFonts[type] = (Style) -> { return loadFont(file); };
+	public void addFont(Enum<?> type, String file) {
+		lazyFonts[type.ordinal()] = (Style) -> { return loadFont(file); };
 	}
 
 	public void addNoise(int type, int size, int depth, int seed) {
@@ -52,8 +53,8 @@ public final class Resources {
 		lazyImages[type] = image;
 	}
 
-	public void addColor(int type, int argb) {
-		colors[type] = new Color(argb, true);
+	public void addColor(Enum<?> type, int argb) {
+		colors[type.ordinal()] = new Color(argb, true);
 	}
 
 	public void ready() {
@@ -79,11 +80,13 @@ public final class Resources {
 		loader.start();
 	}
 
-	public Color color(int type) {
+	public Color color(Enum<?> c) {
+		int type = c.ordinal();
 		return type < 0 || type >= colors.length ? colors[0] : colors[type];
 	}
 
-	public Font font(int type, int size) {
+	public Font font(Enum<?> style, int size) {
+		int type = style.ordinal();
 		if (type < 0 || type >= derivedFonts.length)
 			type = 0;
 		Font[] sizes = derivedFonts[type];
@@ -100,7 +103,7 @@ public final class Resources {
 		return f;
 	}
 
-	private Font derive(Font base, int size) {
+	private static Font derive(Font base, int size) {
 		return base == null ? Font.getFont(Font.MONOSPACED) : base.deriveFont(0, size);
 	}
 

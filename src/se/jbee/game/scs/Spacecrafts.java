@@ -2,6 +2,8 @@ package se.jbee.game.scs;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.*;
+import static se.jbee.game.scs.gfx.Hue.*;
 
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -16,7 +18,8 @@ import se.jbee.game.any.process.Game;
 import se.jbee.game.any.screen.Screen;
 import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.scs.gfx.GfxRenderer;
+import se.jbee.game.scs.gfx.ScsRenderer;
+import se.jbee.game.scs.gfx.Hue;
 import se.jbee.game.scs.gfx.obj.Background;
 import se.jbee.game.scs.gfx.obj.Button;
 import se.jbee.game.scs.gfx.obj.Icon;
@@ -75,7 +78,7 @@ public class Spacecrafts implements Gfx {
 	}
 	
 	private static Display gameDisplay() {
-		return new Display(new GfxRenderer(), 
+		return new Display(new ScsRenderer(), 
 				initResources(new Dimension(Toolkit.getDefaultToolkit().getScreenSize())),
 				initScreens());
 	}
@@ -84,23 +87,6 @@ public class Spacecrafts implements Gfx {
 		return ScreenNo.Init.screens(GlobalControls.class, ErrorJournal.class, Blank.class, IconInfo.class, Menu.class, SavingGame.class, LoadGame.class, LoadingGame.class, UserSettings.class, SetupGame.class, SetupPlayer.class, Encounter.class, 
 				Galaxy.class, SolarSystem.class, Orbit.class, Colony.class, TechWheelScreen.class);		
 	}
-	
-//	private static GfxRenderer initRenderer() {
-//		GfxRenderer r = new GfxRenderer();
-//		r.register(OBJ_TEXT, new Text());
-//		r.register(OBJ_TECH_WHEEL, new Techwheel());
-//		r.register(OBJ_BUTTON, new Button());
-//		r.register(OBJ_RING, new Ring());
-//		r.register(OBJ_BACKGROUND, new Background());
-//		r.register(OBJ_STAR, Star.FULL);
-//		r.register(OBJ_STAR_CLIP, Star.CUT);
-//		r.register(OBJ_PLANET, Planet.FULL);
-//		r.register(OBJ_PLANET_CLIP, Planet.CUT);
-//		r.register(OBJ_ICON, new Icon());
-//		r.register(OBJ_RECT, new Rect());
-//		r.register(OBJ_PATH, new Path());
-//		return r;
-//	}
 	
 	private static final Colouring STAR_RED = (float rgb) -> {
 		float a = min(0.9f, max(0.3f, (1.5f-rgb)*rgb));
@@ -143,7 +129,7 @@ public class Spacecrafts implements Gfx {
 	};
 	
 	private static Resources initResources(Dimension screen) {
-		final Resources s = new Resources(26, 3, 4, 7);
+		final Resources s = new Resources(Hue.class, FontStyle.class, 4, 7);
 		// game texts
 		s.texts.index(Data.class, "game.texts");
 		s.texts.index(Data.class, "star-class.texts");
@@ -151,40 +137,32 @@ public class Spacecrafts implements Gfx {
 		s.texts.index(Data.class, "planet-class.texts");
 
 		// base colors
-		s.addColor(COLOR_TRANSPARENT, 0x00000000);
-		s.addColor(COLOR_DEFAULT, 0xFF8899FF);
-		s.addColor(COLOR_WHITE, 0xFFffffff);
-		s.addColor(COLOR_BLACK, 0xFF000000);
-		s.addColor(COLOR_TEXT_HIGHLIGHT, 0xFFFFFFFF);
-		s.addColor(COLOR_TEXT_NORMAL, 0xFF9bcfff);
-		s.addColor(COLOR_TEXT_SPECIAL, 0xFFeeee77);
-		s.addColor(COLOR_SLOT, 0xFF223355);
+		s.addColor(TRANSPARENT, 0x00000000);
+		s.addColor(DEFAULT, 0xFF8899FF);
+		s.addColor(WHITE, 0xFFffffff);
+		s.addColor(BLACK, 0xFF000000);
+		s.addColor(TEXT_HIGHLIGHT, 0xFFFFFFFF);
+		s.addColor(TEXT_NORMAL, 0xFF9bcfff);
+		s.addColor(TEXT_SPECIAL, 0xFFeeee77);
+		s.addColor(EMPTY_SLOT, 0xFF223355);
 		// components
-		s.addColor(COLOR_SHIELD, 0xffAAFFEE);
-		s.addColor(COLOR_ENERGY, 0xff00CC55);
-		s.addColor(COLOR_WEAPON, 0xffFF7777);
-		s.addColor(COLOR_CONTROL, 0xffDD8855);
-		s.addColor(COLOR_DRIVE, 0xffCC44CC);
-		s.addColor(COLOR_SPECIAL, 0xffDD8855);
-		s.addColor(COLOR_SCANNER, 0xff0088FF);
+		s.addColor(SHIELD, 0xffAAFFEE);
+		s.addColor(ENERGY, 0xff00CC55);
+		s.addColor(WEAPON, 0xffFF7777);
+		s.addColor(CONTROL, 0xffDD8855);
+		s.addColor(DRIVE, 0xffCC44CC);
+		s.addColor(SPECIAL, 0xffDD8855);
+		s.addColor(SCANNER, 0xff0088FF);
 		// buildings
-		s.addColor(COLOR_ACADEMY, 0xffff8080);
-		s.addColor(COLOR_BIOSPHERE, 0xff80ff00);
-		s.addColor(COLOR_FARM, 0xffffff80);
-		s.addColor(COLOR_LAB, 0xff0080ff);
-		s.addColor(COLOR_YARD, 0xffffff00);
+		s.addColor(ACADEMY, 0xffff8080);
+		s.addColor(BIOSPHERE, 0xff80ff00);
+		s.addColor(FARM, 0xffffff80);
+		s.addColor(LAB, 0xff0080ff);
+		s.addColor(YARD, 0xffffff00);
 
-//		s.addFont(FONT_REGULAR, "font/Roboto-Regular.ttf");
-//		s.addFont(FONT_LIGHT, "font/Roboto-Light.ttf");
-//		s.addFont(FONT_THIN, "font/Roboto-Thin.ttf");
-		
-//		s.addFont(FONT_REGULAR, "font/MavenPro-Medium.ttf");
-//		s.addFont(FONT_LIGHT, "font/MavenPro-Regular.ttf");
-//		s.addFont(FONT_THIN, "font/MavenPro-Regular.ttf");
-		
-		s.addFont(FONT_REGULAR, "font/Orbitron-Medium.ttf");
-		s.addFont(FONT_LIGHT, "font/Orbitron-Regular.ttf");
-		s.addFont(FONT_THIN, "font/Orbitron-Regular.ttf");		
+		s.addFont(REGULAR, "font/Orbitron-Medium.ttf");
+		s.addFont(LIGHT, "font/Orbitron-Regular.ttf");
+		s.addFont(THIN, "font/Orbitron-Regular.ttf");		
 
 		s.addNoise(NOISE_STAR_LARGE, 500, 80, 666);
 		s.addNoise(NOISE_STAR_SMALL, 50, 60, 700);

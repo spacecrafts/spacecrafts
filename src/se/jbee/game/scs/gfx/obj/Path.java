@@ -4,17 +4,18 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
-import se.jbee.game.any.gfx.GfxObj;
+import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Resources;
+import se.jbee.game.scs.gfx.Hue;
 
-public final class Path implements GfxObj {
+public final class Path implements Drawable {
 
 	private final int type;
-	private final int color;
+	private final Hue color;
 	private final int stroke;
 	private final int points[];
 
-	public Path(int type, int color, int stroke, int[] points) {
+	public Path(int type, Hue color, int stroke, int[] points) {
 		super();
 		this.type = type;
 		this.color = color;

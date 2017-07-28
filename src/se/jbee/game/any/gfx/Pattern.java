@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import se.jbee.game.any.state.Rnd;
 
+@Deprecated // was just a test for an idea so far
 public class Pattern {
 
 	final int[][] cells;

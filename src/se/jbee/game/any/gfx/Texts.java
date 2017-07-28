@@ -151,7 +151,7 @@ public final class Texts {
 		return "?"+keyToString(sac)+"?";
 	}
 
-	private int offset(int sac) {
+	private static int offset(int sac) {
 		int s = s(sac);
 		int a = a(sac);
 		return 26*(s-'A')+(a-'a');

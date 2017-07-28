@@ -28,14 +28,14 @@ public class OnScreenKeyboad implements Renderer, Gfx {
 			gfx.fillRoundRect(x, screen.height-60, w, 40, 15,15);
 			gfx.setColor(Color.LIGHT_GRAY);
 			gfx.drawRoundRect(x, screen.height-60, w, 40, 15,15);
-			gfx.setFont(styles.font(FONT_REGULAR, 24));
+			gfx.setFont(styles.font(FontStyle.REGULAR, 24));
 			gfx.drawString(text, x+12, screen.height-30);
 			x+= w+5;
 		}
 
 		// TODO also as an decoration, rendered like extra display on top of the main monitor of a spacecraft (that the player is commanding)
 		// this may look different depending on the chosen race
-		gfx.setColor(styles.color(COLOR_TEXT_NORMAL));
+		gfx.setColor(styles.color(Hue.TEXT_NORMAL));
 		gfx.drawRoundRect(screen.width/3+screen.width/32, -screen.height/16-20, screen.width/3-screen.width/16, screen.width/16+20, 20, 20);
 
 	}

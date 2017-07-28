@@ -7,14 +7,15 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.QuadCurve2D;
 
-import se.jbee.game.any.gfx.GfxObj;
+import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.gfx.Hue;
 
 /**
  * Rendering of all the icons used for {@link Gfx#OBJ_ICON}.
  */
-public final class Icon implements Gfx, GfxObj {
+public final class Icon implements Gfx, Drawable {
 
 	public static void draw( Graphics2D gfx, int type, int x0, int y0, int d) {
 		Stroke s = gfx.getStroke();
@@ -78,9 +79,9 @@ public final class Icon implements Gfx, GfxObj {
 	private final int x0;
 	private final int y0;
 	private final int d;
-	private final int color;
+	private final Hue color;
 	
-	public Icon(int type, int x0, int y0, int d, int color) {
+	public Icon(int type, int x0, int y0, int d, Hue color) {
 		super();
 		this.type = type;
 		this.x0 = x0;

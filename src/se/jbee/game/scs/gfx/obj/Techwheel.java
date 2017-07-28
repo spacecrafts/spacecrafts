@@ -5,32 +5,33 @@ import static java.lang.Math.toRadians;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 
-import se.jbee.game.any.gfx.GfxObj;
+import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Point;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.gfx.Hue;
 
-public final class Techwheel implements Gfx, GfxObj {
+public final class Techwheel implements Gfx, Drawable {
 
 	private final int xc;
 	private final int yc;
-	private final int d;
-	private final int color;
+	private final int dia;
+	private final Hue lines;
 
-	public Techwheel(int xc, int yc, int d, int color) {
+	public Techwheel(int xc, int yc, int dia, Hue lines) {
 		super();
 		this.xc = xc;
 		this.yc = yc;
-		this.d = d;
-		this.color = color;
+		this.dia = dia;
+		this.lines = lines;
 	}
 
 	@Override
 	public void draw(Graphics2D gfx, Resources resources) {
 		gfx.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		gfx.setColor(resources.color(color));
+		gfx.setColor(resources.color(lines));
 
-		int ring = d/12;
+		int ring = dia/12;
 
 		int h1 = ring/2+ring/5+ring/24;
 		int h6 = ring*6/2+ring*6/5+ring*6/120;

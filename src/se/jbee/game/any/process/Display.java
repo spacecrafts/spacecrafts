@@ -20,7 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import se.jbee.game.any.gfx.Dimension;
-import se.jbee.game.any.gfx.GfxObj;
+import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.gfx.Stage.AreaMapping;
@@ -29,7 +29,7 @@ import se.jbee.game.any.gfx.Stage.KeyMapping;
 import se.jbee.game.any.screen.Screen;
 import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.State;
-import se.jbee.game.scs.gfx.GfxRenderer;
+import se.jbee.game.scs.gfx.ScsRenderer;
 
 /**
  * The screen or canvas the game is drawn on.
@@ -42,12 +42,12 @@ public class Display extends Canvas implements Runnable, KeyListener, MouseListe
 	private static final long FRAME_DELAY_MS = 15;
 
 	private final Stage stage = new Stage();
-	private final GfxRenderer renderer;
+	private final ScsRenderer renderer;
 	private final Resources resources;
 	private final ScreenSwitch sswitch;
 	private final JFrame frame;
 	
-	public Display(GfxRenderer renderer, Resources resources, Screen[] screens) {
+	public Display(ScsRenderer renderer, Resources resources, Screen[] screens) {
 		super();
 		this.renderer = renderer;
 		this.resources = resources;
@@ -166,7 +166,7 @@ public class Display extends Canvas implements Runnable, KeyListener, MouseListe
 			}
 		}
 		e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		stage.highlight(Collections.<GfxObj>emptyList());
+		stage.highlight(Collections.<Drawable>emptyList());
 	}
 
 	@Override

@@ -2,11 +2,14 @@ package se.jbee.game.scs.screen;
 
 import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
-import static se.jbee.game.scs.gfx.GfxObjs.background;
-import static se.jbee.game.scs.gfx.GfxObjs.border;
-import static se.jbee.game.scs.gfx.GfxObjs.fixtext;
-import static se.jbee.game.scs.gfx.GfxObjs.icon;
-import static se.jbee.game.scs.gfx.GfxObjs.planetCut;
+import static se.jbee.game.scs.gfx.Draw.background;
+import static se.jbee.game.scs.gfx.Draw.border;
+import static se.jbee.game.scs.gfx.Draw.fixtext;
+import static se.jbee.game.scs.gfx.Draw.icon;
+import static se.jbee.game.scs.gfx.Draw.planetCut;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.LIGHT;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.THIN;
+import static se.jbee.game.scs.gfx.Hue.*;
 import static se.jbee.game.scs.screen.GameScreen.SCREEN_SOLAR_SYSTEM;
 import static se.jbee.game.scs.screen.Viewport.cellDiameter;
 
@@ -44,16 +47,16 @@ public class Orbit implements Screen, Gfx, GameComponent {
 		int y0 = (screen.height-32*d)/2;
 		for (int i = 0; i < 32; i++) {
 			for (int j = 0; j < 32; j++) {
-				stage.atFront(icon(ICON_SLOT, x0, y0, d, COLOR_SLOT));
-				stage.in(new Ellipse2D.Float(x0, y0, d, d), icon(ICON_SLOT, x0, y0, d, COLOR_TEXT_HIGHLIGHT));
+				stage.atFront(icon(ICON_SLOT, x0, y0, d, EMPTY_SLOT));
+				stage.in(new Ellipse2D.Float(x0, y0, d, d), icon(ICON_SLOT, x0, y0, d, TEXT_HIGHLIGHT));
 				x0 += d;
 			}
 			x0=xs;
 			y0+=d;
 		}
 
-		stage.atFront(fixtext(w-m, w/32+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, "Mars"));
-		stage.atFront(fixtext(w-m, w/32+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, "Orbit"));
+		stage.atFront(fixtext(w-m, w/32+48, THIN, 48, TEXT_NORMAL, "Mars"));
+		stage.atFront(fixtext(w-m, w/32+48+28, LIGHT, 24, TEXT_NORMAL, "Orbit"));
 
 		int hb = (h-w/8)/3;
 		stage.atFront(border(w-m, w/16+hb, m-w/32, hb));

@@ -4,9 +4,12 @@ import static java.awt.event.KeyEvent.VK_ENTER;
 import static se.jbee.game.any.gfx.Texts.textKey;
 import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
-import static se.jbee.game.scs.gfx.GfxObjs.background;
-import static se.jbee.game.scs.gfx.GfxObjs.fixtext;
-import static se.jbee.game.scs.gfx.GfxObjs.text;
+import static se.jbee.game.scs.gfx.Draw.background;
+import static se.jbee.game.scs.gfx.Draw.fixtext;
+import static se.jbee.game.scs.gfx.Draw.text;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.DOTS;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.THIN;
+import static se.jbee.game.scs.gfx.Hue.*;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 
 import java.awt.Rectangle;
@@ -39,15 +42,15 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		Entity player = Turn.currentPlayer(game);
 
 		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK, 0L));
-		stage.atFront(fixtext(100, 100, FONT_THIN, 48, COLOR_TEXT_NORMAL, codePoints("Player "+String.valueOf(player.num(NO)))));
+		stage.atFront(fixtext(100, 100, THIN, 48, TEXT_NORMAL, codePoints("Player "+String.valueOf(player.num(NO)))));
 
 		// next
 		int dotDia = dotDiameter(screen);
 		int y0 = screen.height/2;
 		int x0 = (screen.width-(dotDia*19))/2;
-		stage.atFront(text(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
+		stage.atFront(text(textKey('G', 's', 'n'), x0, y0, DOTS, dotDia, TEXT_NORMAL));
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
-		stage.in(nextArea, text(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
+		stage.in(nextArea, text(textKey('G', 's', 'n'), x0, y0, DOTS, dotDia, TEXT_HIGHLIGHT));
 		Change[] nextCs = {
 				set(player.id(), TURN, 0),
 				set(gamE.id(), ACTIONS, ACTION_NEXT_TASK),

@@ -21,13 +21,13 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.image.BufferedImage;
 
-import se.jbee.game.any.gfx.GfxObj;
+import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.Rnd;
 import se.jbee.game.scs.gfx.Gfx;
 
-public final class Star implements Gfx, GfxObj {
+public final class Star implements Gfx, Drawable {
 
 	private final int x0;;
 	private final int y0;
@@ -90,7 +90,7 @@ public final class Star implements Gfx, GfxObj {
 		Arc2D.Float arc2 = new Arc2D.Float(x0+4, y0, d, d, 120, 120, Arc2D.CHORD);
 
 		// outer glow (test)
-		gfx.setStroke(new WobbleStroke(3f, 1f, -seed));
+		gfx.setStroke(new WeavyStroke(3f, 1f, -seed));
 		gfx.setPaint(ls);
 		gfx.draw(arc2);
 		
@@ -124,13 +124,14 @@ public final class Star implements Gfx, GfxObj {
 	}
 }
 
-class WobbleStroke implements Stroke {
-	private float detail = 2;
-	private float amplitude = 2;
-	private static final float FLATNESS = 1;
+final class WeavyStroke implements Stroke {
+	private static final float FLATNESS = 1f;
+
+	private final float detail;
+	private final float amplitude;
 	private final Rnd rnd;
 
-	public WobbleStroke( float detail, float amplitude, long seed ) {
+	public WeavyStroke( float detail, float amplitude, long seed ) {
 		this.detail	= detail;
 		this.amplitude	= amplitude;
 		this.rnd = new Rnd(seed);
@@ -146,17 +147,15 @@ class WobbleStroke implements Stroke {
 		float lastX = 0, lastY = 0;
 		float thisX = 0, thisY = 0;
 		int type = 0;
-		boolean first = false;
 		float next = 0;
 
 		while ( !it.isDone() ) {
 			type = it.currentSegment( points );
 			switch( type ){
 			case PathIterator.SEG_MOVETO:
-				moveX = lastX = randomize( points[0] );
-				moveY = lastY = randomize( points[1] );
+				moveX = lastX = randomlyMoved( points[0] );
+				moveY = lastY = randomlyMoved( points[1] );
 				result.moveTo( moveX, moveY );
-				first = true;
 				next = 0;
 				break;
 
@@ -166,23 +165,21 @@ class WobbleStroke implements Stroke {
 				// Fall into....
 
 			case PathIterator.SEG_LINETO:
-				thisX = randomize( points[0] );
-				thisY = randomize( points[1] );
+				thisX = randomlyMoved( points[0] );
+				thisY = randomlyMoved( points[1] );
 				float dx = thisX-lastX;
 				float dy = thisY-lastY;
 				float distance = (float)Math.sqrt( dx*dx + dy*dy );
 				if ( distance >= next ) {
 					float r = 1.0f/distance;
-					float angle = (float)Math.atan2( dy, dx );
 					while ( distance >= next ) {
 						float x = lastX + next*dx*r;
 						float y = lastY + next*dy*r;
-						result.lineTo( randomize( x ), randomize( y ) );
+						result.lineTo( randomlyMoved( x ), randomlyMoved( y ) );
 						next += detail;
 					}
 				}
 				next -= distance;
-				first = false;
 				lastX = thisX;
 				lastY = thisY;
 				break;
@@ -193,7 +190,7 @@ class WobbleStroke implements Stroke {
 		return result;
 	}
     
-    private float randomize( float x ) {
+    private float randomlyMoved( float x ) {
         return x+rnd.nextFloat()*amplitude*2-1;
     }
 

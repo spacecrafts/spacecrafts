@@ -3,8 +3,8 @@ package se.jbee.game.scs.screen;
 
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static se.jbee.game.any.state.Change.set;
-import static se.jbee.game.scs.gfx.GfxObjs.background;
-import static se.jbee.game.scs.gfx.GfxObjs.planet;
+import static se.jbee.game.scs.gfx.Draw.background;
+import static se.jbee.game.scs.gfx.Draw.planet;
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.screen.Screen;

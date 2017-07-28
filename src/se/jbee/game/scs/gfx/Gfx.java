@@ -7,59 +7,19 @@ package se.jbee.game.scs.gfx;
 public interface Gfx {
 
 	/**
-	 * Fonts
+	 * Fonts Styles
 	 */
-	int
-	FONT_REGULAR = 0,
-	FONT_LIGHT = 1,
-	FONT_THIN = 2,
-	FONT_DOTS = 3;
-
+	enum FontStyle { REGULAR, LIGHT, THIN, DOTS	}
+	
 	/**
-	 * Alignment
+	 * Text Alignment
 	 */
-	int
-	ALIGN_N = 0,
-	ALIGN_NE = 1,
-	ALIGN_E = 2,
-	ALIGN_SE = 3,
-	ALIGN_S = 4,
-	ALIGN_SW = 5,
-	ALIGN_W = 6,
-	ALIGN_NW = 7,
-	ALIGN_EYE = 8,
-	ALIGN_CENTER = 9; // x,y describe the center point
-
+	enum Align {
+		N, NE, E, SE, S, SW, W, NW, EYE, HCENTER // x,y describe the center point
+	}
+	
 	/**
-	 * Colors
-	 */
-	int
-	COLOR_TRANSPARENT = 0,
-	COLOR_WHITE = 1,
-	COLOR_BLACK = 2,
-	COLOR_DEFAULT = 3,
-	COLOR_TEXT_NORMAL = 7,
-	COLOR_TEXT_HIGHLIGHT = 8,
-	COLOR_TEXT_SPECIAL = 9,
-	// component colors
-	COLOR_SLOT = 10, // the border of an empty slot
-	COLOR_SHIELD = 11,
-	COLOR_ENERGY = 12,
-	COLOR_WEAPON = 13,
-	COLOR_CONTROL = 14,
-	COLOR_DRIVE = 15,
-	COLOR_SPECIAL = 16,
-	COLOR_SCANNER = 17,
-	// components worked at
-	COLOR_YARD = 20,  // building
-	COLOR_BIOSPHERE = 21, // housing and food
-	COLOR_FARM = 22, // food
-	COLOR_LAB = 23, // research
-	COLOR_ACADEMY = 24 // leaders
-	;
-
-	/**
-	 * Paths
+	 * Outline Styles
 	 */
 	int
 	PATH_EDGY = 1;

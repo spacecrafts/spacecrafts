@@ -13,11 +13,11 @@ import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
 
-import se.jbee.game.any.gfx.GfxObj;
+import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
 
-public final class Planet implements Gfx, GfxObj {
+public final class Planet implements Gfx, Drawable {
 
 	private final int x0;
 	private final int y0;
@@ -45,7 +45,7 @@ public final class Planet implements Gfx, GfxObj {
 		}
 	}
 
-	private void planetCut(Resources styles, Graphics2D gfx, int x0, int y0, int d, int rand) {
+	private static void planetCut(Resources styles, Graphics2D gfx, int x0, int y0, int d, int rand) {
 		Color c = new Color(rand);
 		int r = c.getRed();
 		int g = c.getGreen();
@@ -76,34 +76,34 @@ public final class Planet implements Gfx, GfxObj {
 		drawArc(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_200x2000_LARGE), new Rectangle(0, y0, 200, 2000)));
 	}
 
-	private void planetFull(Resources styles, Graphics2D gfx, int x0, int y0, int d, int rgba) {
+	private static void planetFull(Resources styles, Graphics2D gfx, int x0, int y0, int dia, int rgba) {
 		Color c = new Color(rgba);
 		int r = c.getRed();
 		int g = c.getGreen();
 		int b = c.getBlue();
 
 		// 3d effect
-		Paint paint = new RadialGradientPaint(x0+d/2,
-				y0+d/2, max(1,d/2),
+		Paint paint = new RadialGradientPaint(x0+dia/2,
+				y0+dia/2, max(1,dia/2),
                 new float[] { 0f, 0.9f, 0.95f, 1f },
                 new Color[] { new Color(r,g,b), new Color(r/4,g/4,b/4), new Color(r/8,g/8,b/8), Color.black });
-		drawCircle(gfx, x0-1, y0, d+1, paint);
+		drawCircle(gfx, x0-1, y0, dia+1, paint);
 
 		// texture
 		if (false) {
-		drawCircle(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_600x600_LARGE), new Rectangle(x0, y0, 600, 300)));
-		drawCircle(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_600x600_SMALL), new Rectangle(x0/2, y0, 1600, 600)));
+		drawCircle(gfx, x0, y0, dia, new TexturePaint(styles.texture(TEXTURE_PLANET_600x600_LARGE), new Rectangle(x0, y0, 600, 300)));
+		drawCircle(gfx, x0, y0, dia, new TexturePaint(styles.texture(TEXTURE_PLANET_600x600_SMALL), new Rectangle(x0/2, y0, 1600, 600)));
 		}
         // star-light
         Color lc = new Color(min(255,r+50),min(255,g+50),max(0,b-50), 150);
-		paint = new RadialGradientPaint(new Point(x0 + d+(d/4),
-                y0+(d / 2)), max(1,d),
+		paint = new RadialGradientPaint(new Point(x0 + dia+(dia/4),
+                y0+(dia / 2)), max(1,dia),
                 new float[] { 0f, 1f },
                 // it turned out that usual light appears somewhat blueish for most planet colors therefore this color change
                 // but this can also be used to give different stars different light color.
                 new Color[] { lc, new Color(0.0f, 0.0f, 0.0f, 0.6f) });
 				// using the original color c as 1st param almost appears as some kind of shield
-        drawCircle(gfx, x0-1, y0, d+1, paint);
+        drawCircle(gfx, x0-1, y0, dia+1, paint);
 
 	}
 

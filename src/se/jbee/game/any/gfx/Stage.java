@@ -2,6 +2,7 @@ package se.jbee.game.any.gfx;
 
 import static java.lang.Character.toUpperCase;
 
+import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,11 +41,11 @@ public final class Stage {
 	public static final class Hover {
 		public final Shape area;
 		public final int cursor;
-		public final List<GfxObj> objects;
-		public Hover(Shape area, int cursor, GfxObj object) {
+		public final List<Drawable> objects;
+		public Hover(Shape area, int cursor, Drawable object) {
 			this(area, cursor, Collections.singletonList(object));
 		}
-		public Hover(Shape area, int cursor, List<GfxObj> objects) {
+		public Hover(Shape area, int cursor, List<Drawable> objects) {
 			super();
 			this.area = area;
 			this.cursor = cursor;
@@ -61,11 +62,11 @@ public final class Stage {
 	public final List<KeyMapping>  onKeyPress = new ArrayList<>();
 	public final List<KeyMapping>  globalOnKeyPress = new ArrayList<>();
 
-	public final AtomicReference<List<GfxObj>> objects = new AtomicReference<>(Collections.<GfxObj>emptyList());
-	private final AtomicReference<List<GfxObj>> highlights = new AtomicReference<>(Collections.<GfxObj>emptyList());
+	public final AtomicReference<List<Drawable>> objects = new AtomicReference<>(Collections.<Drawable>emptyList());
+	private final AtomicReference<List<Drawable>> highlights = new AtomicReference<>(Collections.<Drawable>emptyList());
 
-	private List<GfxObj> nextObjects;
-	private List<GfxObj> nextHighlights;
+	private List<Drawable> nextObjects;
+	private List<Drawable> nextHighlights;
 	private AtomicBoolean ready = new AtomicBoolean(false);
 	private AtomicBoolean inputsDisabled = new AtomicBoolean(false);
 	public ChangeListener listener;
@@ -80,12 +81,8 @@ public final class Stage {
 		return frame;
 	}
 
-	public List<GfxObj> highlights() {
-		return highlights.get();
-	}
-
-	public void highlight(List<GfxObj> objects) {
-		List<GfxObj> old = highlights.getAndSet(objects);
+	public void highlight(List<Drawable> objects) {
+		List<Drawable> old = highlights.getAndSet(objects);
 		if (!old.isEmpty() || !objects.isEmpty()) {
 			frame++;
 		}
@@ -98,7 +95,7 @@ public final class Stage {
 		onRightClick.clear();
 		onPointing.clear();
 		onKeyPress.clear();
-		highlights.set(Collections.<GfxObj>emptyList());
+		highlights.set(Collections.<Drawable>emptyList());
 		nextObjects = new ArrayList<>();
 		nextHighlights = new ArrayList<>();
 	}
@@ -126,7 +123,7 @@ public final class Stage {
 	 * Adds the object in the front of the current stage.
 	 * (an object painted after all already added)
 	 */
-	public Stage atFront(GfxObj object) {
+	public Stage atFront(Drawable object) {
 		nextObjects.add(object);
 		return this;
 	}
@@ -135,7 +132,7 @@ public final class Stage {
 	 * Adds the object in the back of the current stage.
 	 * (an object painted before all already added)
 	 */
-	public Stage atBack(GfxObj object) {
+	public Stage atBack(Drawable object) {
 		nextObjects.add(0, object);
 		return this;
 	}
@@ -150,11 +147,11 @@ public final class Stage {
 		return this;
 	}
 
-	public Stage in(Shape area, GfxObj...objects) {
+	public Stage in(Shape area, Drawable...objects) {
 		return in(area, -1, objects);
 	}
 
-	public Stage in(Shape area, int cursor, GfxObj...objects) {
+	public Stage in(Shape area, int cursor, Drawable...objects) {
 		onPointing.add(new Hover(area, cursor, Arrays.asList(objects)));
 		return this;
 	}
@@ -182,4 +179,14 @@ public final class Stage {
 		return this;
 	}
 
+	public void draw(Graphics2D gfx, Resources resources) {
+		draw(gfx, resources, objects.get());
+		draw(gfx, resources, highlights.get());
+	}
+
+	private static void draw(Graphics2D gfx, Resources resources, List<Drawable> objects) {
+		for (Drawable obj : objects) {
+			obj.draw(gfx, resources);
+		}
+	}
 }
