@@ -34,7 +34,7 @@ public class Colony implements Screen, GameComponent, Gfx, GameScreen {
 		
 		int w = screen.width;
 		int h = screen.height;
-		stage.atFront(background(0,0,w, h, BG_SPACE, colony.list(SEED)));
+		stage.atFront(background(0,0,w, h, BG_SPACE, colony.longNum(SEED)));
 		int dia = 6 + colony.num(SIZE) * 6;
 		stage.atFront(planet(100, 100-dia/2, dia, 0, colony.num(RGB)));
 	}

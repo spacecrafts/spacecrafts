@@ -7,14 +7,14 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.QuadCurve2D;
 
-import se.jbee.game.any.gfx.ObjClass;
+import se.jbee.game.any.gfx.GfxObj;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
 
 /**
  * Rendering of all the icons used for {@link Gfx#OBJ_ICON}.
  */
-public class Icon implements Gfx, ObjClass {
+public final class Icon implements Gfx, GfxObj {
 
 	public static void draw( Graphics2D gfx, int type, int x0, int y0, int d) {
 		Stroke s = gfx.getStroke();
@@ -59,9 +59,7 @@ public class Icon implements Gfx, ObjClass {
 		case ICON_JAMMER            : drawJammer( gfx, x0, y0, d); break;
 		// drives
 		case ICON_IMPULSE_DRIVE     : drawImpulseDrive( gfx, x0, y0, d); break;
-		case ICON_HYPER_DRIVE       : drawHyperDrive( gfx, x0, y0, d); break;
 		case ICON_WARP_DRIVE        : drawWarpDrive( gfx, x0, y0, d); break;
-		case ICON_ORBITAL_DRIVE     : drawOrbitalDrive( gfx, x0, y0, d); break;
 		// reactors
 		case ICON_REACTOR1          : drawReactor1( gfx, x0, y0, d); break;
 		case ICON_REACTOR2          : drawReactor3( gfx, x0, y0, d); break;
@@ -71,15 +69,38 @@ public class Icon implements Gfx, ObjClass {
 		// corridor
 		case ICON_ENERGY            : drawEnergy( gfx, x0, y0, d); break;
 		case ICON_ENERGY_OFF        : drawNoEnergy( gfx, x0, y0, d); break;
+		// 
+		case ICON_TRANSPORTER       : drawTransporter( gfx, x0, y0, d); break;
 		}
 	}
 	
-	@Override
-	public void draw(Graphics2D gfx, Resources resources, int[] obj) {
-		gfx.setColor(resources.color(obj[5]));	
-		draw(gfx, obj[1], obj[2], obj[3], obj[4]);		
+	private final int type;
+	private final int x0;
+	private final int y0;
+	private final int d;
+	private final int color;
+	
+	public Icon(int type, int x0, int y0, int d, int color) {
+		super();
+		this.type = type;
+		this.x0 = x0;
+		this.y0 = y0;
+		this.d = d;
+		this.color = color;
 	}
 
+	@Override
+	public void draw(Graphics2D gfx, Resources resources) {
+		gfx.setColor(resources.color(color));	
+		draw(gfx, type, x0, y0, d);		
+	}
+
+	private static void drawTransporter(Graphics2D gfx, int x0, int y0, int d) {
+		int r=d/2;
+		gfx.drawOval(x0, y0, 2*r, 2*r);
+		drawEnergy(gfx, x0, y0, d);
+	}
+	
 	private static void drawNoEnergy( Graphics2D gfx, int x0, int y0, int d) {
 		int r = d/2;
 		int k = r/2;
@@ -356,27 +377,10 @@ public class Icon implements Gfx, ObjClass {
 
 
 	private static void drawImpulseDrive( Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setStroke(new BasicStroke(d/10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		int m = d/2;
-		int x = x0+m;
-		int y = y0+m;
-		m -= d/8;
-		gfx.drawLine(x-m, y-m, x, y);
-		gfx.drawLine(x-m, y+m, x, y);
-		gfx.drawLine(x, y-m, x+m, y);
-		gfx.drawLine(x, y+m, x+m, y);
-	}
-
-	private static void drawHyperDrive( Graphics2D gfx, int x0, int y0, int d) {
-		int k = d/4;
-		int m = 2*k;
-		int x = x0+m;
-		int y = y0+m;
-		m -= d/8;
-		gfx.fillPolygon(new int[] {x-m, x, x-m}, new int[] {y-m, y, y+m}, 3);
-		gfx.setStroke(new BasicStroke(d/10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		gfx.drawLine(x, y-m, x+m, y);
-		gfx.drawLine(x, y+m, x+m, y);
+		int k = d/5;
+		int y = y0 + (d-(k*3))/2;
+		int x = x0 + (d-(k*3))/2;
+		gfx.fillPolygon(new int[] {x, x, x+k, x+k+k+k, x+k+k+k, x+k}, new int[] {y, y+k+k+k, y+k+k+k, y+k+k, y+k, y }, 6);
 	}
 
 	private static void drawWarpDrive( Graphics2D gfx, int x0, int y0, int d) {
@@ -388,22 +392,6 @@ public class Icon implements Gfx, ObjClass {
 		gfx.fillPolygon(new int[] {x-m, x, x-m}, new int[] {y-m, y, y+m}, 3);
 		x+=m+1;
 		gfx.fillPolygon(new int[] {x-m, x, x-m}, new int[] {y-m, y, y+m}, 3);
-	}
-
-	private static void drawOrbitalDrive( Graphics2D gfx, int x0, int y0, int d) {
-		gfx.setStroke(new BasicStroke(d/10f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		int k = d/4;
-		int m = 2*k;
-		int x = x0+m;
-		int y = y0+m;
-		gfx.drawLine(x-m, y-m+k, x-k, y);
-		gfx.drawLine(x-m, y+m-k, x-k, y);
-		gfx.drawLine(x+m, y-m+k, x+k, y);
-		gfx.drawLine(x+m, y+m-k, x+k, y);
-		gfx.drawLine(x-k, y-m, x, y-k);
-		gfx.drawLine(x+k, y-m, x, y-k);
-		gfx.drawLine(x-k, y+m, x, y+k);
-		gfx.drawLine(x+k, y+m, x, y+k);
 	}
 
 	private static void drawDampingField( Graphics2D gfx, int x0, int y0, int d) {

@@ -15,25 +15,28 @@ public class IconInfo implements Screen, Gfx, GameComponent {
 
 	@Override
 	public void show(State game, Dimension screen, Stage stage) {
-		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK, 0L));
 
 		int x = 100;
-		int y = 20;
+		int y = 100;
 		int d = 8;
 		int[] types = {ICON_BUILDING, ICON_BUILDING, ICON_BUILDING, ICON_BUILDING, ICON_BUILDING};
 		int[] colors = {COLOR_ACADEMY, COLOR_BIOSPHERE, COLOR_FARM, COLOR_LAB, COLOR_YARD};
-		for (int s = 0; s <= 16; s++) {
-			for (int i = 0; i <  types.length; i++) {
-				stage.atFront(icon(types[i], x, y, d, colors[i]));
-				y += d+d+d;
+		if (false) {
+			for (int s = 0; s <= 16; s++) {
+				for (int i = 0; i <  types.length; i++) {
+					stage.atFront(icon(types[i], x, y, d, colors[i]));
+					y += d+d+d;
+				}
+				x += 3*d;
+				y = 20;
+				d += 1;
 			}
-			x += 3*d;
-			y = 20;
-			d += 1;
+			y += 100;
 		}
-		y += 100;
+		d = 16;
 		for (int i = 1; i < 50; i++) {
-			stage.atFront(icon(i, x, y, d, COLOR_BIOSPHERE));
+			stage.atFront(icon(i, x, y, d, COLOR_LAB));
 			x+=d+d;
 			if (x > screen.width) {
 				x= 0;

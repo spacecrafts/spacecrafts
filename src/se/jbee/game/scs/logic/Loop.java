@@ -40,7 +40,7 @@ public class Loop implements Transition, GameComponent {
 			return logic.run(Init.class, State.base());
 		}
 		final Entity gamE = game.root();
-		if (gamE.has(ACTION)) {
+		if (gamE.has(ACTIONS)) {
 			game = runActions(game, logic);
 		}
 		if (Turn.isEndOfTurn(game)) { // TODO do this within the "default" transition? return null can be used to indicate no change => no move
@@ -55,8 +55,8 @@ public class Loop implements Transition, GameComponent {
 
 	private State runActions(State game, Logic logic) throws Exception {
 		final Entity gamE = game.root();
-		int[] actions = gamE.list(ACTION);
-		gamE.unset(ACTION); // unset before potential save
+		int[] actions = gamE.list(ACTIONS);
+		gamE.unset(ACTIONS); // unset before potential save
 		for (int action : actions) {
 			switch(action) {
 			case ACTION_EXIT  : System.exit(0); break;
@@ -64,8 +64,8 @@ public class Loop implements Transition, GameComponent {
 			case ACTION_AUTOSAVE: logic.run(Autosave.class, game); break;
 			case ACTION_SAVE  : logic.run(Save.class, game); break;
 			case ACTION_LOAD  :	game = logic.run(Load.class, game); break;
-			case ACTION_MOVE_AI: resumeAIs(game); break;
-			case ACTION_QUIT_AI: pauseAIs(); break;
+			case ACTION_RUN_AI: resumeAIs(game); break;
+			case ACTION_STOP_AI: pauseAIs(); break;
 			case ACTION_SETUP : logic.run(Setup.class, game); break;
 			case ACTION_DONE  : // Intentional fall-through (these 3 are almost the same except that players intentions are explicit in ending a plan or turn)
 			case ACTION_NEXT_PLAN : 
@@ -79,6 +79,7 @@ public class Loop implements Transition, GameComponent {
 		pauseAIs();
 		if (AIsGame != game) {
 			AIs.clear(); // get rid of AIs not belonging to current game
+			// spawn new AIs
 			for (Entity player : game.entities(game.root().list(PLAYERS))) {
 				if (player.isBitSet(STATUS, PlayerStatus.AI)) {
 					AIs.add(new AI(game, player.id()));

@@ -40,7 +40,7 @@ public final class Logic {
 		for (int i = 0; i < impls.length; i++)
 			if (type == roles[i])
 				return impls[i];
-		throw new RuntimeException("No such logic: "+type);
+		throw new RuntimeException("No such transition: "+type);
 	}
 	
 	public State runLoop(State game) {

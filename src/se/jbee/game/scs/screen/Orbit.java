@@ -30,7 +30,7 @@ public class Orbit implements Screen, Gfx, GameComponent {
 
 		int w = screen.width;
 		int h = screen.height;
-		stage.atFront(background(0, 0, w, h, BG_SPACE, 42,42)); //TODO use seed from planet
+		stage.atFront(background(0, 0, w, h, BG_SPACE, 42L)); //TODO use seed from planet
 
 		int d = h*2;
 		int x = -d+h/8;
@@ -52,8 +52,8 @@ public class Orbit implements Screen, Gfx, GameComponent {
 			y0+=d;
 		}
 
-		stage.atFront(fixtext(w-m, w/32+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, codePoints("Mars")));
-		stage.atFront(fixtext(w-m, w/32+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, codePoints("Orbit")));
+		stage.atFront(fixtext(w-m, w/32+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, "Mars"));
+		stage.atFront(fixtext(w-m, w/32+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, "Orbit"));
 
 		int hb = (h-w/8)/3;
 		stage.atFront(border(w-m, w/16+hb, m-w/32, hb));

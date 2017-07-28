@@ -9,7 +9,7 @@ import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
 /**
- * Used as {@link GameComponent#SCREEN} when an {@link GameComponent#ACTION} has
+ * Used as {@link GameComponent#SCREEN} when an {@link GameComponent#ACTIONS} has
  * been set that will determine the actual target screen based on game logic.
  * 
  * While this screen is blank it will not change the monitor screen as it appears

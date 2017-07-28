@@ -8,7 +8,7 @@ import se.jbee.game.any.state.State;
 import se.jbee.game.scs.state.GameComponent;
 
 /**
- * What happens on when a game should be "auto-saved".
+ * What happens when a game should be "auto-saved".
  */
 public class Autosave implements Transition, GameComponent {
 

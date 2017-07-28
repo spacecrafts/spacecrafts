@@ -22,11 +22,11 @@ public class LoadingGame implements Screen, Gfx, GameComponent {
 	@Override
 	public void show(State game, Dimension screen, Stage stage) {
 		stage.disableInputs();
-		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK, 0L));
 		stage.atFront(text(textKey('G', 'i', 'l'), 0, 0, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT, ALIGN_EYE, screen.width, screen.height));
 		
 		Entity gamE = game.root();
-		gamE.set(ACTION, ACTION_QUIT_AI, ACTION_AUTOSAVE, ACTION_LOAD, ACTION_MOVE_AI);		
+		gamE.set(ACTIONS, ACTION_STOP_AI, ACTION_AUTOSAVE, ACTION_LOAD, ACTION_RUN_AI);		
 	}
 
 }

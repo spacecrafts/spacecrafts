@@ -27,12 +27,12 @@ public class SavingGame implements Screen, GameComponent, Gfx {
 		int y0 = screen.height/4;
 		
 		stage.disableInputs();
-		stage.atFront(background(x0-1, y0-1, w+3, h+3, BG_BLACK));
+		stage.atFront(background(x0-1, y0-1, w+3, h+3, BG_BLACK, 0L));
 		stage.atFront(border(x0, y0, w, h));
 		stage.atFront(text(textKey('G', 'i', 's'), x0+20, y0+h/2, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT));
 		
 		Entity gamE = game.root();
-		gamE.set(ACTION, ACTION_QUIT_AI, ACTION_SAVE, ACTION_MOVE_AI);
+		gamE.set(ACTIONS, ACTION_STOP_AI, ACTION_SAVE, ACTION_RUN_AI);
 		if (!gamE.has(SAVEGAME)) {
 			gamE.set(SAVEGAME, codePoints(Save.gamePath(gamE)));
 		}

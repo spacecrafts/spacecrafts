@@ -27,7 +27,8 @@ public interface Gfx {
 	ALIGN_SW = 5,
 	ALIGN_W = 6,
 	ALIGN_NW = 7,
-	ALIGN_EYE = 8;
+	ALIGN_EYE = 8,
+	ALIGN_CENTER = 9; // x,y describe the center point
 
 	/**
 	 * Colors
@@ -123,7 +124,7 @@ public interface Gfx {
 	 * (Icons do match most of the actual technologies/components but
 	 * conceptually a component refers to its icon and color)
 	 */
-	int
+	int 
 	ICON_DAMPING_FIELD = 1,
 	ICON_FORCE_FIELD = 2,
 	ICON_CLOAKING_FIELD = 3,
@@ -145,9 +146,7 @@ public interface Gfx {
 	ICON_PARTICLE_CANNON = 20,
 
 	ICON_IMPULSE_DRIVE = 21,
-	ICON_HYPER_DRIVE = 22,
-	ICON_WARP_DRIVE = 23,
-	ICON_ORBITAL_DRIVE = 24,
+	ICON_WARP_DRIVE = 22,
 
 	ICON_REACTOR1 = 31,
 	ICON_REACTOR2 = 32,
@@ -156,6 +155,7 @@ public interface Gfx {
 	ICON_REACTOR5 = 35,
 	ICON_ENERGY = 36,
 	ICON_ENERGY_OFF = 37,
+	ICON_TRANSPORTER = 38,
 
 	ICON_SELF_DESTRUCT = 40,
 	ICON_REPAIR_DRONE = 41,

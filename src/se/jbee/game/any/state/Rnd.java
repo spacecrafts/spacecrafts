@@ -1,5 +1,6 @@
 package se.jbee.game.any.state;
 
+import static java.lang.Float.intBitsToFloat;
 import static java.lang.Math.abs;
 
 
@@ -58,5 +59,9 @@ public final class Rnd {
 
 	public boolean nextChance(int percent) {
 		return abs(nextLong()) < Long.MAX_VALUE / 100L * percent;
+	}
+
+	public float nextFloat() {
+		return (float)((double)nextLong() / Long.MAX_VALUE);
 	}
 }

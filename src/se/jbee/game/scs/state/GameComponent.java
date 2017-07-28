@@ -25,7 +25,7 @@ public interface GameComponent extends Component {
 	// {...} = set
 
 	/**
-	 * Actions
+	 * Action Values
 	 */
 	int
 	// (AI threads should be terminated)
@@ -35,8 +35,8 @@ public interface GameComponent extends Component {
 	ACTION_AUTOSAVE = 3,
 	ACTION_LOAD = 4,
 	ACTION_SETUP = 5, // creates players in a currently setup game
-	ACTION_MOVE_AI = 6,
-	ACTION_QUIT_AI = 7,
+	ACTION_RUN_AI = 6,
+	ACTION_STOP_AI = 7,
 	// (AI threads might be active)
 	ACTION_NEXT_TASK = 10,  // player is done with an entity; next screen derived from player status
 	ACTION_NEXT_PLAN = 11,  // player is done with a plan; next screen derived from player status
@@ -44,7 +44,7 @@ public interface GameComponent extends Component {
 	;
 
 	/**
-	 * Setup (Indexes)
+	 * Setup Step Values
 	 */
 	int
 	// game setup
@@ -77,15 +77,16 @@ public interface GameComponent extends Component {
 		RESOLUTION = 25, // [#w, #h]		
 
 		// action state
-		ACTION = 30, // like 0 = exit, 1 = save
+		ACTIONS = 30, // [#,..] one or more actions like 0 = exit, 1 = save
 		SAVEGAME_DIR = 31, // the directory where to store savegames
 		SAVEGAME = 32, // name of the game to save/saved
 		RENAME = 33, // [*entity, *comp, #font, #size, #x, #y, #w, #h]
 		ACTIVE_PLAYERS = 34, // [*x,*y,*z] players that are still doing something (AI with thread or human)
 
 		// domain data
-		PLAYERS = 41, // [*x,*y,*z]
-		GALAXIES = 42,// [*x,*y,*z]
+		SPEED = 41, // number of over- or underflowing food units that make a population unit 
+		PLAYERS = 42, // [*x,*y,*z]
+		GALAXIES = 43,// [*x,*y,*z]
 
 	PLAYER = 50,
 		// TURN (player sets its turn to the current game turn when finished; in turn zero TURN set to -1 until player has finished setup)
@@ -95,7 +96,9 @@ public interface GameComponent extends Component {
 		HOME = 52, // *x (planet)
 		STATUS = 53, // [?AI, ?ALIVE]
 		REACH = 54, // # the maximum distance the player knows how to travel
-		// TECHNOLOGY (in progress)
+		WISDOM = 55, // # (points)
+		// TECHNOLOGY (*x in progress)
+		BREAKTHROUGH = 56, // # (research points left to gain the technology)
 		// (things belong to the player)
 		PLANS = 61,
 		RELATIONS = 62, // [#,#,...] (the diplomatic points for each player, in order of game players)
@@ -149,7 +152,7 @@ public interface GameComponent extends Component {
 		// RGB
 		// SEEDS [#,#,...]
 		// PLANET_CLASS *x
-		// WEALTH *x
+		// RICHNESS *x
 		// COLONY *y (cross ref)
 		// POSITION (in the solar system)
 		MOONS = 131, // (orbiting)
@@ -167,13 +170,13 @@ public interface GameComponent extends Component {
 		//CODE (a static constant value known to gfx to draw the appropriate image, random values from planet are used to make each appear somewhat unique
 		// RGB (typical, see star types)
 		// ABUNDANCE
-		ATMOSPHERE = 161,
-		SUFRACE = 162,
-		ZONE = 163, // (hot/cold/Ecosphere/rogue)
+		ATMOSPHERE = 161, // type
+		SUFRACE = 162, // type
+		ZONE = 163, // (hot/cold/Ecosphere/interstellar)
 		LIFE = 164, // how suitable it the planet for colonization ( high temp, high pressure, etc)
 		MATERIALS = 165, // [#:#,*y,...] map: material(code) => prop
 
-	WEALTH = 170, // of rare materials on a planet (mostly a description for humans)
+	RICHNESS = 170, // of rare materials on a planet (mostly a description for humans)
 		RATE = 171, // # (percentage of depots in relation to all planet slots)
 
 	MATERIAL = 180, // (mostly a description for humans)
@@ -202,7 +205,7 @@ public interface GameComponent extends Component {
 		//BRANCH # (the POSITION of the BRANCH)
 		//POSITION # (in the ring-branch 0-4)
 
-	BRANCH = 310,
+	BRANCH = 310, // (tech-branch)
 		//POSITON # (position in the wheel; 0-7)
 
 	ABILITY = 320,
@@ -245,9 +248,10 @@ public interface GameComponent extends Component {
 		MODULES = 602, // [*x,*y,*z]
 		OFFSETS = 603, // (for each module, also relative in 32x32 grid - 1D array)
 		POPULATION = 604,
-		WORKERS = 605, // [ #farmers, #scientists, #engineers ]
+		WORKERS = 605, // [ #farmers, #scientists, #engineers, ... ]
 		OUTPUTS = 606, // [ #food, #research-points, #production-points ] (per turn)
 		COSTS = 607,// # (total construction points required)
+		STOCK = 608, // # food units in stock (growth)
 
 	MODULE = 610,
 		POSITIONS = 611, // [#,#,...] absolute positions in the 32x32 grid (1D array)
@@ -260,7 +264,7 @@ public interface GameComponent extends Component {
 		// TODO effects (pairs of [what, how; or: given, then] e.g. [shields, +5]) // or is this only in the code ?
 
 	CONSTRUCTION = 630,
-		//MODULE *x (structures are build module wise)
+		//MODULE *x (structures are completed module wise)
 		COMPLETIONS = 631, // [#,#,..] (points for each module in the unit)
 
 	/*

@@ -24,7 +24,7 @@ public interface Transition {
 	 * 
 	 * @return the new game state. return null to indicate no change, the given
 	 *         state to indicate mutable change or a fresh instance to indicate
-	 *         complete state change.
+	 *         complete state change (new game loaded).
 	 */
 	State transit(State game, Logic logic) throws Exception;
 }

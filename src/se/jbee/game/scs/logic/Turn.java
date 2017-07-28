@@ -41,7 +41,7 @@ public class Turn implements Transition, GameComponent {
 
 
 		gamE.set(TURN, turn+1);         // forward turn
-		gamE.set(ACTION, ACTION_NEXT_TASK); // make the right screen appear for the first player
+		gamE.set(ACTIONS, ACTION_NEXT_TASK); // make the right screen appear for the first player
 		return game;
 	}
 
@@ -193,7 +193,7 @@ public class Turn implements Transition, GameComponent {
 
 			star.set(SEED, starSeed);
 			star.set(POSITION, positions[i]);
-			star.set(NAME, Name.uniqueIn(game, Name.NAME_HADES, starSeed)); //TODO name lazy when system is discovered
+			star.set(NAME, Name.uniqueIn(game, Name.NAME_VENEZIA, starSeed)); //TODO name lazy when system is discovered
 			Entity type = starTypeDistribution[starRnd.nextInt(99)];
 			star.set(STAR_CLASS, type.id());
 			int[] sizes = type.list(SIZE);
@@ -228,5 +228,14 @@ public class Turn implements Transition, GameComponent {
 		}
 		return dist;
 	}
+
+	// the changes are applied per entity.
+	
+	// per colony:
+	// sum food -> add to food stock
+	// sum p
+	
+	// per spaceship:
+	// move
 
 }

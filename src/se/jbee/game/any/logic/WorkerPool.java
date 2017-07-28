@@ -5,9 +5,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public final class WorkerPool {
 
-	private final ConcurrentLinkedQueue<Worker> idleWorkers = new ConcurrentLinkedQueue<Worker>();
-	private final ConcurrentLinkedQueue<Worker> runningWorkers = new ConcurrentLinkedQueue<Worker>();
-	private final ConcurrentLinkedQueue<Runnable> jobs = new ConcurrentLinkedQueue<Runnable>();
+	final ConcurrentLinkedQueue<Worker> runningWorkers = new ConcurrentLinkedQueue<>();
+	private final ConcurrentLinkedQueue<Worker> idleWorkers = new ConcurrentLinkedQueue<>();
+	private final ConcurrentLinkedQueue<Runnable> jobs = new ConcurrentLinkedQueue<>();
 
 	public WorkerPool(int maxWorkers) {
 		for (int i = 0; i < maxWorkers; i++) {
@@ -21,6 +21,8 @@ public final class WorkerPool {
 	 * job is started. All started jobs always finish.
 	 */
 	public void run(Runnable job) {
+		if (jobs.contains(job))
+			return;
 		jobs.add(job);
 		if (!idleWorkers.isEmpty()) {
 			try {

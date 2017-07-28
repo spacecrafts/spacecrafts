@@ -1,5 +1,6 @@
 package se.jbee.game.scs.screen;
 
+import static se.jbee.game.scs.gfx.GfxObjs.background;
 import static se.jbee.game.scs.gfx.GfxObjs.ring;
 import static se.jbee.game.scs.gfx.GfxObjs.techwheel;
 
@@ -14,7 +15,6 @@ import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.scs.gfx.GfxObjs;
 import se.jbee.game.scs.gfx.obj.Techwheel;
 import se.jbee.game.scs.state.GameComponent;
 
@@ -24,7 +24,7 @@ public class TechWheelScreen implements Screen, Gfx, GameComponent {
 	@Override
 	public void show(State game, Dimension screen, Stage stage) {
 
-		stage.atFront(GfxObjs.background(0, 0, screen.width, screen.height, BG_BLACK, 0));
+		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK, 0));
 		stage.atFront(techwheel(400, 400, 800, COLOR_TEXT_NORMAL));
 		stage.atFront(techwheel(900, 400, 200, COLOR_TEXT_NORMAL));
 

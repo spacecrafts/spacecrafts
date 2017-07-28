@@ -1,5 +1,7 @@
 Star Classes
 name
+L=Type L
+T=Type T
 D=Type D
 M=Type M
 K=Type K
@@ -15,8 +17,17 @@ f=Type F
 
 Star Classes
 kind
+L=Brown Dwarf
+T=Brown Dwarf
 D=White Dwarf
+M=Red Dwarf
+K=Orange Dwarf
+G=Yellow Dwarf
+F=Yellow Dwarf
+A=Blue Dwarf
+B=Blue Dwarf
+O=Blue Dwarf
 m=Red Giant
-k=Red Giant
-g=Red Giant
-f=Red Giant
+k=Orange Giant
+g=Yellow Giant
+f=White Giant

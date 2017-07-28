@@ -38,7 +38,7 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		Entity gamE = game.root();
 		Entity player = Turn.currentPlayer(game);
 
-		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK, 0L));
 		stage.atFront(fixtext(100, 100, FONT_THIN, 48, COLOR_TEXT_NORMAL, codePoints("Player "+String.valueOf(player.num(NO)))));
 
 		// next
@@ -50,7 +50,7 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		stage.in(nextArea, text(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
 		Change[] nextCs = {
 				set(player.id(), TURN, 0),
-				set(gamE.id(), ACTION, ACTION_NEXT_TASK),
+				set(gamE.id(), ACTIONS, ACTION_NEXT_TASK),
 				set(gamE.id(), SCREEN, GameScreen.SCREEN_BLANK)
 		};
 		stage.onLeftClickIn(nextArea, nextCs);

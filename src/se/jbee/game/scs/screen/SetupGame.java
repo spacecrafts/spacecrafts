@@ -32,7 +32,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	@Override
 	public void show(State game, Dimension screen, Stage stage) {
 
-		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK, 0L));
 
 		// # players
 		// # AI
@@ -88,9 +88,9 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		Rectangle nextArea = new Rectangle(x0,y0,dotDia*19,dotDia*5);
 		stage.in(nextArea, text(textKey('G', 's', 'n'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
 		stage.onLeftClickIn(nextArea,
-				set(State.ROOT, ACTION, ACTION_SETUP));
+				set(State.ROOT, ACTIONS, ACTION_SETUP));
 		stage.onKey('\n', 
-				set(State.ROOT, ACTION, ACTION_SETUP));
+				set(State.ROOT, ACTIONS, ACTION_SETUP));
 	}
 
 	private void upDownSlider(Stage stage, State game, int x0, int y0, String text, int setupIndex, String...names) {

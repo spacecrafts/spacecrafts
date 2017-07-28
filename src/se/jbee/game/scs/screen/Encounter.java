@@ -21,7 +21,7 @@ public class Encounter implements Screen, GameComponent, Gfx {
 
 	@Override
 	public void show(State game, Dimension screen, Stage stage) {
-		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK, 0L));
 		stage.atFront(text(textKey('G', 'i', 'e'), 0, 0, FONT_DOTS, dotDiameter(screen), COLOR_TEXT_HIGHLIGHT, ALIGN_EYE, screen.width, screen.height));
 		stage.disableInputs();		
 	}

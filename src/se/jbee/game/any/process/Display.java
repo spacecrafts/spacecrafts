@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import se.jbee.game.any.gfx.Dimension;
+import se.jbee.game.any.gfx.GfxObj;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.gfx.Stage.AreaMapping;
@@ -165,7 +166,7 @@ public class Display extends Canvas implements Runnable, KeyListener, MouseListe
 			}
 		}
 		e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		stage.highlight(Collections.<int[]>emptyList());
+		stage.highlight(Collections.<GfxObj>emptyList());
 	}
 
 	@Override

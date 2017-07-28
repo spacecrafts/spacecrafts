@@ -40,11 +40,11 @@ public final class Stage {
 	public static final class Hover {
 		public final Shape area;
 		public final int cursor;
-		public final List<int[]> objects;
-		public Hover(Shape area, int cursor, int[] object) {
+		public final List<GfxObj> objects;
+		public Hover(Shape area, int cursor, GfxObj object) {
 			this(area, cursor, Collections.singletonList(object));
 		}
-		public Hover(Shape area, int cursor, List<int[]> objects) {
+		public Hover(Shape area, int cursor, List<GfxObj> objects) {
 			super();
 			this.area = area;
 			this.cursor = cursor;
@@ -61,11 +61,11 @@ public final class Stage {
 	public final List<KeyMapping>  onKeyPress = new ArrayList<>();
 	public final List<KeyMapping>  globalOnKeyPress = new ArrayList<>();
 
-	public final AtomicReference<List<int[]>> objects = new AtomicReference<>(Collections.<int[]>emptyList());
-	private final AtomicReference<List<int[]>> highlights = new AtomicReference<>(Collections.<int[]>emptyList());
+	public final AtomicReference<List<GfxObj>> objects = new AtomicReference<>(Collections.<GfxObj>emptyList());
+	private final AtomicReference<List<GfxObj>> highlights = new AtomicReference<>(Collections.<GfxObj>emptyList());
 
-	private List<int[]> nextObjects;
-	private List<int[]> nextHighlights;
+	private List<GfxObj> nextObjects;
+	private List<GfxObj> nextHighlights;
 	private AtomicBoolean ready = new AtomicBoolean(false);
 	private AtomicBoolean inputsDisabled = new AtomicBoolean(false);
 	public ChangeListener listener;
@@ -80,12 +80,12 @@ public final class Stage {
 		return frame;
 	}
 
-	public List<int[]> highlights() {
+	public List<GfxObj> highlights() {
 		return highlights.get();
 	}
 
-	public void highlight(List<int[]> objects) {
-		List<int[]> old = highlights.getAndSet(objects);
+	public void highlight(List<GfxObj> objects) {
+		List<GfxObj> old = highlights.getAndSet(objects);
 		if (!old.isEmpty() || !objects.isEmpty()) {
 			frame++;
 		}
@@ -98,9 +98,9 @@ public final class Stage {
 		onRightClick.clear();
 		onPointing.clear();
 		onKeyPress.clear();
-		highlights.set(Collections.<int[]>emptyList());
-		nextObjects = new ArrayList<int[]>();
-		nextHighlights = new ArrayList<int[]>();
+		highlights.set(Collections.<GfxObj>emptyList());
+		nextObjects = new ArrayList<>();
+		nextHighlights = new ArrayList<>();
 	}
 
 	public void ready() {
@@ -126,7 +126,7 @@ public final class Stage {
 	 * Adds the object in the front of the current stage.
 	 * (an object painted after all already added)
 	 */
-	public Stage atFront(int[] object) {
+	public Stage atFront(GfxObj object) {
 		nextObjects.add(object);
 		return this;
 	}
@@ -135,7 +135,7 @@ public final class Stage {
 	 * Adds the object in the back of the current stage.
 	 * (an object painted before all already added)
 	 */
-	public Stage atBack(int[] object) {
+	public Stage atBack(GfxObj object) {
 		nextObjects.add(0, object);
 		return this;
 	}
@@ -150,11 +150,11 @@ public final class Stage {
 		return this;
 	}
 
-	public Stage in(Shape area, int[]...objects) {
+	public Stage in(Shape area, GfxObj...objects) {
 		return in(area, -1, objects);
 	}
 
-	public Stage in(Shape area, int cursor, int[]...objects) {
+	public Stage in(Shape area, int cursor, GfxObj...objects) {
 		onPointing.add(new Hover(area, cursor, Arrays.asList(objects)));
 		return this;
 	}

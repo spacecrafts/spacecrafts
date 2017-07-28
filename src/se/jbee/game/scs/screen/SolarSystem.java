@@ -48,7 +48,7 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 
 		int w = screen.width;
 		int h = screen.height;
-		stage.atFront(background(0,0,w, h, BG_SPACE, star.list(SEED)));
+		stage.atFront(background(0,0,w, h, BG_SPACE, star.longNum(SEED)));
 		int d = h*2;
 		int size = star.num(SIZE);
 		d = (int) (d / (20f/size));
@@ -58,11 +58,11 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		Rectangle view = Viewport.centerView(screen);
 
 		stage.atFront(path(PATH_EDGY, COLOR_TEXT_NORMAL,1, w-150, view.y, w-10, view.y+140));
-		stage.atFront(starCut(w-r/8, y, d, star.num(RGB)));
+		stage.atFront(starCut(w-Math.min(r/2,200), y, d, star.num(RGB), star.longNum(SEED)));
 		stage.onLeftClickIn(new Rectangle(w-r/8, 0, r/8, screen.height), backToGalaxy );
 		stage.atFront(fixtext(0, 0, FONT_LIGHT, 32, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y, star.list(NAME)));
 		Entity type = game.entity(star.num(STAR_CLASS));
-		stage.atFront(text(textKey('S', 'n', type.num(CODE)), 0, view.y, FONT_LIGHT, 18, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y+30));
+		stage.atFront(text(textKey('S', 'k', type.num(CODE)), 0, view.y, FONT_LIGHT, 18, COLOR_TEXT_NORMAL, ALIGN_SE, w-150, view.y+30));
 
 		int[] planets = star.list(PLANETS);
 		int ym = screen.height /2;
@@ -75,39 +75,9 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 			stage.onLeftClickIn(new Rectangle(x0, ym-dia/2, dia, dia), 
 					set(gID, SCREEN, SCREEN_COLONY), 
 					set(gID, BASE_ENTITY, planet.id()));
-			stage.atFront(text(textKey('P', 'n', cls.num(CODE)), x0,ym-dia/2-5, FONT_LIGHT, 14, COLOR_TEXT_NORMAL));
+			stage.atFront(text(textKey('P', 'n', cls.num(CODE)), x0,ym-dia/2-14, FONT_LIGHT, 14, COLOR_TEXT_NORMAL));
 			x0 += dia+screen.width/16;
-			
 		}
-	}
-
-	private void randomSolarSystem(State game, Dimension screen, Stage stage) {
-		Entity gamE = game.root();
-		Rectangle area = new Rectangle(690, 390, 220, 220);
-
-		int w = screen.width;
-		int h = screen.height;
-		stage.atFront(background(0,0,w, h, BG_SPACE, 34, 45));
-		stage.atFront(starCut(w-h/8, -h/2, h*2, 0xFFFFFF00));
-
-		stage.atFront(planet(700, 400, 200, 0, 0xFF5014));
-		stage.atFront(planet(100, 300, 300, 0, 0x0000FF));
-
-		stage.atFront(fixtext(690, 360, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, codePoints("Mars")));
-		stage.atFront(fixtext(690, 380, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, codePoints("Small, Tundra")));
-
-		stage.atFront(fixtext(90, 260, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, codePoints("Uranus")));
-		stage.atFront(fixtext(90, 280, FONT_LIGHT, 16, COLOR_TEXT_NORMAL, codePoints("Large, Toxic")));
-
-		stage.atFront(fixtext(20, 20+48, FONT_THIN, 48, COLOR_TEXT_NORMAL, codePoints("Solar System")));
-		stage.atFront(fixtext(20, 20+48+28, FONT_LIGHT, 24, COLOR_TEXT_NORMAL, codePoints("Type G")));
-
-		stage.onLeftClickIn(area, set(gamE.id(), SCREEN, SCREEN_ORBIT));
-		stage.in(area, focusBox(690, 390, 220, 220));
-
-		area = new Rectangle(90, 290, 420, 420);
-		stage.onLeftClickIn(area, set(gamE.id(), SCREEN, SCREEN_ORBIT));
-		stage.in(area, focusBox(90, 290, 420, 420));
 	}
 
 }

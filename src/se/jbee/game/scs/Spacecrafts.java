@@ -75,7 +75,7 @@ public class Spacecrafts implements Gfx {
 	}
 	
 	private static Display gameDisplay() {
-		return new Display(initRenderer(), 
+		return new Display(new GfxRenderer(), 
 				initResources(new Dimension(Toolkit.getDefaultToolkit().getScreenSize())),
 				initScreens());
 	}
@@ -85,22 +85,22 @@ public class Spacecrafts implements Gfx {
 				Galaxy.class, SolarSystem.class, Orbit.class, Colony.class, TechWheelScreen.class);		
 	}
 	
-	private static GfxRenderer initRenderer() {
-		GfxRenderer r = new GfxRenderer();
-		r.register(OBJ_TEXT, new Text());
-		r.register(OBJ_TECH_WHEEL, new Techwheel());
-		r.register(OBJ_BUTTON, new Button());
-		r.register(OBJ_RING, new Ring());
-		r.register(OBJ_BACKGROUND, new Background());
-		r.register(OBJ_STAR, Star.FULL);
-		r.register(OBJ_STAR_CLIP, Star.CUT);
-		r.register(OBJ_PLANET, Planet.FULL);
-		r.register(OBJ_PLANET_CLIP, Planet.CUT);
-		r.register(OBJ_ICON, new Icon());
-		r.register(OBJ_RECT, new Rect());
-		r.register(OBJ_PATH, new Path());
-		return r;
-	}
+//	private static GfxRenderer initRenderer() {
+//		GfxRenderer r = new GfxRenderer();
+//		r.register(OBJ_TEXT, new Text());
+//		r.register(OBJ_TECH_WHEEL, new Techwheel());
+//		r.register(OBJ_BUTTON, new Button());
+//		r.register(OBJ_RING, new Ring());
+//		r.register(OBJ_BACKGROUND, new Background());
+//		r.register(OBJ_STAR, Star.FULL);
+//		r.register(OBJ_STAR_CLIP, Star.CUT);
+//		r.register(OBJ_PLANET, Planet.FULL);
+//		r.register(OBJ_PLANET_CLIP, Planet.CUT);
+//		r.register(OBJ_ICON, new Icon());
+//		r.register(OBJ_RECT, new Rect());
+//		r.register(OBJ_PATH, new Path());
+//		return r;
+//	}
 	
 	private static final Colouring STAR_RED = (float rgb) -> {
 		float a = min(0.9f, max(0.3f, (1.5f-rgb)*rgb));
@@ -156,7 +156,7 @@ public class Spacecrafts implements Gfx {
 		s.addColor(COLOR_WHITE, 0xFFffffff);
 		s.addColor(COLOR_BLACK, 0xFF000000);
 		s.addColor(COLOR_TEXT_HIGHLIGHT, 0xFFFFFFFF);
-		s.addColor(COLOR_TEXT_NORMAL, 0xFF8899FF);
+		s.addColor(COLOR_TEXT_NORMAL, 0xFF9bcfff);
 		s.addColor(COLOR_TEXT_SPECIAL, 0xFFeeee77);
 		s.addColor(COLOR_SLOT, 0xFF223355);
 		// components
@@ -174,9 +174,17 @@ public class Spacecrafts implements Gfx {
 		s.addColor(COLOR_LAB, 0xff0080ff);
 		s.addColor(COLOR_YARD, 0xffffff00);
 
-		s.addFont(FONT_REGULAR, "font/Roboto-Regular.ttf");
-		s.addFont(FONT_LIGHT, "font/Roboto-Light.ttf");
-		s.addFont(FONT_THIN, "font/Roboto-Thin.ttf");
+//		s.addFont(FONT_REGULAR, "font/Roboto-Regular.ttf");
+//		s.addFont(FONT_LIGHT, "font/Roboto-Light.ttf");
+//		s.addFont(FONT_THIN, "font/Roboto-Thin.ttf");
+		
+//		s.addFont(FONT_REGULAR, "font/MavenPro-Medium.ttf");
+//		s.addFont(FONT_LIGHT, "font/MavenPro-Regular.ttf");
+//		s.addFont(FONT_THIN, "font/MavenPro-Regular.ttf");
+		
+		s.addFont(FONT_REGULAR, "font/Orbitron-Medium.ttf");
+		s.addFont(FONT_LIGHT, "font/Orbitron-Regular.ttf");
+		s.addFont(FONT_THIN, "font/Orbitron-Regular.ttf");		
 
 		s.addNoise(NOISE_STAR_LARGE, 500, 80, 666);
 		s.addNoise(NOISE_STAR_SMALL, 50, 60, 700);

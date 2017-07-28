@@ -53,7 +53,7 @@ public class LoadGame implements Screen, GameComponent, Gfx, GameScreen {
 		final int gID = gamE.id();
 		stage.onKey(VK_ESCAPE, set(gID, SCREEN, SCREEN_MENU));
 
-		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK));
+		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK, 0L));
 
 		Rectangle center = Viewport.centerView(screen);
 		int x0 = center.x;

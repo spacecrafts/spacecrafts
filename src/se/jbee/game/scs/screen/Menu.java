@@ -27,7 +27,7 @@ public class Menu implements Screen, GameComponent, Gfx, GameScreen {
 	public void show(State game, Dimension screen, Stage stage) {
 		Entity gamE = game.root();
 
-		stage.atFront(background(0,0, screen.width, screen.height, BG_SPACE, 42, 42));
+		stage.atFront(background(0,0, screen.width, screen.height, BG_SPACE, 42L));
 
 		int dotDia = 20;
 		String title = "SPACECRAFTS";
@@ -87,7 +87,7 @@ public class Menu implements Screen, GameComponent, Gfx, GameScreen {
 		Rectangle exit = new Rectangle(x0,y0,w,h);
 		stage.atFront(text(textKey('G', 'm', 'E'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_NORMAL));
 		stage.in(exit, text(textKey('G', 'm', 'E'), x0, y0, FONT_DOTS, dotDia, COLOR_TEXT_HIGHLIGHT));
-		Change exitCs = set(gID, ACTION, ACTION_QUIT_AI, ACTION_AUTOSAVE, ACTION_EXIT);
+		Change exitCs = set(gID, ACTIONS, ACTION_STOP_AI, ACTION_AUTOSAVE, ACTION_EXIT);
 		stage.onLeftClickIn(exit, exitCs);
 		stage.onKey(VK_ESCAPE, exitCs);
 	}

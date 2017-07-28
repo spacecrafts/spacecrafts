@@ -13,28 +13,31 @@ import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
 
-import se.jbee.game.any.gfx.ObjClass;
+import se.jbee.game.any.gfx.GfxObj;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.scs.gfx.Gfx;
 
-public class Planet implements Gfx, ObjClass {
+public final class Planet implements Gfx, GfxObj {
 
-	public static final Planet CUT = new Planet(true);
-	public static final Planet FULL = new Planet(false);
-
+	private final int x0;
+	private final int y0;
+	private final int w;
+	private final int type;
+	private final int rgba;
 	private final boolean cut;
 
-	private Planet(boolean cut) {
+	public Planet(int x0, int y0, int w, int type, int rgba, boolean cut) {
 		super();
+		this.x0 = x0;
+		this.y0 = y0;
+		this.w = w;
+		this.type = type;
+		this.rgba = rgba;
 		this.cut = cut;
 	}
 
 	@Override
-	public void draw(Graphics2D gfx, Resources resources, int[] obj) {
-		int x0 = obj[1];
-		int y0 = obj[2];
-		int w = obj[3];
-		int rgba = obj[5];
+	public void draw(Graphics2D gfx, Resources resources) {
 		if (cut) {
 			planetCut(resources, gfx, x0, y0, w, rgba);
 		} else {

@@ -23,7 +23,8 @@ public final class Name {
 		NAME_HADES = 8,
 		NAME_ANUBIS = 9,
 		NAME_PELLEGRINO = 10,
-		NAME_GALAXIA = 11;
+		NAME_GALAXIA = 11,
+		NAME_VULCAN = 12;
 
 	private static final String[][] KIRUG_TARK = {
 		{"Bal", "Tor", "Mat", "Kit", "Lif", "Val", "Zir", "Dor", "Di", "Ban", "Mar", "Kir" },
@@ -102,6 +103,13 @@ public final class Name {
 	
 	// Piotr, -skij, -ov, -rov, boris, vladimir, -mir, dimitri
 	// names like Latin plant names
+	
+	private static final String[][] VULCAN = {
+		{"Li", "A", "U", "Ti", "Ar", "Vo", "O", "Va", "Kla", "Pla", "Ze", "E", "Sa", "Xe", "He", "Bo", "Vu", "Ta", "Ma", "Ru", "Ni", "Ro", "Ve", "Kli", "Re" },
+		{"t", "x", "l", "", "u", "d", "ce", "r", "cu"},
+		{"i", "t", "", "tr", "er", "r", "tim", "c", "mul", "eng", "g", "l"},
+		{"an", "um", "on", "us"}
+	};
 
 	public static String name(int type, long seed) {
 		switch (type) {
@@ -116,8 +124,9 @@ public final class Name {
 		case NAME_WADOJIN   : return name(seed, WADOJIN, 100, 100, 30,10,0);
 		case NAME_VENEZIA   : return name(seed, VENEZIA, 100, 90, 0);
 		case NAME_GALAXIA   : return name(seed, GALAXIA, 100, 100, 100, 0);
-		default:
 		case NAME_BEUDONIA  : return name(seed, BEUDONIA, 100, 100, 50, 25,0);
+		default:
+		case NAME_VULCAN	: return name(seed, VULCAN, 100, 100, 100, 100);
 		}
 	}
 

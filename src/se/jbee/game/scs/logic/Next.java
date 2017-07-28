@@ -43,7 +43,7 @@ public class Next implements Transition, GameComponent, GameScreen {
 		}
 		// now all players are setup, the game process will forward from turn 0 to turn 1, until then inputs are look by the following screen
 		gamE.set(SCREEN, SCREEN_ENCOUNTER);
-		game.root().set(ACTION, ACTION_MOVE_AI);
+		game.root().set(ACTIONS, ACTION_RUN_AI);
 	}
 
 }
