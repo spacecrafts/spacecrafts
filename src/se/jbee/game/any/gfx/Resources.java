@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import se.jbee.game.any.gfx.texture.Colouring;
+
 /**
  * A utility to manage graphic related resources like colors, fonts and texts.
  */
@@ -71,7 +73,9 @@ public final class Resources {
 				for (int i = 0; i < resources.length; i++) {
 					Resource<T> resource = resources[i];
 					if (resource != null) {
+						long s = System.currentTimeMillis();
 						instances[i] = resource.yield(Resources.this);
+						System.out.println(System.currentTimeMillis()-s+" ms ["+instances.getClass().getSimpleName()+"]");
 					}
 				}
 			}

@@ -5,11 +5,12 @@ import static se.jbee.game.any.gfx.Texts.textKey;
 import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Draw.background;
-import static se.jbee.game.scs.gfx.Draw.fixtext;
+import static se.jbee.game.scs.gfx.Draw.label;
 import static se.jbee.game.scs.gfx.Draw.text;
 import static se.jbee.game.scs.gfx.Gfx.FontStyle.DOTS;
 import static se.jbee.game.scs.gfx.Gfx.FontStyle.THIN;
-import static se.jbee.game.scs.gfx.Hue.*;
+import static se.jbee.game.scs.gfx.Hue.TEXT_HIGHLIGHT;
+import static se.jbee.game.scs.gfx.Hue.TEXT_NORMAL;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 
 import java.awt.Rectangle;
@@ -21,6 +22,7 @@ import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
+import se.jbee.game.scs.gfx.Draw;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.logic.Turn;
 import se.jbee.game.scs.state.GameComponent;
@@ -42,7 +44,7 @@ public class SetupPlayer implements Screen, Gfx, GameComponent {
 		Entity player = Turn.currentPlayer(game);
 
 		stage.atFront(background(0, 0, screen.width, screen.height, BG_BLACK, 0L));
-		stage.atFront(fixtext(100, 100, THIN, 48, TEXT_NORMAL, codePoints("Player "+String.valueOf(player.num(NO)))));
+		stage.atFront(label(100, 100, THIN, 48, TEXT_NORMAL, codePoints("Player "+String.valueOf(player.num(NO)))));
 
 		// next
 		int dotDia = dotDiameter(screen);

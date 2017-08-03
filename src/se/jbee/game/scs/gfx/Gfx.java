@@ -9,7 +9,9 @@ public interface Gfx {
 	/**
 	 * Fonts Styles
 	 */
-	enum FontStyle { REGULAR, LIGHT, THIN, DOTS	}
+	enum FontStyle { 
+		REGULAR, LIGHT, THIN, DOTS	
+	}
 	
 	/**
 	 * Text Alignment
@@ -38,7 +40,8 @@ public interface Gfx {
 	NOISE_STAR_LARGE = 0,
 	NOISE_STAR_SMALL = 1,
 	NOISE_PLANET_LARGE = 2,
-	NOISE_PLANET_SMALL = 3;
+	NOISE_PLANET_SMALL = 3,
+	NOISE_TEST = 4;
 
 	/**
 	 * Textures
@@ -50,7 +53,8 @@ public interface Gfx {
 	TEXTURE_PLANET_200x2000_LARGE = 3,
 	TEXTURE_PLANET_200x2000_SMALL = 4,
 	TEXTURE_PLANET_600x600_LARGE = 5,
-	TEXTURE_PLANET_600x600_SMALL = 6;
+	TEXTURE_PLANET_600x600_SMALL = 6,
+	TEXTURE_TEST = 7;
 
 	/**
 	 * Objects

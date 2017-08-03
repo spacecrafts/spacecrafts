@@ -1,4 +1,4 @@
-package se.jbee.game.any.gfx;
+package se.jbee.game.any.gfx.texture;
 
 public interface Colouring {
 

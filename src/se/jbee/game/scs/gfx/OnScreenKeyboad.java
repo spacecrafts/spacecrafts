@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Renderer;
-import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.gfx.Resources;
+import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.gfx.Stage.KeyMapping;
 
 public class OnScreenKeyboad implements Renderer, Gfx {

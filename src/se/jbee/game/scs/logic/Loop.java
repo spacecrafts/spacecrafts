@@ -39,8 +39,7 @@ public class Loop implements Transition, GameComponent {
 		if (game == null) {
 			return logic.run(Init.class, State.base());
 		}
-		final Entity gamE = game.root();
-		if (gamE.has(ACTIONS)) {
+		if (game.root().has(ACTIONS)) {
 			game = runActions(game, logic);
 		}
 		if (Turn.isEndOfTurn(game)) { // TODO do this within the "default" transition? return null can be used to indicate no change => no move
@@ -60,7 +59,7 @@ public class Loop implements Transition, GameComponent {
 		for (int action : actions) {
 			switch(action) {
 			case ACTION_EXIT  : System.exit(0); break;
-			case ACTION_ERROR : gamE.set(SCREEN, GameScreen.SCREEN_ERROR); break;
+			case ACTION_ERROR : game.root().set(SCREEN, GameScreen.SCREEN_ERROR); break;
 			case ACTION_AUTOSAVE: logic.run(Autosave.class, game); break;
 			case ACTION_SAVE  : logic.run(Save.class, game); break;
 			case ACTION_LOAD  :	game = logic.run(Load.class, game); break;

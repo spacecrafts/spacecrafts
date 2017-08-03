@@ -3,13 +3,11 @@ package se.jbee.game.scs.screen;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static se.jbee.game.any.gfx.Texts.textKey;
 import static se.jbee.game.any.state.Change.set;
-import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Draw.background;
-import static se.jbee.game.scs.gfx.Draw.fixtext;
-import static se.jbee.game.scs.gfx.Draw.focusBox;
+import static se.jbee.game.scs.gfx.Draw.label;
 import static se.jbee.game.scs.gfx.Draw.path;
 import static se.jbee.game.scs.gfx.Draw.planet;
-import static se.jbee.game.scs.gfx.Draw.starCut;
+import static se.jbee.game.scs.gfx.Draw.partialStar;
 import static se.jbee.game.scs.gfx.Draw.text;
 import static se.jbee.game.scs.gfx.Gfx.FontStyle.LIGHT;
 
@@ -60,9 +58,9 @@ public class SolarSystem implements Screen, GameComponent, Gfx, GameScreen {
 		Rectangle view = Viewport.centerView(screen);
 
 		stage.atFront(path(PATH_EDGY, Hue.TEXT_NORMAL,1, w-150, view.y, w-10, view.y+140));
-		stage.atFront(starCut(w-Math.min(r/2,200), y, d, star.num(RGB), star.longNum(SEED)));
+		stage.atFront(partialStar(w-Math.min(r/2,200), y, d, star.num(RGB), star.longNum(SEED)));
 		stage.onLeftClickIn(new Rectangle(w-r/8, 0, r/8, screen.height), backToGalaxy );
-		stage.atFront(fixtext(0, 0, LIGHT, 32, Hue.TEXT_NORMAL, Align.SE, w-150, view.y, star.list(NAME)));
+		stage.atFront(label(0, 0, LIGHT, 32, Hue.TEXT_NORMAL, Align.SE, w-150, view.y, star.list(NAME)));
 		Entity type = game.entity(star.num(STAR_CLASS));
 		stage.atFront(text(textKey('S', 'k', type.num(CODE)), 0, view.y, LIGHT, 18, Hue.TEXT_NORMAL, Align.SE, w-150, view.y+30));
 

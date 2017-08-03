@@ -11,19 +11,19 @@ import se.jbee.game.scs.state.GameComponent;
  * The game process it the "master control program" process.
  * It is the only process existing when starting or loading a game.
  *
- * Dependent on the game state it spawns the {@link ScreenSwitch} and {@link AI} processes.
+ * Dependent on the game state it spawns the {@link InputLoop} and {@link AI} processes.
  * It also monitors their health and restarts them should that be necessary.
  *
  * The actual {@link State} {@link Change}s are done using {@link Transition}s.
  */
-public class Game implements Runnable, GameComponent {
+public class GameLoop implements Runnable, GameComponent {
 
 	private static final int CYCLE_TIME_MS = 20;
 	
 	private final Logic logic;
-	private final Display display;
+	private final DisplayLoop display;
 	
-	public Game(Logic logic, Display display) {
+	public GameLoop(Logic logic, DisplayLoop display) {
 		super();
 		this.logic = logic;
 		this.display = display;
@@ -31,7 +31,7 @@ public class Game implements Runnable, GameComponent {
 
 	@Override
 	public void run() {
-		Thread displayDaemon = Game.daemon(display, "Game Paint Loop");
+		Thread displayDaemon = GameLoop.daemon(display, "Game Paint Loop");
 		State game = logic.runLoop(null);
 		display.setGame(game);
 		displayDaemon.start();

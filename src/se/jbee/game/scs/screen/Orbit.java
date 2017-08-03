@@ -1,15 +1,16 @@
 package se.jbee.game.scs.screen;
 
 import static se.jbee.game.any.state.Change.set;
-import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Draw.background;
 import static se.jbee.game.scs.gfx.Draw.border;
-import static se.jbee.game.scs.gfx.Draw.fixtext;
 import static se.jbee.game.scs.gfx.Draw.icon;
+import static se.jbee.game.scs.gfx.Draw.label;
 import static se.jbee.game.scs.gfx.Draw.planetCut;
 import static se.jbee.game.scs.gfx.Gfx.FontStyle.LIGHT;
 import static se.jbee.game.scs.gfx.Gfx.FontStyle.THIN;
-import static se.jbee.game.scs.gfx.Hue.*;
+import static se.jbee.game.scs.gfx.Hue.EMPTY_SLOT;
+import static se.jbee.game.scs.gfx.Hue.TEXT_HIGHLIGHT;
+import static se.jbee.game.scs.gfx.Hue.TEXT_NORMAL;
 import static se.jbee.game.scs.screen.GameScreen.SCREEN_SOLAR_SYSTEM;
 import static se.jbee.game.scs.screen.Viewport.cellDiameter;
 
@@ -22,6 +23,7 @@ import se.jbee.game.any.screen.Screen;
 import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.State;
+import se.jbee.game.scs.gfx.Draw;
 import se.jbee.game.scs.gfx.Gfx;
 import se.jbee.game.scs.state.GameComponent;
 
@@ -55,8 +57,8 @@ public class Orbit implements Screen, Gfx, GameComponent {
 			y0+=d;
 		}
 
-		stage.atFront(fixtext(w-m, w/32+48, THIN, 48, TEXT_NORMAL, "Mars"));
-		stage.atFront(fixtext(w-m, w/32+48+28, LIGHT, 24, TEXT_NORMAL, "Orbit"));
+		stage.atFront(label(w-m, w/32+48, THIN, 48, TEXT_NORMAL, "Mars"));
+		stage.atFront(label(w-m, w/32+48+28, LIGHT, 24, TEXT_NORMAL, "Orbit"));
 
 		int hb = (h-w/8)/3;
 		stage.atFront(border(w-m, w/16+hb, m-w/32, hb));

@@ -7,8 +7,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import se.jbee.game.any.state.Rnd;
-
 public class TestRnd {
 
 	@Test

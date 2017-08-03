@@ -126,6 +126,17 @@ The decision is made up front and it final.
 
 The basic building cost of a component can be reduced by 1 when build at a slot with a frame. 
 
+On ships building works differently as a yard can only be build on surface or in orbit. 
+Engineering decks can be added to ships to allow building there.
+They work similar to the other economic buildings. 
+Each deck cell allows for one staff unit.
+A deck can (re)build or replace components within the ship or build a new module on top of the deck area.
+Once the module is done it can be connected to the ship or become a ship of its own.
+
+	production = sum(floor-base * culture-base) * speedup-factor
+
+Robotic races need this to build troops "on board".
+
 ## Culture
 A per planet factor between 0.5 and 1.5 (50-150%) effecting the staffs output.
 This corresponds to a cultural level from -5 (50%) to +5 (150%) with 0 being 100%.
@@ -154,6 +165,14 @@ Events or abilities simply add or subtract to the culture buffer once in the sam
 
 Newly founded colonies start with a culture-level of 1 and an half full buffer.
 The culture is negated (when positive) when colonies are captured (resistance) or becomes maximum negative (-5).
+
+
+## Ecosystem
+The conditions of the ecosystem are tracked per planet.
+A healthy ecosystem is required for farms and forests to work and grow.
+Tree nurseries are used to help the ecosystem to develop faster.
+Like population growth the ecosystems "grows". 
+Food forests are planed when "build" but grow through a healthy ecosystem and decline when it is unhealthy. 
 
 
 ## Command Points
@@ -256,9 +275,11 @@ Rough cost math:
 	2 Impulse Drive
 	---------------
 	13
+
 	
-# Damage
+# Damage (Battle)
 How damage is dealt to ships.
+Each module is calculated independently (except for shields that guard the whole ship).
 Choice of material and size gives hull points.
 Each component (like a laser) has structure points.
 There might be plating and shields.
@@ -270,4 +291,141 @@ Without shields and plating the hull is damaged (with full damage left).
 At the same time the affected component(s) are determined and the same damage is dealt to them
 what might cause a malfunction or destruction of that component. 
 The hull points tells when ship falls apart.
-The component structure points tell when a component stops working.  
+The component structure points tell when a component stops working.
+
+## Shields
+The maximum strength of a shield (its capacity) is given by the sum of shield outputs of all shield banks.
+
+	shield-capacity = sum(shield-base * bank-factor)
+	
+Damage is subtracted from the shield capacity:
+
+	shield-strength[100%] = shield-capacity
+	shield-strength =- shield-damage
+	
+Each turn shields can regenerate some of the lost strength.
+The amount depends on the recharge ability of the specific shield.
+
+	shield-recharge = sum(shield-recharge-base) + sum(shield-capacitor-base)
+	shield-strength += shield-recharge
+	
+Recharge only occurs when sufficient energy is provided.
+The recharge can be speed up using field capacitors.
+Their benefit (over a larger shield) is a smaller energy consumption while the recharge increase is even better.
+ 
+The damage going through the shields (and the damage dealt to the shield) depends on the type of shield.
+In general: 
+
+	shield-damage = min(damage, shield-protection)
+	hull-damage = damage - shield-damage
+	
+Using a shield overload shields can be turned into a weapon. 
+
+### Absorber/Damping Field
+Reduces damage by a fix amount as long as the field is kept up (strength > 0). 
+The rest of the damage hits target as usual. 
+The field works like a particle cloud that harmonises automatically.
+
+	shield-protection = min(max(damage/2, shield-capacity / 10), shield-strength))
+	
+### Force Field
+Reduces damage relative to the strength of the field. 
+The amount damage absorbed correlates with the degree the field is weakened. 
+The field works as a whole.
+
+	shield-protection = shield-strength
+	
+### Particle Field
+A field of different particles and molecules that confuses sensors and scanners.
+
+	shield-protection = 0
+	
+### Antimatter Field
+An absorber field like shield consisting of anti-matter.
+
+	shield-protection = min(max(damage/3, shield-capacity / 10), shield-strength))
+
+### Deflector-field
+A shield that reflects part of beam damage and sends it back to the beam weapon.
+Only works on optical beams!
+
+	shield-protection = shield-strength
+	reflected-damage = damage * min(0.5, shield-strength/(2*damage))
+	
+
+## Plating
+The strength of plating depends on the plating material and the size of the module.
+
+	plating = sum(plating-base * module-size)
+	
+Plating is calculated per module.
+Damage is subtracted from the plating strength:
+
+	plating -= plating-damage
+	
+Most damage is done to plating before it affects the hull.
+That means plating has to be reduced to zero to damage the hull and the components within.
+
+## Hull
+The strength of the hull is given by the material and the number of cells in a module.
+Hull is calculated per module.
+
+	hull = sum(material-hull * module-size)
+	
+Damage is subtracted from the hull.
+
+	hull -= hull-damage
+	
+Once hull points are down to zero the ship is destroyed.
+Damage to the hull cannot be fixed during battle.
+The hull can be repaired after battle.
+A larger crew makes for a faster repair. Repair drones help as well.
+
+	(math here)
+	
+Ships that orbit a planet with orbital docks get repaired as well.
+
+	hull += sum(orbital-dock-repair)
+	
+Multiple ships can be repaired in parallel. 
+Each gains repair from the orbital dock. The more dock cell the faster a full repair.
+
+Ships can also be repaired on the surface. 
+This a build item that explicitly has to be chosen. 
+Building points required depend on the size of the ship and the damage.
+Each fully damaged cell costs 1 BP.
+Example: A module of size 20 has 10% damage. That is equal to 2 cells, so it costs 2 BP.
+
+## Components
+Damage that is dealt to the hull is also dealt to a component.
+An attacker might try to target a specific component (with knowledge).
+Or the attacker has to chose a module (no knowledge).
+Then a random component is chosen to be damaged.
+Each component has structure point. These are similar to hull point.
+Damage is subtracted from a components structure points.
+
+	structure -= hull-damage
+	
+Depending on the component is can start to fail when damaged to a certain degree.
+Some technologies are robust and work even heavily damaged, others are fragile and malfunction already with light damage.
+Repair drones can be used to repair component damage (structure) during battle to regain a functioning component.
+
+	structure += drone-repair
+	
+Each drone has a fix amount of damage/turn that can be repaired.
+The player selects what drone should repair what component.
+Multiple drones can work on the same component.
+
+When damage is dealt to a components in a bank/cluster the cluster output is reduced accordingly when components are not functioning.
+Also each component type has a property that indicates how many components in a cluster need to break down before the cluster breaks as a whole so there is no output at all.
+Some components work like a grid of independent units so they partially work until almost all component of the cluster are gone.
+Other components work as a whole so they do breakdown as a whole when too much damage is accumulated in a cluster.
+This property is given in percent of components that need to break before the cluster breaks as a whole. 
+100% means the cluster works until the last component. 10% means the cluster fails after 10% of its parts failed.
+
+## Cloaking
+The strength of the cloaking field determines how good the cloaking works.
+If the scanner strength of an opponent is larger than the cloaking strength the cloaking is ineffective.
+That means its main benefit of attacking first is not given any longer. 
+However, the ineffective cloaking works similar to a particle field.
+It makes targeting harder or impossible. 

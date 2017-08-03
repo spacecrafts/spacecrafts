@@ -1,6 +1,5 @@
 package se.jbee.game.any.state;
 
-import static java.lang.Float.intBitsToFloat;
 import static java.lang.Math.abs;
 
 
@@ -16,6 +15,10 @@ public final class Rnd {
 
 	private long low, high;
 
+	public Rnd() {
+		this(System.currentTimeMillis());
+	}
+	
 	public Rnd(long seed) {
 		low=seed;
 	}

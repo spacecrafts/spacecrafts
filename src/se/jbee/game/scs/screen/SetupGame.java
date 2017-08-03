@@ -8,9 +8,12 @@ import static se.jbee.game.any.state.Change.take;
 import static se.jbee.game.any.state.Entity.codePoints;
 import static se.jbee.game.scs.gfx.Draw.background;
 import static se.jbee.game.scs.gfx.Draw.button;
-import static se.jbee.game.scs.gfx.Draw.fixtext;
+import static se.jbee.game.scs.gfx.Draw.label;
 import static se.jbee.game.scs.gfx.Draw.text;
-import static se.jbee.game.scs.gfx.Hue.*;
+import static se.jbee.game.scs.gfx.Hue.BLACK;
+import static se.jbee.game.scs.gfx.Hue.TEXT_HIGHLIGHT;
+import static se.jbee.game.scs.gfx.Hue.TEXT_NORMAL;
+import static se.jbee.game.scs.gfx.Hue.TEXT_SPECIAL;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 
 import java.awt.Rectangle;
@@ -75,7 +78,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 			}
 		}
 		int fontSize = screen.height/16;
-		stage.atFront(fixtext(x0, y0-fontSize-50, FontStyle.LIGHT, fontSize, TEXT_SPECIAL, name));
+		stage.atFront(label(x0, y0-fontSize-50, FontStyle.LIGHT, fontSize, TEXT_SPECIAL, name));
 	}
 
 	private void nextButton(State game, Dimension screen, Stage stage, int x0, int y0) {
@@ -97,7 +100,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 	private void upDownSlider(Stage stage, State game, int x0, int y0, String text, int setupIndex, String...names) {
 		Entity gamE = game.root();
 		int[] setup = gamE.list(SETUP);
-		stage.atFront(fixtext(x0, y0, FontStyle.THIN, 48, TEXT_NORMAL, codePoints(text)));
+		stage.atFront(label(x0, y0, FontStyle.THIN, 48, TEXT_NORMAL, codePoints(text)));
 		stage.atFront(button(x0+200, y0, 50, TEXT_NORMAL, BLACK));
 		//FIXME stage.atFront(codePoints("<"));
 		stage.atFront(button(x0+350, y0, 50, TEXT_NORMAL, BLACK));
@@ -107,7 +110,7 @@ public class SetupGame implements Screen, GameComponent, Gfx, GameScreen {
 		int[] txt = names.length == 0
 			? codePoints(String.valueOf(val)) 
 			: codePoints(names[val]);
-		stage.atFront(fixtext(x0+250, y0, FontStyle.LIGHT, size, TEXT_HIGHLIGHT, Align.EYE,x0+350,y0+50, txt));
+		stage.atFront(label(x0+250, y0, FontStyle.LIGHT, size, TEXT_HIGHLIGHT, Align.EYE,x0+350,y0+50, txt));
 		if (val > 1) {
 			stage.onLeftClickIn(new Rectangle(x0+200, y0, 50,50), replace(State.ROOT, SETUP, setupIndex, val-1));
 		}

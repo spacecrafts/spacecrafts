@@ -6,7 +6,9 @@ import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.scs.gfx.Draw.background;
 import static se.jbee.game.scs.gfx.Draw.text;
 import static se.jbee.game.scs.gfx.Gfx.FontStyle.DOTS;
-import static se.jbee.game.scs.gfx.Hue.*;
+import static se.jbee.game.scs.gfx.Hue.TEXT_HIGHLIGHT;
+import static se.jbee.game.scs.gfx.Hue.TEXT_NORMAL;
+import static se.jbee.game.scs.gfx.Hue.TEXT_SPECIAL;
 import static se.jbee.game.scs.screen.Viewport.dotDiameter;
 
 import java.awt.Rectangle;

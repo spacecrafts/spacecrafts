@@ -1,6 +1,6 @@
 package se.jbee.game.any.gfx;
 
-import java.util.Random;
+import se.jbee.game.any.state.Rnd;
 
 public class Noise {
 
@@ -16,7 +16,7 @@ public class Noise {
 		frequencys = new double[nOctaves];
 		amplitudes = new double[nOctaves];
 
-		Random rnd = new Random(seed);
+		Rnd rnd = new Rnd(seed);
 
 		for (int i = 0; i < nOctaves; i++) {
 			octaves[i] = new SimplexOctave(rnd.nextInt());

@@ -32,26 +32,24 @@ import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.ScsRenderer;
 
 /**
- * The screen or canvas the game is drawn on.
- *
- * This is a thread continuously transforming abstract figures to concrete draw
- * instructions executed on the canvas.
+ * A loop that looks at the {@link Stage}.
+ * If there are changes they are drawn to the game canvas (what is also this object).
  */
-public class Display extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener {
+public class DisplayLoop extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener {
 
 	private static final long FRAME_DELAY_MS = 15;
 
 	private final Stage stage = new Stage();
 	private final ScsRenderer renderer;
 	private final Resources resources;
-	private final ScreenSwitch sswitch;
+	private final InputLoop input;
 	private final JFrame frame;
 	
-	public Display(ScsRenderer renderer, Resources resources, Screen[] screens) {
+	public DisplayLoop(ScsRenderer renderer, Resources resources, Screen[] screens) {
 		super();
 		this.renderer = renderer;
 		this.resources = resources;
-		this.sswitch = new ScreenSwitch(stage, screens, this);
+		this.input = new InputLoop(stage, screens, this);
 		this.frame = new JFrame();
 		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.setUndecorated(true);
@@ -88,7 +86,7 @@ public class Display extends Canvas implements Runnable, KeyListener, MouseListe
 	}
 	
 	public void setGame(State game) {
-		sswitch.setGame(game);
+		input.setGame(game);
 		frame.setTitle(game.root().name());
 	}
 	
@@ -98,8 +96,8 @@ public class Display extends Canvas implements Runnable, KeyListener, MouseListe
 
 	@Override
 	public void run() {
-		Thread sswitchDaemon = Game.daemon(sswitch, "Game Screen Loop");
-		sswitchDaemon.start();
+		Thread inputDaemon = GameLoop.daemon(input, "Game Input Loop");
+		inputDaemon.start();
 		final BufferStrategy strategy = getBufferStrategy();
 		final Dimension screen = new Dimension(getSize());
 		int frameDone = -1;

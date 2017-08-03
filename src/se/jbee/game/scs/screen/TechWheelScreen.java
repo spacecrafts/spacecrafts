@@ -3,7 +3,9 @@ package se.jbee.game.scs.screen;
 import static se.jbee.game.scs.gfx.Draw.background;
 import static se.jbee.game.scs.gfx.Draw.ring;
 import static se.jbee.game.scs.gfx.Draw.techwheel;
-import static se.jbee.game.scs.gfx.Hue.*;
+import static se.jbee.game.scs.gfx.Hue.ENERGY;
+import static se.jbee.game.scs.gfx.Hue.TEXT_NORMAL;
+import static se.jbee.game.scs.gfx.Hue.YARD;
 
 import java.awt.Rectangle;
 
@@ -16,6 +18,7 @@ import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.gfx.Gfx;
+import se.jbee.game.scs.gfx.obj.Planet;
 import se.jbee.game.scs.gfx.obj.Techwheel;
 import se.jbee.game.scs.state.GameComponent;
 
@@ -41,6 +44,8 @@ public class TechWheelScreen implements Screen, Gfx, GameComponent {
 				}
 			}
 		}
+		
+		stage.atFront(new Planet(100, 100, 300, 2, 0xFFFF0000, false));
 	}
 
 }

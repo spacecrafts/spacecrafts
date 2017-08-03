@@ -3,6 +3,7 @@ package se.jbee.game.scs.gfx.obj;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
@@ -15,6 +16,8 @@ import java.awt.TexturePaint;
 
 import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Resources;
+import se.jbee.game.any.gfx.texture.Colouring;
+import se.jbee.game.scs.Spacecrafts;
 import se.jbee.game.scs.gfx.Gfx;
 
 public final class Planet implements Gfx, Drawable {
@@ -24,28 +27,28 @@ public final class Planet implements Gfx, Drawable {
 	private final int w;
 	private final int type;
 	private final int rgba;
-	private final boolean cut;
+	private final boolean partial;
 
-	public Planet(int x0, int y0, int w, int type, int rgba, boolean cut) {
+	public Planet(int x0, int y0, int dia, int type, int rgba, boolean partial) {
 		super();
 		this.x0 = x0;
 		this.y0 = y0;
-		this.w = w;
+		this.w = dia;
 		this.type = type;
 		this.rgba = rgba;
-		this.cut = cut;
+		this.partial = partial;
 	}
 
 	@Override
 	public void draw(Graphics2D gfx, Resources resources) {
-		if (cut) {
-			planetCut(resources, gfx, x0, y0, w, rgba);
+		if (partial) {
+			partialPlanet(resources, gfx, x0, y0, w, rgba);
 		} else {
-			planetFull(resources, gfx, x0, y0, w, rgba);
+			planet(resources, gfx, x0, y0, w, rgba);
 		}
 	}
 
-	private static void planetCut(Resources styles, Graphics2D gfx, int x0, int y0, int d, int rand) {
+	private static void partialPlanet(Resources styles, Graphics2D gfx, int x0, int y0, int d, int rand) {
 		Color c = new Color(rand);
 		int r = c.getRed();
 		int g = c.getGreen();
@@ -76,7 +79,7 @@ public final class Planet implements Gfx, Drawable {
 		drawArc(gfx, x0, y0, d, new TexturePaint(styles.texture(TEXTURE_PLANET_200x2000_LARGE), new Rectangle(0, y0, 200, 2000)));
 	}
 
-	private static void planetFull(Resources styles, Graphics2D gfx, int x0, int y0, int dia, int rgba) {
+	private static void planet(Resources styles, Graphics2D gfx, int x0, int y0, int dia, int rgba) {
 		Color c = new Color(rgba);
 		int r = c.getRed();
 		int g = c.getGreen();
@@ -104,7 +107,11 @@ public final class Planet implements Gfx, Drawable {
                 new Color[] { lc, new Color(0.0f, 0.0f, 0.0f, 0.6f) });
 				// using the original color c as 1st param almost appears as some kind of shield
         drawCircle(gfx, x0-1, y0, dia+1, paint);
-
+        
+        gfx.setComposite(AlphaComposite.SrcOver);
+        paint = new TexturePaint(styles.texture(TEXTURE_TEST), new Rectangle(x0, y0, 900, 300));
+        drawCircle(gfx, x0, y0, dia, paint);
+        gfx.setComposite(AlphaComposite.Src);
 	}
 
 	private static void drawCircle(Graphics2D gfx, int x0, int y0, int d, Paint paint) {

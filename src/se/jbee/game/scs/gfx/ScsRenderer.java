@@ -3,10 +3,8 @@ package se.jbee.game.scs.gfx;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.util.List;
 
 import se.jbee.game.any.gfx.Dimension;
-import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Renderer;
 import se.jbee.game.any.gfx.Resources;
 import se.jbee.game.any.gfx.Stage;

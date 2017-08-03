@@ -1,14 +1,13 @@
-package se.jbee.game.any.gfx;
+package se.jbee.game.any.gfx.lab;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import se.jbee.game.any.gfx.Point;
 import se.jbee.game.any.state.Rnd;
 
 @Deprecated // was just a test for an idea so far

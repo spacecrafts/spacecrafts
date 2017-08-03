@@ -23,6 +23,7 @@ Make asteroid belt or field into a rocky planet
 Shuttle Ship (one way to get troops to the group or another ship?)
 Plating (allows to add a plating in any available material to a module)
 Star Gate
+Orbital Dock (construction yard in orbit)
 
 **Resources**
 
@@ -70,8 +71,8 @@ Star Gate
 * 2 Academy
 * 2 Digital Computer
 * 3 Crystal Computer (2 for mineral races)
-* 3 Field-Scanner
-* 3
+* 3 Field-Scanner (Field Theory)
+* 3 Gravity-Control (automation for orbital dock; maybe more for low/high G planet efficiency)
 * 4 Structural Analyzer
 * 4
 * 4
@@ -91,7 +92,7 @@ Star Gate
 * 3 Deflector Field
 * 3
 * 4 Cloaking Field
-* 4 Spike Generator
+* 4 Shield Overload
 * 4 Bunker (surface; defense point + population protection)
 * 4 Stasis-Sphere (beam*)
 * 5 Field Capacitor
@@ -108,7 +109,8 @@ Star Gate
 * 2 Impulse Drive
 * 2 Uni-Frame
 * 3 Wrap Drive
-* 3 Gravoton-Gate (allows modules to connect)
+* 3 Magnetic Lock (allows modules to connect)
+* 3 Workshop (allows building on ships, 1 worker per cell, not needed on surface or orbit)
 * 4 
 * 4 Gravitation Hook (allow to "pull"/connect a module without it being connected by a gate, allows "carriers" - the benefit is that there is no limit to the size or wight as the two are not actually connected)
 * 4
@@ -146,7 +148,7 @@ Star Gate
 * 1
 * 2
 * 2
-* 3
+* 3 Miniaturisation (yard automation)
 * 3 Repair Drone
 * 3
 * 4 Targeting System

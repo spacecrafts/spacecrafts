@@ -1,6 +1,6 @@
 package se.jbee.game.scs.gfx;
 
-import static se.jbee.game.scs.gfx.Gfx.Align.*;
+import static se.jbee.game.scs.gfx.Gfx.Align.NW;
 
 import java.awt.Rectangle;
 
@@ -30,28 +30,28 @@ public final class Draw implements Gfx {
 
 	//int[] colors = new int[] { 0x006600, 0x82633F, 0xFF5014 };
 
-	public static Drawable text(int key, int left, int top, FontStyle font, int size, Hue color) {
+	public static Text text(int key, int left, int top, FontStyle font, int size, Hue color) {
 		return text(key, left,top,font,size,color, NW, -1, -1);
 	}
 	
-	public static Drawable text(int key, int left, int top, FontStyle font, int size, Hue color, Align align, int right, int bottom) {
+	public static Text text(int key, int left, int top, FontStyle font, int size, Hue color, Align align, int right, int bottom) {
 		return new Text(left,top, right, bottom, font, size, color, align, key, "");
 	}
 	
-	public static Drawable fixtext(int left, int top, FontStyle font, int size, Hue color, int[] text) {
-		return fixtext(left, top, font, size, color, new String(text, 0, text.length));
+	public static Text label(int left, int top, FontStyle font, int size, Hue color, int[] text) {
+		return label(left, top, font, size, color, new String(text, 0, text.length));
 	}
 	
-	public static Drawable fixtext(int left, int top, FontStyle font, int size, Hue color, String text) {
-		return fixtext(left,top,font,size,color, NW, -1, -1, text);
+	public static Text label(int left, int top, FontStyle font, int size, Hue color, String text) {
+		return label(left,top,font,size,color, NW, -1, -1, text);
 	}
 
 	//TODO stretch (making size so that the text takes X/Y bounds given)
-	public static Text fixtext(int left, int top, FontStyle font, int size, Hue color, Align align, int right, int bottom, int[] text) {
-		return fixtext(left, top, font, size, color, align, right, bottom, new String(text, 0, text.length));
+	public static Text label(int left, int top, FontStyle font, int size, Hue color, Align align, int right, int bottom, int[] text) {
+		return label(left, top, font, size, color, align, right, bottom, new String(text, 0, text.length));
 	}
 	
-	public static Text fixtext(int left, int top, FontStyle font, int size, Hue color, Align align, int right, int bottom, String text) {
+	public static Text label(int left, int top, FontStyle font, int size, Hue color, Align align, int right, int bottom, String text) {
 		return new Text(left, top, right, bottom, font, size, color, align, 0, text);
 	}
 
@@ -103,20 +103,20 @@ public final class Draw implements Gfx {
 		return path(PATH_EDGY, Hue.TEXT_HIGHLIGHT, 1, x1,y1,x2,y2);
 	}
 
-	public static Drawable star(int x, int y, int d, int rgba) {
-		return new Star(x,y,d, rgba, 0L, false);
+	public static Drawable star(int x0, int y0, int dia, int rgba) {
+		return new Star(x0,y0,dia, rgba, 0L, false);
 	}
 
-	public static Drawable starCut(int x, int y, int d, int rgba, long seed) {
-		return new Star(x,y, d, rgba, seed, true);
+	public static Drawable partialStar(int x0, int y0, int dia, int rgba, long seed) {
+		return new Star(x0,y0, dia, rgba, seed, true);
 	}
 
-	public static Drawable planet(int x, int y, int d, int type, int rgba) {
-		return new Planet(x,y,d,type,rgba, false);
+	public static Drawable planet(int x0, int y0, int dia, int type, int rgba) {
+		return new Planet(x0,y0,dia,type,rgba, false);
 	}
 
-	public static Drawable planetCut(int x, int y, int d, int c, int rgba) {
-		return new Planet(x,y,d,c,rgba, true);
+	public static Drawable planetCut(int x, int y, int dia, int c, int rgba) {
+		return new Planet(x,y,dia,c,rgba, true);
 	}
 
 }

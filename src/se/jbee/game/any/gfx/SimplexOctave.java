@@ -2,6 +2,8 @@ package se.jbee.game.any.gfx;
 
 import java.util.Random;
 
+import se.jbee.game.any.state.Rnd;
+
 /*
  * A speed-improved simplex noise algorithm for 2D in Java.
  *
@@ -60,18 +62,17 @@ public class SimplexOctave { // Simplex noise in 2D
 		p = p_supply.clone();
 
 		if (seed == RANDOMSEED) {
-			Random rand = new Random();
-			seed = rand.nextInt();
+			seed = new Rnd().nextInt();
 		}
 
 		// the random for the swaps
-		Random rand = new Random(seed);
+		Rnd rand = new Rnd(seed);
 
 		// the seed determines the swaps that occur between the default order
 		// and the order we're actually going to use
 		for (int i = 0; i < NUMBEROFSWAPS; i++) {
-			int swapFrom = rand.nextInt(p.length);
-			int swapTo = rand.nextInt(p.length);
+			int swapFrom = rand.nextInt(p.length-1);
+			int swapTo = rand.nextInt(p.length-1);
 
 			short temp = p[swapFrom];
 			p[swapFrom] = p[swapTo];

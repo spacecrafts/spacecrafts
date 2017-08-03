@@ -2,8 +2,7 @@ package se.jbee.game.scs.screen;
 
 import static se.jbee.game.any.state.Change.set;
 import static se.jbee.game.scs.gfx.Draw.background;
-import static se.jbee.game.scs.gfx.Draw.fixtext;
-import static se.jbee.game.scs.gfx.Draw.path;
+import static se.jbee.game.scs.gfx.Draw.label;
 import static se.jbee.game.scs.gfx.Draw.star;
 import static se.jbee.game.scs.gfx.Gfx.FontStyle.THIN;
 
@@ -53,7 +52,7 @@ public class Galaxy implements Screen, Gfx, GameComponent, GameScreen {
 			int touch = (int) (scale * star.num(CLOSEST)/2);
 			Ellipse2D area = new Ellipse2D.Float(x+r-touch, y+r-touch, touch+touch, touch+touch);
 			if (playerStar == starID || star.has(HOME)) {
-				Text name = fixtext(x,y+13, THIN, 13, Hue.TEXT_NORMAL, Align.HCENTER, -1, -1, star.list(NAME));
+				Text name = label(x,y+13, THIN, 13, Hue.TEXT_NORMAL, Align.HCENTER, -1, -1, star.list(NAME));
 				stage.atFront(name);
 				stage.in(area, name.withColor(Hue.TEXT_HIGHLIGHT));
 			}

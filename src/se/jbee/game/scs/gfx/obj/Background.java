@@ -10,7 +10,6 @@ import java.awt.RenderingHints;
 
 import se.jbee.game.any.gfx.Drawable;
 import se.jbee.game.any.gfx.Resources;
-import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.Rnd;
 import se.jbee.game.scs.gfx.Gfx;
 

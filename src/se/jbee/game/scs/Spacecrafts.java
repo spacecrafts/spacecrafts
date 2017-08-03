@@ -2,33 +2,44 @@ package se.jbee.game.scs;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static se.jbee.game.scs.gfx.Gfx.FontStyle.*;
-import static se.jbee.game.scs.gfx.Hue.*;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.LIGHT;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.REGULAR;
+import static se.jbee.game.scs.gfx.Gfx.FontStyle.THIN;
+import static se.jbee.game.scs.gfx.Hue.ACADEMY;
+import static se.jbee.game.scs.gfx.Hue.BIOSPHERE;
+import static se.jbee.game.scs.gfx.Hue.BLACK;
+import static se.jbee.game.scs.gfx.Hue.CONTROL;
+import static se.jbee.game.scs.gfx.Hue.DEFAULT;
+import static se.jbee.game.scs.gfx.Hue.DRIVE;
+import static se.jbee.game.scs.gfx.Hue.EMPTY_SLOT;
+import static se.jbee.game.scs.gfx.Hue.ENERGY;
+import static se.jbee.game.scs.gfx.Hue.FARM;
+import static se.jbee.game.scs.gfx.Hue.LAB;
+import static se.jbee.game.scs.gfx.Hue.SCANNER;
+import static se.jbee.game.scs.gfx.Hue.SHIELD;
+import static se.jbee.game.scs.gfx.Hue.SPECIAL;
+import static se.jbee.game.scs.gfx.Hue.TEXT_HIGHLIGHT;
+import static se.jbee.game.scs.gfx.Hue.TEXT_NORMAL;
+import static se.jbee.game.scs.gfx.Hue.TEXT_SPECIAL;
+import static se.jbee.game.scs.gfx.Hue.TRANSPARENT;
+import static se.jbee.game.scs.gfx.Hue.WEAPON;
+import static se.jbee.game.scs.gfx.Hue.WHITE;
+import static se.jbee.game.scs.gfx.Hue.YARD;
 
 import java.awt.Color;
 import java.awt.Toolkit;
 
-import se.jbee.game.any.gfx.Colouring;
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Resources;
-import se.jbee.game.any.gfx.obj.Text;
+import se.jbee.game.any.gfx.texture.Colouring;
 import se.jbee.game.any.logic.Logic;
-import se.jbee.game.any.process.Display;
-import se.jbee.game.any.process.Game;
+import se.jbee.game.any.process.DisplayLoop;
+import se.jbee.game.any.process.GameLoop;
 import se.jbee.game.any.screen.Screen;
 import se.jbee.game.any.screen.ScreenNo;
 import se.jbee.game.scs.gfx.Gfx;
-import se.jbee.game.scs.gfx.ScsRenderer;
 import se.jbee.game.scs.gfx.Hue;
-import se.jbee.game.scs.gfx.obj.Background;
-import se.jbee.game.scs.gfx.obj.Button;
-import se.jbee.game.scs.gfx.obj.Icon;
-import se.jbee.game.scs.gfx.obj.Path;
-import se.jbee.game.scs.gfx.obj.Planet;
-import se.jbee.game.scs.gfx.obj.Rect;
-import se.jbee.game.scs.gfx.obj.Ring;
-import se.jbee.game.scs.gfx.obj.Star;
-import se.jbee.game.scs.gfx.obj.Techwheel;
+import se.jbee.game.scs.gfx.ScsRenderer;
 import se.jbee.game.scs.logic.Autosave;
 import se.jbee.game.scs.logic.Init;
 import se.jbee.game.scs.logic.Load;
@@ -62,7 +73,7 @@ import data.Data;
 public class Spacecrafts implements Gfx {
 
 	public static void main(String[] args) throws Exception {
-		new Game(gameLogic(), gameDisplay()).run();
+		new GameLoop(gameLogic(), gameDisplay()).run();
 	}
 	
 	private static Logic gameLogic() throws Exception {
@@ -77,8 +88,8 @@ public class Spacecrafts implements Gfx {
 				.add(Turn.class);
 	}
 	
-	private static Display gameDisplay() {
-		return new Display(new ScsRenderer(), 
+	private static DisplayLoop gameDisplay() {
+		return new DisplayLoop(new ScsRenderer(), 
 				initResources(new Dimension(Toolkit.getDefaultToolkit().getScreenSize())),
 				initScreens());
 	}
@@ -129,7 +140,7 @@ public class Spacecrafts implements Gfx {
 	};
 	
 	private static Resources initResources(Dimension screen) {
-		final Resources s = new Resources(Hue.class, FontStyle.class, 4, 7);
+		final Resources s = new Resources(Hue.class, FontStyle.class, 5, 8);
 		// game texts
 		s.texts.index(Data.class, "game.texts");
 		s.texts.index(Data.class, "star-class.texts");
@@ -164,20 +175,23 @@ public class Spacecrafts implements Gfx {
 		s.addFont(LIGHT, "font/Orbitron-Regular.ttf");
 		s.addFont(THIN, "font/Orbitron-Regular.ttf");		
 
-		s.addNoise(NOISE_STAR_LARGE, 500, 80, 666);
+		s.addNoise(NOISE_STAR_LARGE, 500, 80, 777);
 		s.addNoise(NOISE_STAR_SMALL, 50, 60, 700);
 		s.addNoise(NOISE_PLANET_LARGE, 500, 60, 7000);
 		s.addNoise(NOISE_PLANET_SMALL, 100, 40, 6000);
+		s.addNoise(NOISE_PLANET_SMALL, 100, 40, 6000);
+		s.addNoise(NOISE_TEST, 200, 30, 1234);
 
 		int h = screen.height;
-		s.addTexture(TEXTURE_STAR_200x2000_LARGE_RED, (Resources resources) -> { return Resources.texture(200, h, resources.noise(NOISE_STAR_LARGE), STAR_RED); });
-		s.addTexture(TEXTURE_STAR_200x2000_LARGE_BLUE, (Resources resources) -> { return Resources.texture(200, h, resources.noise(NOISE_STAR_LARGE), STAR_BLUE); });
+		s.addTexture(TEXTURE_STAR_200x2000_LARGE_RED, (Resources resources) -> { return Resources.texture(600, h, resources.noise(NOISE_STAR_LARGE), STAR_RED); });
+		s.addTexture(TEXTURE_STAR_200x2000_LARGE_BLUE, (Resources resources) -> { return Resources.texture(600, h, resources.noise(NOISE_STAR_LARGE), STAR_BLUE); });
 		s.addTexture(TEXTURE_STAR_200x2000_SMALL, (Resources resources) -> { return Resources.texture(200, h, resources.noise(NOISE_STAR_SMALL), STAR); });
 		s.addTexture(TEXTURE_PLANET_200x2000_LARGE, (Resources resources) -> { return Resources.texture(200, h, resources.noise(NOISE_PLANET_LARGE), PLANET); });
 		s.addTexture(TEXTURE_PLANET_200x2000_SMALL, (Resources resources) -> { return Resources.texture(200, h, resources.noise(NOISE_PLANET_SMALL), PLANET); });
 		s.addTexture(TEXTURE_PLANET_600x600_LARGE, (Resources resources) -> { return Resources.texture(600, 600, resources.noise(NOISE_PLANET_LARGE), PLANET2); });
 		s.addTexture(TEXTURE_PLANET_600x600_SMALL, (Resources resources) -> { return Resources.texture(600, 600, resources.noise(NOISE_PLANET_SMALL), PLANET2); });
-
+		s.addTexture(TEXTURE_TEST, (Resources resources) ->  { return Resources.texture(300, 300, resources.noise(NOISE_TEST), (a) -> new Color(a,a,a).getRGB()); });;
+		
 		s.ready();
 		return s;
 	}	

@@ -1,4 +1,4 @@
-package se.jbee.game.any.gfx;
+package se.jbee.game.any.gfx.lab;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

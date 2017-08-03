@@ -2,7 +2,11 @@ package se.jbee.game.scs.screen;
 
 import static se.jbee.game.scs.gfx.Draw.background;
 import static se.jbee.game.scs.gfx.Draw.icon;
-import static se.jbee.game.scs.gfx.Hue.*;
+import static se.jbee.game.scs.gfx.Hue.ACADEMY;
+import static se.jbee.game.scs.gfx.Hue.BIOSPHERE;
+import static se.jbee.game.scs.gfx.Hue.FARM;
+import static se.jbee.game.scs.gfx.Hue.LAB;
+import static se.jbee.game.scs.gfx.Hue.YARD;
 import se.jbee.game.any.gfx.Dimension;
 import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.screen.Screen;

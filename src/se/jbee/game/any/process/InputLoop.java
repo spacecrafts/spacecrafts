@@ -8,7 +8,6 @@ import se.jbee.game.any.gfx.Stage;
 import se.jbee.game.any.screen.Screen;
 import se.jbee.game.any.state.Change;
 import se.jbee.game.any.state.ChangeListener;
-import se.jbee.game.any.state.Entity;
 import se.jbee.game.any.state.State;
 import se.jbee.game.scs.state.GameComponent;
 
@@ -16,7 +15,7 @@ import se.jbee.game.scs.state.GameComponent;
  * On input events or change of screens the {@link Stage} is prepared with the
  * actual {@link State} of the game.
  */
-public final class ScreenSwitch implements Runnable, GameComponent, ChangeListener {
+public final class InputLoop implements Runnable, GameComponent, ChangeListener {
 
 	private static final int CYCLE_TIME_MS = 20; 
 	
@@ -24,7 +23,7 @@ public final class ScreenSwitch implements Runnable, GameComponent, ChangeListen
 	private final Stage stage;
 	private final Screen[] screens;
 	
-	private State game;
+	private AtomicReference<State> game = new AtomicReference<>();
 	private boolean quit = false;
 	private int lastScreen = -1;
 	
@@ -34,10 +33,10 @@ public final class ScreenSwitch implements Runnable, GameComponent, ChangeListen
 	 * this however the human player changes are applied synchronous with the
 	 * usage.
 	 */
-	private final AtomicReference<Change[]> unappliedChangeset = new AtomicReference<Change[]>();
+	private final AtomicReference<Change[]> unappliedChangeset = new AtomicReference<>();
 
 
-	public ScreenSwitch(Stage stage, Screen[] screens, Component display) {
+	public InputLoop(Stage stage, Screen[] screens, Component display) {
 		super();
 		this.display = display;
 		this.stage = stage;
@@ -46,7 +45,7 @@ public final class ScreenSwitch implements Runnable, GameComponent, ChangeListen
 	}
 	
 	public void setGame(State game) {
-		this.game = game;
+		this.game.set(game);
 	}
 
 	@Override
@@ -58,14 +57,14 @@ public final class ScreenSwitch implements Runnable, GameComponent, ChangeListen
 	
 	@Override
 	public void run() {
-		final Entity gamE = game.root();
 		while (!quit) {
+			State game = this.game.get();
 			long loopStart = System.currentTimeMillis();
 			Change[] changeset = unappliedChangeset.getAndSet(null);
 			if (changeset != null) {
 				Change.apply(changeset, game);				
 			}
-			int currentScreen = gamE.num(SCREEN);
+			int currentScreen = game.root().num(SCREEN);
 			if (currentScreen != lastScreen) {
 				stage.startOver();
 				screens[currentScreen].show(game, new Dimension(display.getSize()), stage);
