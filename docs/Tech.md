@@ -3,7 +3,7 @@ Technology is organized in 8 sections:
 
 * Resources (rare materials detection, mining and storage; trading)
 * Power (energy, drives, ...blur and cover fields?)
-* Study (computers, espionage, scanners, communication, ...)
+* Information (computers, espionage, scanners, communication, ...)
 * Defense (shields and other equipment to help survive)
 * Construction (materials, armour... ; about the size and the strength)
 * Population (farming, housing, leaders ...; about the capacity)
@@ -65,7 +65,7 @@ Orbital Dock (construction yard in orbit)
 * 5
 
 
-**Study**
+**Information**
 
 * 1 Lab
 * 2 Academy

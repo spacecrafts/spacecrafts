@@ -62,6 +62,7 @@ A structure can have many modules.
 A planet is a structure with a single module, the surface. Hence no modules are required to place components.
 The Orbit is like space for a stationary spaceship. Hence modules are required to place components.
 
+
 ## Housing
 Cellular races use biospheres and domes to house their population.
 
@@ -75,7 +76,8 @@ They have to build more units using construction and house them in warehouses.
 The costs for more robots depend on the `game-speed` since usual population growth does as well. 
 
 	robots-cost = floor(game-speed / 2) + 1
- 
+
+
 ## Food
 Population and food are calculated per structure.
 1000 citizens are handled as a staff unit.
@@ -92,6 +94,7 @@ Robotic races consume energy instead of food. Their staff does not die but idles
 Cyborg races are limited to the cyber-nursery that has to be staffed to be effective.
 `natural-growth` is 2 for cellular, 1 for mineral and 0 for robots and cyborgs.
 
+
 ## Energy
 Energy production and usage is looked at per structure and for each turn individually.
 
@@ -103,6 +106,7 @@ Without energy they do not work.
 
 	robot-energy-consumption = staff
 
+
 ## Construction
 New components (or modules) can be build on all empty slots of the structure.
 Each structure has a single build queue. 
@@ -111,8 +115,10 @@ Components on the surface (module) get a queue position each.
 Components within modules are completed together (one position in the queue).
 Components in modules first become available when the whole module is done.
 Multiple queue positions can be completed in one turn.
+Multiple staff units can work on same yard (1-5).
+Also work can be done without a yard at all (bare workers are less efficient).
 
-	production = (sum(yard-base) + sum(yard-worker * culture-factor)) * speedup-factor
+	production = (sum(yard-base * culture-factor) + sum(bare-worker * culture-factor)) * speedup-factor
 		
 Production points are used to complete the building costs of the items in the queue (ration 1:1).
 
@@ -127,15 +133,16 @@ The decision is made up front and it final.
 The basic building cost of a component can be reduced by 1 when build at a slot with a frame. 
 
 On ships building works differently as a yard can only be build on surface or in orbit. 
-Engineering decks can be added to ships to allow building there.
+Engineering decks can be added to ships to allow building there. No bare workers on spacecrafts.
 They work similar to the other economic buildings. 
 Each deck cell allows for one staff unit.
 A deck can (re)build or replace components within the ship or build a new module on top of the deck area.
 Once the module is done it can be connected to the ship or become a ship of its own.
 
-	production = sum(floor-base * culture-base) * speedup-factor
+	production = sum(deck-base * culture-base) * speedup-factor
 
 Robotic races need this to build troops "on board".
+
 
 ## Culture
 A per planet factor between 0.5 and 1.5 (50-150%) effecting the staffs output.
@@ -192,15 +199,21 @@ Collective races can build any number of troop quarters.
 
 ## Clusters and Banks
 When building same component directly adjacent to each other the unity of them is called a cluster or bank.
-Each component type has a linkage factor that tell how good it clusters.
-The `cluster(n)` function is:
+Components can have a progressive property that depends on the amount of components in a cluster.
+Such a progression is a sequence of pairs `(n base)` like `[(1 2),(5 3),(10 4)]`
+The n in all pairs of a sequence must increase throughout the sequence.
+It gives the first `n` for which the new `base` is valid. So base `2` (first pair) is valid `>=1` and `<5` (from next pair).
+So the first pair usually is for `n=1`. If it is absent a base of zero is assumed for all `n` < first pairs `n`.
+The base can go up and down during a sequence and even become zero.
 
-	cluster = base * n * ( 1 + linkage * n)
+The sum for a cluster of size `n` is calculated by summing the sections with different bases.
+For the example above and different n's
 
-With `n` being the amount of components in the cluster,
-`base` the output for a single component and
-`linkage` the factor like 0.03 for a 3% linkage.
-This means the bonus grows quadratic with the number of components in a cluster.
+	n=2 : 2*2 = 4
+	n=5 : 4*2 + 1*3 = 11
+	n=12: 4*2 + 5*3 + 3*4 = 35
+
+While they do not have a single mathematical formula this way is quite intuitive for humans and allows for all kinds of curves.
 
 
 # Reputation
@@ -210,33 +223,32 @@ The details are not yet clear.
  
  
 # Materials
-There are 5 materials in the game.
+There are 6 materials in the game.
 
 * Irozine (the "standard")
 * Litalium (ultra light, quite weak)
 * Nicaron (strong but elastic, can go huge)
 * Tritanium (strong and lighter than iron, hard to work with)
-* Irmond (super strong in all regards. dense, heavy! rare. nightmare to work with)
+* Zirkonite ( zirkonium-nickel alloy, stronger and heavier then iron/steel, strong, good resistance, difficult to work with, a plating material)
+* Iridiamond (super strong in all regards. dense, heavy! rare. nightmare to work with)
 
 Properties
 
 * hull points/cell (more hull => tougher)
 * weight/cell (drive effect is relative to the ships weight)
-* building costs/cell over size (takes longer to build)
+* construction costs/cell over size (takes longer to build)
 * special characteristics that make certain weapon more or less effective
 
-
-Properties that are cell based might be (non-linear) functions! Maybe just make cost a function.
-
-				hp	w	c
-	Irozine		3	6	1
-	Litalium	1	2	1
-	Nicaron		3	5	3
-	Tritanium	6	4	6
-	Irmond		12	12	9
+				HP	WT	CC
+	Irozine		3	6	[see SCSInfo]
+	Litalium	1	2	[see SCSInfo]
+	Nicaron		3	5	[see SCSInfo]
+	Tritanium	6	4	[see SCSInfo]
+	Zirkonite	12	8	[see SCSInfo]
+	Iridiamond	18	12	[see SCSInfo]
 
 The costs are given in ranges. 
-For example 1-5 cost 1, 2-10 cost 2.
+For example 1-5 cost 1, 6-10 cost 2. This is written a `[(1 1), (6 2)]`
 A module of size 8 cost 5*1 + 3*2 = 11.
 For most materials there will be ranges where they are more cost efficient.
 Most importantly the ratios of cost/hp and cost/weight should not diverge too much.
@@ -245,6 +257,10 @@ But overall there should be a constant the field is centered upon.
 	
 The costs should not be the same for all races as mineral based grows ships. 
 They do not have same trouble to work the super strong ones.
+Plating strength is computed similar to hull points:
+Number of cells times plating material HP.
+Same with extra weight through plating and the costs follow the costs sequence.
+This keeps materials from becoming overly complex and it is more or less logical that a frame and the plating for it are somewhat equal.
 
 
 # Minimal Ship
@@ -276,24 +292,91 @@ Rough cost math:
 	---------------
 	13
 
+
+# Drives
+
+## Wrap Drive
+
+
+## Impulse Drive
+Impulse speed depends on weight per drive output.
+Minimal weight per cell is around 3-4. Maximum is around 30.
+Minimal ship size is around 5, maximum around 500.
+This gives ship weights from 15 to about 15000.
+A ship that heavy should be slow unless large portion of that ships is in fact spent for drive.
+A powerful drive should take about 1/4 of ship size.
+So 125 drive cells should give reasonable speed for a ship weighing 15000t.
+Now, a drive should be seen as a device converting energy to thrust.
+So each cell can output a range depending on the energy input. 
+But that is just a side note as ships would usually use 100% of drive capacity.
+If impulse speed 1 is a ratio thrust/weight of 1:1, and a maximum of impulse speed 10 would be a ratio of 10:1 the drive would need to output 120 thrust on average at that size. So say a drive outputs 50 trust at size 1 a small ship weighing 20 would get to impulse speed 2.5 which sounds about right. 
+
+Best energy generation can output about 2300 units of energy at a size of 125 cells (1/4 of a 500 size ship).
+If also about 1/4 of that 2300 is spend for drive this gives 500 energy for 125 drive cells. So each could take up 4.
+It seams reasonable to lower this to 3 as we talk about the best energy generation and a quite drive heavy ship.
+So a drive could use 0-3 energy. The thrust will increase linearly to the maximum as given in the thrust output sequence.
+So then a certain impulse speed should be reached we compute the necessary thrust and the maximum output of the drive as well as the energy costs for that.
+Than the needed thrust is put into proportion with the maximum thrust. Energy will have same proportion. This is the energy consumed. 
+
+
 	
 # Damage (Battle)
 How damage is dealt to ships.
-Each module is calculated independently (except for shields that guard the whole ship).
-Choice of material and size gives hull points.
-Each component (like a laser) has structure points.
-There might be plating and shields.
 
-If shields are effective the damage is subtracted from the shield strength.
-If shields are down or not effective damage is dealt to plating (if available).
-Plating works similar to shields. Most of the time only one of them applies to the kind of damage dealt.
-Without shields and plating the hull is damaged (with full damage left). 
-At the same time the affected component(s) are determined and the same damage is dealt to them
-what might cause a malfunction or destruction of that component. 
-The hull points tells when ship falls apart.
+Each module is calculated independently (except for shields that guard the whole ship).
+There might be plating, coating and shields.
+Choice of material and module size gives hull and plating points.
+Each component type (like a laser) has structure points (per cell).
+
+Weapons deal parts of their damge to different "levels".
+The levels are:
+
+0. Hull (Components)
+1. Plating
+2. Shields
+
+If partial damage dealt to a level makes that level ineffective it is dealt to the level below,
+if that level is present and if the weapon used deals any damage to that level.
+All damage is dealt to some level. So the hull is the last to take all the rest.
+If the hull breaks the module is lost. If the central module break the ship falls apart and is lost. 
+If any of the other break they become ineffective.
+Shields might recharge.
+Damage dealt to the hull will also be distributed upon the component(s) of the module.
+Component damage might cause a malfunction or destruction of that component. 
 The component structure points tell when a component stops working.
+Depending on the weapon component damage can "spread" to adjacent components in case a component is destroyed. 
+
+The different ranges and speeds of weapons are represented by dividing a turn during battle in 4 phases:
+
+1. waves (electromagnetic beams)
+2. particles (particle beams)
+3. masses (mass drivers)
+4. special 
+
+Within each phase ships act (roughly) from highest to lowest manoeuvrability.
+They might drop shields or rechannel energy before firing a weapon.
+Such changes however cannot be undone within the same turn.
+Shields stay up or down.
+The consequences of any damage are effective immediately. 
+That means damaged opponents might not get their cache.
+Special weapons and other actions occur in phase 4. These are:
+
+* repairing (drones, crew)
+* scanning
+* shields up/down (if not already changed)
+* unpower/power components (if not already changed)
+ 
+Energy available is set at the beginning of the turn.
+When action use energy the energy is reduced by the used amount.
+If energy generator is damaged during a phase the energy available is reduced by output of that component divided by the phase. So a damage during phase 1 means loss of whole output, during 2 halve of it and so forth. The energy required for the survival critical infrastructure will be consumed before phase 1.
+This can be turned off or altered during phase 4 for the next turn.
+Energy capacitors can be used to buffer energy.
+Up to the capacity is always kept if it has been generated at the start of the turn. 
 
 ## Shields
+Shields create a strong electromagnetic field around the ship.
+A bubble protected from certain kinds of weapons by deflecting beams. 
+
 The maximum strength of a shield (its capacity) is given by the sum of shield outputs of all shield banks.
 
 	shield-capacity = sum(shield-base * bank-factor)
@@ -313,58 +396,28 @@ Recharge only occurs when sufficient energy is provided.
 The recharge can be speed up using field capacitors.
 Their benefit (over a larger shield) is a smaller energy consumption while the recharge increase is even better.
  
-The damage going through the shields (and the damage dealt to the shield) depends on the type of shield.
-In general: 
 
-	shield-damage = min(damage, shield-protection)
-	hull-damage = damage - shield-damage
+	shield-weakening = min(shield-damage, shield-protection)
+	overflow-damage = shield-damage - shield-weakening
 	
-Using a shield overload shields can be turned into a weapon. 
+Overflow damage is dealt to next appropriate level.
 
-### Absorber/Damping Field
-Reduces damage by a fix amount as long as the field is kept up (strength > 0). 
-The rest of the damage hits target as usual. 
-The field works like a particle cloud that harmonises automatically.
-
-	shield-protection = min(max(damage/2, shield-capacity / 10), shield-strength))
-	
-### Force Field
-Reduces damage relative to the strength of the field. 
-The amount damage absorbed correlates with the degree the field is weakened. 
-The field works as a whole.
-
-	shield-protection = shield-strength
-	
-### Particle Field
-A field of different particles and molecules that confuses sensors and scanners.
-
-	shield-protection = 0
-	
-### Antimatter Field
-An absorber field like shield consisting of anti-matter.
-
-	shield-protection = min(max(damage/3, shield-capacity / 10), shield-strength))
-
-### Deflector-field
-A shield that reflects part of beam damage and sends it back to the beam weapon.
-Only works on optical beams!
-
-	shield-protection = shield-strength
-	reflected-damage = damage * min(0.5, shield-strength/(2*damage))
-	
 
 ## Plating
 The strength of plating depends on the plating material and the size of the module.
 
-	plating = sum(plating-base * module-size)
+	plating = sum(material-base * module-size)
 	
 Plating is calculated per module.
 Damage is subtracted from the plating strength:
 
+	plating-absorption = material-base * 2
 	plating -= plating-damage
 	
 Most damage is done to plating before it affects the hull.
+Damage must be larger than the hull absorption to have an effect.
 That means plating has to be reduced to zero to damage the hull and the components within.
+
 
 ## Hull
 The strength of the hull is given by the material and the number of cells in a module.
@@ -374,8 +427,11 @@ Hull is calculated per module.
 	
 Damage is subtracted from the hull.
 
+	hull-absorption = material-hull
 	hull -= hull-damage
-	
+
+If hull damage is less than a materials hull base value (1 cell) the hull is not damaged.
+Such damage is to small to have an impact.	
 Once hull points are down to zero the ship is destroyed.
 Damage to the hull cannot be fixed during battle.
 The hull can be repaired after battle.
@@ -425,7 +481,59 @@ This property is given in percent of components that need to break before the cl
 
 ## Cloaking
 The strength of the cloaking field determines how good the cloaking works.
+
+	cloaking-strength = sum(cluster(cloaking-field-base))
+
 If the scanner strength of an opponent is larger than the cloaking strength the cloaking is ineffective.
+
+	cloaked = cloaking-strength > scanner-strength
+
 That means its main benefit of attacking first is not given any longer. 
-However, the ineffective cloaking works similar to a particle field.
-It makes targeting harder or impossible. 
+However, the ineffective cloaking still makes it harder to hit the ship.
+Therefore it increases the chance-to-miss the cloaked ship by a fix percentage. 
+
+
+## Manoeuvrability & Missing
+Manoeuvrability expresses how well a spacecraft can change speed and direction in space.
+Smaller spacescrafts are naturally more manoeuvrable than larger ones.
+Faster spacescrafts more manoeuvrable than slow ones.
+So manoeuvrability is based on size and speed.
+Damage can be reduced for manoeuvrable targets as they are harder to hit.
+To hit manoeuvrable targets with full damage anyway the attacker needs good computers. 
+Size ranges from 5-500. Speed from 0-10 impulse.
+
+	manoeuvrability = floor(5 * maxiumim-speed - (size)^1/2)
+	
+This gives a range from about 0-45. 
+This is also equivalent to the basic chance to miss this spacecraft as a target.
+This chance can be modified by 1/2 of its amount. 
+Jammers are used by targets to increase their chance.
+Computers are used by attackers to decrease the chance. 
+
+	jammer-factor = min(100, 100 * sum(cluster(jammer-base)) / size)
+	
+100% jammer factor is reached when an output equal to the ship's size is created.
+The factor is limited to a maximum of 100%.
+
+Computers are less dependent on the target's size.
+	
+	computer-factor = min(100, size^(1/4) * sum(cluster(computer-base)))
+	
+That is about 1.6 to 5.6 times computer output. 
+So an output of 18 (very large target) to 62 (very small target) is needed for a 100% factor.
+Each weapon bank needs a computer. Usually such a computer is directly attached to the bank. 
+Banks can share a computer but the output will be divided upon the banks.
+The whole ship can share a computer. Such a central computer is not directly attached to any weapon.
+The benefit of a central computer is the higher output per cell at larger size.
+The drawback is a single point of failure.
+
+	modification-factor = (jammer-factor - computer-factor)/100
+	chance-to-miss = 	manoeuvrability + (manoeuvrability/2 * modification-factor) +/- special-effects
+
+Of course the computer are those of the attacker, while manoeuvrability and jammer are those of the attacked spacecraft. Special effects are such like gatling modification of a weapon.
+
+## Targeting
+To target specific components the attacker needs knowledge or sufficient scanners to obtain that knowledge ad-hoc.
+Scanners provide information about the target. 
+How is it composed? What is the status? What is already damage or malfunctioning.
+In general this information allows for better tactics (tactical decisions) by focusing on the weak points of the design and the ships current status.

@@ -19,4 +19,6 @@ A list of all the different game screens a human player can look at.
 * Load Game
 * Save Game
 * Design Ship
+* Archive (Known Ships)
 * Famous Leaders
+* Black Market

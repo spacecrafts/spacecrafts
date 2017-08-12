@@ -75,6 +75,24 @@ Cons:
 * needs healthy ecosystem to grow
 * most likely needs support of tree nurseries
 
+
+## Earthship
+Ideal for colonizing habitable planets with minimal effort.
+The special thing about the earthship is that is does not require and other system or building, 
+is self-sustaining and produces small amounts of most things. 
+A cheap alternative that makes life easy. 
+Cover a planet with earthships and be done. 
+
+Pros:
+
+* only consumes as much energy as it produces (essentially no energy needed)
+* Provides housing, food, production, knowledge, wisdom and culture
+* cheap to build
+
+Cons:
+
+* does not scale (but does good en masse)
+
 ## Cybernetics Center
 Cybernetic races have special needs in terms of food and reproduction that are taken care of by the cybernetics center. 
 
