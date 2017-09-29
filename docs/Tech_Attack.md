@@ -31,7 +31,7 @@ Pros:
 * lower energy required than phasers
 * damages multiple components
 * can fire with 1-n component strength and consumption
-
+* high accuracy (no modification to chance to miss)
 
 Cons:
 
@@ -72,6 +72,7 @@ Cons:
 * complex technique
 * cannot fire through own shields
 * need rare materials
+* medium accuracy (small modifier to chance to miss, about 5%)
 
 Mods:
 
@@ -104,6 +105,7 @@ Cons:
 * damages target component only (no "overkill")
 * more fragile than waves
 * can only fire 100%
+* lower accuracy (due to limited speed; chance to miss increases about 10%)
 
 Mods:
 

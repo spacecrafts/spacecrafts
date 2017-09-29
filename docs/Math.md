@@ -3,6 +3,7 @@ This file describes the concrete math used to calculate the advancement of the g
 # Player Resources
 Are resources counted per player.
 
+
 ## Rare Materials
 Rare materials are stockpiled and spent for construction.
 Amounts are deducted when starting the component that required the rare materials.
@@ -21,6 +22,7 @@ The basic chance decreases with every depot discovered.
 `rm-depots` = number of discovered rare material depots (with or without mine) 
 
 Mineral based races are not limited by labs. They can use all staff to search without having a lab.
+
 
 ## Wisdom
 Wisdom is per race (player). It increases through academies and decreases when hiring leaders or diplomatic inconsistency.
@@ -46,9 +48,10 @@ The base cost is multiplied based on the position within the web relative to the
 
 The formula is:
 
-	complexity = (20n + floor(n/2)^2 + floor(n/3)^3) * switch-factor
+	complexity = (20n + floor(n/2)^2 + floor(n/tech-speed)^3) * switch-factor
 	
 with `n` being n-th technology researched (so it starts with 1)
+and `tech-speed` being 3 for long games (slow research) and up to 6 for short games (fast research)
 and `switch-factor` being 
 
 * 1/2 (same cell as before), 
@@ -263,40 +266,22 @@ Same with extra weight through plating and the costs follow the costs sequence.
 This keeps materials from becoming overly complex and it is more or less logical that a frame and the plating for it are somewhat equal.
 
 
-# Minimal Ship
-An example calculation for a minimal ship.
-
-Required systems:
-
-* 1 Bridge
-* 1 Crew's Quarters
-* 1 Impulse Drive
-* 1 Wrap Drive
-* 1 Fuel Cell
-
-Additions for a colony ship:
-
-* 1 Biosphere (in a separate module)
-
-The energy of one fuel cell should be enough to have this ship working.
-To colonize a planet one "lands" the module on that planet.
-To colonize within the same solar system no wrap drive is needed (so it might be ok requiring 2 fuel cells for such a ship).
-
-Rough cost math:
-
-	5 (cells)
-	2 bridge
-	2 quarters
-	2 fuel cell
-	2 Impulse Drive
-	---------------
-	13
-
-
 # Drives
 
 ## Wrap Drive
+Wrap speed depends on the size of the ship in relation to wrap output.
 
+	wrap-speed = wrap-capacity / size
+
+Wrap speed is given in parsec.
+When size and output have a ration of 1:1 a ship does 1 parsec per turn.
+That means the output of the wrap drive has to scale linearly with the ships size to keep up the same speed. 
+A speed of 1 parsec is reasonably fast. 
+A realistic range would be 1-10 parsec.
+So a really fast (wrap drive heavy) ship should have an output of 10 times its size.
+A 500 size ship with heavy wrap would use 1/4th wrap drive.
+So 125 should output 5000, that is 40 per cell on average.
+ 
 
 ## Impulse Drive
 Impulse speed depends on weight per drive output.
@@ -310,6 +295,10 @@ Now, a drive should be seen as a device converting energy to thrust.
 So each cell can output a range depending on the energy input. 
 But that is just a side note as ships would usually use 100% of drive capacity.
 If impulse speed 1 is a ratio thrust/weight of 1:1, and a maximum of impulse speed 10 would be a ratio of 10:1 the drive would need to output 120 thrust on average at that size. So say a drive outputs 50 trust at size 1 a small ship weighing 20 would get to impulse speed 2.5 which sounds about right. 
+
+	impulse-speed = thrust/weight
+	thrust = sum(cluster(impulse-drive-base))
+	weight = sum(material-weight) + sum(component-weight)
 
 Best energy generation can output about 2300 units of energy at a size of 125 cells (1/4 of a 500 size ship).
 If also about 1/4 of that 2300 is spend for drive this gives 500 energy for 125 drive cells. So each could take up 4.

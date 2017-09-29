@@ -4,14 +4,13 @@ import static java.lang.Float.isInfinite;
 
 public class SCSInfo {
 
-	// pairs of { base value, linkage percent }
-	
 	static final int[][] REACTORS = {{9,1}, {7,4}, {6,5}};
 	static final int[][] FOOD = {{2,3},{3,3},{4,3}}; 
 	static final int[][] WISDOM = {{2,3},{4,3}};
 	
 	public static void main(String[] args) {
-		weaponsClusters();
+		energyClusters();
+		driveClusters();
 	}
 	
 	static final class Component {
@@ -95,18 +94,20 @@ public class SCSInfo {
 				new Material("Iridiamond", 18, 12, new int[][]{ {1,8}, {80,9}, {150,10}, {210,11}, {260,12}, {300,13}, {330,14}, {350,-1} })
 				);
 	}
-	
+
 	static void weaponsClusters() {
-		componentCluster(32,64,
+		componentCluster(32,128,
+				new Component("EM-Shield",    3, 8, new int[][]{ {1,5}, {4,6}, {9,7}, {14,8}, {20,9}, {27,10}, {35,11} }),
 				new Component("Waves",        2, 7, new int[][]{ {1,4}, {3,5}, {7,6}, {12,7} }),
-				new Component("Particles",    3, 9, new int[][]{ {1,5}, {2,6}, {4,7}, {8,8}, {16,9}  }),
-				new Component("Mass-Drivers", 4, 4, new int[][]{ {1,6}, {6,7}, {12,8},{18,9},{24,10} })
+				new Component("Particles",    3, 9, new int[][]{ {1,5}, {2,6}, {4,7}, {8,8},  {16,9}  }),
+				new Component("Mass-Drivers", 4, 4, new int[][]{ {1,6}, {6,7}, {12,8},{18,9}, {24,10} })
 				);
 	}
 	
 	static void driveClusters() {
 		componentCluster(32, 256, 
-				new Component("Impulse Drive", 4, 4, new int[][]{{1,45},{3,50},{5,55},{10,60},{20,65},{30,70},{40,75},{60,100},{80,120},{100,150},{120,190},{140,240},{160,300},{180,370},{200,450}})
+				new Component("Impulse Drive", 4, 4, new int[][]{ {1,45},{3,50},{5,55},{10,60},{20,65},{30,70},{40,75},{60,100},{80,120},{100,150},{120,190},{140,240},{160,300},{180,370},{200,450} }),
+				new Component("Wrap Drive",    3, 6, new int[][]{ {1,20},{3,30},{5,40},{10,50},{20,55},{30,60},{40,65},{60,70},{80,75},{100,80},{120,85},{140,90},{160,95},{180,100} })
 				);
 	}
 	
@@ -156,6 +157,15 @@ public class SCSInfo {
 				);
 	}
 	
+	static void otherResourcesClusters() {
+		componentCluster(32, 1024, 
+				new Component("Lab",     3, 3, new int[][]{ {1,2}, {4,3}, {12,4}, {25,5}, {50,6}, {100,7}, {200,8} }),
+				new Component("Academy", 3, 2, new int[][]{ {1,2}, {4,3}, {12,4}, {25,5}, {50,6}, {100,7}, {200,8} }),
+				new Component("Studio",  2, 0, new int[][]{ {1,5},{4,6},{10,7},{16,8},{24,9},{34,10} }),
+				new Component("Mine",    3, 3, new int[][]{ {1,3},{2,4},{3,5},{4,6},{5,7},{6,8} })
+				);
+	}
+	
 	static void componentCluster(int linearMax, int maxCount, Component... comps) {
 		char x = 'A';
 		String header = "  n";
@@ -202,9 +212,15 @@ public class SCSInfo {
 	}
 
 	static void technologyCosts() {
+		float d3 = 6f; // range from 3-6 (very slow to very fast tech)
+		float d2 = 2f;
+		int prev = 0;
 		for (int n = 1; n <= 120; n++) {
-			int tc = n*20 + ((n/2)*(n/2)) + ((n/3)*(n/3)*(n/3));
-			System.out.println(String.format("%3s %4s", n, tc));
+			float n2 = ((n/d2)*(n/d2));
+			float n3 = ((n/d3)*(n/d3)*(n/d3));
+			int tc = (int) (n*20 + Math.floor(n2) + Math.floor(n3));
+			System.out.println(String.format("%3s %4s (+%4s)", n, tc, (tc-prev)));
+			prev = tc;
 		}
 	}
 }
