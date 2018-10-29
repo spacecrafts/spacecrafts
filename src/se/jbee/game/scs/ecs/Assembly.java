@@ -4,6 +4,7 @@ import se.jbee.game.any.ecs.Manifestation;
 import se.jbee.game.any.ecs.comp.IntRef;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.scs.ecs.comp.Location;
+import se.jbee.game.scs.ecs.device.Device;
 
 /**
  * A {@link Assembly} is the current state of an instance of a particular
@@ -33,9 +34,9 @@ public final class Assembly extends Manifestation {
 	 */
 	public Location platformTopLeft;
 	public Prototype.Ref blueprint;
-	public int population;
+	public int populationUnits;
 	/**
-	 * Actual number of staff working in the {@link EquipmentArray}s of the {@link Assembly}.
+	 * Actual number of staff working in the {@link Device}s of the {@link Assembly}.
 	 */
 	public byte staff;
 

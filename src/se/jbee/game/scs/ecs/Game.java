@@ -15,4 +15,5 @@ public final class Game extends Fabrication {
 	public Ref settings;
 	public Refs<Player> players;
 	public Refs<Galaxy> galaxies;
+
 }

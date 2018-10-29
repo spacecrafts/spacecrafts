@@ -8,6 +8,9 @@ import se.jbee.game.any.ecs.meta.Component;
 import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.any.ecs.meta.Positive;
+import se.jbee.game.scs.ecs.constant.Ability;
+import se.jbee.game.scs.ecs.constant.Technology;
+import se.jbee.game.scs.ecs.system.System;
 
 @Entity("player")
 public final class Player extends Fabrication {
@@ -71,7 +74,7 @@ public final class Player extends Fabrication {
 	 * a player's discoveries
 	 */
 	public Refs<Technology> discoveredTechnologies;
-	public Refs<Equipment> availableEquipments;
+	public Refs<System> availableEquipments;
 	public Refs<Ability> availableAbilities;
 
 	/*

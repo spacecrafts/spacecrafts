@@ -1,6 +1,9 @@
 package se.jbee.game.scs.ecs;
 
 import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.scs.ecs.constant.ShipFamily;
+import se.jbee.game.scs.ecs.system.PropulsionSystem;
+import se.jbee.game.scs.ecs.system.System;
 
 /**
  * A {@link Spacestation} is for {@link Orbit} what {@link Colony} is for
@@ -15,9 +18,9 @@ import se.jbee.game.any.ecs.meta.Entity;
  * ship to be able to go at a certain minimum impulse speed. Something usually
  * not needed once the station is in orbit. This can be made more smooth
  * building and using "tug ships" which are normal {@link Spacecraft}s that have
- * over-sized {@link Engine} able to lift the attached station with it. These
+ * over-sized {@link PropulsionSystem} able to lift the attached station with it. These
  * can be coupled with the later station {@link Segment}s using coupling or
- * tractor beam {@link Equipment}.
+ * tractor beam {@link System}.
  */
 @Entity("spacestation")
 public final class Spacestation extends Platform {

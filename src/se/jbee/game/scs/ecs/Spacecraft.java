@@ -2,6 +2,7 @@ package se.jbee.game.scs.ecs;
 
 import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.scs.ecs.comp.Coordinate;
+import se.jbee.game.scs.ecs.constant.ShipFamily;
 
 @Entity("spacecraft")
 public final class Spacecraft extends Platform {

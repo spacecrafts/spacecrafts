@@ -1,6 +1,21 @@
 package se.jbee.game.scs.ecs;
 
 import se.jbee.game.any.ecs.State;
+import se.jbee.game.scs.ecs.constant.Ability;
+import se.jbee.game.scs.ecs.constant.Atmosphere;
+import se.jbee.game.scs.ecs.constant.Habitability;
+import se.jbee.game.scs.ecs.constant.Material;
+import se.jbee.game.scs.ecs.constant.Reputation;
+import se.jbee.game.scs.ecs.constant.ResearchField;
+import se.jbee.game.scs.ecs.constant.Resource;
+import se.jbee.game.scs.ecs.constant.Richness;
+import se.jbee.game.scs.ecs.constant.ShipFamily;
+import se.jbee.game.scs.ecs.constant.StarFamily;
+import se.jbee.game.scs.ecs.constant.StellarZone;
+import se.jbee.game.scs.ecs.constant.Surface;
+import se.jbee.game.scs.ecs.constant.Technology;
+import se.jbee.game.scs.ecs.system.DefenceSystem;
+import se.jbee.game.scs.ecs.system.WeaponSystem;
 
 /**
  * The utility class that bootstraps the ECS of the spacecrafts game.
@@ -34,7 +49,7 @@ public class _System {
 		State.register(Richness.class);
 		State.register(Segment.class);
 		State.register(Settings.class);
-		State.register(Shield.class);
+		State.register(DefenceSystem.class);
 		State.register(ShipFamily.class);
 		State.register(SolarSystem.class);
 		State.register(Spacecraft.class);
@@ -43,6 +58,6 @@ public class _System {
 		State.register(StellarZone.class);
 		State.register(Surface.class);
 		State.register(Technology.class);
-		State.register(Weapon.class);
+		State.register(WeaponSystem.class);
 	}
 }

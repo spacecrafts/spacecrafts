@@ -13,7 +13,7 @@ import se.jbee.game.any.ecs.meta.Entity;
  * hide strength and retreat on attacks.
  */
 @Entity("tier")
-public final class Tier extends StructuralUnit {
+public final class Tier extends Layout {
 
 	public Refs<Segment> segments;
 

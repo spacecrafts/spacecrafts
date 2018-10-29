@@ -9,6 +9,8 @@ import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.any.ecs.meta.Group;
 import se.jbee.game.any.ecs.meta.Percent;
 import se.jbee.game.any.ecs.meta.Range;
+import se.jbee.game.scs.ecs.constant.Trait;
+import se.jbee.game.scs.ecs.system.PropulsionSystem;
 
 /**
  * General {@link Game} settings.
@@ -131,10 +133,10 @@ public final class Settings extends Composition {
 	}
 
 	/**
-	 * Impulse {@link Engine}s are summed to a total impulse thrust that counteracts
+	 * Impulse {@link PropulsionSystem}s are summed to a total impulse thrust that counteracts
 	 * a ship's inertia. This settings controls how much thrust is needed per unit
 	 * of weight/mass to get one unit of impulse speed. A lower settings means less
-	 * thrust is needed to get same speed so less {@link Engine} components need to
+	 * thrust is needed to get same speed so less {@link PropulsionSystem} components need to
 	 * be build and supplied.
 	 */
 	@Range(min = 1, max = 10)
@@ -142,10 +144,10 @@ public final class Settings extends Composition {
 	public byte impulseThrustPerShipWeight = 2;
 
 	/**
-	 * Same as {@link #impulseThrustPerWeight} just that orbital {@link Engine}s are
-	 * special versions of impulse {@link Engine} made to stabilise a position in
-	 * orbit. They are cheaper then impulse {@link Engine} but are special purpose
-	 * components that cannot be used as impulse {@link Engine}.
+	 * Same as {@link #impulseThrustPerWeight} just that orbital {@link PropulsionSystem}s are
+	 * special versions of impulse {@link PropulsionSystem} made to stabilise a position in
+	 * orbit. They are cheaper then impulse {@link PropulsionSystem} but are special purpose
+	 * components that cannot be used as impulse {@link PropulsionSystem}.
 	 */
 	@Range(min = 1, max = 10)
 	@Group("spacetravel")
@@ -153,10 +155,10 @@ public final class Settings extends Composition {
 
 	/**
 	 * In principle similar to {@link #impulseThrustPerWeight} just that wrap
-	 * {@link Engine} do not care about weight but size (number of components) in a
+	 * {@link PropulsionSystem} do not care about weight but size (number of components) in a
 	 * ship as this determines the volume of space that needs to be wrapped.
 	 *
-	 * A higher value makes the game progress slower as more wrap {@link Engine} is
+	 * A higher value makes the game progress slower as more wrap {@link PropulsionSystem} is
 	 * required to reach distant systems.
 	 */
 	@Range(min = 1, max = 10)
@@ -193,4 +195,18 @@ public final class Settings extends Composition {
 	@Percent
 	@Group("diplomacy")
 	public byte reputationDrain = 5;
+
+	/**
+	 * Number of points each {@link Player} may spend to select {@link Trait}s.
+	 */
+	@Range(max = 100)
+	@Group("race")
+	public byte evolotionPointContingent = 20;
+
+	/**
+	 * Maximum number of individual {@link Trait}s each {@link Player} may select
+	 */
+	@Range(max = 25)
+	@Group("race")
+	public byte maxTraitsSelection = 10;
 }

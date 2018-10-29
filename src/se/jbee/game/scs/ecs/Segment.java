@@ -6,6 +6,8 @@ import se.jbee.game.any.ecs.comp.Refs;
 import se.jbee.game.any.ecs.comp.ShortRef;
 import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.scs.ecs.comp.Locations;
+import se.jbee.game.scs.ecs.constant.Material;
+import se.jbee.game.scs.ecs.system.System;
 
 /**
  * A {@link Segment} describes the layout of a self-contained unit of a
@@ -21,7 +23,7 @@ import se.jbee.game.scs.ecs.comp.Locations;
  * {@link Spacecraft}s and {@link Spacestation}s it is called "sector".
  */
 @Entity("segment")
-public final class Segment extends StructuralUnit implements Aggregating { //a.k.a. Module
+public final class Segment extends Layout implements Aggregating { //a.k.a. Module
 
 	public static final class Ref extends ShortRef<Segment> {
 	
@@ -37,14 +39,14 @@ public final class Segment extends StructuralUnit implements Aggregating { //a.k
 	/**
 	 * Each {@link Segment} can be made of a particular frame {@link Material} that
 	 * determines the base costs of the structure. This cost is calculated by the
-	 * number of {@link Equipment} cells within the {@link Segment}.
+	 * number of {@link System} cells within the {@link Segment}.
 	 */
 	public Material._Material frameMaterial;
-	public Refs<Equipment> equipments;
+	public Refs<System> equipments;
 	public Locations locations;
 
 	@Override
-	public void aggretate(State state) {
+	public void updateAggregated(State state) {
 		int n = equipments.size();
 		Material material = state.entity(frameMaterial);
 		int materialCosts = material.constructionCosts.at(n);

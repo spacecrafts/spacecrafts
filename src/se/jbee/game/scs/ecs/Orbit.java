@@ -5,7 +5,7 @@ import se.jbee.game.any.ecs.meta.Entity;
 @Entity("orbit")
 public final class Orbit extends Host {
 
-	public static final class _Orbit extends Host._Host<Orbit> {
+	public static final class _Orbit extends Host.Ref<Orbit> {
 	
 		public _Orbit(short serial) {
 			super(serial);

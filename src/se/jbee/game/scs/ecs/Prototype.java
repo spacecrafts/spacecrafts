@@ -5,7 +5,7 @@ import se.jbee.game.any.ecs.comp.ShortRef;
 import se.jbee.game.any.ecs.meta.Entity;
 
 /**
- * A {@link Prototype} is the top-most {@link StructuralUnit}.
+ * A {@link Prototype} is the top-most {@link Layout}.
  *
  * It is a building plan for a {@link Spacecraft}, {@link Spacestation} or
  * {@link Colony}. This plan has one or more {@link Tier}s each having one or
@@ -18,7 +18,7 @@ import se.jbee.game.any.ecs.meta.Entity;
  * {@link Prototype}s.
  */
 @Entity("prototype")
-public final class Prototype extends StructuralUnit {
+public final class Prototype extends Layout {
 
 	public static final class Ref extends ShortRef<Prototype> {
 	

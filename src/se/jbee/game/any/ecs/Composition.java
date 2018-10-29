@@ -2,7 +2,6 @@ package se.jbee.game.any.ecs;
 
 import se.jbee.game.any.ecs.comp.Name;
 import se.jbee.game.scs.ecs.Player;
-import se.jbee.game.scs.ecs.Player.Ref;
 
 /**
  * A {@link EntityType} that represents player defined compositions.

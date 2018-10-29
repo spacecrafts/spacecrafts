@@ -4,11 +4,13 @@ import se.jbee.game.any.ecs.comp.RGB;
 import se.jbee.game.any.ecs.comp.Refs;
 import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.any.ecs.meta.Range;
+import se.jbee.game.scs.ecs.constant.Habitability;
+import se.jbee.game.scs.ecs.constant.Richness;
 
 @Entity("planet")
 public final class Planet extends Host {
 
-	public static final class _Planet extends Host._Host<Planet> {
+	public static final class _Planet extends Host.Ref<Planet> {
 	
 		public _Planet(short serial) {
 			super(serial);

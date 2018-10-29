@@ -6,7 +6,7 @@ import se.jbee.game.any.ecs.meta.NonNegative;
 @Entity("moon")
 public final class Moon extends Host {
 
-	public static final class _Moon extends Host._Host<Moon> {
+	public static final class _Moon extends Host.Ref<Moon> {
 	
 		public _Moon(short serial) {
 			super(serial);

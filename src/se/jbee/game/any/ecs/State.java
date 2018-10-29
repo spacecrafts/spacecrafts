@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import se.jbee.game.any.ecs.comp.Ref;
+import se.jbee.game.any.ecs.comp.Refs;
 import se.jbee.game.any.ecs.meta.Entity;
 
 public final class State {
@@ -95,12 +96,16 @@ public final class State {
 	private ConcurrentMap<Class<?>, Entities<?>> instancesByType = new ConcurrentHashMap<>();
 
 	public <E extends EntityType> E entity(Ref<E> ref) {
-		return entitiesFor(ref).get(ref.serial());
+		return entitiesFor(ref.entityType()).get(ref.serial());
+	}
+
+	public <E extends EntityType> E entity(Refs<E> refs, int n) {
+		return entitiesFor(refs.entityType()).get(refs.serial(n));
 	}
 
 	@SuppressWarnings("unchecked")
-	private <E extends EntityType> Entities<E> entitiesFor(Ref<E> ref) {
-		return (Entities<E>) (instancesByType.computeIfAbsent(ref.entityType(), t -> new Entities<>()));
+	private <E extends EntityType> Entities<E> entitiesFor(Class<E> entityType) {
+		return (Entities<E>) (instancesByType.computeIfAbsent(entityType, t -> new Entities<>()));
 	}
 
 }
