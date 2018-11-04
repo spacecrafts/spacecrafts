@@ -1,18 +1,18 @@
 package se.jbee.game.scs.ecs.constant;
 
 import se.jbee.game.any.ecs.Classification;
+import se.jbee.game.any.ecs.comp.ByteRef;
+import se.jbee.game.any.ecs.comp.RGB;
 import se.jbee.game.any.ecs.comp.Refs;
-import se.jbee.game.any.ecs.comp.ShortRef;
 import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.any.ecs.meta.Percent;
-import se.jbee.game.scs.ecs.constant.StellarZone.Ref;
 
-@Entity("habitability")
+@Entity(":habitability")
 public final class Habitability extends Classification {
 
-	public static final class _Habitability extends ShortRef<Habitability> {
-	
-		public _Habitability(short serial) {
+	public static final class Ref extends ByteRef<Habitability> {
+
+		public Ref(byte serial) {
 			super(serial);
 		}
 		@Override
@@ -20,7 +20,7 @@ public final class Habitability extends Classification {
 			return Habitability.class;
 		}
 	}
-	public int typicalRgb;
+	public RGB typicalColor;
 	@Percent
 	public byte abundance;
 	public Atmosphere.Ref atmosphere;

@@ -18,13 +18,18 @@ public final class DefenceSystem extends TacticalSystem {
 
 	public static final class Ref extends TacticalSystem.Ref<DefenceSystem> {
 
-		public Ref(short serial) {
+		public Ref(byte serial) {
 			super(serial);
 		}
 		@Override
 		public Class<DefenceSystem> entityType() {
 			return DefenceSystem.class;
 		}
+	}
+
+	@Override
+	public Area area() {
+		return Area.DEFENCE;
 	}
 
 	/**

@@ -8,8 +8,7 @@ import se.jbee.game.any.ecs.meta.NonNegative;
  * {@link Layout}s are parts of a {@link Prototype}.
  *
  * @see Prototype
- * @see Tier
- * @see Segment
+ * @see Module
  */
 public abstract class Layout extends Composition {
 

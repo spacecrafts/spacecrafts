@@ -6,9 +6,9 @@ import se.jbee.game.any.ecs.meta.Entity;
  * A colony on a {@link Moon} is an "outpost". Maybe extract a special class.
  */
 @Entity("colony")
-public final class Colony extends Platform {
+public final class Colony extends Frame<Planet.Ref> {
 
-	public static final class Ref extends Platform.Ref<Colony> {
+	public static final class Ref extends Frame.Ref<Colony> {
 
 		public Ref(int serial) {
 			super(serial);
@@ -19,5 +19,8 @@ public final class Colony extends Platform {
 		}
 	}
 
-	public Planet._Planet home;
+	@Override
+	public Kind kind() {
+		return Kind.COLONY;
+	}
 }

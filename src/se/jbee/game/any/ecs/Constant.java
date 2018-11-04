@@ -1,6 +1,7 @@
 package se.jbee.game.any.ecs;
 
 import se.jbee.game.any.ecs.comp.Name;
+import se.jbee.game.any.ecs.meta.Component;
 
 /**
  * {@link Constant}s are entities loaded from game files initially. In contrast
@@ -16,6 +17,9 @@ import se.jbee.game.any.ecs.comp.Name;
  */
 public abstract class Constant extends EntityType {
 
+	/**
+	 * This is loaded from text files. It is not a {@link Component}.
+	 */
 	public Name name;
 
 	public CharSequence description() {

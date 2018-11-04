@@ -3,11 +3,10 @@ package se.jbee.game.scs.ecs.comp;
 import se.jbee.game.any.ecs.ComponentType;
 import se.jbee.game.any.ecs.meta.Component;
 import se.jbee.game.any.ecs.meta.NonNegative;
-import se.jbee.game.scs.ecs.Tier;
 import se.jbee.game.scs.ecs.Prototype;
 
 /**
- * 2D position within the building matrix of {@link Tier} in a {@link Prototype}.
+ * 2D position within the building matrix of a {@link Prototype}.
  */
 public final class Location implements ComponentType {
 

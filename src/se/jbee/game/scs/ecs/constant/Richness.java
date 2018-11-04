@@ -4,7 +4,7 @@ import se.jbee.game.any.ecs.Classification;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.meta.Entity;
 
-@Entity("richnessclass")
+@Entity(":richness")
 public final class Richness extends Classification {
 
 	public static final class Ref extends ByteRef<Richness> {

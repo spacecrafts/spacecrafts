@@ -1,17 +1,38 @@
 package se.jbee.game.scs.ecs.constant;
 
 import se.jbee.game.any.ecs.Constant;
-import se.jbee.game.any.ecs.Option;
+import se.jbee.game.any.ecs.Preselection;
 import se.jbee.game.any.ecs.comp.ByteRef;
+import se.jbee.game.any.ecs.meta.Code;
 import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.scs.ecs.Colony;
+import se.jbee.game.scs.ecs.Spacecraft;
+import se.jbee.game.scs.ecs.Spacestation;
+import se.jbee.game.scs.gfx.obj.Planet;
 
 /**
- * While a fix set of resources is embedded into the game mechanics there is a
- * part for each resource that is best described and created like other
- * {@link Constant}s.
+ * While a fix set of resource {@link Kind}s are embedded into the game
+ * mechanics there is a part for each resource that is best described and
+ * created as {@link Constant}s.
+ *
+ * Each {@link Kind} also might come in many concrete resources, like all the
+ * rare materials one could mine.
+ *
+ * Food can also be provided by natural planetary resources that maybe only
+ * require a farmer but no special building.
+ *
+ * Houses can be build using natural building materials available. Such
+ * materials are not shipped or counted somewhere. Their presence on a
+ * {@link Planet} just enables certain types of buildings (dwellings).
+ *
+ * Existing temples can spread knowledge and wisdom.
+ *
+ * {@link Resource}s play an important role in making planetary {@link Colony}s
+ * more attractive and important than building production {@link Spacestation}
+ * or {@link Spacecraft}s.
  */
-@Entity("resource")
-public final class Resource extends Option {
+@Entity("#resource")
+public final class Resource extends Preselection {
 
 	public static final class Ref extends ByteRef<Resource> {
 
@@ -23,4 +44,19 @@ public final class Resource extends Option {
 			return Resource.class;
 		}
 	}
+
+	public static enum Kind { // this is also the group code or resources
+		@Code('h') HOUSING,
+		@Code('t') TRAINING, // of troops => # of troops
+		@Code('p') PRODUCTION,
+		@Code('f') FOOD,
+		@Code('r') RARE_MATERIAL,
+		@Code('k') KNOWLEDGE,
+		@Code('w') WISDOM,
+		@Code('c') CULTURE,
+		@Code('e') ENERGY,
+		@Code('C') CONTROL
+	}
+
+	public Kind kind;
 }

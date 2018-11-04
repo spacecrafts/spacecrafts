@@ -9,7 +9,7 @@ public abstract class TacticalSystem extends System {
 
 	public static abstract class Ref<T extends TacticalSystem> extends System.Ref<T> {
 
-		public Ref(short serial) {
+		public Ref(byte serial) {
 			super(serial);
 		}
 	}

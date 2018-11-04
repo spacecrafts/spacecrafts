@@ -8,11 +8,11 @@ import se.jbee.game.scs.ecs.constant.Habitability;
 import se.jbee.game.scs.ecs.constant.Richness;
 
 @Entity("planet")
-public final class Planet extends Host {
+public final class Planet extends Base {
 
-	public static final class _Planet extends Host.Ref<Planet> {
+	public static final class Ref extends Base.Ref<Planet> {
 	
-		public _Planet(short serial) {
+		public Ref(short serial) {
 			super(serial);
 		}
 		@Override
@@ -24,8 +24,8 @@ public final class Planet extends Host {
 	@Range(min = 1, max = 10)
 	public int solarSystemPosition;
 	public Refs<Moon> orbitingMoons;
-	public Orbit._Orbit orbit;
-	public Habitability._Habitability habitability;
+	public Orbit.Ref orbit;
+	public Habitability.Ref habitability;
 	public Richness.Ref richness;
 	public Colony.Ref colony;
 

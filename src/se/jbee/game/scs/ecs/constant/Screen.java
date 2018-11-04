@@ -1,9 +1,9 @@
 package se.jbee.game.scs.ecs.constant;
 
-import se.jbee.game.any.ecs.Option;
+import se.jbee.game.any.ecs.Preselection;
 import se.jbee.game.any.ecs.comp.ByteRef;
 
-public abstract class Screen extends Option {
+public abstract class Screen extends Preselection {
 
 	public static final class Ref extends ByteRef<Screen> {
 

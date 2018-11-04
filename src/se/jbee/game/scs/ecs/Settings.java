@@ -9,6 +9,7 @@ import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.any.ecs.meta.Group;
 import se.jbee.game.any.ecs.meta.Percent;
 import se.jbee.game.any.ecs.meta.Range;
+import se.jbee.game.scs.ecs.comp.Coordinate;
 import se.jbee.game.scs.ecs.constant.Trait;
 import se.jbee.game.scs.ecs.system.PropulsionSystem;
 
@@ -58,7 +59,7 @@ public final class Settings extends Composition {
 
 	/**
 	 * Construction in {@link Colony}: Percentage of currently constructed
-	 * {@link Segment}'s construction points required to switch to another
+	 * {@link Module}'s construction points required to switch to another
 	 * construction before it is finished
 	 */
 	@Percent
@@ -66,7 +67,7 @@ public final class Settings extends Composition {
 	public byte constructionSwitchPenaltyColony;
 	/**
 	 * Construction in {@link Spacecraft}: Percentage of currently constructed
-	 * {@link Segment}'s construction points required to switch to another
+	 * {@link Module}'s construction points required to switch to another
 	 * construction before it is finished
 	 */
 	@Percent
@@ -74,7 +75,7 @@ public final class Settings extends Composition {
 	public byte constructionSwitchPenaltyShip;
 	/**
 	 * Construction in {@link Spacestation}: Percentage of currently constructed
-	 * {@link Segment}'s construction points required to switch to another
+	 * {@link Module}'s construction points required to switch to another
 	 * construction before it is finished
 	 */
 	@Percent
@@ -91,16 +92,16 @@ public final class Settings extends Composition {
 	 */
 	@Percent
 	@Group("construction")
-	public byte equipmentNeighbouringBoost = 10;
+	public byte deviceNeighbouringBoost = 10;
 
 	/**
 	 * When components are automated the boost might increase what increases the
 	 * total output of each component. Naturally this settings has to be equal
-	 * (automation off) or higher than {@link #equipmentNeighbouringBoost}.
+	 * (automation off) or higher than {@link #deviceNeighbouringBoost}.
 	 */
 	@Percent
 	@Group("construction")
-	public byte equipmentNeighbouringAutomationBoost = 25;
+	public byte deviceNeighbouringAutomationBoost = 25;
 
 	/**
 	 * Linear increasing number of knowledge points required technology. Example:
@@ -172,6 +173,24 @@ public final class Settings extends Composition {
 	@Range(min = 5, max = 20)
 	@Group("spacetravel")
 	public byte maximumWrapSpeed = 10;
+
+	/**
+	 * Wrap 1-n travels 1-n parsec per turn. This constant sets how many turns it
+	 * takes at {@link #maximumWrapSpeed} to travel the maximum distance in the game
+	 * is (e.g. from the left top corner to the bottom right corner).
+	 *
+	 * This factor controls conversion between game {@link Coordinate}s and 1
+	 * parsec.
+	 *
+	 * In reality stellar density it's about 0.15 stars per cubic parsec.
+	 *
+	 * The average separation between stars is about 0.554 * (number
+	 * density)^(-1/3), calculated from Mean inter-particle distance, and that is
+	 * thus 1.04 parsecs or 3.4 light years.
+	 */
+	@Range(min = 1, max= 20)
+	@Group("spacetravel")
+	public byte longestTravelTurns = 10;
 
 	public float impulseSpeed(int totalWeight, int totalThrust) {
 		return min(maximumImpulseSpeed, totalWeight * impulseThrustPerShipWeight / (float) totalThrust);

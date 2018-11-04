@@ -7,7 +7,7 @@ import se.jbee.game.any.ecs.comp.ShortRef;
 import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.scs.ecs.comp.Coordinate;
-import se.jbee.game.scs.ecs.constant.StarFamily;
+import se.jbee.game.scs.ecs.constant.ClassOfStars;
 
 @Entity("solarsystem")
 public final class SolarSystem extends Fabrication {
@@ -26,7 +26,7 @@ public final class SolarSystem extends Fabrication {
 	public int starMass;
 	public Coordinate location;
 	public RGB starHue;
-	StarFamily.Ref starFamily;
+	ClassOfStars.Ref starFamily;
 	Refs<Planet> localPlanets;
 	Refs<Fleet> localFleets;
 }

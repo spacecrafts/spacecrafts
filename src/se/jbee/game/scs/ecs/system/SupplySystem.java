@@ -4,21 +4,21 @@ import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.scs.ecs.Player;
 import se.jbee.game.scs.ecs.Race;
-import se.jbee.game.scs.ecs.Troop;
 import se.jbee.game.scs.ecs.constant.Ability;
 import se.jbee.game.scs.ecs.constant.Resource;
 import se.jbee.game.scs.ecs.constant.Trait;
+import se.jbee.game.scs.ecs.device.Supplier;
 
 /**
  * A {@link SupplySystem} is a component that yields some economic {@link Resource}s
  * (but might also consume others).
  */
 @Entity("supplysystem")
-public class SupplySystem extends System {
+public final class SupplySystem extends System {
 
 	public static final class Ref extends System.Ref<SupplySystem> {
 
-		public Ref(short serial) {
+		public Ref(byte serial) {
 			super(serial);
 		}
 		@Override
@@ -26,6 +26,12 @@ public class SupplySystem extends System {
 			return SupplySystem.class;
 		}
 	}
+
+	@Override
+	public Area area() {
+		return Area.SUPPLY;
+	}
+
 	public boolean staffRequired;
 
 	/**
@@ -51,10 +57,13 @@ public class SupplySystem extends System {
 	@NonNegative
 	public byte workerProductionPoints;
 	/**
-	 * The maximum number of workers that can work in one facility unit. Workers are
-	 * not assigned to a particular facility but all worker facilities together have
-	 * a maximum that caps the maximum number of possible workers. Population that
-	 * is not assigned to any facility are "unemployed".
+	 * The maximum number of workers that can work in a {@link Supplier} of size
+	 * one.
+	 *
+	 * Workers are not assigned to a particular slot but all worker
+	 * {@link Supplier}s together have a maximum that caps the maximum number of
+	 * possible workers. Population that is not assigned to any {@link Supplier} are
+	 * "unemployed".
 	 */
 	@NonNegative
 	public byte workerCapacity;
@@ -64,7 +73,7 @@ public class SupplySystem extends System {
 	 * distributed so that maximum number of facilities has at least one worker.
 	 */
 	@NonNegative
-	public byte facilityProductionPoints;
+	public byte productionPoints;
 	@NonNegative
 	public byte housingProvided;
 	@NonNegative
@@ -87,11 +96,4 @@ public class SupplySystem extends System {
 	@NonNegative
 	public byte cultureLossByAutomation;
 
-	/**
-	 * The number of {@link Troop}s living in this type of crew's quarters. Usually
-	 * this is one.
-	 *
-	 * This scales as usual with the {@link System#arraySizeBoost}.
-	 */
-	public byte troopQuarters;
 }

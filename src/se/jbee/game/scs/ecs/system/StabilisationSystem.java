@@ -18,12 +18,17 @@ public final class StabilisationSystem extends System {
 
 	public static final class Ref extends System.Ref<StabilisationSystem> {
 
-		public Ref(short serial) {
+		public Ref(byte serial) {
 			super(serial);
 		}
 		@Override
 		public Class<StabilisationSystem> entityType() {
 			return StabilisationSystem.class;
 		}
+	}
+
+	@Override
+	public Area area() {
+		return Area.SUPPORT;
 	}
 }

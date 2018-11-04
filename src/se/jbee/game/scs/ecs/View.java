@@ -6,7 +6,7 @@ import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.scs.ecs.constant.Screen;
 
 /**
- * Controls the current view (screen, actions, etcetera) for human players.
+ * Controls the current view (screen, actions, etcetera) for human {@link Player}s.
  */
 public final class View extends Manifestation {
 
@@ -22,18 +22,20 @@ public final class View extends Manifestation {
 	}
 
 	@NonNegative
-	int screenWidth;
+	short screenWidth;
 	@NonNegative
-	int screenHeight;
+	short screenHeight;
 	/**
 	 * Refers to the view element that has the focus, 0 is no focus.
 	 */
 	@NonNegative
-	int focus;
+	byte focus;
 	/**
 	 * When paging the {@link #page} refers to the currently viewed page.
+	 * First page being page 0.
 	 */
-	int page;
+	@NonNegative
+	short page;
 
 	Screen.Ref currentScreen;
 	Screen.Ref returnScreen;

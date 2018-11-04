@@ -8,7 +8,7 @@ import se.jbee.game.scs.ecs.system.System;
 /**
  * {@link Gravitation} has an effect on the output of all staffed {@link System}s.
  */
-@Entity("gravitation")
+@Entity(":gravitation")
 public final class Gravitation extends Spectrum {
 
 	public static final class Ref extends ByteRef<Gravitation> {

@@ -28,7 +28,7 @@ public final class Player extends Fabrication {
 	@Component(4)
 	public Race.Ref race;
 	@Component(5)
-	public Planet._Planet homeworld;
+	public Planet.Ref homeworld;
 	@Component(8)
 	public Technology.Ref researching;
 	public boolean ai;

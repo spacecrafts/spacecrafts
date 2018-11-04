@@ -2,19 +2,18 @@ package se.jbee.game.scs.ecs.system;
 
 import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.any.ecs.meta.NonNegative;
-import se.jbee.game.any.ecs.meta.Percentage;
-import se.jbee.game.any.ecs.meta.Positive;
 import se.jbee.game.scs.ecs.constant.WeaponType;
 
 /**
  * {@link WeaponSystem} fire in order of their {@link TacticalSystem#applicationDelay}.
+ * Multiple shots in a round are delayed by the {@link TacticalSystem#actuationDelay}.
  */
 @Entity("weaponsystem")
-public class WeaponSystem extends TacticalSystem {
+public final class WeaponSystem extends TacticalSystem {
 
 	public static final class Ref extends TacticalSystem.Ref<WeaponSystem> {
 
-		public Ref(short serial) {
+		public Ref(byte serial) {
 			super(serial);
 		}
 		@Override
@@ -23,12 +22,17 @@ public class WeaponSystem extends TacticalSystem {
 		}
 	}
 
+	@Override
+	public Area area() {
+		return Area.ATTACK;
+	}
+
 	/**
 	 * All weapons have one particular type of {@link WeaponType}.
 	 */
 	public WeaponType.Ref type;
 
-	/**
+	/**CREW
 	 * A higher velocity makes a weapons damage more independent from the targets
 	 * speed. Fast targets might get less damage if they partially outpace the
 	 * weapons velocity. The concrete formula has to be defined.
@@ -36,23 +40,11 @@ public class WeaponSystem extends TacticalSystem {
 	@NonNegative
 	public byte velocity;
 
-	@NonNegative
-	public int damangePerShot;
 	/**
-	 * Most weapons shot one time per round. Some weapons allow multiple shots
-	 * delayed by {@link TacticalSystem#actuationDelay} after that first shot fired
-	 * as usual (but usually very early).
-	 */
-	@Positive
-	public byte shotsPerRound;
-
-	@Percentage
-	public int damageModification;
-
-	/**
-	 * Zero for weapons that do not fire ammunition.
+	 * The base for calculations of the damage caused by this weapon
 	 */
 	@NonNegative
-	public int ammunitionPerShot;
+	public int baseDamage;
 
+	//TODO weapons might have modes like: multi-shot that modify or set the delays and damage
 }

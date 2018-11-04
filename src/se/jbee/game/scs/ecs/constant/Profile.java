@@ -1,12 +1,14 @@
 package se.jbee.game.scs.ecs.constant;
 
-import se.jbee.game.any.ecs.Option;
+import se.jbee.game.any.ecs.Preselection;
+import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.scs.ecs.Leader;
 
 /**
  * A {@link Profile} is like a template for {@link Leader}s.
  */
-public final class Profile extends Option {
+@Entity("#profile")
+public final class Profile extends Preselection {
 
 	//TODO what attracts the leader
 	//TODO what effect does the leader have

@@ -4,11 +4,11 @@ import se.jbee.game.any.ecs.meta.Entity;
 import se.jbee.game.any.ecs.meta.NonNegative;
 
 @Entity("moon")
-public final class Moon extends Host {
+public final class Moon extends Base {
 
-	public static final class _Moon extends Host.Ref<Moon> {
+	public static final class Ref extends Base.Ref<Moon> {
 	
-		public _Moon(short serial) {
+		public Ref(short serial) {
 			super(serial);
 		}
 		@Override
@@ -19,7 +19,7 @@ public final class Moon extends Host {
 
 	@NonNegative
 	public byte nr;
-	public Planet._Planet orbitedPlanet;
+	public Planet.Ref orbitedPlanet;
 
 	@Override
 	public String toString() {
