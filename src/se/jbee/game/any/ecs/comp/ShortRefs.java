@@ -1,9 +1,9 @@
 package se.jbee.game.any.ecs.comp;
 
-import se.jbee.game.any.ecs.EntityType;
+import se.jbee.game.any.ecs.Entity;
 import se.jbee.game.any.ecs.meta.Component;
 
-public final class ShortRefs<T extends EntityType> extends Refs<T>{
+public final class ShortRefs<T extends Entity> extends UniRefs<T>{
 
 	@Component(1)
 	private volatile short[] serials;

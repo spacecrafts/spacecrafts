@@ -2,12 +2,12 @@ package se.jbee.game.scs.ecs;
 
 import se.jbee.game.any.ecs.comp.RGB;
 import se.jbee.game.any.ecs.comp.Refs;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Range;
 import se.jbee.game.scs.ecs.constant.Habitability;
 import se.jbee.game.scs.ecs.constant.Richness;
 
-@Entity("planet")
+@EntityType("planet")
 public final class Planet extends Base {
 
 	public static final class Ref extends Base.Ref<Planet> {

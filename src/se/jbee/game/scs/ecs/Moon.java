@@ -1,9 +1,9 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
 
-@Entity("moon")
+@EntityType("moon")
 public final class Moon extends Base {
 
 	public static final class Ref extends Base.Ref<Moon> {

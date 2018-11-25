@@ -13,13 +13,13 @@ import java.util.concurrent.ConcurrentMap;
 
 import se.jbee.game.any.ecs.comp.Ref;
 import se.jbee.game.any.ecs.comp.Refs;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 
 public final class State {
 
 	private static final Map<String, EntityTypeInfo<?>> entityTypesByName = new HashMap<>();
 
-	public static <T extends EntityType> void register(Class<T> type) {
+	public static <T extends Entity> void register(Class<T> type) {
 		if (Modifier.isAbstract(type.getModifiers())) {
 			throw new IllegalArgumentException(
 					"Entity type is abstract. Register only concrete entity types:" + type.getSimpleName());
@@ -28,21 +28,38 @@ public final class State {
 			throw new IllegalArgumentException(
 					"Entity type not final. Register only concrete entity types: " + type.getSimpleName());
 		}
-		entityTypesByName.putIfAbsent(type.getAnnotation(Entity.class).value(),
+		entityTypesByName.putIfAbsent(type.getAnnotation(EntityType.class).value(),
 				new EntityTypeInfo<>((short) entityTypesByName.size(), type));
 	}
 
-	private static final class EntityTypeInfo<T extends EntityType> {
+	private static final class EntityTypeInfo<T extends Entity> {
 
+		/**
+		 * The code used to refer to a specific type in a {@link State} context.
+		 *
+		 * This is like a extra level of indirection building a lookup table for the
+		 * type {@link #id}.
+		 *
+		 * When loading games this lookup table is contained in the file. As mapping
+		 * might have changed a special loading lookup table is build when recreating
+		 * the game {@link State}. On next {@link State} save the current code (this
+		 * code) and table is used.
+		 */
 		final short refCode;
-		final String name;
+		/**
+		 * The unique name for the type of {@link Entity} this represents.
+		 *
+		 * This name is used in persistent data (e.g. files) to refer to this type so
+		 * that code (behaviour) and data (information) are independent from another.
+		 */
+		final String id;
 		final Class<T> type;
 		//TODO add function that read/write the components of such an entity using reflection
 
 		EntityTypeInfo(short code, Class<T> type) {
 			this.refCode = code;
 			this.type = type;
-			this.name = type.getAnnotation(Entity.class).value();
+			this.id = type.getAnnotation(EntityType.class).value();
 		}
 
 	}
@@ -63,7 +80,7 @@ public final class State {
 		for (Entities<?> typeInstances : instancesByType.values()) {
 			if (typeInstances.size > 0) { //TODO do not save constants? => settings, default yes
 				dest.writeShort(typeInstances.type.refCode);
-				writeChars(dest, typeInstances.type.name);
+				writeChars(dest, typeInstances.type.id);
 				dest.write(typeInstances.size);
 				for (Object e : typeInstances.entities) {
 
@@ -80,7 +97,7 @@ public final class State {
 		}
 	}
 
-	private static final class Entities<E extends EntityType> {
+	private static final class Entities<E extends Entity> {
 
 		EntityTypeInfo<E> type;
 		int size;
@@ -95,16 +112,16 @@ public final class State {
 
 	private ConcurrentMap<Class<?>, Entities<?>> instancesByType = new ConcurrentHashMap<>();
 
-	public <E extends EntityType> E entity(Ref<E> ref) {
+	public <E extends Entity> E entity(Ref<E> ref) {
 		return entitiesFor(ref.entityType()).get(ref.serial());
 	}
 
-	public <E extends EntityType> E entity(Refs<E> refs, int n) {
-		return entitiesFor(refs.entityType()).get(refs.serial(n));
+	public <E extends Entity> E entity(Refs<E> refs, int n) {
+		return entitiesFor(refs.entityType(n)).get(refs.serial(n));
 	}
 
 	@SuppressWarnings("unchecked")
-	private <E extends EntityType> Entities<E> entitiesFor(Class<E> entityType) {
+	private <E extends Entity> Entities<E> entitiesFor(Class<E> entityType) {
 		return (Entities<E>) (instancesByType.computeIfAbsent(entityType, t -> new Entities<>()));
 	}
 

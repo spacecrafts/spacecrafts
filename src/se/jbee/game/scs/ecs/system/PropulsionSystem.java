@@ -1,9 +1,9 @@
 package se.jbee.game.scs.ecs.system;
 
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
 
-@Entity("propulsionsystem")
+@EntityType("propulsionsystem")
 public final class PropulsionSystem extends TacticalSystem {
 
 	public static final class Ref extends TacticalSystem.Ref<PropulsionSystem> {
@@ -18,7 +18,13 @@ public final class PropulsionSystem extends TacticalSystem {
 	}
 
 	@NonNegative
-	public byte thrust;
+	public byte orbitalThrust;
+
+	@NonNegative
+	public byte impulseThrust;
+
+	@NonNegative
+	public byte wrapThrust;
 
 	@Override
 	public Area area() {

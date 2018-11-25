@@ -1,9 +1,9 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.scs.ecs.comp.Coordinate;
 
-@Entity("spacecraft")
+@EntityType("spacecraft")
 public final class Spacecraft extends Frame<Fleet.Ref> {
 
 	public static final class Ref extends Frame.Ref<Spacecraft> {

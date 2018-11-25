@@ -1,16 +1,17 @@
 package se.jbee.game.scs.ecs;
 
+import se.jbee.game.any.ecs.Composition;
 import se.jbee.game.any.ecs.Manifestation;
 import se.jbee.game.any.ecs.comp.IntRef;
-import se.jbee.game.any.ecs.comp.Refs;
+import se.jbee.game.any.ecs.meta.Aggregated;
 import se.jbee.game.any.ecs.meta.Code;
 import se.jbee.game.any.ecs.meta.NonNegative;
-import se.jbee.game.scs.ecs.constant.FrameClassification;
+import se.jbee.game.scs.ecs.constant.Model;
 import se.jbee.game.scs.ecs.device.Device;
 
 /**
  * A {@link Frame} is the base type for {@link Manifestation}s of a
- * {@link Prototype}. It consists of one or more {@link Module} that are
+ * {@link Blueprint}. It consists of one or more {@link Module} that are
  * connected together.
  *
  * Simple ships have a single {@link Module}. Larger ships often have multiple
@@ -18,13 +19,13 @@ import se.jbee.game.scs.ecs.device.Device;
  *
  * As soon as a {@link Player} starts building a new {@link Spacecraft},
  * {@link Spacestation}, {@link Colony} or {@link Outpost} the instance is
- * created. It builds up in its details over time using the {@link Prototype} as
+ * created. It builds up in its details over time using the {@link Blueprint} as
  * it blueprint. Each {@link Colony} or {@link Outpost} has its own copy that
- * diverges from the initial {@link Prototype} over time while
+ * diverges from the initial {@link Blueprint} over time while
  * {@link Spacecraft}s and {@link Spacestation}s usually share a
- * {@link Prototype}.
+ * {@link Blueprint}.
  */
-public abstract class Frame<T extends Base.Ref<?>> extends Manifestation {
+public abstract class Frame<T extends Base.Ref<?>> extends Composition {
 
 	//TODO maybe do multi module protypes using multi-frame with the benefit of boni applying to all connected frames and frames protecting each other.
 
@@ -46,15 +47,14 @@ public abstract class Frame<T extends Base.Ref<?>> extends Manifestation {
 
 	public T base;
 
-	public FrameClassification.Ref classification;
-	public Prototype.Ref prototype;
-	public Player.Ref controlledBy;
+	public Model.Ref model;
+	public Blueprint.Ref prototype;
 	/**
 	 * The list of {@link Device}s in this {@link Frame}.
 	 *
 	 * The order set by the player is the order in which the {@link Device}s are build.
 	 */
-	public Refs<Device<?, ?>> devices;
+	public Device.Refs devices;
 
 	/**
 	 * Given in thousands. A full thousand is one unit.
@@ -74,23 +74,24 @@ public abstract class Frame<T extends Base.Ref<?>> extends Manifestation {
 	public byte crewUnits;
 
 	@NonNegative
-	public int effectiveHousingProvided;
-	@NonNegative
-	public int effectiveProductionPoints;
-	@NonNegative
-	public int effectiveFoodProduction;
-	@NonNegative
-	public int effectiveRareMaterialsOutput;
-	@NonNegative
-	public int effectiveResearchPoints;
-	@NonNegative
-	public int effectiveWisdomGain;
-	@NonNegative
-	public int effectiveEnergyProduction;
-	@NonNegative
-	public int effectiveEnergyConsumption;
-	@NonNegative
 	public int foodUnitsInStock;
+
+	@NonNegative @Aggregated
+	public int effectiveHousingProvided;
+	@NonNegative @Aggregated
+	public int effectiveProductionPoints;
+	@NonNegative @Aggregated
+	public int effectiveFoodProduction;
+	@NonNegative @Aggregated
+	public int effectiveRareMaterialsOutput;
+	@NonNegative @Aggregated
+	public int effectiveResearchPoints;
+	@NonNegative @Aggregated
+	public int effectiveWisdomGain;
+	@NonNegative @Aggregated
+	public int effectiveEnergyProduction;
+	@NonNegative @Aggregated
+	public int effectiveEnergyConsumption;
 
 	// maybe make a list of custom configurations and damage that modify the data as given by the design
 }

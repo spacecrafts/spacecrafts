@@ -1,11 +1,10 @@
 package se.jbee.game.scs.ecs.device;
 
 import se.jbee.game.any.ecs.State;
-import se.jbee.game.any.ecs.meta.Entity;
-import se.jbee.game.scs.ecs.Frame;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.scs.ecs.system.ControlSystem;
 
-@Entity("bridge")
+@EntityType("bridge")
 public final class Bridge extends Device<ControlSystem, ControlSystem.Ref> {
 
 	public static final class Ref extends Device.Ref<Bridge> {
@@ -20,7 +19,7 @@ public final class Bridge extends Device<ControlSystem, ControlSystem.Ref> {
 	}
 
 	@Override
-	protected void updateAggregated(State state, Frame<?> frame, ControlSystem system) {
+	protected void aggregate(State state, ControlSystem system) {
 		// TODO Auto-generated method stub
 
 	}

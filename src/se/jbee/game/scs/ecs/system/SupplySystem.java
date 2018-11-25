@@ -1,6 +1,6 @@
 package se.jbee.game.scs.ecs.system;
 
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.scs.ecs.Player;
 import se.jbee.game.scs.ecs.Race;
@@ -13,7 +13,7 @@ import se.jbee.game.scs.ecs.device.Supplier;
  * A {@link SupplySystem} is a component that yields some economic {@link Resource}s
  * (but might also consume others).
  */
-@Entity("supplysystem")
+@EntityType("supplysystem")
 public final class SupplySystem extends System {
 
 	public static final class Ref extends System.Ref<SupplySystem> {

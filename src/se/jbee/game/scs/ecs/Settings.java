@@ -5,9 +5,11 @@ import static java.lang.Math.min;
 
 import se.jbee.game.any.ecs.Composition;
 import se.jbee.game.any.ecs.comp.ByteRef;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.Default;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Group;
 import se.jbee.game.any.ecs.meta.Percent;
+import se.jbee.game.any.ecs.meta.Preference;
 import se.jbee.game.any.ecs.meta.Range;
 import se.jbee.game.scs.ecs.comp.Coordinate;
 import se.jbee.game.scs.ecs.constant.Trait;
@@ -21,7 +23,7 @@ import se.jbee.game.scs.ecs.system.PropulsionSystem;
  *
  * The {@link Settings} also contain setting based calculations.
  */
-@Entity("settings")
+@EntityType("settings")
 public final class Settings extends Composition {
 
 	public static final class Ref extends ByteRef<Settings> {
@@ -38,8 +40,9 @@ public final class Settings extends Composition {
 	/**
 	 * Set true if data of constants should be persisted within a save-game file.
 	 */
-	@Group("gameplay")
-	public boolean storeConstants = true;
+	@Group("gameplay") @Default(1)
+	@Preference
+	public boolean storeConstants;
 
 	/**
 	 * Number of over- or underflowing food units per population unit that cause
@@ -49,7 +52,7 @@ public final class Settings extends Composition {
 	 *
 	 * This mainly determines the game speed.
 	 */
-	@Range(min = 1, max = 10)
+	@Range(min = 1, max = 10) @Default(5)
 	@Group("expansion")
 	public byte foodUnitsPerPopulation;
 
@@ -62,7 +65,7 @@ public final class Settings extends Composition {
 	 * {@link Module}'s construction points required to switch to another
 	 * construction before it is finished
 	 */
-	@Percent
+	@Percent @Default(5)
 	@Group("construction")
 	public byte constructionSwitchPenaltyColony;
 	/**
@@ -70,7 +73,7 @@ public final class Settings extends Composition {
 	 * {@link Module}'s construction points required to switch to another
 	 * construction before it is finished
 	 */
-	@Percent
+	@Percent @Default(10)
 	@Group("construction")
 	public byte constructionSwitchPenaltyShip;
 	/**
@@ -78,7 +81,7 @@ public final class Settings extends Composition {
 	 * {@link Module}'s construction points required to switch to another
 	 * construction before it is finished
 	 */
-	@Percent
+	@Percent @Default(10)
 	@Group("construction")
 	public byte constructionSwitchPenaltyStation;
 
@@ -90,42 +93,42 @@ public final class Settings extends Composition {
 	 *
 	 * A higher value makes placement more relevant, a lower less.
 	 */
-	@Percent
+	@Percent @Default(10)
 	@Group("construction")
-	public byte deviceNeighbouringBoost = 10;
+	public byte deviceNeighbouringBoost;
 
 	/**
 	 * When components are automated the boost might increase what increases the
 	 * total output of each component. Naturally this settings has to be equal
 	 * (automation off) or higher than {@link #deviceNeighbouringBoost}.
 	 */
-	@Percent
+	@Percent @Default(25)
 	@Group("construction")
-	public byte deviceNeighbouringAutomationBoost = 25;
+	public byte deviceNeighbouringAutomationBoost;
 
 	/**
 	 * Linear increasing number of knowledge points required technology. Example:
 	 * base of 10 means first has a base cost of 10, second of 20, third of 30 and
 	 * so forth. This does not include the quadratic and cubic cost increase.
 	 */
-	@Range(min = 10, max = 30)
+	@Range(min = 10, max = 30) @Default(20)
 	@Group("tech")
-	public byte technologyBaseCost = 20;
+	public byte technologyBaseCost;
 
 	/**
 	 * A higher weight of quadratic cost increase causes a faster increase in total technology costs.
 	 */
-	@Percent
+	@Percent @Default(50)
 	@Group("research")
-	public byte technologyQuadraticWeight = 50;
+	public byte technologyQuadraticWeight;
 
 	/**
 	 * The cubic cost increase should mostly be used to give a long term total cost increase that suits the game speed.
 	 * Too high values will make research very hard or impossible after a certain number of technologies.
 	 */
-	@Percent
+	@Percent @Default(15)
 	@Group("research")
-	public byte technologyCubicWeight = 15;
+	public byte technologyCubicWeight;
 
 	public int technologyCost(byte n) {
 		double quadratic = n * technologyQuadraticWeight / 100d;
@@ -140,9 +143,9 @@ public final class Settings extends Composition {
 	 * thrust is needed to get same speed so less {@link PropulsionSystem} components need to
 	 * be build and supplied.
 	 */
-	@Range(min = 1, max = 10)
+	@Range(min = 1, max = 10) @Default(2)
 	@Group("spacetravel")
-	public byte impulseThrustPerShipWeight = 2;
+	public byte impulseThrustPerShipWeight;
 
 	/**
 	 * Same as {@link #impulseThrustPerWeight} just that orbital {@link PropulsionSystem}s are
@@ -150,9 +153,9 @@ public final class Settings extends Composition {
 	 * orbit. They are cheaper then impulse {@link PropulsionSystem} but are special purpose
 	 * components that cannot be used as impulse {@link PropulsionSystem}.
 	 */
-	@Range(min = 1, max = 10)
+	@Range(min = 1, max = 10) @Default(2)
 	@Group("spacetravel")
-	public byte orbitalThrustPerShipWeight = 2;
+	public byte orbitalThrustPerShipWeight;
 
 	/**
 	 * In principle similar to {@link #impulseThrustPerWeight} just that wrap
@@ -162,17 +165,17 @@ public final class Settings extends Composition {
 	 * A higher value makes the game progress slower as more wrap {@link PropulsionSystem} is
 	 * required to reach distant systems.
 	 */
-	@Range(min = 1, max = 10)
+	@Range(min = 1, max = 10) @Default(1)
 	@Group("spacetravel")
-	public byte wrapThrustPerShipSize = 1;
+	public byte wrapThrustPerShipSize;
 
-	@Range(min = 5, max = 20)
+	@Range(min = 5, max = 20) @Default(10)
 	@Group("spacetravel")
-	public byte maximumImpulseSpeed = 10;
+	public byte maximumImpulseSpeed;
 
-	@Range(min = 5, max = 20)
+	@Range(min = 5, max = 20) @Default(10)
 	@Group("spacetravel")
-	public byte maximumWrapSpeed = 10;
+	public byte maximumWrapSpeed;
 
 	/**
 	 * Wrap 1-n travels 1-n parsec per turn. This constant sets how many turns it
@@ -188,9 +191,9 @@ public final class Settings extends Composition {
 	 * density)^(-1/3), calculated from Mean inter-particle distance, and that is
 	 * thus 1.04 parsecs or 3.4 light years.
 	 */
-	@Range(min = 1, max= 20)
+	@Range(min = 1, max= 20) @Default(10)
 	@Group("spacetravel")
-	public byte longestTravelTurns = 10;
+	public byte longestTravelTurns;
 
 	public float impulseSpeed(int totalWeight, int totalThrust) {
 		return min(maximumImpulseSpeed, totalWeight * impulseThrustPerShipWeight / (float) totalThrust);
@@ -211,21 +214,28 @@ public final class Settings extends Composition {
 	/**
 	 * How strongly reputation gets worse just by time passing without positive refreshment.
 	 */
-	@Percent
+	@Percent @Default(5)
 	@Group("diplomacy")
-	public byte reputationDrain = 5;
+	public byte reputationDrain;
 
 	/**
 	 * Number of points each {@link Player} may spend to select {@link Trait}s.
 	 */
-	@Range(max = 100)
+	@Range(max = 100) @Default(20)
 	@Group("race")
-	public byte evolotionPointContingent = 20;
+	public byte evolotionPointContingent;
 
 	/**
 	 * Maximum number of individual {@link Trait}s each {@link Player} may select
 	 */
-	@Range(max = 25)
+	@Range(max = 25) @Default(10)
 	@Group("race")
-	public byte maxTraitsSelection = 10;
+	public byte maxTraitsSelection;
+
+	/**
+	 * The {@link Squad#morale} bonus the defending party gets in case of an attack.
+	 */
+	@Percent @Default(25)
+	@Group("combat")
+	public byte defenderMoraleBonus;
 }

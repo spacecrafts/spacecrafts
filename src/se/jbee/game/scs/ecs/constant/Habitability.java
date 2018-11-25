@@ -4,10 +4,10 @@ import se.jbee.game.any.ecs.Classification;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.comp.RGB;
 import se.jbee.game.any.ecs.comp.Refs;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Percent;
 
-@Entity(":habitability")
+@EntityType("&habitability")
 public final class Habitability extends Classification {
 
 	public static final class Ref extends ByteRef<Habitability> {

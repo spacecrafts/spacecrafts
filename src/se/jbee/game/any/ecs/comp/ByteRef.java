@@ -1,10 +1,10 @@
 package se.jbee.game.any.ecs.comp;
 
-import se.jbee.game.any.ecs.EntityType;
+import se.jbee.game.any.ecs.Entity;
 import se.jbee.game.any.ecs.meta.Component;
 import se.jbee.game.any.ecs.meta.NonNegative;
 
-public abstract class ByteRef<T extends EntityType> implements Ref<T> {
+public abstract class ByteRef<T extends Entity> extends EntityRef<T> {
 
 	@Component(0)
 	@NonNegative
@@ -19,8 +19,4 @@ public abstract class ByteRef<T extends EntityType> implements Ref<T> {
 		return serial;
 	}
 
-	@Override
-	public final String toString() {
-		return entityType().getSimpleName() + "[" + serial + "]";
-	}
 }

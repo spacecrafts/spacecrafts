@@ -1,19 +1,19 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.Fabrication;
+import se.jbee.game.any.ecs.Fiction;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.comp.Refs;
 import se.jbee.game.any.ecs.meta.Aggregated;
 import se.jbee.game.any.ecs.meta.Component;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.any.ecs.meta.Positive;
 import se.jbee.game.scs.ecs.constant.Ability;
 import se.jbee.game.scs.ecs.constant.Technology;
 import se.jbee.game.scs.ecs.system.System;
 
-@Entity("player")
-public final class Player extends Fabrication {
+@EntityType("player")
+public final class Player extends Fiction {
 
 	public static final class Ref extends ByteRef<Player> {
 
@@ -83,10 +83,11 @@ public final class Player extends Fabrication {
 	public Refs<SolarSystem> knownSolarSystems;
 	public Refs<Planet> knownPlanets; // and their moons
 	public Refs<Colony> knownColonies;
+	public Refs<Outpost> knownOutposts;
 	public Refs<Spacecraft> knownShips;
 	public Refs<Spacestation> knownStations;
 	public Refs<Fleet> knownFleets;
-	public Refs<Prototype> knownDesigns;
+	public Refs<Blueprint> knownBlueprints;
 
 	/*
 	 * lists of entities that should be managed during the current turn
@@ -94,6 +95,7 @@ public final class Player extends Fabrication {
 
 	public boolean unhandledSetInTurn;
 	public Refs<Colony> unhandledColonies;
+	public Refs<Outpost> unhandledOutposts;
 	public Refs<Spacestation> unhandledStations;
 	public Refs<Spacecraft> unhandledShips;
 	public Refs<Fleet> unhandledFleets;

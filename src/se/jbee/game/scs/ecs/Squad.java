@@ -1,6 +1,8 @@
 package se.jbee.game.scs.ecs;
 
 import se.jbee.game.any.ecs.Manifestation;
+import se.jbee.game.any.ecs.comp.IntRef;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.scs.Morale;
 import se.jbee.game.scs.ecs.constant.Ability;
@@ -11,7 +13,19 @@ import se.jbee.game.scs.ecs.constant.Trait;
  * A combat unit. A group of crew members on a {@link Spacecraft} or
  * {@link Spacestation}.
  */
-public final class Troop extends Manifestation {
+@EntityType("squad")
+public final class Squad extends Manifestation {
+
+	public static final class Ref extends IntRef<Squad> {
+
+		public Ref(int serial) {
+			super(serial);
+		}
+		@Override
+		public Class<Squad> entityType() {
+			return Squad.class;
+		}
+	}
 
 	/**
 	 * E.g. death-rays directly affect the {@link #hitPoints} of troops.
@@ -38,7 +52,7 @@ public final class Troop extends Manifestation {
 
 	/**
 	 * The {@link Player} and {@link Race} that serve as template for this
-	 * {@link Troop} unit with the {@link Technology}, {@link Ability}s and
+	 * {@link Squad} unit with the {@link Technology}, {@link Ability}s and
 	 * {@link Trait}s.
 	 */
 	public Player.Ref byPlayer;

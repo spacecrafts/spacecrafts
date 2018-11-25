@@ -1,8 +1,8 @@
 package se.jbee.game.scs.ecs.system;
 
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 
-@Entity("controlsystem")
+@EntityType("controlsystem")
 public final class ControlSystem extends System {
 
 	public static final class Ref extends System.Ref<ControlSystem> {

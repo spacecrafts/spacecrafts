@@ -5,9 +5,10 @@ import se.jbee.game.any.ecs.meta.Aggregated;
 import se.jbee.game.any.ecs.meta.NonNegative;
 
 /**
- * {@link Layout}s are parts of a {@link Prototype}.
+ * There are two types of {@link Layout}s: Parts called {@link Module} and
+ * wholes called {@link Blueprint}.
  *
- * @see Prototype
+ * @see Blueprint
  * @see Module
  */
 public abstract class Layout extends Composition {

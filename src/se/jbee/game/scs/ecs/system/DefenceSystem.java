@@ -1,7 +1,7 @@
 package se.jbee.game.scs.ecs.system;
 
 import se.jbee.game.any.ecs.comp.Refs;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.any.ecs.meta.Percent;
 import se.jbee.game.any.ecs.meta.Positive;
@@ -13,7 +13,7 @@ import se.jbee.game.scs.ecs.device.Shield;
  * The shield {@link TacticalSystem#applicationDelay} controls when the
  * {@link #recoveryPerRound} takes effect.
  */
-@Entity("defencesystem")
+@EntityType("defencesystem")
 public final class DefenceSystem extends TacticalSystem {
 
 	public static final class Ref extends TacticalSystem.Ref<DefenceSystem> {

@@ -2,10 +2,10 @@ package se.jbee.game.scs.ecs.constant;
 
 import se.jbee.game.any.ecs.Preselection;
 import se.jbee.game.any.ecs.comp.ShortRef;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Range;
 
-@Entity("#technology")
+@EntityType("&technology")
 public final class Technology extends Preselection {
 
 	public static final class Ref extends ShortRef<Technology> {

@@ -1,11 +1,10 @@
 package se.jbee.game.scs.ecs.device;
 
 import se.jbee.game.any.ecs.State;
-import se.jbee.game.any.ecs.meta.Entity;
-import se.jbee.game.scs.ecs.Frame;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.scs.ecs.system.TeleportationSystem;
 
-@Entity("teleporter")
+@EntityType("teleporter")
 public class Teleporter extends Device<TeleportationSystem, TeleportationSystem.Ref> {
 
 	public static final class Ref extends Device.Ref<Teleporter> {
@@ -20,7 +19,7 @@ public class Teleporter extends Device<TeleportationSystem, TeleportationSystem.
 	}
 
 	@Override
-	protected void updateAggregated(State state, Frame<?> frame, TeleportationSystem system) {
+	protected void aggregate(State state, TeleportationSystem system) {
 		// TODO Auto-generated method stub
 
 	}

@@ -1,6 +1,7 @@
 package se.jbee.game.scs.ecs.system;
 
-import se.jbee.game.scs.ecs.Troop;
+import se.jbee.game.any.ecs.meta.NonNegative;
+import se.jbee.game.scs.ecs.Squad;
 
 public final class TrainingSystem extends TacticalSystem {
 
@@ -21,9 +22,22 @@ public final class TrainingSystem extends TacticalSystem {
 	}
 
 	/**
-	 * The number of {@link Troop}s living in this type of crew's quarters.
+	 * The number of {@link Squad}s living in this type of crew's quarters.
 	 *
-	 * This scales, as usual, with the {@link System#sizeBonus}.
+	 * This scales, as usual, with the {@link System#scaleBonus}.
 	 */
-	public byte troopQuarters;
+	@NonNegative
+	public byte troopCapacity;
+
+	/**
+	 * Some number telling how effective new troops can be trained
+	 */
+	public byte training;
+
+	/**
+	 * Some number telling how morale of troops is modified
+	 */
+	public byte moraleBoost;
+
+	// ideas: crew-quarters, holo-suite, captains-quaters
 }

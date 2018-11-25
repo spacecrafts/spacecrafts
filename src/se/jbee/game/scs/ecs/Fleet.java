@@ -2,10 +2,10 @@ package se.jbee.game.scs.ecs;
 
 import se.jbee.game.any.ecs.Composition;
 import se.jbee.game.any.ecs.comp.Refs;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.scs.ecs.comp.Coordinate;
 
-@Entity("fleet")
+@EntityType("fleet")
 public final class Fleet extends Composition {
 
 	public static final class Ref extends Base.Ref<Fleet> {
@@ -23,4 +23,6 @@ public final class Fleet extends Composition {
 	public SolarSystem.Ref destination;
 	public Coordinate position;
 	public int speed;
+
+	// TODO add max scanner distance in parsec (detect other fleets)
 }

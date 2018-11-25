@@ -2,7 +2,7 @@ package se.jbee.game.scs.ecs.constant;
 
 import se.jbee.game.any.ecs.Spectrum;
 import se.jbee.game.any.ecs.comp.ByteRef;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.any.ecs.meta.Percent;
 import se.jbee.game.scs.ecs.Player;
@@ -10,7 +10,7 @@ import se.jbee.game.scs.ecs.Player;
 /**
  * One {@link Player} in the eye of another one.
  */
-@Entity(":reputation")
+@EntityType("&reputation")
 public final class Reputation extends Spectrum {
 
 	public static final class Ref extends ByteRef<Reputation> {

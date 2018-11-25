@@ -10,6 +10,7 @@ import se.jbee.game.scs.ecs.Layout;
 import se.jbee.game.scs.ecs.Settings;
 import se.jbee.game.scs.ecs.comp.Curve;
 import se.jbee.game.scs.ecs.constant.SystemType;
+import se.jbee.game.scs.ecs.device.Device;
 
 /**
  * {@link System}s are the types of components that can be placed in a
@@ -28,10 +29,15 @@ public abstract class System extends Preselection {
 		@Code('A') ATTACK,
 		@Code('C') CREW,
 		@Code('D') DEFENCE,
+		/**
+		 * Systems that are necessary to enable life in space and interplanetary travel
+		 */
 		@Code('S') SUPPORT,
+		/**
+		 * System that have special purposes but are not strictly necessary on a ship
+		 */
 		@Code('X') SPECIAL,
 		@Code('Y') SUPPLY,
-		//TRAVEL?
 	}
 
 	public abstract System.Area area();
@@ -50,6 +56,13 @@ public abstract class System extends Preselection {
 	 * {@link #reliability}.
 	 */
 	public boolean grid;
+
+	/**
+	 * The maximum number of cells of this {@link System} type that can be combined
+	 * into a {@link Device}.
+	 */
+	@Positive
+	public short maxCells;
 
 	/*
 	 * Per cell data:
@@ -74,7 +87,7 @@ public abstract class System extends Preselection {
 	 * The total for size n: n times base value + bonus(n)
 	 */
 	@Percent
-	public Curve sizeBonus;
+	public Curve scaleBonus;
 
 	public boolean isDestructable() {
 		return destructionCosts > 0;

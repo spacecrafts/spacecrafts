@@ -6,9 +6,9 @@ import se.jbee.game.any.ecs.Preselection;
  * Instead of hard coding possible game setup GUIs for e.g. the game speed and their effects on the
  * {@link Settings} this can be a configuration from file that describes the choice and the effects.
  *
- * {@link Preference}s are presented grouped by their {@link #groupCode()} and use {@link #groupName()}.
+ * {@link DefaultSetting}s are presented grouped by their {@link #groupCode()} and use {@link #groupName()}.
  */
-public final class Preference extends Preselection {
+public final class DefaultSetting extends Preselection {
 
 	// a preset is a sequence of commands...
 	static class Command { // this is like the commands the UI then uses to modify game state

@@ -6,10 +6,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import se.jbee.game.any.ecs.EntityType;
+import se.jbee.game.any.ecs.Entity;
 
 /**
- * Used to mark persisted state fields within an {@link Entity} to give each
+ * Used to mark persisted state fields within an {@link EntityType} to give each
  * field a code that is unique and stable within the entity.
  */
 @Retention(RUNTIME)
@@ -17,8 +17,8 @@ import se.jbee.game.any.ecs.EntityType;
 public @interface Component {
 
 	/**
-	 * @return The ID of the component within the context of its {@link EntityType}
-	 *         type that is identified by {@link Entity}
+	 * @return The ID of the component within the context of its {@link Entity}
+	 *         type that is identified by {@link EntityType}
 	 */
 	byte value();
 

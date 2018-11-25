@@ -3,11 +3,11 @@ package se.jbee.game.scs.ecs.constant;
 import se.jbee.game.any.ecs.Spectrum;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.comp.RGB;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Percent;
 import se.jbee.game.any.ecs.meta.Range;
 
-@Entity(":star")
+@EntityType("&startype")
 public final class ClassOfStars extends Spectrum {
 
 	public static final class Ref extends ByteRef<ClassOfStars> {

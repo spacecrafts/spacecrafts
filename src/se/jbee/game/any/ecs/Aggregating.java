@@ -9,11 +9,11 @@ public interface Aggregating {
 
 	/**
 	 * Aggregates the value for all {@link Aggregated} fields of this
-	 * {@link EntityType}.
+	 * {@link Entity}.
 	 *
 	 * @param state
 	 *            current state used to resolve reference during aggregation
 	 *            computations.
 	 */
-	void updateAggregated(State state);
+	void aggregate(State state);
 }

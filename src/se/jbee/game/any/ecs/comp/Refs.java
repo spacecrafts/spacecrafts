@@ -1,29 +1,14 @@
 package se.jbee.game.any.ecs.comp;
 
 import se.jbee.game.any.ecs.ComponentType;
-import se.jbee.game.any.ecs.EntityType;
-import se.jbee.game.any.ecs.meta.Component;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.Entity;
 
-public abstract class Refs<T extends EntityType> implements ComponentType {
+public interface Refs<T extends Entity> extends ComponentType {
 
-	/**
-	 * The {@link Class} is serialised and de-serialised using {@link Entity}
-	 * annotation that it is expected to have.
-	 */
-	@Component(1)
-	private final Class<T> entityType;
+	int size();
 
-	public Refs(Class<T> entityType) {
-		this.entityType = entityType;
-	}
+	int serial(int n);
 
-	public abstract int size();
-
-	public abstract int serial(int n);
-
-	public final Class<T> entityType() {
-		return entityType;
-	}
+	Class<? extends T> entityType(int n);
 
 }

@@ -1,8 +1,8 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 
-@Entity("outpost")
+@EntityType("outpost")
 public final class Outpost extends Frame<Moon.Ref> {
 
 	public static final class Ref extends Frame.Ref<Outpost> {

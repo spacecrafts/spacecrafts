@@ -1,6 +1,6 @@
 package se.jbee.game.scs.ecs.system;
 
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.scs.ecs.Planet;
 import se.jbee.game.scs.ecs.Spacecraft;
 import se.jbee.game.scs.ecs.Spacestation;
@@ -13,7 +13,7 @@ import se.jbee.game.scs.ecs.Spacestation;
  * The benefit of planetary production is that it often does not need
  * {@link StabilisationSystem}s what reduced energy need and use of space.
  */
-@Entity("stabilisationsystem")
+@EntityType("stabilisationsystem")
 public final class StabilisationSystem extends System {
 
 	public static final class Ref extends System.Ref<StabilisationSystem> {

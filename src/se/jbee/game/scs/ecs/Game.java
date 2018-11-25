@@ -1,12 +1,12 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.Fabrication;
+import se.jbee.game.any.ecs.Fiction;
 import se.jbee.game.any.ecs.comp.Refs;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
 
-@Entity("game")
-public final class Game extends Fabrication {
+@EntityType("game")
+public final class Game extends Fiction {
 
 	@NonNegative
 	public int turn;

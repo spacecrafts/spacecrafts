@@ -1,7 +1,7 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.meta.Entity;
-import se.jbee.game.scs.ecs.constant.FrameClassification;
+import se.jbee.game.any.ecs.meta.EntityType;
+import se.jbee.game.scs.ecs.constant.Model;
 import se.jbee.game.scs.ecs.system.PropulsionSystem;
 import se.jbee.game.scs.ecs.system.System;
 
@@ -10,7 +10,7 @@ import se.jbee.game.scs.ecs.system.System;
  * {@link Planet}.
  *
  * {@link Spacecraft}s can transition to become a {@link Spacestation} and
- * backwards if they match the criteria required for the {@link FrameClassification}.
+ * backwards if they match the criteria required for the {@link Model}.
  *
  * While any {@link Spacecraft} can become a stationary in principle it has to
  * be able to get into {@link Orbit}. A craft build on {@link Planet} or
@@ -22,7 +22,7 @@ import se.jbee.game.scs.ecs.system.System;
  * can be coupled with the later station {@link Module}s using coupling or
  * tractor beam {@link System}.
  */
-@Entity("spacestation")
+@EntityType("spacestation")
 public final class Spacestation extends Frame<Orbit.Ref> {
 
 	public static final class Ref extends Frame.Ref<Spacestation> {

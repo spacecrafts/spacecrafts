@@ -4,7 +4,7 @@ import se.jbee.game.any.ecs.comp.Name;
 import se.jbee.game.scs.ecs.Player;
 
 /**
- * A {@link EntityType} that represents player defined compositions.
+ * A {@link Entity} that represents player defined compositions.
  */
 public abstract class Composition extends Instance {
 

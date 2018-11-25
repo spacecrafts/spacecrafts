@@ -1,6 +1,6 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.scs.ecs.constant.Ability;
 import se.jbee.game.scs.ecs.constant.Material;
 import se.jbee.game.scs.ecs.system.System;
@@ -19,7 +19,7 @@ import se.jbee.game.scs.ecs.system.System;
  *
  * All discoveries can be browsed and searched in a log book.
  */
-@Entity("discovery")
+@EntityType("discovery")
 public final class Discovery extends Event {
 
 	public Ability.Ref addsAbility;

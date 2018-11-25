@@ -3,7 +3,7 @@ package se.jbee.game.scs;
 import se.jbee.game.any.ecs.Spectrum;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.meta.Percent;
-import se.jbee.game.scs.ecs.Troop;
+import se.jbee.game.scs.ecs.Squad;
 
 public final class Morale extends Spectrum {
 
@@ -19,7 +19,7 @@ public final class Morale extends Spectrum {
 	}
 
 	/**
-	 * The boost given to a {@link Troop}s damage.
+	 * The boost given to a {@link Squad}s damage.
 	 */
 	@Percent
 	public byte boost;

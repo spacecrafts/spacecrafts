@@ -1,6 +1,6 @@
 package se.jbee.game.scs.ecs.system;
 
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.scs.ecs.constant.WeaponType;
 
@@ -8,7 +8,7 @@ import se.jbee.game.scs.ecs.constant.WeaponType;
  * {@link WeaponSystem} fire in order of their {@link TacticalSystem#applicationDelay}.
  * Multiple shots in a round are delayed by the {@link TacticalSystem#actuationDelay}.
  */
-@Entity("weaponsystem")
+@EntityType("weaponsystem")
 public final class WeaponSystem extends TacticalSystem {
 
 	public static final class Ref extends TacticalSystem.Ref<WeaponSystem> {

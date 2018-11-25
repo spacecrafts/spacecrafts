@@ -2,7 +2,7 @@ package se.jbee.game.scs.ecs.constant;
 
 import se.jbee.game.any.ecs.Preselection;
 import se.jbee.game.any.ecs.comp.ByteRef;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Positive;
 import se.jbee.game.scs.ecs.Module;
 import se.jbee.game.scs.ecs.Planet;
@@ -16,7 +16,7 @@ import se.jbee.game.scs.ecs.system.System;
  *
  * Groups are used to distinguish natual from artificial materials.
  */
-@Entity("#material")
+@EntityType("&material")
 public final class Material extends Preselection {
 
 	public static final class Ref extends ByteRef<Material> {
@@ -29,6 +29,7 @@ public final class Material extends Preselection {
 			return Material.class;
 		}
 	}
+
 	@Positive
 	public byte structurePerCell;
 	@Positive

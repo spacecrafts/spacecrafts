@@ -1,11 +1,10 @@
 package se.jbee.game.scs.ecs.device;
 
 import se.jbee.game.any.ecs.State;
-import se.jbee.game.any.ecs.meta.Entity;
-import se.jbee.game.scs.ecs.Frame;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.scs.ecs.system.DefenceSystem;
 
-@Entity("shield")
+@EntityType("shield")
 public final class Shield extends Device<DefenceSystem, DefenceSystem.Ref> {
 
 	public static final class Ref extends Device.Ref<Shield> {
@@ -20,7 +19,7 @@ public final class Shield extends Device<DefenceSystem, DefenceSystem.Ref> {
 	}
 
 	@Override
-	protected void updateAggregated(State state, Frame<?> frame, DefenceSystem system) {
+	protected void aggregate(State state, DefenceSystem system) {
 		// TODO Auto-generated method stub
 
 	}

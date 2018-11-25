@@ -1,16 +1,16 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.Fabrication;
+import se.jbee.game.any.ecs.Fiction;
 import se.jbee.game.any.ecs.comp.RGB;
 import se.jbee.game.any.ecs.comp.Refs;
 import se.jbee.game.any.ecs.comp.ShortRef;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.scs.ecs.comp.Coordinate;
 import se.jbee.game.scs.ecs.constant.ClassOfStars;
 
-@Entity("solarsystem")
-public final class SolarSystem extends Fabrication {
+@EntityType("solarsystem")
+public final class SolarSystem extends Fiction {
 
 	public static final class Ref extends ShortRef<SolarSystem> {
 	

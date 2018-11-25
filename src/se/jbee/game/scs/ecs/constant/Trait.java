@@ -1,10 +1,10 @@
 package se.jbee.game.scs.ecs.constant;
 
 import se.jbee.game.any.ecs.Preselection;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Range;
 
-@Entity("#trait")
+@EntityType("&trait")
 public final class Trait extends Preselection {
 
 	/**

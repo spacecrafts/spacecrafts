@@ -1,13 +1,13 @@
 package se.jbee.game.scs.ecs;
 
 import se.jbee.game.any.ecs.comp.Name;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 
 /**
  * So far just an idea. An {@link Incident} is an event like discovery of
  * foreign agents, actions of espionage or sabotage.
  */
-@Entity("incident")
+@EntityType("incident")
 public final class Incident extends Event {
 
 	/**

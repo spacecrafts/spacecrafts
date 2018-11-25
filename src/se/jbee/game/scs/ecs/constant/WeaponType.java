@@ -2,7 +2,7 @@ package se.jbee.game.scs.ecs.constant;
 
 import se.jbee.game.any.ecs.Preselection;
 import se.jbee.game.any.ecs.comp.ByteRef;
-import se.jbee.game.any.ecs.meta.Entity;
+import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.scs.ecs.comp.Curve;
 import se.jbee.game.scs.ecs.system.WeaponSystem;
 
@@ -11,7 +11,7 @@ import se.jbee.game.scs.ecs.system.WeaponSystem;
  *
  * It also describes how a {@link WeaponSystem} affects the target.
  */
-@Entity(":weapon")
+@EntityType("&weapontype")
 public final class WeaponType extends Preselection { //TODO maybe this should be about how damage is caused only in the sense that a beam and a mass weapon are the same or almost the same
 
 	public static final class Ref extends ByteRef<WeaponType> {
