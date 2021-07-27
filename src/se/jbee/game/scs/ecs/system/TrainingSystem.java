@@ -17,8 +17,8 @@ public final class TrainingSystem extends TacticalSystem {
 	}
 
 	@Override
-	public Area area() {
-		return Area.CREW;
+	public Function function() {
+		return Function.CREW;
 	}
 
 	/**

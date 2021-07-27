@@ -7,7 +7,7 @@ import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Percent;
 import se.jbee.game.any.ecs.meta.Range;
 
-@EntityType("&startype")
+@EntityType("startype")
 public final class ClassOfStars extends Spectrum {
 
 	public static final class Ref extends ByteRef<ClassOfStars> {

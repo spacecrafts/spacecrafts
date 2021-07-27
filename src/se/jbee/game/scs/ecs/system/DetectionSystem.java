@@ -17,7 +17,7 @@ public final class DetectionSystem extends TacticalSystem {
 	}
 
 	@Override
-	public Area area() {
-		return Area.SPECIAL;
+	public Function function() {
+		return Function.SPECIAL;
 	}
 }

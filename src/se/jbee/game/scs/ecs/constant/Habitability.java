@@ -7,7 +7,7 @@ import se.jbee.game.any.ecs.comp.Refs;
 import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Percent;
 
-@EntityType("&habitability")
+@EntityType("habitability")
 public final class Habitability extends Classification {
 
 	public static final class Ref extends ByteRef<Habitability> {

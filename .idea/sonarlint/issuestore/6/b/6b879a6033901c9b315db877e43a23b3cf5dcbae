@@ -1,0 +1,13 @@
+
+O
+java:S5993-"9Change the visibility of this constructor to "protected".(Ï¦½·
+[
+java:S1124+"EReorder the modifiers to comply with the Java Language Specification.(—ñ†ü
+k
+java:S1104>"UMake prototype a static final constant or non-public and provide accessors if needed.(Ü·ƒ°
+h
+java:S1104C"RMake system a static final constant or non-public and provide accessors if needed.(’ÆÅÞ
+l
+java:S1104E"QMake cells a static final constant or non-public and provide accessors if needed.( á«Øþÿÿÿÿ
+b
+java:S2259›"?A "NullPointerException" could be thrown; "s" is nullable here.(¡®ôÓúÿÿÿÿ8¡‰Ë—­/

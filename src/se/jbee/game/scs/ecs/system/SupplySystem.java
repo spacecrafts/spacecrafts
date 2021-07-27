@@ -28,8 +28,8 @@ public final class SupplySystem extends System {
 	}
 
 	@Override
-	public Area area() {
-		return Area.SUPPLY;
+	public Function function() {
+		return Function.SUPPLY;
 	}
 
 	public boolean staffRequired;

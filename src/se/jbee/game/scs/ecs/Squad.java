@@ -1,6 +1,6 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.Manifestation;
+import se.jbee.game.any.ecs.Detail;
 import se.jbee.game.any.ecs.comp.IntRef;
 import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.NonNegative;
@@ -14,7 +14,7 @@ import se.jbee.game.scs.ecs.constant.Trait;
  * {@link Spacestation}.
  */
 @EntityType("squad")
-public final class Squad extends Manifestation {
+public final class Squad extends Detail {
 
 	public static final class Ref extends IntRef<Squad> {
 

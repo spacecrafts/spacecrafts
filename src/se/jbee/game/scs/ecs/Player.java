@@ -1,6 +1,6 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.Fiction;
+import se.jbee.game.any.ecs.Essence;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.comp.Refs;
 import se.jbee.game.any.ecs.meta.Aggregated;
@@ -10,10 +10,11 @@ import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.any.ecs.meta.Positive;
 import se.jbee.game.scs.ecs.constant.Ability;
 import se.jbee.game.scs.ecs.constant.Technology;
+import se.jbee.game.scs.ecs.layout.Blueprint;
 import se.jbee.game.scs.ecs.system.System;
 
 @EntityType("player")
-public final class Player extends Fiction {
+public final class Player extends Essence {
 
 	public static final class Ref extends ByteRef<Player> {
 

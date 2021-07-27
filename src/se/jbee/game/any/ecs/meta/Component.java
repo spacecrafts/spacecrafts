@@ -11,6 +11,8 @@ import se.jbee.game.any.ecs.Entity;
 /**
  * Used to mark persisted state fields within an {@link EntityType} to give each
  * field a code that is unique and stable within the entity.
+ * 
+ * Components are "primitive" values. As such they an be composed out of other components.
  */
 @Retention(RUNTIME)
 @Target(FIELD)

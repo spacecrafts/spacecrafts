@@ -2,6 +2,7 @@ package se.jbee.game.scs.ecs;
 
 import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.scs.ecs.constant.Model;
+import se.jbee.game.scs.ecs.layout.Module;
 import se.jbee.game.scs.ecs.system.PropulsionSystem;
 import se.jbee.game.scs.ecs.system.System;
 

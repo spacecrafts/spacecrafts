@@ -4,7 +4,7 @@ import se.jbee.game.any.ecs.Preselection;
 import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Range;
 
-@EntityType("&trait")
+@EntityType("trait")
 public final class Trait extends Preselection {
 
 	/**

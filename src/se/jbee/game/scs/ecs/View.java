@@ -1,6 +1,6 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.Manifestation;
+import se.jbee.game.any.ecs.Detail;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.scs.ecs.constant.Screen;
@@ -8,7 +8,7 @@ import se.jbee.game.scs.ecs.constant.Screen;
 /**
  * Controls the current view (screen, actions, etcetera) for human {@link Player}s.
  */
-public final class View extends Manifestation {
+public final class View extends Detail {
 
 	public static final class Ref extends ByteRef<View> {
 

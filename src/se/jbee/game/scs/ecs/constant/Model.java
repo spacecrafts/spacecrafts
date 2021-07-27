@@ -7,7 +7,7 @@ import se.jbee.game.any.ecs.meta.Percent;
 import se.jbee.game.any.ecs.meta.Positive;
 import se.jbee.game.scs.ecs.Frame;
 
-@EntityType("&model")
+@EntityType("model")
 public final class Model extends Preselection {
 
 	public static final class Ref extends ShortRef<Model> {

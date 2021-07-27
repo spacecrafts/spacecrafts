@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import se.jbee.game.any.ecs.ComponentType;
 import se.jbee.game.any.ecs.meta.Component;
-import se.jbee.game.scs.ecs.Module;
+import se.jbee.game.scs.ecs.layout.Module;
 
 /**
  * A list of 2D {@link Location}s in the virtual grid of a {@link Module}.

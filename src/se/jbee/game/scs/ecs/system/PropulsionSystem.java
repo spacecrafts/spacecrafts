@@ -27,7 +27,7 @@ public final class PropulsionSystem extends TacticalSystem {
 	public byte wrapThrust;
 
 	@Override
-	public Area area() {
-		return Area.SUPPORT;
+	public Function function() {
+		return Function.SUPPORT;
 	}
 }

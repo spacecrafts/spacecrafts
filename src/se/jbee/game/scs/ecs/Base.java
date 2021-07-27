@@ -1,6 +1,6 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.Fiction;
+import se.jbee.game.any.ecs.Essence;
 import se.jbee.game.any.ecs.Instance;
 import se.jbee.game.any.ecs.comp.ShortRef;
 import se.jbee.game.scs.ecs.system.System;
@@ -8,7 +8,7 @@ import se.jbee.game.scs.ecs.system.System;
 /**
  * Something that a {@link Frame} can be placed upon.
  */
-public abstract class Base extends Fiction {
+public abstract class Base extends Essence {
 
 	public static abstract class Ref<T extends Instance> extends ShortRef<T> {
 

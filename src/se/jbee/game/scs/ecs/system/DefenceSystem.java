@@ -28,8 +28,8 @@ public final class DefenceSystem extends TacticalSystem {
 	}
 
 	@Override
-	public Area area() {
-		return Area.DEFENCE;
+	public Function function() {
+		return Function.DEFENCE;
 	}
 
 	/**

@@ -3,19 +3,24 @@ package se.jbee.game.scs.ecs.system;
 import se.jbee.game.any.ecs.Preselection;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.meta.Code;
+import se.jbee.game.any.ecs.meta.EntitySort;
 import se.jbee.game.any.ecs.meta.NonNegative;
+import se.jbee.game.any.ecs.meta.PerCell;
+import se.jbee.game.any.ecs.meta.PerTurn;
 import se.jbee.game.any.ecs.meta.Percent;
 import se.jbee.game.any.ecs.meta.Positive;
-import se.jbee.game.scs.ecs.Layout;
+import se.jbee.game.any.ecs.meta.EntitySort.Sort;
 import se.jbee.game.scs.ecs.Settings;
 import se.jbee.game.scs.ecs.comp.Curve;
 import se.jbee.game.scs.ecs.constant.SystemType;
 import se.jbee.game.scs.ecs.device.Device;
+import se.jbee.game.scs.ecs.layout.Layout;
 
 /**
  * {@link System}s are the types of components that can be placed in a
  * {@link Layout}.
  */
+@EntitySort(Sort.SYSTEM)
 public abstract class System extends Preselection {
 
 	public static abstract class Ref<T extends System> extends ByteRef<T> {
@@ -25,7 +30,7 @@ public abstract class System extends Preselection {
 		}
 	}
 
-	public enum Area {
+	public enum Function {
 		@Code('A') ATTACK,
 		@Code('C') CREW,
 		@Code('D') DEFENCE,
@@ -40,7 +45,7 @@ public abstract class System extends Preselection {
 		@Code('Y') SUPPLY,
 	}
 
-	public abstract System.Area area();
+	public abstract System.Function function();
 
 	public SystemType.Ref areaOfApplication;
 
@@ -69,15 +74,21 @@ public abstract class System extends Preselection {
 	 */
 
 	@NonNegative
+	@PerCell
 	public byte weight;
 
 	@NonNegative
+	@PerCell
 	public byte destructionCosts;
 	@Positive
+	@PerCell
 	public byte constructionCosts;
 	@Positive
+	@PerCell
 	public byte rareMaterialCosts;
 	@NonNegative
+	@PerTurn
+	@PerCell
 	public byte energyConsumption;
 	/**
 	 * The {@link Settings#deviceNeighbouringBoost} or

@@ -3,8 +3,8 @@ package se.jbee.game.scs.ecs.constant;
 import se.jbee.game.any.ecs.Preselection;
 import se.jbee.game.any.ecs.comp.ShortRef;
 import se.jbee.game.any.ecs.meta.EntityType;
-import se.jbee.game.scs.ecs.Module;
-import se.jbee.game.scs.ecs.Blueprint;
+import se.jbee.game.scs.ecs.layout.Blueprint;
+import se.jbee.game.scs.ecs.layout.Module;
 import se.jbee.game.scs.ecs.system.System;
 
 /**
@@ -13,7 +13,7 @@ import se.jbee.game.scs.ecs.system.System;
  * Answers the question: Can a {@link System}s of a certain {@link SystemType}
  * be placed on a certain cell.
  */
-@EntityType("&systemtype")
+@EntityType("systemtype")
 public final class SystemType extends Preselection {
 
 	public static final class Ref extends ShortRef<SystemType> {

@@ -1,7 +1,7 @@
 package se.jbee.game.scs.ecs;
 
 import se.jbee.game.any.ecs.Aggregating;
-import se.jbee.game.any.ecs.Fiction;
+import se.jbee.game.any.ecs.Essence;
 import se.jbee.game.any.ecs.State;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.comp.Refs;
@@ -14,7 +14,7 @@ import se.jbee.game.scs.ecs.constant.Trait;
 import se.jbee.game.scs.ecs.system.System;
 
 @EntityType("race")
-public final class Race extends Fiction implements Aggregating {
+public final class Race extends Essence implements Aggregating {
 
 	public static final class Ref extends ByteRef<Race> {
 

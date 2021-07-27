@@ -1,8 +1,8 @@
 package se.jbee.game.any.ecs;
 
 /**
- * A set of options that are on a common axis but do not overlap. They have no
- * particular order or sequence on that axis.
+ * A set of options that belong to a common space but do not overlap. They have
+ * no particular order or sequence.
  *
  * @see Spectrum
  */

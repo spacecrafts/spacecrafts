@@ -20,13 +20,18 @@ public final class Planet extends Base {
 			return Planet.class;
 		}
 	}
+	
+	// Planet Qualities
 	public RGB hue;
-	@Range(min = 1, max = 10)
-	public int solarSystemPosition;
-	public Refs<Moon> orbitingMoons;
-	public Orbit.Ref orbit;
 	public Habitability.Ref habitability;
 	public Richness.Ref richness;
+
+	@Range(min = 1, max = 10)
+	public int solarSystemPosition; //TODO is this the zone? no - the position in the concrete sequence
+	
+	public Refs<Moon> orbitingMoons;
+	public Orbit.Ref orbit;
 	public Colony.Ref colony;
+
 
 }

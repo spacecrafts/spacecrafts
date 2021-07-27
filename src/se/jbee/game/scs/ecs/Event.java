@@ -1,9 +1,9 @@
 package se.jbee.game.scs.ecs;
 
-import se.jbee.game.any.ecs.Manifestation;
+import se.jbee.game.any.ecs.Detail;
 import se.jbee.game.any.ecs.meta.NonNegative;
 
-public abstract class Event extends Manifestation {
+public abstract class Event extends Detail {
 
 	/**
 	 * The {@link Game#turn} the event happened.

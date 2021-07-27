@@ -4,7 +4,7 @@ import se.jbee.game.any.ecs.Classification;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.meta.EntityType;
 
-@EntityType("&atmosphere")
+@EntityType("atmosphere")
 public final class Atmosphere extends Classification {
 
 	public static final class Ref extends ByteRef<Atmosphere> {

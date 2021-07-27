@@ -1,20 +1,22 @@
 package se.jbee.game.scs.ecs.device;
 
 import se.jbee.game.any.ecs.Aggregating;
-import se.jbee.game.any.ecs.Manifestation;
+import se.jbee.game.any.ecs.Detail;
 import se.jbee.game.any.ecs.State;
 import se.jbee.game.any.ecs.comp.IntRef;
 import se.jbee.game.any.ecs.comp.VariedRefs;
 import se.jbee.game.any.ecs.meta.Aggregated;
+import se.jbee.game.any.ecs.meta.EntitySort;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.any.ecs.meta.Percentage;
+import se.jbee.game.any.ecs.meta.EntitySort.Sort;
 import se.jbee.game.scs.ecs.Frame;
-import se.jbee.game.scs.ecs.Module;
 import se.jbee.game.scs.ecs.Player;
-import se.jbee.game.scs.ecs.Blueprint;
 import se.jbee.game.scs.ecs.comp.Locations;
 import se.jbee.game.scs.ecs.constant.Technology;
 import se.jbee.game.scs.ecs.constant.Trait;
+import se.jbee.game.scs.ecs.layout.Blueprint;
+import se.jbee.game.scs.ecs.layout.Module;
 import se.jbee.game.scs.ecs.system.System;
 
 /**
@@ -35,7 +37,8 @@ import se.jbee.game.scs.ecs.system.System;
  * the effective component number. This is the how much single components a bank
  * equals.
  */
-public abstract class Device<T extends System, R extends System.Ref<? extends T>> extends Manifestation implements Aggregating {
+@EntitySort(Sort.DEVICE)
+public abstract class Device<T extends System, R extends System.Ref<? extends T>> extends Detail implements Aggregating {
 
 	public static abstract class Ref<T extends Device<?, ?>> extends IntRef<T> {
 
@@ -147,7 +150,7 @@ public abstract class Device<T extends System, R extends System.Ref<? extends T>
 
 	@Override
 	public final void aggregate(State state) {
-		T s = state.entity(system);
+		T s = null; //state.entity(system);
 		//TODO update malfunctioningCells, effectiveCells
 		this.effectiveEnergyConsumption = (short) (effectiveCells * s.energyConsumption);
 		this.totalWeight = (short) (totalCells * s.weight);

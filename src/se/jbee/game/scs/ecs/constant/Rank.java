@@ -4,7 +4,7 @@ import se.jbee.game.any.ecs.Spectrum;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.meta.EntityType;
 
-@EntityType("&rank")
+@EntityType("rank")
 public final class Rank extends Spectrum {
 
 	public static final class Ref extends ByteRef<Rank> {

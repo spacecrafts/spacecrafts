@@ -5,7 +5,7 @@ import se.jbee.game.any.ecs.comp.ShortRef;
 import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Range;
 
-@EntityType("&technology")
+@EntityType("tech")
 public final class Technology extends Preselection {
 
 	public static final class Ref extends ShortRef<Technology> {

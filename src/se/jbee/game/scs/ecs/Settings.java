@@ -13,6 +13,7 @@ import se.jbee.game.any.ecs.meta.Preference;
 import se.jbee.game.any.ecs.meta.Range;
 import se.jbee.game.scs.ecs.comp.Coordinate;
 import se.jbee.game.scs.ecs.constant.Trait;
+import se.jbee.game.scs.ecs.layout.Module;
 import se.jbee.game.scs.ecs.system.PropulsionSystem;
 
 /**

@@ -64,12 +64,12 @@ public final class Resources {
 
 			@Override
 			public void run() {
-				yield(lazyFonts, fonts);
-				yield(lazyNoises, noises);
-				yield(lazyImages, images);
+				yield1(lazyFonts, fonts);
+				yield1(lazyNoises, noises);
+				yield1(lazyImages, images);
 			}
 
-			private <T> void yield(Resource<T>[] resources, T[] instances) {
+			private <T> void yield1(Resource<T>[] resources, T[] instances) {
 				for (int i = 0; i < resources.length; i++) {
 					Resource<T> resource = resources[i];
 					if (resource != null) {
@@ -112,14 +112,14 @@ public final class Resources {
 	}
 
 	public Noise noise(int type) {
-		return yield(type, lazyNoises, noises);
+		return yield1(type, lazyNoises, noises);
 	}
 
 	public BufferedImage texture(int type) {
-		return yield(type, lazyImages, images);
+		return yield1(type, lazyImages, images);
 	}
 
-	private <T> T yield(int type, Resource<T>[] rs, T[] is) {
+	private <T> T yield1(int type, Resource<T>[] rs, T[] is) {
 		if (type < 0 || type >= images.length)
 			type = 0;
 		T i = is[type];

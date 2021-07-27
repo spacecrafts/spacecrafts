@@ -2,6 +2,8 @@ package se.jbee.game.any.ecs;
 
 import se.jbee.game.any.ecs.comp.Name;
 import se.jbee.game.any.ecs.meta.Component;
+import se.jbee.game.any.ecs.meta.EntitySort;
+import se.jbee.game.any.ecs.meta.EntitySort.Sort;
 
 /**
  * {@link Constant}s are entities loaded from game files initially. In contrast
@@ -15,6 +17,7 @@ import se.jbee.game.any.ecs.meta.Component;
  * constants to make sure that all constants supported by the code running are
  * known in the game. If they are not referenced they might not be stored.
  */
+@EntitySort(Sort.CONSTANT)
 public abstract class Constant extends Entity {
 
 	/**

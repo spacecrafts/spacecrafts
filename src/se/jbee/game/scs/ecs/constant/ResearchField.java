@@ -4,7 +4,7 @@ import se.jbee.game.any.ecs.Spectrum;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.meta.EntityType;
 
-@EntityType("&researchfield")
+@EntityType("researchfield")
 public final class ResearchField extends Spectrum {
 
 	public static final class Ref extends ByteRef<ResearchField> {
@@ -17,6 +17,5 @@ public final class ResearchField extends Spectrum {
 			return ResearchField.class;
 		}
 	}
-
 
 }

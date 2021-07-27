@@ -7,9 +7,9 @@ import se.jbee.game.any.ecs.meta.Code;
 import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Positive;
 import se.jbee.game.scs.ecs.Colony;
-import se.jbee.game.scs.ecs.Module;
 import se.jbee.game.scs.ecs.Spacecraft;
 import se.jbee.game.scs.ecs.Spacestation;
+import se.jbee.game.scs.ecs.layout.Module;
 import se.jbee.game.scs.gfx.obj.Planet;
 
 /**
@@ -33,7 +33,7 @@ import se.jbee.game.scs.gfx.obj.Planet;
  * more attractive and important than building production {@link Spacestation}
  * or {@link Spacecraft}s.
  */
-@EntityType("&resource")
+@EntityType("resource")
 public final class Resource extends Preselection {
 
 	public static final class Ref extends ByteRef<Resource> {

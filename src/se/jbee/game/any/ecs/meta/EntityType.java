@@ -24,4 +24,5 @@ public @interface EntityType {
 	 * @return the globally unique key that identifies the type of {@link Entity}.
 	 */
 	String value();
+	
 }

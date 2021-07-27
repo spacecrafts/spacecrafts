@@ -17,7 +17,7 @@ public final class ControlSystem extends System {
 	}
 
 	@Override
-	public Area area() {
-		return Area.SUPPORT;
+	public Function function() {
+		return Function.SUPPORT;
 	}
 }

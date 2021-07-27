@@ -11,7 +11,7 @@ import se.jbee.game.scs.ecs.system.WeaponSystem;
  *
  * It also describes how a {@link WeaponSystem} affects the target.
  */
-@EntityType("&weapontype")
+@EntityType("weapontype")
 public final class WeaponType extends Preselection { //TODO maybe this should be about how damage is caused only in the sense that a beam and a mass weapon are the same or almost the same
 
 	public static final class Ref extends ByteRef<WeaponType> {

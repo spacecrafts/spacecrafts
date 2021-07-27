@@ -4,10 +4,10 @@ import se.jbee.game.any.ecs.Preselection;
 import se.jbee.game.any.ecs.comp.ByteRef;
 import se.jbee.game.any.ecs.meta.EntityType;
 import se.jbee.game.any.ecs.meta.Positive;
-import se.jbee.game.scs.ecs.Module;
 import se.jbee.game.scs.ecs.Planet;
 import se.jbee.game.scs.ecs.Spacecraft;
 import se.jbee.game.scs.ecs.comp.Curve;
+import se.jbee.game.scs.ecs.layout.Module;
 import se.jbee.game.scs.ecs.system.System;
 
 /**
@@ -16,7 +16,7 @@ import se.jbee.game.scs.ecs.system.System;
  *
  * Groups are used to distinguish natual from artificial materials.
  */
-@EntityType("&material")
+@EntityType("material")
 public final class Material extends Preselection {
 
 	public static final class Ref extends ByteRef<Material> {

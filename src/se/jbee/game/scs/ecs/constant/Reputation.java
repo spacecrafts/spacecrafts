@@ -10,7 +10,7 @@ import se.jbee.game.scs.ecs.Player;
 /**
  * One {@link Player} in the eye of another one.
  */
-@EntityType("&reputation")
+@EntityType("reputation")
 public final class Reputation extends Spectrum {
 
 	public static final class Ref extends ByteRef<Reputation> {

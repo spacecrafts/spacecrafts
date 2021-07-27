@@ -1,16 +1,18 @@
 package se.jbee.game.scs.ecs;
 
 import se.jbee.game.any.ecs.Composition;
-import se.jbee.game.any.ecs.Manifestation;
+import se.jbee.game.any.ecs.Detail;
 import se.jbee.game.any.ecs.comp.IntRef;
 import se.jbee.game.any.ecs.meta.Aggregated;
 import se.jbee.game.any.ecs.meta.Code;
 import se.jbee.game.any.ecs.meta.NonNegative;
 import se.jbee.game.scs.ecs.constant.Model;
 import se.jbee.game.scs.ecs.device.Device;
+import se.jbee.game.scs.ecs.layout.Blueprint;
+import se.jbee.game.scs.ecs.layout.Module;
 
 /**
- * A {@link Frame} is the base type for {@link Manifestation}s of a
+ * A {@link Frame} is the base type for {@link Detail}s of a
  * {@link Blueprint}. It consists of one or more {@link Module} that are
  * connected together.
  *
