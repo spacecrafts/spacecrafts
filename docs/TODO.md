@@ -17,7 +17,7 @@
   aggregations that should be applied. these are pure function classes that use
   the grid and component as input to compute and add a output resource quantity
   to the output table. This is a key-value system representing "resources" in
-  the game that are linked to certain actionale things. aggregations need to
-  define a global order of applyance so that aggreation takes effect the way it
+  the game that are linked to certain actionable things. aggregations need to
+  define a global order of appliance so that aggregation takes effect the way it
   is supposed to happen. aggregations are temporary and not part of any
-  persistet game state => less stuff to persist.
+  persistent game state => less stuff to persist.
