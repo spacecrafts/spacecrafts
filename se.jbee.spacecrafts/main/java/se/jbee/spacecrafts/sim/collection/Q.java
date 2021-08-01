@@ -1,4 +1,4 @@
-package se.jbee.spacecrafts.sim;
+package se.jbee.spacecrafts.sim.collection;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -21,13 +21,16 @@ public interface Q<T> {
 
     void forEach(Consumer<T> f);
 
-    T until(Predicate<T> test);
+    T first(Predicate<T> test);
 
     default boolean isEmpty() {
         return size() == 0;
     }
 
     default boolean contains(Predicate<T> test) {
-        return until(test) != null;
+        return first(test) != null;
     }
+
+    int findIndex(T e);
+
 }

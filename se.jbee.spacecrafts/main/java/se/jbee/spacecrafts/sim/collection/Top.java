@@ -1,4 +1,4 @@
-package se.jbee.spacecrafts.sim;
+package se.jbee.spacecrafts.sim.collection;
 
 /**
  * A {@link Top} is an ordered list ordered from most important at index zero to

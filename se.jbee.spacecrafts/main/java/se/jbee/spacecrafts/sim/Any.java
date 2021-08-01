@@ -1,5 +1,9 @@
 package se.jbee.spacecrafts.sim;
 
+import se.jbee.spacecrafts.sim.collection.Q;
+
+import java.util.NoSuchElementException;
+
 public interface Any {
 
     interface Identity {
@@ -82,7 +86,11 @@ public interface Any {
      * registered programmatically as part of the bootstrapping of the game
      * engine.
      */
-    interface Algorithmic {}
+    interface Algorithmic {
+        Class<?> type();
+
+        //TODO do all actual algorithms have a verify(Game) method that makes sure they have what they need?
+    }
 
     /**
      * Something the player can change at will.
@@ -110,4 +118,33 @@ public interface Any {
             Class<T> type,
             T f
     ) implements Algorithmic, Definition {}
+
+
+    record Control(
+            Defined header,
+            ControlOption initial,
+            Q<ControlOption> options
+    ) implements Definition {}
+
+    record ControlOption(
+            String label,
+            int value
+    ) implements Embedded {}
+
+    record ControlGroup<T>(
+            Defined header,
+            Class<T> of,
+            Q<Control> controls
+    ) implements Definition {}
+
+    interface Controls<T> {
+
+        ControlOption get(Code key) throws NoSuchElementException;
+
+        ControlOption get(Control key) throws NoSuchElementException;
+
+        void set(Control key, ControlOption value) throws IllegalStateException;
+
+        void reset();
+    }
 }

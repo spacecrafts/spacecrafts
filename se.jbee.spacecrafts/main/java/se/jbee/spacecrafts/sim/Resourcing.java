@@ -1,19 +1,39 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.Any.Algorithm;
-import se.jbee.spacecrafts.sim.Any.Defined;
-import se.jbee.spacecrafts.sim.Any.Quality;
+import se.jbee.spacecrafts.sim.collection.Maybe;
+import se.jbee.spacecrafts.sim.collection.Q;
 
-import static se.jbee.spacecrafts.sim.Any.Embedded;
+import java.util.function.Consumer;
+
+import static se.jbee.spacecrafts.sim.Any.*;
 
 public interface Resourcing {
 
     record Property(
             Defined header,
             int ordinal,
-            Integer min,
-            Integer max
+            Limit limit
     ) implements Quality {}
+
+    record PropertyGroup(
+            Defined header,
+            int ordinal,
+            Q<Property> members
+    ) implements Quality {}
+
+    record Tag(Defined header) implements Definition {}
+
+    record TagGroup(
+            Defined header,
+            int ordinal,
+            Q<Tag> members
+    ) implements Quality {}
+
+    record Limit(
+            Integer min,
+            Integer max,
+            Integer cap
+    ) implements Embedded {}
 
     /**
      * Elevates a {@link Property} to a physical {@link Resource}.
@@ -23,7 +43,8 @@ public interface Resourcing {
     record Resource(
             Defined header,
             int ordinal,
-            Property of
+            Property amount,
+            Property boost
     ) implements Quality {}
 
     record Quantity(
@@ -38,32 +59,38 @@ public interface Resourcing {
             boolean unconditional
     ) implements Embedded {}
 
-    interface BiPredicate {
+    interface Comparison {
 
-        boolean test(Numbers actuals, Numbers limits);
+        boolean test(Q<Property> on, Numbers actuals, Numbers limits);
 
         //TODO add a way so that non-acceptance is explained?
     }
 
     record Check(
-            Property on,
+            Q<Property> on,
             Numbers limits,
-            Algorithm<BiPredicate> target
+            Algorithm<Comparison> target
     ) implements Embedded {}
 
     record Process(
-            Q<Check> needs,
+            Q<Check> preconditions,
             Q<Quantity> ins,
             Q<Quantity> outs,
             Q<Effect> shifts
     ) implements Embedded {}
 
-    record Manifestation(
+    record Influence(
             Defined header,
             int ordinal,
             Process progression,
             Numbers zeros
     ) implements Quality {}
+
+    record Substance(
+            Defined header,
+            Maybe<Resource> deposits,
+            Maybe<Influence> phenomenon
+    ) implements Definition {}
 
     interface Numbers {
         int get(Property key);
@@ -73,9 +100,31 @@ public interface Resourcing {
         void inc(Property key, int delta);
 
         void zero(Numbers zeros);
+
+        void cap(Numbers at);
+
+        void forEach(NumberConsumer f);
+
+        interface NumberConsumer {
+            void accept(Property key, int value);
+        }
     }
 
-    // Ideas:
-    // Tags as a way to tag a slot
-    // Preconditions
+    /**
+     * {@link Tags} are like a dynamic enum set. {@link TagGroup}s can be used
+     * to for a dynamic enumeration.
+     */
+    interface Tags {
+
+        boolean has(Tag key);
+
+        void set(Tag key, boolean value);
+
+        void zero(Tags zeros);
+
+        void clear();
+
+        void forEach(Consumer<? super Tag> f);
+
+    }
 }
