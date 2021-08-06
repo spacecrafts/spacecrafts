@@ -7,25 +7,49 @@ import se.jbee.spacecrafts.sim.Governing.Governed;
 
 public interface Processing {
 
-    //TODO how to limit an influence in time/turns?
-    record Temporary() {}
+    interface EventDispatcher {
 
-    interface Event<T extends Event<T>> extends Any.Computed {
+        void dispatch(Event e);
+    }
 
-        void handle(Game game, T e);
+    interface Event extends Any.Computed {
+
+        void handle(Game game, EventDispatcher dispatcher);
+
+        /**
+         * @return the turn in which to apply the event, or -1 if it should be
+         * applied immediately
+         */
+        default int turn() {
+            return -1;
+        }
+    }
+
+    /**
+     * A generic wrapper to make any other event a future event in a specific
+     * turn.
+     */
+    record FutureEvent(
+            Event of,
+            int turn
+    ) implements Event {
+        @Override
+        public void handle(Game game, EventDispatcher dispatcher) {
+            dispatcher.dispatch(of);
+        }
     }
 
     record FoundColonyEvent(
             Fraction founder,
             Text name
-    ) implements Event<FoundColonyEvent> {
+    ) implements Event {
 
         @Override
-        public void handle(Game game, FoundColonyEvent e) {
+        public void handle(Game game, EventDispatcher dispatcher) {
             Colony founded = game.entities().colonies().add(serial -> new Colony(
                     new Governed(serial, name, founder),
                     null));
-            e.founder().governed().colonies().add(founded);
+            founder.governed().colonies().add(founded);
         }
     }
 

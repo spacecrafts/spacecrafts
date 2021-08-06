@@ -139,8 +139,6 @@ public interface Any {
 
     interface Controls<T> {
 
-        ControlOption get(Code key) throws NoSuchElementException;
-
         ControlOption get(Control key) throws NoSuchElementException;
 
         void set(Control key, ControlOption value) throws IllegalStateException;

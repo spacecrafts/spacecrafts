@@ -6,4 +6,4 @@ package se.jbee.spacecrafts.sim.collection;
  *
  * @param <T> list item type
  */
-public interface Top<T> {}
+public interface Top<T> extends Collection<T> {}

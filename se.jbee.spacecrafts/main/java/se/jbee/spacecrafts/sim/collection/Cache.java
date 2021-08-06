@@ -3,9 +3,7 @@ package se.jbee.spacecrafts.sim.collection;
 
 import se.jbee.spacecrafts.sim.Any;
 
-import java.util.function.Consumer;
-
-public interface Cache<T extends Any.Computed> extends Any.Computed {
+public interface Cache<T extends Any.Computed> extends Any.Computed, Collection<T> {
 
     void add(T e);
 
@@ -13,5 +11,4 @@ public interface Cache<T extends Any.Computed> extends Any.Computed {
 
     void clear();
 
-    void forEach(Consumer<? super T> f);
 }

@@ -1,6 +1,9 @@
-package se.jbee.spacecrafts.sim.collection;
+package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Any;
+import se.jbee.spacecrafts.sim.collection.Index;
+import se.jbee.spacecrafts.sim.collection.Pool;
+import se.jbee.spacecrafts.sim.collection.Range;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,8 +59,8 @@ class ArrayPool<T extends Any.Entity> implements Pool<T> {
     @Override
     public T add(IntFunction<T> factory) throws IllegalStateException {
         if (reusableCount == 0) {
-            if (size >= elements.length)
-                elements = copyOf(elements, elements.length + max(8, min(32, elements.length / 2)));
+            if (size >= elements.length) elements = copyOf(elements,
+                    elements.length + max(8, min(32, elements.length / 2)));
             span++;
             var e = factory.apply(size);
             elements[size++] = e;
@@ -79,7 +82,8 @@ class ArrayPool<T extends Any.Entity> implements Pool<T> {
             span--;
         } else {
             if (reusableCount == reusableIndexes.length)
-                reusableIndexes = copyOf(reusableIndexes, reusableIndexes.length + 8);
+                reusableIndexes = copyOf(reusableIndexes,
+                        reusableIndexes.length + 8);
             reusableIndexes[reusableCount++] = serial;
 
         }
@@ -157,8 +161,8 @@ final class ArrayRange<T extends Any.Quality> extends ArrayIndex<T> implements R
     public T add(IntFunction<T> factory) throws IllegalStateException {
         T e = super.add(factory);
         int ordinal = e.ordinal();
-        if (ordinal >= byOrdinal.length)
-            byOrdinal = copyOf(byOrdinal, max(ordinal + 1, byOrdinal.length) + 8);
+        if (ordinal >= byOrdinal.length) byOrdinal = copyOf(byOrdinal,
+                max(ordinal + 1, byOrdinal.length) + 8);
         byOrdinal[ordinal] = e;
         return e;
     }

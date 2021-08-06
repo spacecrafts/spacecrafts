@@ -17,7 +17,8 @@ public interface Governing {
             Created header,
             Numbers score,
             Tags attributes,
-            Governance governed
+            Governance governed,
+            Knowledge acquainted
     ) implements Creation {}
 
     record Leader(
@@ -63,4 +64,6 @@ public interface Governing {
             Flux<Leader> leaders
     ) implements Embedded {}
 
+
+    record Knowledge(Flux<Crafting.Component> components) {}
 }

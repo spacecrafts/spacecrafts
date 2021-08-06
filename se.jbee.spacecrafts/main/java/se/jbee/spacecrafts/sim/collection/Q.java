@@ -1,6 +1,5 @@
 package se.jbee.spacecrafts.sim.collection;
 
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -11,26 +10,29 @@ import java.util.function.Predicate;
  *
  * @param <T> item type
  */
-public interface Q<T> {
+public interface Q<T> extends Collection<T> {
 
-    void add(T e);
+    T get(int index) throws IndexOutOfBoundsException;
+
+    /**
+     * @param e non null
+     * @throws IllegalStateException when this Q is sealed already
+     * @throws NullPointerException  when e is null
+     */
+    void append(T e) throws IllegalStateException, NullPointerException;
 
     void seal();
 
-    int size();
+    T first(Predicate<? super T> test);
 
-    void forEach(Consumer<T> f);
-
-    T first(Predicate<T> test);
-
-    default boolean isEmpty() {
-        return size() == 0;
-    }
-
-    default boolean contains(Predicate<T> test) {
+    @Override
+    default boolean contains(Predicate<? super T> test) {
         return first(test) != null;
     }
 
-    int findIndex(T e);
+    int firstIndex(Predicate<? super T> test);
 
+    default int firstIndex(T sample) {
+        return firstIndex(e -> e.equals(sample));
+    }
 }

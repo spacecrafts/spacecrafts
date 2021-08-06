@@ -3,9 +3,10 @@ package se.jbee.spacecrafts.sim.collection;
 import se.jbee.spacecrafts.sim.Any;
 
 import java.util.NoSuchElementException;
-import java.util.function.Consumer;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
+
+import static se.jbee.spacecrafts.Utils.ofThrowing;
 
 /**
  * A {@link Pool} is a set where elements accessed are expected to exist.
@@ -18,15 +19,9 @@ import java.util.function.Predicate;
  *
  * @param <T>
  */
-public interface Pool<T extends Any.Entity> {
-
-    int size();
+public interface Pool<T extends Any.Entity> extends Collection<T> {
 
     int span();
-
-    default boolean isEmpty() {
-        return size() == 0;
-    }
 
     T get(int serial) throws NoSuchElementException;
 
@@ -34,8 +29,10 @@ public interface Pool<T extends Any.Entity> {
 
     T remove(int serial) throws IllegalStateException;
 
-    void forEach(Consumer<? super T> f);
-
     T first(Predicate<? super T> test) throws NoSuchElementException;
 
+    @Override
+    default boolean contains(Predicate<? super T> test) {
+        return ofThrowing(() -> first(test)).getOrElse(null) != null;
+    }
 }

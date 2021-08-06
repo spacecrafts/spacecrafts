@@ -1,7 +1,8 @@
-package se.jbee.spacecrafts.sim.collection;
+package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Resourcing.Numbers;
 import se.jbee.spacecrafts.sim.Resourcing.Property;
+import se.jbee.spacecrafts.sim.collection.Range;
 
 import static java.lang.Math.min;
 import static java.lang.System.arraycopy;
@@ -27,7 +28,7 @@ final class ArrayNumbers implements Numbers {
     }
 
     @Override
-    public void inc(Property key, int delta) {
+    public void add(Property key, int delta) {
         values[index(key)] += delta;
     }
 
@@ -53,6 +54,30 @@ final class ArrayNumbers implements Numbers {
     private void cap(Property key, int value) {
         var index = index(key);
         values[index] = min(values[index], value);
+    }
+
+    @Override
+    public void add(Numbers added) {
+        if (added instanceof ArrayNumbers fn) {
+            for (int i = 0; i < values.length; i++)
+                if (fn.values[i] >= 0) values[i] += fn.values[i];
+        } else {
+            added.forEach(this::add);
+        }
+    }
+
+    @Override
+    public void sub(Numbers subtracted) {
+        if (subtracted instanceof ArrayNumbers fn) {
+            for (int i = 0; i < values.length; i++)
+                if (fn.values[i] >= 0) values[i] -= fn.values[i];
+        } else {
+            subtracted.forEach(this::sub);
+        }
+    }
+
+    private void sub(Property key, int value) {
+        values[index(key)] -= value;
     }
 
     @Override

@@ -21,6 +21,7 @@ public interface Crafting {
 
     record Unit(
             Component of,
+            XY.Location at,
             Numbers actuals
     ) implements Embedded {}
 
@@ -32,21 +33,17 @@ public interface Crafting {
 
             // configuration
             Top<Resource> priorities
-    ) implements Creation {
-        public enum Type {SHIP, OUTPOST, COLONY, ORBIT, STATION}
-    }
+    ) implements Creation {}
 
     record Deck(
             Created header,
             Numbers totals,
             XY<Unit> units,
+            Top<Unit> construction,
             Cache<Equipment> equipments
     ) implements Creation {
         public enum Type {MAIN, SUPPORT, CARGO}
-
     }
-
-    //TODO build queue...
 
     /*
      * Dynamic model:
@@ -65,10 +62,8 @@ public interface Crafting {
             Q<Cluster> addOns
     ) implements Computed {
         public record Cell(
-                int x,
-                int y,
-                int relatives,
-                Unit unit
+                Unit of,
+                int relatives
         ) implements Embedded {}
     }
 

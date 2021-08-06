@@ -1,6 +1,5 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.collection.Maybe;
 import se.jbee.spacecrafts.sim.collection.Q;
 
 import java.util.function.Consumer;
@@ -21,12 +20,16 @@ public interface Resourcing {
             Q<Property> members
     ) implements Quality {}
 
-    record Tag(Defined header) implements Definition {}
+    record Tag(
+            Defined header,
+            boolean hidden
+    ) implements Definition {}
 
     record TagGroup(
             Defined header,
             int ordinal,
-            Q<Tag> members
+            Q<Tag> members,
+            boolean multiselect
     ) implements Quality {}
 
     record Limit(
@@ -88,8 +91,9 @@ public interface Resourcing {
 
     record Substance(
             Defined header,
-            Maybe<Resource> deposits,
-            Maybe<Influence> phenomenon
+            Q<Resource> deposits,
+            Q<Influence> regional,
+            Q<Influence> widely
     ) implements Definition {}
 
     interface Numbers {
@@ -97,9 +101,13 @@ public interface Resourcing {
 
         void set(Property key, int value);
 
-        void inc(Property key, int delta);
+        void add(Property key, int delta);
 
         void zero(Numbers zeros);
+
+        void add(Numbers added);
+
+        void sub(Numbers subtracted);
 
         void cap(Numbers at);
 

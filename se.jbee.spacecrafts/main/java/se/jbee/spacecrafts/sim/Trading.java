@@ -1,3 +1,8 @@
 package se.jbee.spacecrafts.sim;
 
-public interface Trading {}
+public interface Trading {
+
+    record Offer() {}
+
+    record Market() {}
+}
