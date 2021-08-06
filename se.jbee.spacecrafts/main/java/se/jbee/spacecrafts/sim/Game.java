@@ -46,7 +46,10 @@ public record Game(
             Pool<Conquering.Moon> moons,
 
             Pool<Governing.Fraction> fractions,
-            Pool<Governing.Leader> leaders
+            Pool<Governing.Leader> leaders,
+
+            Pool<Trading.Trade> trades,
+            Pool<Trading.Deal> deals
     ) {
         public Entities {
             pools.alias(Resourcing.Tag.class, this::tags);
