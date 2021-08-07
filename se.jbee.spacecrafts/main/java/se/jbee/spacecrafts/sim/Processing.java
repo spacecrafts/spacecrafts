@@ -48,6 +48,7 @@ public interface Processing {
         public void handle(Game game, EventDispatcher dispatcher) {
             Colony founded = game.entities().colonies().add(serial -> new Colony(
                     new Governed(serial, name, founder),
+                    null,
                     null));
             founder.governed().colonies().add(founded);
         }

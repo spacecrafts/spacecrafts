@@ -2,9 +2,10 @@ package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Any.Algorithm;
 import se.jbee.spacecrafts.sim.Any.Entity;
-import se.jbee.spacecrafts.sim.collection.Index;
-import se.jbee.spacecrafts.sim.collection.Pool;
-import se.jbee.spacecrafts.sim.collection.Range;
+import se.jbee.spacecrafts.sim.state.Index;
+import se.jbee.spacecrafts.sim.state.Pool;
+import se.jbee.spacecrafts.sim.state.Range;
+import se.jbee.spacecrafts.sim.state.Register;
 
 import java.util.function.Supplier;
 
@@ -22,37 +23,40 @@ public record Game(
             Index<Any.Control> controls,
             Index<Any.ControlGroup<?>> controlGroups,
 
-            Index<Resourcing.Tag> tags,
-            Range<Resourcing.TagGroup> tagGroups,
+            Range<Resourcing.Indicator> indicators,
             Range<Resourcing.Property> properties,
-            Range<Resourcing.PropertyGroup> propertyGroups,
             Range<Resourcing.Resource> resources,
             Range<Resourcing.Influence> influences,
+            Index<Resourcing.Classification> classifications,
+            Index<Resourcing.Domain> domains,
+            Index<Resourcing.Phenomenon> phenomena,
             Index<Resourcing.Substance> substances,
 
             Index<Crafting.Component> components,
-            Pool<Crafting.Craft> crafts,
-            Pool<Crafting.Deck> decks,
+            Register<Crafting.Craft> crafts,
+            Register<Crafting.Deck> decks,
 
-            Pool<Conquering.Colony> colonies,
-            Pool<Conquering.LunarBase> bases,
-            Pool<Conquering.OrbitalStation> orbitals,
-            Pool<Conquering.Spaceship> spaceships,
-            Pool<Conquering.SpaceStation> stations,
+            Register<Conquering.Colony> colonies,
+            Register<Conquering.LunarBase> bases,
+            Register<Conquering.OrbitalStation> orbitals,
+            Register<Conquering.Spaceship> spaceships,
+            Register<Conquering.SpaceStation> stations,
 
-            Pool<Conquering.Galaxy> galaxies,
-            Pool<Conquering.SolarSystem> systems,
-            Pool<Conquering.Plant> planets,
-            Pool<Conquering.Moon> moons,
+            Register<Conquering.Galaxy> galaxies,
+            Register<Conquering.SolarSystem> systems,
+            Register<Conquering.Plant> planets,
+            Register<Conquering.Moon> moons,
 
-            Pool<Governing.Fraction> fractions,
-            Pool<Governing.Leader> leaders,
+            Register<Governing.Fraction> fractions,
+            Index<Governing.Trait> traits,
+            Index<Governing.Sphere> spheres,
+            Register<Governing.Leader> leaders,
 
-            Pool<Trading.Trade> trades,
-            Pool<Trading.Deal> deals
+            Register<Trading.Trade> trades,
+            Register<Trading.Deal> deals
     ) {
         public Entities {
-            pools.alias(Resourcing.Tag.class, this::tags);
+            pools.alias(Resourcing.Indicator.class, this::indicators);
         }
     }
 

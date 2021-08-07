@@ -1,6 +1,7 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.collection.Q;
+import se.jbee.spacecrafts.sim.state.Maybe;
+import se.jbee.spacecrafts.sim.state.Q;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -50,9 +51,9 @@ final class ArrayQ<T> implements Q<T> {
     }
 
     @Override
-    public T first(Predicate<? super T> test) {
+    public Maybe<T> first(Predicate<? super T> test) {
         var index = firstIndex(test);
-        return index < 0 ? null : get(index);
+        return index < 0 ? Maybe.nothing() : Maybe.some(get(index));
     }
 
     @Override

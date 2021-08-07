@@ -2,7 +2,7 @@ package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Resourcing.Numbers;
 import se.jbee.spacecrafts.sim.Resourcing.Property;
-import se.jbee.spacecrafts.sim.collection.Range;
+import se.jbee.spacecrafts.sim.state.Range;
 
 import static java.lang.Math.min;
 import static java.lang.System.arraycopy;
@@ -14,7 +14,7 @@ final class ArrayNumbers implements Numbers {
 
     public ArrayNumbers(Range<Property> keys) {
         this.keys = keys;
-        this.values = new int[keys.span()];
+        this.values = new int[keys.span() + 1];
     }
 
     @Override

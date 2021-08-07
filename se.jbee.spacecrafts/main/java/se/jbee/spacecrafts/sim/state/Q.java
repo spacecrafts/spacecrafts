@@ -1,4 +1,4 @@
-package se.jbee.spacecrafts.sim.collection;
+package se.jbee.spacecrafts.sim.state;
 
 import java.util.function.Predicate;
 
@@ -22,13 +22,6 @@ public interface Q<T> extends Collection<T> {
     void append(T e) throws IllegalStateException, NullPointerException;
 
     void seal();
-
-    T first(Predicate<? super T> test);
-
-    @Override
-    default boolean contains(Predicate<? super T> test) {
-        return first(test) != null;
-    }
 
     int firstIndex(Predicate<? super T> test);
 

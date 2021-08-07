@@ -6,10 +6,11 @@ import se.jbee.spacecrafts.sim.Crafting.Craft;
 import se.jbee.spacecrafts.sim.Governing.Asset;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
+import se.jbee.spacecrafts.sim.Resourcing.Numbers;
 import se.jbee.spacecrafts.sim.Resourcing.Substance;
-import se.jbee.spacecrafts.sim.collection.Flux;
-import se.jbee.spacecrafts.sim.collection.Maybe;
-import se.jbee.spacecrafts.sim.collection.XY;
+import se.jbee.spacecrafts.sim.state.Flux;
+import se.jbee.spacecrafts.sim.state.Maybe;
+import se.jbee.spacecrafts.sim.state.XY;
 
 public interface Conquering {
 
@@ -37,7 +38,8 @@ public interface Conquering {
     record SolarSystem(
             Created header,
             Flux<Plant> planets,
-            Maybe<SpaceStation> station
+            Maybe<SpaceStation> station,
+            Flux<Spaceship> proximity
     ) implements Creation {}
 
     /*
@@ -46,7 +48,8 @@ public interface Conquering {
 
     record Colony(
             Governed header,
-            Craft structure
+            Craft structure,
+            Plant on
     ) implements Asset {}
 
     record Spaceship(
@@ -56,17 +59,20 @@ public interface Conquering {
 
     record OrbitalStation(
             Governed header,
-            Craft structure
+            Craft structure,
+            Plant by
     ) implements Asset {}
 
     record SpaceStation(
             Governed header,
-            Craft structure
+            Craft structure,
+            SolarSystem in
     ) implements Asset {}
 
     record LunarBase(
             Governed header,
-            Craft structure
+            Craft structure,
+            Moon on
     ) implements Asset {}
 
 
@@ -76,6 +82,8 @@ public interface Conquering {
      */
     record Fleet(
             Created header,
-            Flux<Spaceship> members
+            Flux<Spaceship> members,
+            Numbers actuals
     ) implements Creation {}
+
 }

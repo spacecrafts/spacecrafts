@@ -3,7 +3,7 @@ package se.jbee.spacecrafts.sim.engine;
 import se.jbee.spacecrafts.sim.Any.Control;
 import se.jbee.spacecrafts.sim.Any.ControlOption;
 import se.jbee.spacecrafts.sim.Any.Controls;
-import se.jbee.spacecrafts.sim.collection.Q;
+import se.jbee.spacecrafts.sim.state.Q;
 
 import java.util.NoSuchElementException;
 

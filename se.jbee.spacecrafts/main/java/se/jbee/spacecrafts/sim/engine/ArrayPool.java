@@ -1,9 +1,7 @@
 package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Any;
-import se.jbee.spacecrafts.sim.collection.Index;
-import se.jbee.spacecrafts.sim.collection.Pool;
-import se.jbee.spacecrafts.sim.collection.Range;
+import se.jbee.spacecrafts.sim.state.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,9 +14,9 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.Arrays.copyOf;
 
-class ArrayPool<T extends Any.Entity> implements Pool<T> {
+abstract class ArrayPool<T extends Any.Entity> implements Pool<T> {
 
-    protected final Class<T> elementType;
+    private final Class<T> elementType;
     private int size;
     private int span;
     private Object[] elements;
@@ -27,10 +25,15 @@ class ArrayPool<T extends Any.Entity> implements Pool<T> {
 
     ArrayPool(Class<T> elementType, int initialCapacity) {
         this.elementType = elementType;
-        this.span = 0;
+        this.span = -1;
         this.elements = new Object[initialCapacity];
         this.reusableCount = 0;
         this.reusableIndexes = new int[8];
+    }
+
+    @Override
+    public Class<T> of() {
+        return elementType;
     }
 
     @Override
@@ -47,7 +50,7 @@ class ArrayPool<T extends Any.Entity> implements Pool<T> {
     public T get(int serial) throws NoSuchElementException {
         T e = getNullable(serial);
         if (e == null)
-            throw new NoSuchElementException(elementType.getSimpleName() + ":" + serial);
+            throw new NoSuchElementException(of().getSimpleName() + " with serial: " + serial);
         return e;
     }
 
@@ -57,12 +60,12 @@ class ArrayPool<T extends Any.Entity> implements Pool<T> {
     }
 
     @Override
-    public T add(IntFunction<T> factory) throws IllegalStateException {
+    public T add(IntFunction<T> factory) {
         if (reusableCount == 0) {
             if (size >= elements.length) elements = copyOf(elements,
                     elements.length + max(8, min(32, elements.length / 2)));
-            span++;
             var e = factory.apply(size);
+            span = Math.max(span, size);
             elements[size++] = e;
             return e;
         }
@@ -73,13 +76,29 @@ class ArrayPool<T extends Any.Entity> implements Pool<T> {
     }
 
     @Override
+    public void forEach(Consumer<? super T> f) {
+        for (int i = 0; i <= span; i++) {
+            var e = getNullable(i);
+            if (e != null) f.accept(e);
+        }
+    }
+
+    @Override
+    public Maybe<T> first(Predicate<? super T> test) {
+        for (int i = 0; i <= span; i++) {
+            var e = getNullable(i);
+            if (e != null && test.test(e)) return Maybe.some(e);
+        }
+        return Maybe.nothing();
+    }
+
     public T remove(int serial) throws IllegalStateException {
         var e = getNullable(serial);
         if (e == null)
-            throw new IllegalStateException(elementType.getSimpleName() + ":" + serial);
+            throw new IllegalStateException(of().getSimpleName() + " with serial: " + serial);
         elements[serial] = null;
-        if (size == span) {
-            span--;
+        if (serial == span) {
+            while (elements[span] == null) span--;
         } else {
             if (reusableCount == reusableIndexes.length)
                 reusableIndexes = copyOf(reusableIndexes,
@@ -90,23 +109,12 @@ class ArrayPool<T extends Any.Entity> implements Pool<T> {
         size--;
         return e;
     }
+}
 
-    @Override
-    public void forEach(Consumer<? super T> f) {
-        for (int i = 0; i < span; i++) {
-            var e = getNullable(i);
-            if (e != null) f.accept(e);
-        }
-    }
+class ArrayRegister<T extends Any.Creation> extends ArrayPool<T> implements Register<T> {
 
-    @Override
-
-    public T first(Predicate<? super T> test) {
-        for (int i = 0; i < span; i++) {
-            var e = getNullable(i);
-            if (e != null && test.test(e)) return e;
-        }
-        throw new NoSuchElementException(elementType.getSimpleName());
+    ArrayRegister(Class<T> elementType, int initialCapacity) {
+        super(elementType, initialCapacity);
     }
 }
 
@@ -122,23 +130,17 @@ class ArrayIndex<T extends Any.Definition> extends ArrayPool<T> implements Index
     public T get(Any.Code code) {
         var e = byCode.get(code);
         if (e == null)
-            throw new IllegalStateException(elementType.getSimpleName() + ":" + code);
+            throw new NoSuchElementException(of().getSimpleName() + " with code: " + code);
         return e;
     }
 
     @Override
-    public T add(IntFunction<T> factory) throws IllegalStateException {
+    public T add(IntFunction<T> factory) {
         var e = super.add(factory);
         byCode.put(e.header().code(), e);
         return e;
     }
 
-    @Override
-    public T remove(int serial) throws IllegalStateException {
-        var e = super.remove(serial);
-        byCode.remove(e.header().code());
-        return e;
-    }
 }
 
 final class ArrayRange<T extends Any.Quality> extends ArrayIndex<T> implements Range<T> {
@@ -158,7 +160,7 @@ final class ArrayRange<T extends Any.Quality> extends ArrayIndex<T> implements R
     }
 
     @Override
-    public T add(IntFunction<T> factory) throws IllegalStateException {
+    public T add(IntFunction<T> factory) {
         T e = super.add(factory);
         int ordinal = e.ordinal();
         if (ordinal >= byOrdinal.length) byOrdinal = copyOf(byOrdinal,
@@ -167,10 +169,4 @@ final class ArrayRange<T extends Any.Quality> extends ArrayIndex<T> implements R
         return e;
     }
 
-    @Override
-    public T remove(int serial) throws IllegalStateException {
-        T e = super.remove(serial);
-        byOrdinal[e.ordinal()] = null;
-        return e;
-    }
 }

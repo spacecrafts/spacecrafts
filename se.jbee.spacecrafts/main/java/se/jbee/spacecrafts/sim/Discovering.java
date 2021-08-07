@@ -2,10 +2,9 @@ package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Any.Defined;
 import se.jbee.spacecrafts.sim.Any.Definition;
-import se.jbee.spacecrafts.sim.Any.Embedded;
 import se.jbee.spacecrafts.sim.Any.Quality;
 import se.jbee.spacecrafts.sim.Resourcing.Numbers;
-import se.jbee.spacecrafts.sim.collection.Q;
+import se.jbee.spacecrafts.sim.state.Stasis;
 
 public interface Discovering {
 
@@ -19,8 +18,7 @@ public interface Discovering {
             Field in,
             int level,
             Numbers preconditions,
-            Insights provides
+            Stasis<Crafting.Component> provided
     ) implements Definition {}
 
-    record Insights(Q<Crafting.Component> components) implements Embedded {}
 }

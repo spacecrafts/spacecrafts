@@ -4,6 +4,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/se.jbee.spacecrafts">
       <sourceFolder url="file://$MODULE_DIR$/se.jbee.spacecrafts/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/se.jbee.spacecrafts/test/java" isTestSource="true" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />

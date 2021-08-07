@@ -1,4 +1,4 @@
-package se.jbee.spacecrafts.sim.collection;
+package se.jbee.spacecrafts.sim.state;
 
 
 import se.jbee.spacecrafts.sim.Any;

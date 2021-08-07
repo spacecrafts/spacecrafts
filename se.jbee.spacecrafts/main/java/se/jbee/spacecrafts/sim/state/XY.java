@@ -1,4 +1,4 @@
-package se.jbee.spacecrafts.sim.collection;
+package se.jbee.spacecrafts.sim.state;
 
 public interface XY<T> {
 

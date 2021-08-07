@@ -2,7 +2,8 @@ package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Any.CreatedHeader;
 import se.jbee.spacecrafts.sim.Any.Creation;
-import se.jbee.spacecrafts.sim.collection.Q;
+import se.jbee.spacecrafts.sim.state.Q;
+import se.jbee.spacecrafts.sim.state.Stasis;
 
 public interface Trading {
 
@@ -25,7 +26,7 @@ public interface Trading {
             Offered header,
             Governing.Fraction with,
             Q<Resourcing.Quantity> wants,
-            Q<Resourcing.Resource> payments
+            Stasis<Resourcing.Resource> payments
     ) implements Offer {}
 
     record Deal(

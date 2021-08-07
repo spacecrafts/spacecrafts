@@ -1,13 +1,13 @@
 package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Any.Controls;
+import se.jbee.spacecrafts.sim.Any.Creation;
 import se.jbee.spacecrafts.sim.Any.Definition;
-import se.jbee.spacecrafts.sim.Any.Entity;
 import se.jbee.spacecrafts.sim.Any.Quality;
-import se.jbee.spacecrafts.sim.collection.Index;
-import se.jbee.spacecrafts.sim.collection.Pool;
-import se.jbee.spacecrafts.sim.collection.Q;
-import se.jbee.spacecrafts.sim.collection.Range;
+import se.jbee.spacecrafts.sim.state.Index;
+import se.jbee.spacecrafts.sim.state.Q;
+import se.jbee.spacecrafts.sim.state.Range;
+import se.jbee.spacecrafts.sim.state.Register;
 
 public interface Factory {
 
@@ -19,8 +19,8 @@ public interface Factory {
 
     }
 
-    interface PoolFactory {
-        <T extends Entity> Pool<T> newPool(Class<T> type, int initialCapacity);
+    interface RegisterFactory {
+        <T extends Creation> Register<T> newRegister(Class<T> type, int initialCapacity);
     }
 
     interface IndexFactory {
@@ -48,7 +48,7 @@ public interface Factory {
     }
 
     interface TagsFactory {
-        Resourcing.Tags newTags(Game game);
+        Resourcing.Marks newTags(Game game);
     }
 
     interface NumbersFactory {

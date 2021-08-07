@@ -5,7 +5,7 @@ import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.Resourcing.Numbers;
 import se.jbee.spacecrafts.sim.Resourcing.Process;
 import se.jbee.spacecrafts.sim.Resourcing.Resource;
-import se.jbee.spacecrafts.sim.collection.*;
+import se.jbee.spacecrafts.sim.state.*;
 
 public interface Crafting {
 

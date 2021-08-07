@@ -1,45 +1,45 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Resourcing.Tag;
-import se.jbee.spacecrafts.sim.Resourcing.Tags;
-import se.jbee.spacecrafts.sim.collection.Index;
+import se.jbee.spacecrafts.sim.Resourcing.Indicator;
+import se.jbee.spacecrafts.sim.Resourcing.Marks;
+import se.jbee.spacecrafts.sim.state.Index;
 
 import java.util.function.Consumer;
 
 import static java.lang.System.arraycopy;
 import static java.util.Arrays.fill;
 
-final class ArrayTags implements Tags {
+final class ArrayMarks implements Marks {
 
-    private final Index<Tag> keys;
+    private final Index<Indicator> keys;
     private final long[] words;
 
-    public ArrayTags(Index<Tag> keys) {
+    public ArrayMarks(Index<Indicator> keys) {
         this.keys = keys;
-        this.words = new long[keys.span()];
+        this.words = new long[keys.span() + 1];
     }
 
     @Override
-    public boolean has(Tag key) {
+    public boolean has(Indicator key) {
         int index = index(key);
         int wordIndex = index / 64;
         return ((words[wordIndex] & (1L << (index % 64))) != 0);
     }
 
     @Override
-    public void set(Tag key, boolean value) {
+    public void set(Indicator key, boolean value) {
         int index = index(key);
         int wordIndex = index / 64;
         words[wordIndex] |= (1L << (index % 64));
     }
 
     @Override
-    public void zero(Tags zeros) {
-        if (zeros instanceof ArrayTags ft) {
+    public void zero(Marks zeros) {
+        if (zeros instanceof ArrayMarks ft) {
             arraycopy(ft.words, 0, words, 0, words.length);
         } else {
             clear();
-            zeros.forEach(tag -> set(tag, true));
+            zeros.forEach(indicator -> set(indicator, true));
         }
     }
 
@@ -49,7 +49,7 @@ final class ArrayTags implements Tags {
     }
 
     @Override
-    public void forEach(Consumer<? super Tag> f) {
+    public void forEach(Consumer<? super Indicator> f) {
         for (int w = 0; w < words.length; w++) {
             long word = words[w];
             long mask = 1L;
@@ -60,7 +60,7 @@ final class ArrayTags implements Tags {
         }
     }
 
-    private static int index(Tag key) {
+    private static int index(Indicator key) {
         return key.header().serial();
     }
 }

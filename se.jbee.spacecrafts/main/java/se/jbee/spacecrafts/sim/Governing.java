@@ -1,29 +1,41 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.Any.Created;
-import se.jbee.spacecrafts.sim.Any.Creation;
-import se.jbee.spacecrafts.sim.Any.Embedded;
-import se.jbee.spacecrafts.sim.Any.Text;
+import se.jbee.spacecrafts.sim.Any.*;
+import se.jbee.spacecrafts.sim.Conquering.*;
+import se.jbee.spacecrafts.sim.Crafting.Component;
+import se.jbee.spacecrafts.sim.Discovering.Discovery;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
+import se.jbee.spacecrafts.sim.Resourcing.Marks;
 import se.jbee.spacecrafts.sim.Resourcing.Numbers;
-import se.jbee.spacecrafts.sim.Resourcing.Tags;
-import se.jbee.spacecrafts.sim.collection.Flux;
-import se.jbee.spacecrafts.sim.collection.Maybe;
-import se.jbee.spacecrafts.sim.collection.Q;
+import se.jbee.spacecrafts.sim.state.Flux;
+import se.jbee.spacecrafts.sim.state.Maybe;
+import se.jbee.spacecrafts.sim.state.Stasis;
 
 public interface Governing {
 
     record Fraction(
             Created header,
             Numbers score,
-            Tags attributes,
+            Marks attributes,
+            Flux<Trait> traits,
             Governance governed,
-            Knowledge acquainted
+            Awareness aware
     ) implements Creation {}
+
+    record Trait(
+            Defined header,
+            Numbers bonuses,
+            Stasis<Influence> influences
+    ) implements Definition {}
+
+    record Sphere(
+            Defined header,
+            Stasis<Trait> members
+    ) implements Definition {}
 
     record Leader(
             Created header,
-            Q<Influence> influences,
+            Stasis<Influence> influences,
             Numbers multipliers,
             Maybe<Asset> assignment
     ) implements Creation {}
@@ -53,17 +65,37 @@ public interface Governing {
      */
     record Governance(
             // Assets
-            Flux<Conquering.Colony> colonies,
-            Flux<Conquering.LunarBase> bases,
-            Flux<Conquering.OrbitalStation> orbitals,
-            Flux<Conquering.Spaceship> spaceships,
-            Flux<Conquering.SpaceStation> stations,
+            Flux<Colony> colonies,
+            Flux<LunarBase> bases,
+            Flux<OrbitalStation> orbitals,
+            Flux<Spaceship> spaceships,
+            Flux<SpaceStation> stations,
 
             // Non assets
-            Flux<Conquering.Fleet> fleets,
+            Flux<Fleet> fleets,
             Flux<Leader> leaders
     ) implements Embedded {}
 
 
-    record Knowledge(Flux<Crafting.Component> components) {}
+    record Awareness(
+            // galaxy
+            Flux<Galaxy> galaxies,
+            Flux<SolarSystem> systems,
+            Flux<Plant> planets,
+            Flux<Moon> moons,
+
+            // Assets
+            Flux<Colony> colonies,
+            Flux<LunarBase> bases,
+            Flux<OrbitalStation> orbitals,
+            Flux<Spaceship> spaceships,
+            Flux<SpaceStation> stations,
+
+            // Non assets
+            Flux<Fraction> fractions,
+            Flux<Leader> leaders,
+            Flux<Fleet> fleets,
+            Flux<Discovery> discoveries,
+            Flux<Component> components
+    ) {}
 }

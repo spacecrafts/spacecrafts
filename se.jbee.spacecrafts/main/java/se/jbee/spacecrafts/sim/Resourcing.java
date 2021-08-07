@@ -1,6 +1,8 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.collection.Q;
+import se.jbee.spacecrafts.sim.state.Collection;
+import se.jbee.spacecrafts.sim.state.Q;
+import se.jbee.spacecrafts.sim.state.Stasis;
 
 import java.util.function.Consumer;
 
@@ -8,35 +10,40 @@ import static se.jbee.spacecrafts.sim.Any.*;
 
 public interface Resourcing {
 
+    record Limit(
+            Integer min,
+            Integer max,
+            Integer cap
+    ) implements Embedded {}
+
     record Property(
             Defined header,
             int ordinal,
             Limit limit
     ) implements Quality {}
 
-    record PropertyGroup(
+    /**
+     * Groups multiple {@link Property}s
+     */
+    record Domain(
             Defined header,
-            int ordinal,
-            Q<Property> members
-    ) implements Quality {}
-
-    record Tag(
-            Defined header,
-            boolean hidden
+            Stasis<Property> members
     ) implements Definition {}
 
-    record TagGroup(
+    record Indicator(
             Defined header,
             int ordinal,
-            Q<Tag> members,
-            boolean multiselect
+            boolean hidden
     ) implements Quality {}
 
-    record Limit(
-            Integer min,
-            Integer max,
-            Integer cap
-    ) implements Embedded {}
+    /**
+     * Groups multiple {@link Indicator}s
+     */
+    record Classification(
+            Defined header,
+            Stasis<Indicator> members
+    ) implements Definition {}
+
 
     /**
      * Elevates a {@link Property} to a physical {@link Resource}.
@@ -50,6 +57,28 @@ public interface Resourcing {
             Property boost
     ) implements Quality {}
 
+    record Substance(
+            Defined header,
+            Stasis<Resource> deposits,
+            Stasis<Influence> regional,
+            Stasis<Influence> widely
+    ) implements Definition {}
+
+    record Influence(
+            Defined header,
+            int ordinal,
+            Process progression,
+            Numbers zeros
+    ) implements Quality {}
+
+    /**
+     * Groups multiple {@link Influence}s.
+     */
+    record Phenomenon(
+            Defined header,
+            Stasis<Influence> members
+    ) implements Definition {}
+
     record Quantity(
             int n,
             Resource of,
@@ -62,19 +91,6 @@ public interface Resourcing {
             boolean unconditional
     ) implements Embedded {}
 
-    interface Comparison {
-
-        boolean test(Q<Property> on, Numbers actuals, Numbers limits);
-
-        //TODO add a way so that non-acceptance is explained?
-    }
-
-    record Check(
-            Q<Property> on,
-            Numbers limits,
-            Algorithm<Comparison> target
-    ) implements Embedded {}
-
     record Process(
             Q<Check> preconditions,
             Q<Quantity> ins,
@@ -82,19 +98,18 @@ public interface Resourcing {
             Q<Effect> shifts
     ) implements Embedded {}
 
-    record Influence(
-            Defined header,
-            int ordinal,
-            Process progression,
-            Numbers zeros
-    ) implements Quality {}
+    record Check(
+            Stasis<Property> on,
+            Numbers limits,
+            Algorithm<Comparison> target
+    ) implements Embedded {}
 
-    record Substance(
-            Defined header,
-            Q<Resource> deposits,
-            Q<Influence> regional,
-            Q<Influence> widely
-    ) implements Definition {}
+    interface Comparison {
+
+        boolean test(Collection<Property> on, Numbers actuals, Numbers limits);
+
+        //TODO add a way so that non-acceptance is explained?
+    }
 
     interface Numbers {
         int get(Property key);
@@ -119,20 +134,20 @@ public interface Resourcing {
     }
 
     /**
-     * {@link Tags} are like a dynamic enum set. {@link TagGroup}s can be used
-     * to for a dynamic enumeration.
+     * {@link Marks} are like a dynamic enum set. {@link Classification}s can be
+     * used for a dynamic groupings.
      */
-    interface Tags {
+    interface Marks {
 
-        boolean has(Tag key);
+        boolean has(Indicator key);
 
-        void set(Tag key, boolean value);
+        void set(Indicator key, boolean value);
 
-        void zero(Tags zeros);
+        void zero(Marks zeros);
 
         void clear();
 
-        void forEach(Consumer<? super Tag> f);
+        void forEach(Consumer<? super Indicator> f);
 
     }
 }

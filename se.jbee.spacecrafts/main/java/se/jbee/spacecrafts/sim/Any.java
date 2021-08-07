@@ -1,6 +1,6 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.collection.Q;
+import se.jbee.spacecrafts.sim.state.Stasis;
 
 import java.util.NoSuchElementException;
 
@@ -62,6 +62,11 @@ public interface Any {
         int ordinal();
     }
 
+    /**
+     * A {@link Creation} is an {@link Entity} that can be created at any time
+     * in the game. Often these are created for or by the player. Often they
+     * reflect some sort of composition.
+     */
     interface Creation extends Entity {
 
         @Override
@@ -123,18 +128,18 @@ public interface Any {
     record Control(
             Defined header,
             ControlOption initial,
-            Q<ControlOption> options
+            Stasis<ControlOption> options
     ) implements Definition {}
 
     record ControlOption(
-            String label,
+            Defined header,
             int value
-    ) implements Embedded {}
+    ) implements Definition {}
 
     record ControlGroup<T>(
             Defined header,
             Class<T> of,
-            Q<Control> controls
+            Stasis<Control> controls
     ) implements Definition {}
 
     interface Controls<T> {

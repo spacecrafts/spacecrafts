@@ -1,17 +1,15 @@
-package se.jbee.spacecrafts.sim.collection;
+package se.jbee.spacecrafts.sim.state;
 
 import se.jbee.spacecrafts.sim.Any.Entity;
 
-import java.util.function.Predicate;
-
 /**
+ * Is a semantic set of {@link Entity}s.
+ * <p>
+ * Iteration follows no particular order.
+ *
  * @param <T>
  */
 public interface Flux<T extends Entity> extends Collection<T> {
-
-    boolean contains(T e);
-
-    T first(Predicate<? super T> test);
 
     void add(T e);
 
@@ -22,5 +20,6 @@ public interface Flux<T extends Entity> extends Collection<T> {
     void add(Flux<T> added);
 
     void remove(Flux<T> removed);
-    // can be implemented by a bit mask and a ref to all entities of T
+
+    Stasis<T> stasis();
 }

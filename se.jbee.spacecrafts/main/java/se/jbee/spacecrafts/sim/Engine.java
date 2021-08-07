@@ -1,6 +1,8 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.collection.Q;
+import se.jbee.spacecrafts.sim.Any.Code;
+import se.jbee.spacecrafts.sim.state.Box;
+import se.jbee.spacecrafts.sim.state.Q;
 
 /**
  * State of the game engine - this is the state that is independent of any
@@ -16,10 +18,8 @@ public record Engine(
      */
     public record Mod(
             String name,
-            Any.Code code
+            Code code
     ) {}
 
-    public record Factories() {
-
-    }
+    public record Factories(Box<Factory.RegisterFactory> newPool) {}
 }
