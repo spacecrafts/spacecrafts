@@ -45,7 +45,7 @@ public interface Factory {
     }
 
     interface TagsFactory {
-        Resourcing.Marks newTags(Game game);
+        Marks newTags(Game game);
     }
 
     interface NumbersFactory {

@@ -12,7 +12,7 @@ import se.jbee.spacecrafts.sim.Any.Entity;
 public interface Flux<T extends Entity> extends Collection<T> {
 
     static <T extends Entity> Flux<T> newDefault(Pool<T> of) {
-        return new BitMaskFlux<>(of);
+        return new BitsFlux<>(of);
     }
 
     void add(T e);

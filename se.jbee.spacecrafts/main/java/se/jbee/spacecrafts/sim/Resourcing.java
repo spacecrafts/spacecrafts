@@ -5,8 +5,6 @@ import se.jbee.spacecrafts.sim.engine.Numbers;
 import se.jbee.spacecrafts.sim.engine.Q;
 import se.jbee.spacecrafts.sim.engine.Stasis;
 
-import java.util.function.Consumer;
-
 import static se.jbee.spacecrafts.sim.Any.*;
 
 public interface Resourcing {
@@ -112,21 +110,4 @@ public interface Resourcing {
         //TODO add a way so that non-acceptance is explained?
     }
 
-    /**
-     * {@link Marks} are like a dynamic enum set. {@link Classification}s can be
-     * used for a dynamic groupings.
-     */
-    interface Marks {
-
-        boolean has(Indicator key);
-
-        void set(Indicator key, boolean value);
-
-        void zero(Marks zeros);
-
-        void clear();
-
-        void forEach(Consumer<? super Indicator> f);
-
-    }
 }

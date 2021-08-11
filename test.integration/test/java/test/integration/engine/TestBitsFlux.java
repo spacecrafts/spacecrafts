@@ -10,7 +10,7 @@ import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 import static test.integration.utils.Assertions.assertForEach;
 
-class TestBitMaskFlux {
+class TestBitsFlux {
 
     private final Register<Car> cars = Register.newDefault(Car.class, 3);
     private final Flux<Car> eCars = Flux.newDefault(cars);

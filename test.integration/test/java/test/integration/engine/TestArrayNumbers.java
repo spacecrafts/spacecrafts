@@ -44,6 +44,7 @@ class TestArrayNumbers {
 
     @Test
     void add() {
+        numbers.clear();
         numbers.add(b, 3);
         assertEquals(3, numbers.get(b));
         numbers.add(b, -1);

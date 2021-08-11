@@ -5,11 +5,7 @@ import se.jbee.spacecrafts.sim.Conquering.*;
 import se.jbee.spacecrafts.sim.Crafting.Component;
 import se.jbee.spacecrafts.sim.Discovering.Discovery;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
-import se.jbee.spacecrafts.sim.Resourcing.Marks;
-import se.jbee.spacecrafts.sim.engine.Flux;
-import se.jbee.spacecrafts.sim.engine.Maybe;
-import se.jbee.spacecrafts.sim.engine.Numbers;
-import se.jbee.spacecrafts.sim.engine.Stasis;
+import se.jbee.spacecrafts.sim.engine.*;
 
 public interface Governing {
 

@@ -8,19 +8,19 @@ import java.util.function.Predicate;
 import static java.util.Arrays.copyOf;
 import static java.util.Arrays.fill;
 
-final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
+final class BitsFlux<T extends Entity> implements Flux<T>, Stasis<T> {
 
-    private final Pool<T> entities;
+    private final Pool<T> of;
     private long[] words;
     private int size = 0;
 
-    BitMaskFlux(Pool<T> entities) {
-        this.entities = entities;
-        this.words = new long[(wordIndex(entities.span() + 1)) + 1];
+    BitsFlux(Pool<T> of) {
+        this.of = of;
+        this.words = new long[(wordIndex(of.span() + 1)) + 1];
     }
 
-    public BitMaskFlux(Pool<T> entities, long[] words, int size) {
-        this.entities = entities;
+    public BitsFlux(Pool<T> of, long[] words, int size) {
+        this.of = of;
         this.words = words;
         this.size = size;
     }
@@ -35,8 +35,8 @@ final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
         return copy();
     }
 
-    private BitMaskFlux<T> copy() {
-        return new BitMaskFlux<>(entities, copyOf(words, words.length), size);
+    private BitsFlux<T> copy() {
+        return new BitsFlux<>(of, copyOf(words, words.length), size);
     }
 
     @Override
@@ -53,7 +53,7 @@ final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
                 int to = 64 - Long.numberOfLeadingZeros(word);
                 long mask = 1L << from;
                 for (int j = from; j < to; j++) {
-                    if ((word & mask) != 0) f.accept(entities.get(i * 64 + j));
+                    if ((word & mask) != 0) f.accept(of.get(i * 64 + j));
                     mask = mask << 1;
                 }
             }
@@ -70,7 +70,7 @@ final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
                 long mask = 1L << from;
                 for (int j = from; j < to; j++) {
                     if ((word & mask) != 0) {
-                        T e = entities.get(i * 64 + j);
+                        T e = of.get(i * 64 + j);
                         if (test.test(e)) return Maybe.some(e);
                     }
                     mask = mask << 1;
@@ -84,8 +84,7 @@ final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
     public boolean contains(T e) {
         int index = index(e);
         int wordIndex = wordIndex(index);
-        if (wordIndex >= words.length) return false;
-        return (words[wordIndex] & (wordMask(index))) != 0;
+        return wordIndex < words.length && (words[wordIndex] & (wordMask(index))) != 0;
     }
 
     @Override
@@ -103,7 +102,7 @@ final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
 
     @Override
     public void add(Collection<T> added) {
-        if (added instanceof BitMaskFlux other) {
+        if (added instanceof BitsFlux other) {
             if (other.words.length > words.length)
                 words = copyOf(words, other.words.length);
             for (int i = 0; i < other.words.length; i++)
@@ -129,7 +128,7 @@ final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
 
     @Override
     public void remove(Collection<T> removed) {
-        if (removed instanceof BitMaskFlux other) {
+        if (removed instanceof BitsFlux other) {
             for (int i = 0; i < Math.min(words.length, other.words.length); i++)
                 words[i] &= ~other.words[i];
             size = countBits();

@@ -12,7 +12,7 @@ import static test.integration.utils.Assertions.assertForEach;
 
 class TestArrayQ {
 
-    private final Q<Integer> q = Q.newDefault(8);
+    private final Q<Integer> q = Q.newDefault(3);
 
     @Test
     void size_0() {
@@ -48,6 +48,15 @@ class TestArrayQ {
         q.append(1);
         q.append(2);
         assertForEach(asList(1, 2), q::forEach);
+    }
+
+    @Test
+    void append_grow() {
+        q.append(1);
+        q.append(2);
+        q.append(3);
+        q.append(4);
+        assertForEach(asList(1, 2, 3, 4), q::forEach);
     }
 
     @Test
@@ -95,5 +104,19 @@ class TestArrayQ {
         List<Integer> actuals = new ArrayList<>();
         q.forEach(actuals::add);
         assertEquals(asList(1, 2), actuals);
+    }
+
+    @Test
+    void first_0() {
+        assertFalse(q.first(e -> e > 2).isSome());
+    }
+
+    @Test
+    void first() {
+        q.append(2);
+        q.append(4);
+        var first = q.first(e -> e == 4);
+        assertTrue(first.isSome());
+        assertEquals(4, first.get());
     }
 }
