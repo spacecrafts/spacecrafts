@@ -12,6 +12,10 @@ import java.util.function.Predicate;
  */
 public interface Q<T> extends Collection<T> {
 
+    static <T> Q<T> newDefault(int initialCapacity) {
+        return new ArrayQ<>(initialCapacity);
+    }
+
     T get(int index) throws IndexOutOfBoundsException;
 
     /**

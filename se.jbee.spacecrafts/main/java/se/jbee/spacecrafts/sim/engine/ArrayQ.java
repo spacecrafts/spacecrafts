@@ -18,6 +18,7 @@ final class ArrayQ<T> implements Q<T> {
     @Override
     @SuppressWarnings("unchecked")
     public T get(int index) throws IndexOutOfBoundsException {
+        if (index >= size) throw new IndexOutOfBoundsException();
         return (T) elements[index];
     }
 
@@ -33,6 +34,7 @@ final class ArrayQ<T> implements Q<T> {
 
     @Override
     public void seal() {
+        if (sealed) throw new IllegalStateException("Q already sealed");
         sealed = true;
     }
 
