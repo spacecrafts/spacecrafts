@@ -1,20 +1,25 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Resourcing;
+import se.jbee.spacecrafts.sim.Resourcing.Property;
 
 import java.util.NoSuchElementException;
 
-public interface Numbers {
+public interface Numbers extends Collection<Numbers.Value> {
 
-    static Numbers newDefault(Range<Resourcing.Property> of) {
+    record Value(
+            Property key,
+            int value
+    ) {}
+
+    static Numbers newDefault(Range<Property> of) {
         return new ArrayNumbers(of);
     }
 
-    int get(Resourcing.Property key) throws NoSuchElementException;
+    int get(Property key) throws NoSuchElementException;
 
-    void set(Resourcing.Property key, int value);
+    void set(Property key, int value);
 
-    void add(Resourcing.Property key, int delta);
+    void add(Property key, int delta);
 
     void zero(Numbers zeros);
 
@@ -26,9 +31,9 @@ public interface Numbers {
 
     void clear();
 
-    void forEach(NumberConsumer f);
+    void forEach(ValueConsumer f);
 
-    interface NumberConsumer {
-        void accept(Resourcing.Property key, int value);
+    interface ValueConsumer {
+        void accept(Property key, int value);
     }
 }
