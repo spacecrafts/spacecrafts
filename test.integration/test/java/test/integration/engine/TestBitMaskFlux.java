@@ -7,6 +7,7 @@ import se.jbee.spacecrafts.sim.state.Register;
 import se.jbee.spacecrafts.sim.state.Stasis;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 import static test.integration.utils.Assertions.assertForEach;
 
@@ -105,6 +106,21 @@ class TestBitMaskFlux {
     }
 
     @Test
+    void clear_0() {
+        eCars.clear();
+        assertEquals(0, eCars.size());
+        assertTrue(eCars.isEmpty());
+    }
+
+    @Test
+    void clear() {
+        eCars.add(cars.add(Car::new));
+        eCars.clear();
+        assertEquals(0, eCars.size());
+        assertTrue(eCars.isEmpty());
+    }
+
+    @Test
     void addCollection_0() {
         Stasis<Car> other = eCars.stasis();
         eCars.add(other);
@@ -121,4 +137,23 @@ class TestBitMaskFlux {
         eCars.add(other);
         assertForEach(asList(cars.get(0), cars.get(1)), eCars::forEach);
     }
+
+    @Test
+    void removeCollection_0() {
+        Stasis<Car> other = eCars.stasis();
+        eCars.remove(other);
+        assertEquals(0, eCars.size());
+    }
+
+    @Test
+    void removeCollection() {
+        eCars.add(cars.add(Car::new));
+        Stasis<Car> other = eCars.stasis();
+        eCars.add(cars.add(Car::new));
+        assertEquals(2, eCars.size());
+        eCars.remove(other);
+        assertForEach(singletonList(cars.get(1)), eCars::forEach);
+    }
+
+    //Hallo
 }
