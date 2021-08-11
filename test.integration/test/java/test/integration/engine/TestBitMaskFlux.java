@@ -1,10 +1,9 @@
 package test.integration.engine;
 
 import org.junit.jupiter.api.Test;
-import se.jbee.spacecrafts.sim.engine.DefaultEngine;
-import se.jbee.spacecrafts.sim.state.Flux;
-import se.jbee.spacecrafts.sim.state.Register;
-import se.jbee.spacecrafts.sim.state.Stasis;
+import se.jbee.spacecrafts.sim.engine.Flux;
+import se.jbee.spacecrafts.sim.engine.Register;
+import se.jbee.spacecrafts.sim.engine.Stasis;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -13,14 +12,8 @@ import static test.integration.utils.Assertions.assertForEach;
 
 class TestBitMaskFlux {
 
-    private final Register<Car> cars;
-    private final Flux<Car> eCars;
-
-    {
-        var engine = new DefaultEngine();
-        cars = engine.newRegister(Car.class, 3);
-        eCars = engine.newFlux(cars);
-    }
+    private final Register<Car> cars = Register.newDefault(Car.class, 3);
+    private final Flux<Car> eCars = Flux.newDefault(cars);
 
     @Test
     void size_0() {
@@ -122,7 +115,7 @@ class TestBitMaskFlux {
 
     @Test
     void addCollection_0() {
-        Stasis<Car> other = eCars.stasis();
+        Stasis<Car> other = eCars.inStasis();
         eCars.add(other);
         assertTrue(eCars.isEmpty());
     }
@@ -131,7 +124,7 @@ class TestBitMaskFlux {
     void addCollection() {
         eCars.add(cars.add(Car::new));
         eCars.add(cars.add(Car::new));
-        Stasis<Car> other = eCars.stasis();
+        Stasis<Car> other = eCars.inStasis();
         eCars.clear();
         assertTrue(eCars.isEmpty());
         eCars.add(other);
@@ -140,7 +133,7 @@ class TestBitMaskFlux {
 
     @Test
     void removeCollection_0() {
-        Stasis<Car> other = eCars.stasis();
+        Stasis<Car> other = eCars.inStasis();
         eCars.remove(other);
         assertEquals(0, eCars.size());
     }
@@ -148,12 +141,10 @@ class TestBitMaskFlux {
     @Test
     void removeCollection() {
         eCars.add(cars.add(Car::new));
-        Stasis<Car> other = eCars.stasis();
+        Stasis<Car> other = eCars.inStasis();
         eCars.add(cars.add(Car::new));
         assertEquals(2, eCars.size());
         eCars.remove(other);
         assertForEach(singletonList(cars.get(1)), eCars::forEach);
     }
-
-    //Hallo
 }

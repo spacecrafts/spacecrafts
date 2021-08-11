@@ -1,8 +1,6 @@
-package se.jbee.spacecrafts.sim;
+package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Any.Code;
-import se.jbee.spacecrafts.sim.state.Box;
-import se.jbee.spacecrafts.sim.state.Q;
+import se.jbee.spacecrafts.sim.Game;
 
 /**
  * State of the game engine - this is the state that is independent of any
@@ -17,9 +15,16 @@ public record Engine(
      * A {@link Mod} is a package of code and data.
      */
     public record Mod(
+            Class<? extends EngineBundle> from,
             String name,
-            Code code
+            Q<Feature> features
     ) {}
 
-    public record Factories(Box<Factory.RegisterFactory> newPool) {}
+    public record Feature(
+            Class<? extends EngineModule> from,
+            String name
+    ) {}
+
+    public record Factories() {}
+
 }

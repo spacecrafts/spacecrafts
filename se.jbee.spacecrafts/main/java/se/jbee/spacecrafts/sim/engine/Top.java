@@ -1,4 +1,4 @@
-package se.jbee.spacecrafts.sim.state;
+package se.jbee.spacecrafts.sim.engine;
 
 /**
  * A {@link Top} is an ordered list ordered from most important at index zero to
@@ -7,6 +7,6 @@ package se.jbee.spacecrafts.sim.state;
  * @param <T> list item type
  */
 public interface Top<T> extends Collection<T> {
-    
+
 
 }

@@ -1,8 +1,9 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Resourcing.Numbers;
 import se.jbee.spacecrafts.sim.Resourcing.Property;
-import se.jbee.spacecrafts.sim.state.Range;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 import static java.lang.Math.min;
 import static java.lang.System.arraycopy;
@@ -19,7 +20,9 @@ final class ArrayNumbers implements Numbers {
 
     @Override
     public int get(Property key) {
-        return values[index(key)];
+        int value = values[index(key)];
+        if (value < 0) throw new NoSuchElementException(key.toString());
+        return value;
     }
 
     @Override
@@ -78,6 +81,11 @@ final class ArrayNumbers implements Numbers {
 
     private void sub(Property key, int value) {
         values[index(key)] -= value;
+    }
+
+    @Override
+    public void clear() {
+        Arrays.fill(values, -1);
     }
 
     @Override

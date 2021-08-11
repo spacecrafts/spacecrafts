@@ -1,8 +1,9 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.state.Collection;
-import se.jbee.spacecrafts.sim.state.Q;
-import se.jbee.spacecrafts.sim.state.Stasis;
+import se.jbee.spacecrafts.sim.engine.Collection;
+import se.jbee.spacecrafts.sim.engine.Numbers;
+import se.jbee.spacecrafts.sim.engine.Q;
+import se.jbee.spacecrafts.sim.engine.Stasis;
 
 import java.util.function.Consumer;
 
@@ -19,7 +20,7 @@ public interface Resourcing {
     record Property(
             Defined header,
             int ordinal,
-            Limit limit
+            Limit limits
     ) implements Quality {}
 
     /**
@@ -109,28 +110,6 @@ public interface Resourcing {
         boolean test(Collection<Property> on, Numbers actuals, Numbers limits);
 
         //TODO add a way so that non-acceptance is explained?
-    }
-
-    interface Numbers {
-        int get(Property key);
-
-        void set(Property key, int value);
-
-        void add(Property key, int delta);
-
-        void zero(Numbers zeros);
-
-        void add(Numbers added);
-
-        void sub(Numbers subtracted);
-
-        void cap(Numbers at);
-
-        void forEach(NumberConsumer f);
-
-        interface NumberConsumer {
-            void accept(Property key, int value);
-        }
     }
 
     /**

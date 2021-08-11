@@ -1,6 +1,6 @@
 package se.jbee.spacecrafts;
 
-import se.jbee.spacecrafts.sim.state.Maybe;
+import se.jbee.spacecrafts.sim.engine.Maybe;
 
 import java.util.function.Supplier;
 

@@ -1,7 +1,6 @@
 package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Any;
-import se.jbee.spacecrafts.sim.state.*;
 
 import java.util.HashMap;
 import java.util.Map;

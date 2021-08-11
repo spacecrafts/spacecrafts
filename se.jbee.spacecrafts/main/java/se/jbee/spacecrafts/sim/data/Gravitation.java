@@ -1,5 +1,6 @@
 package se.jbee.spacecrafts.sim.data;
 
+import se.jbee.spacecrafts.sim.Any;
 import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.Resourcing.Phenomenon;
@@ -21,16 +22,19 @@ public record Gravitation(
         Influence low = add(LOW, game);
         Influence normal = add(NORMAL, game);
         Influence high = add(HIGH, game);
-        add(game, low, normal, high);
+        addPhenomenon(game, low, normal, high);
     }
 
     private Influence add(Gravitation g, Game game) {
         return null;
     }
 
-    private Phenomenon add(Game game, Influence... members) {
+    private Phenomenon addPhenomenon(Game game, Influence... members) {
 
-        return null;
+        return game.entities().phenomena().add(serial -> new Phenomenon(new Any.Defined(
+                serial,
+                null,
+                ""), null));
     }
 
 }

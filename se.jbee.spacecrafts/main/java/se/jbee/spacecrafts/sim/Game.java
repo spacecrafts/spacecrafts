@@ -1,11 +1,10 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.Any.Algorithm;
 import se.jbee.spacecrafts.sim.Any.Entity;
-import se.jbee.spacecrafts.sim.state.Index;
-import se.jbee.spacecrafts.sim.state.Pool;
-import se.jbee.spacecrafts.sim.state.Range;
-import se.jbee.spacecrafts.sim.state.Register;
+import se.jbee.spacecrafts.sim.engine.Index;
+import se.jbee.spacecrafts.sim.engine.Pool;
+import se.jbee.spacecrafts.sim.engine.Range;
+import se.jbee.spacecrafts.sim.engine.Register;
 
 import java.util.function.Supplier;
 
@@ -18,7 +17,6 @@ public record Game(
 
     public record Entities(
             Pools pools,
-            Index<Algorithm<?>> algorithms,
 
             Index<Any.Control> controls,
             Index<Any.ControlGroup<?>> controlGroups,

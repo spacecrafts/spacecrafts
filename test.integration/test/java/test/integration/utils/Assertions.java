@@ -1,6 +1,6 @@
 package test.integration.utils;
 
-import se.jbee.spacecrafts.sim.state.Collection;
+import se.jbee.spacecrafts.sim.engine.Collection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,9 @@ import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Spcial assertions for the project.
+ */
 public class Assertions {
 
     private Assertions() {

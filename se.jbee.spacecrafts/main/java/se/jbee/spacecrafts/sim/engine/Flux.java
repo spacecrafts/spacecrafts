@@ -1,4 +1,4 @@
-package se.jbee.spacecrafts.sim.state;
+package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Any.Entity;
 
@@ -11,6 +11,10 @@ import se.jbee.spacecrafts.sim.Any.Entity;
  */
 public interface Flux<T extends Entity> extends Collection<T> {
 
+    static <T extends Entity> Flux<T> newDefault(Pool<T> of) {
+        return new BitMaskFlux<>(of);
+    }
+
     void add(T e);
 
     void remove(T e);
@@ -21,5 +25,8 @@ public interface Flux<T extends Entity> extends Collection<T> {
 
     void remove(Collection<T> removed);
 
-    Stasis<T> stasis();
+    /**
+     * @return a non-modifiable copy of this
+     */
+    Stasis<T> inStasis();
 }

@@ -1,6 +1,6 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.state.Stasis;
+import se.jbee.spacecrafts.sim.engine.Stasis;
 
 import java.util.NoSuchElementException;
 

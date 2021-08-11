@@ -2,7 +2,6 @@ package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Resourcing.Indicator;
 import se.jbee.spacecrafts.sim.Resourcing.Marks;
-import se.jbee.spacecrafts.sim.state.Index;
 
 import java.util.function.Consumer;
 

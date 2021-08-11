@@ -1,7 +1,6 @@
 package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Any.Entity;
-import se.jbee.spacecrafts.sim.state.*;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -27,12 +26,12 @@ final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
     }
 
     @Override
-    public Stasis<T> stasis() {
+    public Stasis<T> inStasis() {
         return copy();
     }
 
     @Override
-    public Flux<T> flux() {
+    public Flux<T> inFlux() {
         return copy();
     }
 

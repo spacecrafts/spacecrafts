@@ -6,11 +6,11 @@ import se.jbee.spacecrafts.sim.Crafting.Craft;
 import se.jbee.spacecrafts.sim.Governing.Asset;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
-import se.jbee.spacecrafts.sim.Resourcing.Numbers;
 import se.jbee.spacecrafts.sim.Resourcing.Substance;
-import se.jbee.spacecrafts.sim.state.Flux;
-import se.jbee.spacecrafts.sim.state.Maybe;
-import se.jbee.spacecrafts.sim.state.XY;
+import se.jbee.spacecrafts.sim.engine.Flux;
+import se.jbee.spacecrafts.sim.engine.Maybe;
+import se.jbee.spacecrafts.sim.engine.Numbers;
+import se.jbee.spacecrafts.sim.engine.XY;
 
 public interface Conquering {
 

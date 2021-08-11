@@ -1,8 +1,5 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.state.Maybe;
-import se.jbee.spacecrafts.sim.state.Q;
-
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 

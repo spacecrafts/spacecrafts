@@ -2,8 +2,9 @@ package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Any.CreatedHeader;
 import se.jbee.spacecrafts.sim.Any.Creation;
-import se.jbee.spacecrafts.sim.state.Q;
-import se.jbee.spacecrafts.sim.state.Stasis;
+import se.jbee.spacecrafts.sim.engine.Numbers;
+import se.jbee.spacecrafts.sim.engine.Q;
+import se.jbee.spacecrafts.sim.engine.Stasis;
 
 public interface Trading {
 
@@ -34,7 +35,7 @@ public interface Trading {
             Conquering.Spaceship of,
             int crew,
             Q<Resourcing.Quantity> price,
-            Resourcing.Numbers details
+            Numbers details
     ) implements Offer {}
 
 }

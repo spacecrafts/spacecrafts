@@ -4,10 +4,7 @@ import se.jbee.spacecrafts.sim.Any.Controls;
 import se.jbee.spacecrafts.sim.Any.Creation;
 import se.jbee.spacecrafts.sim.Any.Definition;
 import se.jbee.spacecrafts.sim.Any.Quality;
-import se.jbee.spacecrafts.sim.state.Index;
-import se.jbee.spacecrafts.sim.state.Q;
-import se.jbee.spacecrafts.sim.state.Range;
-import se.jbee.spacecrafts.sim.state.Register;
+import se.jbee.spacecrafts.sim.engine.*;
 
 public interface Factory {
 
@@ -52,6 +49,6 @@ public interface Factory {
     }
 
     interface NumbersFactory {
-        Resourcing.Numbers newNumbers(Game game);
+        Numbers newNumbers(Game game);
     }
 }
