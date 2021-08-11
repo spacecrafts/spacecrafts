@@ -6,10 +6,13 @@ import se.jbee.spacecrafts.sim.Resourcing.Property;
 import se.jbee.spacecrafts.sim.engine.Numbers;
 import se.jbee.spacecrafts.sim.engine.Range;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TestArrayNumbers {
 
@@ -37,6 +40,80 @@ class TestArrayNumbers {
         assertEquals(0, numbers.get(a));
         numbers.set(b, 2);
         assertEquals(2, numbers.get(b));
+    }
+
+    @Test
+    void add() {
+        numbers.add(b, 3);
+        assertEquals(3, numbers.get(b));
+        numbers.add(b, -1);
+        assertEquals(2, numbers.get(b));
+    }
+
+    @Test
+    void forEach_0() {
+        numbers.clear();
+        numbers.forEach(((key, value) -> fail("Should not be called for empty")));
+    }
+
+    @Test
+    void forEach() {
+        Map<Property, Integer> actuals = new LinkedHashMap<>();
+        numbers.forEach(actuals::put);
+        assertEquals(asList(a, b, c), new ArrayList<>(actuals.keySet()));
+        assertEquals(asList(0, 0, 0), new ArrayList<>(actuals.values()));
+    }
+
+    @Test
+    void zero() {
+        Numbers zeros = Numbers.newDefault(properties);
+        zeros.set(b, 2);
+        numbers.set(a, 3);
+        numbers.set(b, 1);
+        numbers.set(c, 2);
+        numbers.zero(zeros);
+        assertEquals(2, numbers.get(b));
+        assertEquals(0, numbers.get(a));
+    }
+
+    @Test
+    void cap() {
+        Numbers cap = Numbers.newDefault(properties);
+        cap.clear();
+        cap.set(b, 2);
+        cap.set(c, 5);
+        numbers.set(a, 3);
+        numbers.set(b, 4);
+        numbers.set(c, 1);
+        numbers.cap(cap);
+        assertEquals(2, numbers.get(b));
+        assertEquals(1, numbers.get(c));
+    }
+
+    @Test
+    void sub() {
+        Numbers subtracted = Numbers.newDefault(properties);
+        subtracted.clear();
+        subtracted.set(b, 1);
+
+        numbers.set(a, 3);
+        numbers.set(b, 5);
+        numbers.sub(subtracted);
+        assertEquals(3, numbers.get(a));
+        assertEquals(4, numbers.get(b));
+    }
+
+    @Test
+    void addNumbers() {
+        Numbers added = Numbers.newDefault(properties);
+        added.clear();
+        added.set(c, 1);
+
+        numbers.set(a, 3);
+        numbers.set(c, 4);
+        numbers.add(added);
+        assertEquals(3, numbers.get(a));
+        assertEquals(5, numbers.get(c));
     }
 
     static Property newProperty(int serial) {

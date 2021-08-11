@@ -32,7 +32,12 @@ final class ArrayNumbers implements Numbers {
 
     @Override
     public void add(Property key, int delta) {
-        values[index(key)] += delta;
+        int index = index(key);
+        if (values[index] < 0) {
+            values[index] = delta;
+        } else {
+            values[index] += delta;
+        }
     }
 
     @Override
