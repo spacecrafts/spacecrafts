@@ -117,6 +117,31 @@ class TestArrayNumbers {
         assertEquals(5, numbers.get(c));
     }
 
+    @Test
+    void size_0() {
+        numbers.clear();
+        assertEquals(0, numbers.size());
+    }
+
+    @Test
+    void size() {
+        assertEquals(3, numbers.size());
+    }
+
+    @Test
+    void first_0() {
+        assertFalse(numbers.first(value -> value.value() > 0).isSome());
+    }
+
+    @Test
+    void first() {
+        numbers.set(b, 2);
+        var first = numbers.first(v -> v.value() > 0);
+        assertTrue(first.isSome());
+        assertEquals(b, first.get().key());
+        assertEquals(2, first.get().value());
+    }
+
     static Property newProperty(int serial) {
         return new Property(new Defined(serial, null, "prop" + ('a' + serial)),
                 serial,

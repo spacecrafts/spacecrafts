@@ -123,7 +123,7 @@ final class ArrayNumbers implements Numbers {
     @Override
     public int size() {
         int c = 0;
-        for (int value : values) if (value > 0) c++;
+        for (int value : values) if (value >= 0) c++;
         return c;
     }
 
