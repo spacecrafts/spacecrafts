@@ -1,10 +1,7 @@
 package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Any.Entity;
-import se.jbee.spacecrafts.sim.state.Flux;
-import se.jbee.spacecrafts.sim.state.Maybe;
-import se.jbee.spacecrafts.sim.state.Pool;
-import se.jbee.spacecrafts.sim.state.Stasis;
+import se.jbee.spacecrafts.sim.state.*;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -106,7 +103,7 @@ final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
     }
 
     @Override
-    public void add(Flux<T> added) {
+    public void add(Collection<T> added) {
         if (added instanceof BitMaskFlux other) {
             if (other.words.length > words.length)
                 words = copyOf(words, other.words.length);
@@ -132,7 +129,7 @@ final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
     }
 
     @Override
-    public void remove(Flux<T> removed) {
+    public void remove(Collection<T> removed) {
         if (removed instanceof BitMaskFlux other) {
             for (int i = 0; i < Math.min(words.length, other.words.length); i++)
                 words[i] &= ~other.words[i];
@@ -145,6 +142,7 @@ final class BitMaskFlux<T extends Entity> implements Flux<T>, Stasis<T> {
     @Override
     public void clear() {
         if (size > 0) fill(words, 0L);
+        size = 0;
     }
 
     private int index(T e) {

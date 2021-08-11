@@ -17,9 +17,9 @@ public interface Flux<T extends Entity> extends Collection<T> {
 
     void clear();
 
-    void add(Flux<T> added);
+    void add(Collection<T> added);
 
-    void remove(Flux<T> removed);
+    void remove(Collection<T> removed);
 
     Stasis<T> stasis();
 }

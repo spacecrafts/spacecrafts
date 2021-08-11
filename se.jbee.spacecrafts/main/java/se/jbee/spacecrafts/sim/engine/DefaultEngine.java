@@ -4,10 +4,7 @@ import se.jbee.spacecrafts.sim.Any;
 import se.jbee.spacecrafts.sim.Any.Entity;
 import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.Resourcing;
-import se.jbee.spacecrafts.sim.state.Index;
-import se.jbee.spacecrafts.sim.state.Q;
-import se.jbee.spacecrafts.sim.state.Range;
-import se.jbee.spacecrafts.sim.state.Register;
+import se.jbee.spacecrafts.sim.state.*;
 
 public class DefaultEngine {
 
@@ -25,14 +22,14 @@ public class DefaultEngine {
     }
 
     public <T> Any.Controls<T> newControls(Game game, Class<T> type) {
-        Q<Any.Control> controls = game.entities().controlGroups() //
+        var controls = game.entities().controlGroups() //
                 .first(g -> g.of() == type) //
                 .map(Any.ControlGroup::controls) //
                 .orElse(null);
         return new ArrayControls<>(controls);
     }
 
-    public <T extends Any.Creation> Register<T> newPool(Class<T> type, int initialCapacity) {
+    public <T extends Any.Creation> Register<T> newRegister(Class<T> type, int initialCapacity) {
         return new ArrayRegister<>(type, initialCapacity);
     }
 
@@ -42,5 +39,9 @@ public class DefaultEngine {
 
     public <T extends Any.Quality> Range<T> newRange(Class<T> type, int initialCapacity) {
         return new ArrayRange<>(type, initialCapacity);
+    }
+
+    public <T extends Entity> Flux<T> newFlux(Pool<T> of) {
+        return new BitMaskFlux<>(of);
     }
 }

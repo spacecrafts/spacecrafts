@@ -102,7 +102,9 @@ public interface Any {
      */
     interface Editable {}
 
-    final class Text implements Editable, Embedded {}
+    final class Text implements Editable, Embedded {
+        public static final Text EMPTY = new Text();
+    }
 
     record Created(
             int serial,
