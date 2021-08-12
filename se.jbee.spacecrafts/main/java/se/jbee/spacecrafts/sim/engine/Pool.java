@@ -1,7 +1,5 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Any;
-
 import java.util.NoSuchElementException;
 import java.util.function.IntFunction;
 

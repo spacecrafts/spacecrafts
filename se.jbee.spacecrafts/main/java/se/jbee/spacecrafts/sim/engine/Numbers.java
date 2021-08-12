@@ -1,6 +1,6 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Resourcing.Property;
+import se.jbee.spacecrafts.sim.engine.Any.Property;
 
 import java.util.NoSuchElementException;
 

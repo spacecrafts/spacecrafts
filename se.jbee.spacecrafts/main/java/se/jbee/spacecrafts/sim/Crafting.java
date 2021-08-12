@@ -1,9 +1,9 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.Any.*;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.Resourcing.Process;
 import se.jbee.spacecrafts.sim.Resourcing.Resource;
+import se.jbee.spacecrafts.sim.engine.Any.*;
 import se.jbee.spacecrafts.sim.engine.*;
 
 public interface Crafting {

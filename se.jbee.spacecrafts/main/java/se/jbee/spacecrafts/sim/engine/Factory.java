@@ -1,10 +1,10 @@
-package se.jbee.spacecrafts.sim;
+package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Any.Controls;
-import se.jbee.spacecrafts.sim.Any.Creation;
-import se.jbee.spacecrafts.sim.Any.Definition;
-import se.jbee.spacecrafts.sim.Any.Quality;
-import se.jbee.spacecrafts.sim.engine.*;
+import se.jbee.spacecrafts.sim.Game;
+import se.jbee.spacecrafts.sim.engine.Any.Controls;
+import se.jbee.spacecrafts.sim.engine.Any.Creation;
+import se.jbee.spacecrafts.sim.engine.Any.Definition;
+import se.jbee.spacecrafts.sim.engine.Any.Quality;
 
 public interface Factory {
 

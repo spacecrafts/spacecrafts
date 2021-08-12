@@ -1,11 +1,11 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.Any.*;
 import se.jbee.spacecrafts.sim.Conquering.*;
 import se.jbee.spacecrafts.sim.Crafting.Component;
 import se.jbee.spacecrafts.sim.Discovering.Discovery;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.engine.*;
+import se.jbee.spacecrafts.sim.engine.Any.*;
 
 public interface Governing {
 

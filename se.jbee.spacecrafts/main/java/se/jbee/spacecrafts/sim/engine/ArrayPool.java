@@ -1,7 +1,5 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Any;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;

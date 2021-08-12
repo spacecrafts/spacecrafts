@@ -1,10 +1,7 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.Any.Entity;
-import se.jbee.spacecrafts.sim.engine.Index;
-import se.jbee.spacecrafts.sim.engine.Pool;
-import se.jbee.spacecrafts.sim.engine.Range;
-import se.jbee.spacecrafts.sim.engine.Register;
+import se.jbee.spacecrafts.sim.engine.*;
+import se.jbee.spacecrafts.sim.engine.Any.Entity;
 
 import java.util.function.Supplier;
 
@@ -21,12 +18,12 @@ public record Game(
             Index<Any.Control> controls,
             Index<Any.ControlGroup<?>> controlGroups,
 
-            Range<Resourcing.Indicator> indicators,
-            Range<Resourcing.Property> properties,
+            Range<Any.Indicator> indicators,
+            Range<Any.Property> properties,
             Range<Resourcing.Resource> resources,
             Range<Resourcing.Influence> influences,
-            Index<Resourcing.Classification> classifications,
-            Index<Resourcing.Domain> domains,
+            Index<Any.Classification> classifications,
+            Index<Any.Domain> domains,
             Index<Resourcing.Phenomenon> phenomena,
             Index<Resourcing.Substance> substances,
 
@@ -54,7 +51,7 @@ public record Game(
             Register<Trading.Deal> deals
     ) {
         public Entities {
-            pools.alias(Resourcing.Indicator.class, this::indicators);
+            pools.alias(Any.Indicator.class, this::indicators);
         }
     }
 

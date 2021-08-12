@@ -1,9 +1,10 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.Any.Text;
 import se.jbee.spacecrafts.sim.Conquering.Colony;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
+import se.jbee.spacecrafts.sim.engine.Any;
+import se.jbee.spacecrafts.sim.engine.Any.Text;
 
 public interface Processing {
 

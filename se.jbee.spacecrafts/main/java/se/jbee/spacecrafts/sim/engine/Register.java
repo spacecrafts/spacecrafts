@@ -1,11 +1,8 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Any;
-
 /**
- * A {@link Register} is a {@link Pool} of {@link se.jbee.spacecrafts.sim.Any.Creation}s
- * that also allows to {@link #remove(int)} elements. Removed serials might get
- * reused.
+ * A {@link Register} is a {@link Pool} of {@link Any.Creation}s that also
+ * allows to {@link #remove(int)} elements. Removed serials might get reused.
  *
  * @param <T>
  */

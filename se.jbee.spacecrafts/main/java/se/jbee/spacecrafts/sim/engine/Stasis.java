@@ -1,7 +1,5 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Any;
-
 public interface Stasis<T extends Any.Entity> extends Collection<T> {
 
     /**

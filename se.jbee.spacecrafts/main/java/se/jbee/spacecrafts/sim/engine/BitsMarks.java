@@ -1,6 +1,6 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Resourcing.Indicator;
+import se.jbee.spacecrafts.sim.engine.Any.Indicator;
 
 import java.util.Arrays;
 import java.util.function.Consumer;

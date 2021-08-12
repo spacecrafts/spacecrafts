@@ -1,6 +1,6 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Any.Entity;
+import se.jbee.spacecrafts.sim.engine.Any.Entity;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;

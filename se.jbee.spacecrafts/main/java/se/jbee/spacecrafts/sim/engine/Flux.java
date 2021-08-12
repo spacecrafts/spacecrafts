@@ -1,6 +1,6 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Any.Entity;
+import se.jbee.spacecrafts.sim.engine.Any.Entity;
 
 /**
  * Is a semantic set of {@link Entity}s.

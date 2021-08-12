@@ -1,11 +1,10 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Resourcing;
-import se.jbee.spacecrafts.sim.Resourcing.Indicator;
+import se.jbee.spacecrafts.sim.engine.Any.Indicator;
 
 /**
- * {@link Marks} are like a dynamic enum set. {@link Resourcing.Classification}s
- * can be used for a dynamic groupings.
+ * {@link Marks} are like a dynamic enum set. {@link Any.Classification}s can be
+ * used for a dynamic groupings.
  */
 public interface Marks extends Collection<Indicator> {
 

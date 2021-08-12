@@ -1,8 +1,8 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.Any.Defined;
-import se.jbee.spacecrafts.sim.Any.Definition;
-import se.jbee.spacecrafts.sim.Any.Quality;
+import se.jbee.spacecrafts.sim.engine.Any.Defined;
+import se.jbee.spacecrafts.sim.engine.Any.Definition;
+import se.jbee.spacecrafts.sim.engine.Any.Quality;
 import se.jbee.spacecrafts.sim.engine.Numbers;
 import se.jbee.spacecrafts.sim.engine.Stasis;
 

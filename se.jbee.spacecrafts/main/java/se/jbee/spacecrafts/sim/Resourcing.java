@@ -5,43 +5,9 @@ import se.jbee.spacecrafts.sim.engine.Numbers;
 import se.jbee.spacecrafts.sim.engine.Q;
 import se.jbee.spacecrafts.sim.engine.Stasis;
 
-import static se.jbee.spacecrafts.sim.Any.*;
+import static se.jbee.spacecrafts.sim.engine.Any.*;
 
 public interface Resourcing {
-
-    record Limit(
-            Integer min,
-            Integer max,
-            Integer cap
-    ) implements Embedded {}
-
-    record Property(
-            Defined header,
-            int ordinal,
-            Limit limits
-    ) implements Quality {}
-
-    /**
-     * Groups multiple {@link Property}s
-     */
-    record Domain(
-            Defined header,
-            Stasis<Property> members
-    ) implements Definition {}
-
-    record Indicator(
-            Defined header,
-            int ordinal,
-            boolean hidden
-    ) implements Quality {}
-
-    /**
-     * Groups multiple {@link Indicator}s
-     */
-    record Classification(
-            Defined header,
-            Stasis<Indicator> members
-    ) implements Definition {}
 
 
     /**

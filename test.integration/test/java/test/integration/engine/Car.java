@@ -1,6 +1,6 @@
 package test.integration.engine;
 
-import se.jbee.spacecrafts.sim.Any;
+import se.jbee.spacecrafts.sim.engine.Any;
 
 record Car(Any.Created header) implements Any.Creation {
 

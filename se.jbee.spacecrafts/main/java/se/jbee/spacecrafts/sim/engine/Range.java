@@ -1,7 +1,5 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import se.jbee.spacecrafts.sim.Any;
-
 import java.util.function.Consumer;
 
 public interface Range<T extends Any.Quality> extends Index<T> {

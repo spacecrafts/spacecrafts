@@ -1,8 +1,8 @@
 package test.integration.engine;
 
 import org.junit.jupiter.api.Test;
-import se.jbee.spacecrafts.sim.Any.Defined;
-import se.jbee.spacecrafts.sim.Resourcing.Indicator;
+import se.jbee.spacecrafts.sim.engine.Any.Defined;
+import se.jbee.spacecrafts.sim.engine.Any.Indicator;
 import se.jbee.spacecrafts.sim.engine.Marks;
 import se.jbee.spacecrafts.sim.engine.Range;
 
