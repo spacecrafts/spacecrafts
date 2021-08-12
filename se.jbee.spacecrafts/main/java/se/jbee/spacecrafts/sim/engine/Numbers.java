@@ -15,6 +15,7 @@ public interface Numbers extends Collection<Numbers.Value> {
         return new ArrayNumbers(of);
     }
 
+    @FunctionalInterface
     interface Factory {
         Numbers newNumbers(Range<Property> of);
     }

@@ -12,6 +12,7 @@ public interface Register<T extends Any.Creation> extends Pool<T> {
         return new ArrayRegister<>(of, initialCapacity);
     }
 
+    @FunctionalInterface
     interface Factory {
         <T extends Any.Creation> Register<T> newRegister(Class<T> of, int initialCapacity);
     }

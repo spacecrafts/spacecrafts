@@ -16,6 +16,7 @@ public interface Q<T> extends Collection<T> {
         return new ArrayQ<>(initialCapacity);
     }
 
+    @FunctionalInterface
     interface Factory {
         <T> Q<T> newQ(int initialCapacity);
     }

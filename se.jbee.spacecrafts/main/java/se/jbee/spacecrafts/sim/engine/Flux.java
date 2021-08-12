@@ -15,6 +15,7 @@ public interface Flux<T extends Entity> extends Collection<T> {
         return new BitsFlux<>(of);
     }
 
+    @FunctionalInterface
     interface Factory {
         <T extends Entity> Flux<T> newFlux(Pool<T> of);
     }

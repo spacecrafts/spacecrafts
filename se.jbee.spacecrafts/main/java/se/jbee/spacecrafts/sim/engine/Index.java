@@ -8,6 +8,7 @@ public interface Index<T extends Any.Definition> extends Pool<T> {
         return new ArrayIndex<>(of, initialCapacity);
     }
 
+    @FunctionalInterface
     interface Factory {
         <T extends Any.Definition> Index<T> newIndex(Class<T> of, int initialCapacity);
     }

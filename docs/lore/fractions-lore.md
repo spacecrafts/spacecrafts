@@ -1,17 +1,18 @@
 # Fractions
 
 ### NPCs
+
 Some fractions are always NPCs.
 
-For example, the resistance is a non player fraction that always exists. 
+For example, the resistance is a non player fraction that always exists.
 
-It does not actively develop but form from other fractions when those 
-mismanage or act cruel.
+It does not actively develop but form from other fractions when those mismanage
+or act cruel.
 
 ## Organisations / Power Structures
 
-The form of organisation of a fraction is chosen as part of game setup and
-cannot be changed during the game.
+The form of organisation of a fraction is chosen as part of game configuration
+and cannot be changed during the game.
 
 * clans
 * federation
@@ -25,6 +26,7 @@ cannot be changed during the game.
 * empire/kingdom
 
 ## Cultures
+
 (need to group the below, so it makes sense)
 
 * aggressive
@@ -37,9 +39,6 @@ cannot be changed during the game.
 * creative
 * ruthless
 * artistic
-
-
-
 
 ## Life-forms
 

@@ -12,6 +12,7 @@ public interface Marks extends Collection<Indicator> {
         return new BitsMarks(of);
     }
 
+    @FunctionalInterface
     interface Factory {
         Marks newMarks(Range<Indicator> of);
     }

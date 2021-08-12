@@ -180,7 +180,11 @@ public interface Any {
             Defined header,
             int ordinal,
             boolean hidden
-    ) implements Quality {}
+    ) implements Quality {
+        public Indicator(int serial, String code) {
+            this(new Defined(serial, new Code(code), code), serial, false);
+        }
+    }
 
     /**
      * Groups multiple {@link Indicator}s
