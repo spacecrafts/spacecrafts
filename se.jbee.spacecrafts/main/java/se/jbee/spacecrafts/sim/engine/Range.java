@@ -8,6 +8,14 @@ public interface Range<T extends Any.Quality> extends Index<T> {
         return new ArrayRange<>(of, initialCapacity);
     }
 
+    interface Factory {
+        <T extends Any.Quality> Range<T> newRange(Class<T> of, int initialCapacity);
+    }
+
+    /*
+    API
+     */
+
     /**
      * Iterates the items in {@link Any.Quality#ordinal()} order
      *

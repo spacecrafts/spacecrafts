@@ -16,6 +16,14 @@ public interface Q<T> extends Collection<T> {
         return new ArrayQ<>(initialCapacity);
     }
 
+    interface Factory {
+        <T> Q<T> newQ(int initialCapacity);
+    }
+
+    /*
+    API
+     */
+
     T get(int index) throws IndexOutOfBoundsException;
 
     /**
@@ -25,7 +33,11 @@ public interface Q<T> extends Collection<T> {
      */
     void append(T e) throws IllegalStateException, NullPointerException;
 
-    void seal();
+    /**
+     * @return this (now sealed) Q instance for chaining
+     * @throws IllegalStateException when this Q is sealed already
+     */
+    Q<T> seal() throws IllegalStateException;
 
     int firstIndex(Predicate<? super T> test);
 

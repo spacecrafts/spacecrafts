@@ -15,6 +15,14 @@ public interface Flux<T extends Entity> extends Collection<T> {
         return new BitsFlux<>(of);
     }
 
+    interface Factory {
+        <T extends Entity> Flux<T> newFlux(Pool<T> of);
+    }
+
+    /*
+    API
+     */
+
     void add(T e);
 
     void remove(T e);

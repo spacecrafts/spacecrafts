@@ -8,6 +8,14 @@ public interface Index<T extends Any.Definition> extends Pool<T> {
         return new ArrayIndex<>(of, initialCapacity);
     }
 
+    interface Factory {
+        <T extends Any.Definition> Index<T> newIndex(Class<T> of, int initialCapacity);
+    }
+
+    /*
+    API
+     */
+
     default T get(Any.Code code) throws NoSuchElementException {
         return first(e -> e.header().code().equals(code)) //
                 .orElseThrow(() -> new NoSuchElementException(of().getSimpleName() + " with code: " + code));

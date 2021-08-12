@@ -27,4 +27,19 @@ public record Engine(
 
     public record Factories() {}
 
+    public interface EngineBundle {
+
+        String name();
+
+        Class<? extends EngineModule> modules();
+    }
+
+    public interface EngineModule {
+
+        Class<? extends EngineModule> id();
+
+        Q<Class<? extends EngineModule>> requires();
+
+        void installIn(Game game, Engine engine);
+    }
 }

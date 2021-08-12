@@ -12,6 +12,14 @@ public interface Register<T extends Any.Creation> extends Pool<T> {
         return new ArrayRegister<>(of, initialCapacity);
     }
 
+    interface Factory {
+        <T extends Any.Creation> Register<T> newRegister(Class<T> of, int initialCapacity);
+    }
+
+    /*
+    API
+     */
+
     T remove(int serial) throws IllegalStateException;
 
 }

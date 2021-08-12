@@ -33,9 +33,10 @@ final class ArrayQ<T> implements Q<T> {
     }
 
     @Override
-    public void seal() {
+    public Q<T> seal() {
         if (sealed) throw new IllegalStateException("Q already sealed");
         sealed = true;
+        return this;
     }
 
     @Override

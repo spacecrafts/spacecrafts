@@ -15,6 +15,14 @@ public interface Numbers extends Collection<Numbers.Value> {
         return new ArrayNumbers(of);
     }
 
+    interface Factory {
+        Numbers newNumbers(Range<Property> of);
+    }
+
+    /*
+    API
+     */
+
     int get(Property key) throws NoSuchElementException;
 
     void set(Property key, int value);

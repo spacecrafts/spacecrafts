@@ -12,6 +12,14 @@ public interface Marks extends Collection<Indicator> {
         return new BitsMarks(of);
     }
 
+    interface Factory {
+        Marks newMarks(Range<Indicator> of);
+    }
+
+    /*
+    API
+     */
+
     boolean has(Indicator key);
 
     void set(Indicator key, boolean value);
