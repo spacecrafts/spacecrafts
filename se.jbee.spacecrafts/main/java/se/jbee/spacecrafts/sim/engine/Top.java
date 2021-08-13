@@ -8,5 +8,51 @@ package se.jbee.spacecrafts.sim.engine;
  */
 public interface Top<T> extends Collection<T> {
 
+    static <T> Top<T> newDefault(int initialCapacity, int maxCapacity) {
+        return new ArrayTop<>(initialCapacity, maxCapacity);
+    }
 
+    @FunctionalInterface
+    interface Factory {
+
+        <T> Top<T> newTop(int initialCapacity, int maxCapacity);
+    }
+
+    /*
+    API
+     */
+
+    void moveToTop(int index) throws IndexOutOfBoundsException;
+
+    void moveToBottom(int index) throws IndexOutOfBoundsException;
+
+    void moveUp(int index) throws IndexOutOfBoundsException;
+
+    void moveDown(int index) throws IndexOutOfBoundsException;
+
+    void pushTop(T e);
+
+    void pushBottom(T e);
+
+    T peek(int index) throws IndexOutOfBoundsException;
+
+    T remove(int index) throws IndexOutOfBoundsException;
+
+    int capacity();
+
+    default T popTop() throws IllegalStateException {
+        return remove(0);
+    }
+
+    default T popBottom() throws IllegalStateException {
+        return remove(size() - 1);
+    }
+
+    default T peekTop() throws IndexOutOfBoundsException {
+        return peek(0);
+    }
+
+    default T peekBottom() throws IndexOutOfBoundsException {
+        return peek(size() - 1);
+    }
 }

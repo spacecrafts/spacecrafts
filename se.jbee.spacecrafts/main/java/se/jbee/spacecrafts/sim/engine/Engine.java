@@ -35,7 +35,8 @@ public interface Engine {
             Top<Option<Index.Factory>> newRanges,
             Top<Option<Flux.Factory>> newFluxes,
             Top<Option<Numbers.Factory>> newNumbers,
-            Top<Option<Marks.Factory>> newMarks
+            Top<Option<Marks.Factory>> newMarks,
+            Top<Option<Top.Factory>> newTops
     ) {}
 
     /**
@@ -48,7 +49,8 @@ public interface Engine {
             Range.Factory newRange,
             Flux.Factory newFlux,
             Numbers.Factory newNumbers,
-            Marks.Factory newMarks
+            Marks.Factory newMarks,
+            Top.Factory newTop
     ) {}
 
     /**
@@ -66,7 +68,8 @@ public interface Engine {
             Class<? extends Module> from,
             String name,
             Marks attributes,
-            Numbers values
+            Numbers values,
+            Q<Feature> requires
     ) {}
 
     record Option<T>(
@@ -90,6 +93,6 @@ public interface Engine {
 
         Q<Class<? extends Module>> requires();
 
-        void installIn(Game game, Runtime runtime);
+        void installIn(Game game);
     }
 }

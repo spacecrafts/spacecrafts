@@ -1,0 +1,144 @@
+package se.jbee.spacecrafts.sim.engine;
+
+import java.util.Arrays;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+import static java.lang.System.arraycopy;
+
+final class ArrayTop<T> implements Top<T> {
+
+    private final int capacity;
+    private Object[] elements;
+    private int size;
+
+    ArrayTop(int initialCapacity, int maxCapacity) {
+        this.elements = new Object[initialCapacity];
+        this.capacity = maxCapacity;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public void forEach(Consumer<? super T> f) {
+        for (int i = 0; i < size; i++)
+            f.accept(getUnchecked(i));
+    }
+
+    @Override
+    public Maybe<T> first(Predicate<? super T> test) {
+        for (int i = 0; i < size; i++)
+            if (test.test(getUnchecked(i))) return Maybe.some(getUnchecked(i));
+        return Maybe.nothing();
+    }
+
+    @Override
+    public void moveToTop(int index) throws IndexOutOfBoundsException {
+        checkIndex(index);
+        if (index <= 1) {
+            moveUp(index);
+            return;
+        }
+        var e = elements[index];
+        arraycopy(elements, 0, elements, 1, index);
+        elements[0] = e;
+    }
+
+    @Override
+    public void moveToBottom(int index) throws IndexOutOfBoundsException {
+        checkIndex(index);
+        if (index >= size - 2) {
+            moveDown(index);
+            return;
+        }
+        var e = elements[index];
+        arraycopy(elements, index + 1, elements, index, size - index - 1);
+        elements[size - 1] = e;
+    }
+
+    @Override
+    public void moveUp(int index) throws IndexOutOfBoundsException {
+        checkIndex(index);
+        if (index > 0) {
+            var e = elements[index - 1];
+            elements[index - 1] = elements[index];
+            elements[index] = e;
+        }
+    }
+
+    @Override
+    public void moveDown(int index) throws IndexOutOfBoundsException {
+        checkIndex(index);
+        if (index < size - 1) {
+            var e = elements[index];
+            elements[index] = elements[index + 1];
+            elements[index + 1] = e;
+        }
+    }
+
+    @Override
+    public void pushTop(T e) {
+        size = Math.max(capacity, size + 1);
+        if (size > elements.length) {
+            Object[] tmp = new Object[nextCapacity()];
+            tmp[0] = e;
+            if (elements.length > 0)
+                arraycopy(elements, 0, tmp, 1, elements.length);
+            elements = tmp;
+        } else if (size > 1) {
+            arraycopy(elements, 0, elements, 1, size - 1);
+        }
+        elements[0] = e;
+    }
+
+    private int nextCapacity() {
+        return Math.min(capacity, size + 5);
+    }
+
+    @Override
+    public void pushBottom(T e) {
+        if (size == capacity) {
+            elements[size - 1] = e;
+            return;
+        }
+        size++;
+        if (size > elements.length)
+            elements = Arrays.copyOf(elements, nextCapacity());
+        elements[size - 1] = e;
+    }
+
+    @Override
+    public T peek(int index) throws IndexOutOfBoundsException {
+        checkIndex(index);
+        return getUnchecked(index);
+    }
+
+    @Override
+    public T remove(int index) throws IndexOutOfBoundsException {
+        checkIndex(index);
+        T e = getUnchecked(index);
+        if (index == size - 1) {
+            size--;
+            return e;
+        }
+        arraycopy(elements, index + 1, elements, index, size - index - 1);
+        return e;
+    }
+
+    @Override
+    public int capacity() {
+        return capacity;
+    }
+
+    @SuppressWarnings("unchecked")
+    private T getUnchecked(int index) {
+        return (T) elements[index];
+    }
+
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
+    }
+}

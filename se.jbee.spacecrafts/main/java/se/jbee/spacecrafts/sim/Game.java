@@ -6,6 +6,7 @@ import se.jbee.spacecrafts.sim.engine.Any.Entity;
 import java.util.function.Supplier;
 
 public record Game(
+        Engine.Runtime runtime,
         Entities entities
         // Flux<Processing.Event> delayed
 ) {
