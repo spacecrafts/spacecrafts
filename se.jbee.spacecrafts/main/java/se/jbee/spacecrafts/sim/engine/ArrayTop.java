@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import static java.lang.String.format;
 import static java.lang.System.arraycopy;
 
 final class ArrayTop<T> implements Top<T> {
@@ -81,7 +82,8 @@ final class ArrayTop<T> implements Top<T> {
 
     @Override
     public void pushTop(T e) {
-        size = Math.max(capacity, size + 1);
+        checkNonNull(e);
+        size = Math.min(capacity, size + 1);
         if (size > elements.length) {
             Object[] tmp = new Object[nextCapacity()];
             tmp[0] = e;
@@ -94,12 +96,9 @@ final class ArrayTop<T> implements Top<T> {
         elements[0] = e;
     }
 
-    private int nextCapacity() {
-        return Math.min(capacity, size + 5);
-    }
-
     @Override
     public void pushBottom(T e) {
+        checkNonNull(e);
         if (size == capacity) {
             elements[size - 1] = e;
             return;
@@ -125,7 +124,25 @@ final class ArrayTop<T> implements Top<T> {
             return e;
         }
         arraycopy(elements, index + 1, elements, index, size - index - 1);
+        size--;
         return e;
+    }
+
+    @Override
+    public void remove(int fromIndex, int toIndex) throws IndexOutOfBoundsException {
+        checkIndex(fromIndex);
+        checkIndex(toIndex);
+        if (toIndex < fromIndex) throw new IllegalArgumentException(format(
+                "to index must not be smaller than from index: %s >= %s",
+                toIndex,
+                fromIndex));
+        int len = (toIndex - fromIndex) + 1;
+        if (toIndex + 1 == size) {
+            size -= len;
+            return;
+        }
+        arraycopy(elements, toIndex + 1, elements, fromIndex, len);
+        size -= len;
     }
 
     @Override
@@ -141,4 +158,13 @@ final class ArrayTop<T> implements Top<T> {
     private void checkIndex(int index) {
         if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
     }
+
+    private void checkNonNull(T e) {
+        if (e == null) throw new NullPointerException();
+    }
+
+    private int nextCapacity() {
+        return Math.min(capacity, size + 5);
+    }
+
 }

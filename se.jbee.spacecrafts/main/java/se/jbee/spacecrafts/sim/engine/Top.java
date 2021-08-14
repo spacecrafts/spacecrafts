@@ -30,13 +30,15 @@ public interface Top<T> extends Collection<T> {
 
     void moveDown(int index) throws IndexOutOfBoundsException;
 
-    void pushTop(T e);
+    void pushTop(T e) throws NullPointerException;
 
-    void pushBottom(T e);
+    void pushBottom(T e) throws NullPointerException;
 
     T peek(int index) throws IndexOutOfBoundsException;
 
     T remove(int index) throws IndexOutOfBoundsException;
+
+    void remove(int fromIndex, int toIndex) throws IndexOutOfBoundsException;
 
     int capacity();
 
@@ -54,5 +56,15 @@ public interface Top<T> extends Collection<T> {
 
     default T peekBottom() throws IndexOutOfBoundsException {
         return peek(size() - 1);
+    }
+
+    default void pushTop(T... es) {
+        for (int i = es.length - 1; i >= 0; i--)
+            pushTop(es[i]);
+    }
+
+    default void pushBottom(T... es) {
+        for (T e : es)
+            pushBottom(e);
     }
 }
