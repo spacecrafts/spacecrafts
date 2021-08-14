@@ -10,7 +10,7 @@ import static test.integration.utils.Assertions.assertForEach;
 
 class TestArrayTop {
 
-    private final Top<String> top = Top.newDefault(5, 10);
+    private final Top<String> top = Top.newDefault(3, 6);
 
     @Test
     void size_0() {
@@ -39,6 +39,19 @@ class TestArrayTop {
     }
 
     @Test
+    void first_0() {
+        assertFalse(top.first(e -> true).isSome());
+    }
+
+    @Test
+    void first() {
+        top.pushBottom("a", "b", "c", "d");
+        var first = top.first(e -> e.charAt(0) == 'c');
+        assertTrue(first.isSome());
+        assertEquals("c", first.get());
+    }
+
+    @Test
     void moveToTop_0() {
         assertThrows(IndexOutOfBoundsException.class, () -> top.moveToTop(0));
     }
@@ -48,6 +61,24 @@ class TestArrayTop {
         top.pushBottom("a", "b", "c", "d");
         top.moveToTop(2);
         assertForEach(asList("c", "a", "b", "d"), top::forEach);
+    }
+
+    @Test
+    void moveToTop_second() {
+        top.pushBottom("a", "b", "c", "d");
+        top.moveToTop(1);
+        assertForEach(asList("b", "a", "c", "d"), top::forEach);
+    }
+
+    @Test
+    void moveToTop_0range() {
+        top.pushBottom("a", "b");
+        assertThrows(IllegalStateException.class, () -> top.moveToTop(1, 0));
+    }
+
+    @Test
+    void moveToTop_range() {
+
     }
 
     @Test
@@ -61,6 +92,24 @@ class TestArrayTop {
         top.pushBottom("a", "b", "c", "d");
         top.moveToBottom(1);
         assertForEach(asList("a", "c", "d", "b"), top::forEach);
+    }
+
+    @Test
+    void moveToBottom_0range() {
+        top.pushBottom("a", "b");
+        assertThrows(IllegalStateException.class, () -> top.moveToBottom(1, 0));
+    }
+
+    @Test
+    void moveToBottom_range() {
+
+    }
+
+    @Test
+    void moveToBottom_secondLast() {
+        top.pushBottom("a", "b", "c", "d");
+        top.moveToBottom(2);
+        assertForEach(asList("a", "b", "d", "c"), top::forEach);
     }
 
     @Test
@@ -118,6 +167,15 @@ class TestArrayTop {
     }
 
     @Test
+    void pushBottom_full() {
+        top.pushBottom("a", "b", "c", "d", "e", "f");
+        top.pushBottom("g");
+        top.pushBottom("h");
+        assertEquals(6, top.size());
+        assertForEach(asList("a", "b", "c", "d", "e", "h"), top::forEach);
+    }
+
+    @Test
     void peek_0() {
         assertThrows(IndexOutOfBoundsException.class, () -> top.peek(0));
     }
@@ -147,6 +205,14 @@ class TestArrayTop {
         top.remove(1, 2);
         assertEquals(2, top.size());
         assertForEach(asList("a", "d"), top::forEach);
+    }
+
+    @Test
+    void remove_endRange() {
+        top.pushBottom("a", "b", "c", "d");
+        top.remove(2, 3);
+        assertEquals(2, top.size());
+        assertForEach(asList("a", "b"), top::forEach);
     }
 
     @Test
@@ -204,13 +270,13 @@ class TestArrayTop {
 
     @Test
     void capacity_0() {
-        assertEquals(10, top.capacity());
+        assertEquals(6, top.capacity());
     }
 
     @Test
     void capacity() {
         top.pushBottom("a", "b", "c");
-        assertEquals(10, top.capacity());
+        assertEquals(6, top.capacity());
     }
 
     @Test

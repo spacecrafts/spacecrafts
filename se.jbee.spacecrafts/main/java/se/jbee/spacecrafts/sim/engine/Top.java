@@ -67,4 +67,24 @@ public interface Top<T> extends Collection<T> {
         for (T e : es)
             pushBottom(e);
     }
+
+    default void moveUp(int fromIndex, int toIndex) {
+        for (int i = fromIndex; i <= toIndex; i++)
+            moveUp(i);
+    }
+
+    default void moveDown(int fromIndex, int toIndex) {
+        for (int i = toIndex; i >= fromIndex; i--)
+            moveDown(i);
+    }
+
+    default void moveToTop(int fromIndex, int toIndex) {
+        for (int i = toIndex; i >= fromIndex; i--)
+            moveToTop(i);
+    }
+
+    default void moveToBottom(int fromIndex, int toIndex) {
+        for (int i = fromIndex; i <= toIndex; i++)
+            moveToBottom(i);
+    }
 }
