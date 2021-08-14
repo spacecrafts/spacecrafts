@@ -2,6 +2,8 @@ package test.integration.engine;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import se.jbee.spacecrafts.sim.engine.Collection;
+import se.jbee.spacecrafts.sim.engine.Q;
 import se.jbee.spacecrafts.sim.engine.Top;
 
 import static java.util.Arrays.asList;
@@ -73,12 +75,15 @@ class TestArrayTop {
     @Test
     void moveToTop_0range() {
         top.pushBottom("a", "b");
-        assertThrows(IllegalStateException.class, () -> top.moveToTop(1, 0));
+        assertThrows(IllegalArgumentException.class, () -> top.moveToTop(1, 0));
     }
 
     @Test
     void moveToTop_range() {
-
+        top.pushBottom("a", "b", "c", "d", "e", "f");
+        top.moveToTop(2, 3);
+        assertEquals(6, top.size());
+        assertForEach(asList("c", "d", "a", "b", "e", "f"), top::forEach);
     }
 
     @Test
@@ -97,12 +102,16 @@ class TestArrayTop {
     @Test
     void moveToBottom_0range() {
         top.pushBottom("a", "b");
-        assertThrows(IllegalStateException.class, () -> top.moveToBottom(1, 0));
+        assertThrows(IllegalArgumentException.class,
+                () -> top.moveToBottom(1, 0));
     }
 
     @Test
     void moveToBottom_range() {
-
+        top.pushBottom("a", "b", "c", "d", "e", "f");
+        top.moveToBottom(2, 3);
+        assertEquals(6, top.size());
+        assertForEach(asList("a", "b", "e", "f", "c", "d"), top::forEach);
     }
 
     @Test
@@ -125,6 +134,20 @@ class TestArrayTop {
     }
 
     @Test
+    void moveUp_0range() {
+        top.pushBottom("a", "b");
+        assertThrows(IllegalArgumentException.class, () -> top.moveUp(1, 0));
+    }
+
+    @Test
+    void moveUp_range() {
+        top.pushBottom("a", "b", "c", "d", "e", "f");
+        top.moveUp(2, 4);
+        assertEquals(6, top.size());
+        assertForEach(asList("a", "c", "d", "e", "b", "f"), top::forEach);
+    }
+
+    @Test
     void moveDown_0() {
         assertThrows(IndexOutOfBoundsException.class, () -> top.moveDown(0));
     }
@@ -134,6 +157,20 @@ class TestArrayTop {
         top.pushBottom("a", "b", "c", "d");
         top.moveDown(1);
         assertForEach(asList("a", "c", "b", "d"), top::forEach);
+    }
+
+    @Test
+    void moveDown_0range() {
+        top.pushBottom("a", "b");
+        assertThrows(IllegalArgumentException.class, () -> top.moveDown(1, 0));
+    }
+
+    @Test
+    void moveDown_range() {
+        top.pushBottom("a", "b", "c", "d", "e", "f");
+        top.moveDown(2, 4);
+        assertEquals(6, top.size());
+        assertForEach(asList("a", "b", "f", "c", "d", "e"), top::forEach);
     }
 
     @Test
@@ -282,6 +319,8 @@ class TestArrayTop {
     @Test
     void pushTop_0array() {
         assertDoesNotThrow((Executable) top::pushTop);
+        assertThrows(NullPointerException.class,
+                () -> top.pushTop((String[]) null));
     }
 
     @Test
@@ -296,6 +335,8 @@ class TestArrayTop {
     @Test
     void pushBottom_0array() {
         assertDoesNotThrow((Executable) top::pushBottom);
+        assertThrows(NullPointerException.class,
+                () -> top.pushBottom((String[]) null));
     }
 
     @Test
@@ -307,4 +348,48 @@ class TestArrayTop {
         assertForEach(asList("a", "b", "c", "d", "e", "f"), top::forEach);
     }
 
+    @Test
+    void pushButton_0collection() {
+        Q<String> tail = Q.newDefault(2);
+        assertDoesNotThrow(() -> top.pushBottom(tail));
+        assertThrows(NullPointerException.class,
+                () -> top.pushBottom((Collection<String>) null));
+    }
+
+    @Test
+    void pushButton_collectionQ() {
+        Q<String> cd = Q.newDefault(2);
+        cd.append("c");
+        cd.append("d");
+        top.pushBottom("a", "b");
+        top.pushBottom(cd);
+        top.pushBottom("e", "f");
+        assertEquals(6, top.size());
+        assertForEach(asList("a", "b", "c", "d", "e", "f"), top::forEach);
+    }
+
+    @Test
+    void pushButton_collectionTop() {
+        Top<String> cd = Top.newDefault(2, 2);
+        cd.pushBottom("c", "d");
+        top.pushBottom("a", "b");
+        top.pushBottom(cd);
+        top.pushBottom("e", "f");
+        assertEquals(6, top.size());
+        assertForEach(asList("a", "b", "c", "d", "e", "f"), top::forEach);
+    }
+
+    @Test
+    void slice_0() {
+        top.pushBottom("a", "b", "c", "d", "e", "f");
+        assertThrows(IllegalArgumentException.class, () -> top.slice(4, 3));
+    }
+
+    @Test
+    void slice() {
+        top.pushBottom("a", "b", "c", "d", "e", "f");
+        var slice = top.slice(2, 4);
+        assertEquals(3, slice.size());
+        assertForEach(asList("c", "d", "e"), slice::forEach);
+    }
 }

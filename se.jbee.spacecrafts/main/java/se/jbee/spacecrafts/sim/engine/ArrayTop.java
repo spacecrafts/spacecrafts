@@ -6,6 +6,8 @@ import java.util.function.Predicate;
 
 import static java.lang.String.format;
 import static java.lang.System.arraycopy;
+import static java.util.Arrays.copyOf;
+import static java.util.Arrays.copyOfRange;
 
 final class ArrayTop<T> implements Top<T> {
 
@@ -14,8 +16,13 @@ final class ArrayTop<T> implements Top<T> {
     private int size;
 
     ArrayTop(int initialCapacity, int maxCapacity) {
-        this.elements = new Object[initialCapacity];
-        this.capacity = maxCapacity;
+        this(maxCapacity, 0, new Object[initialCapacity]);
+    }
+
+    private ArrayTop(int capacity, int size, Object[] elements) {
+        this.capacity = capacity;
+        this.size = size;
+        this.elements = elements;
     }
 
     @Override
@@ -49,6 +56,12 @@ final class ArrayTop<T> implements Top<T> {
     }
 
     @Override
+    public void moveToTop(int fromIndex, int toIndex) {
+        checkRange(fromIndex, toIndex);
+        Top.super.moveToTop(fromIndex, toIndex);
+    }
+
+    @Override
     public void moveToBottom(int index) throws IndexOutOfBoundsException {
         checkIndex(index);
         if (index >= size - 2) {
@@ -58,6 +71,12 @@ final class ArrayTop<T> implements Top<T> {
         var e = elements[index];
         arraycopy(elements, index + 1, elements, index, size - index - 1);
         elements[size - 1] = e;
+    }
+
+    @Override
+    public void moveToBottom(int fromIndex, int toIndex) {
+        checkRange(fromIndex, toIndex);
+        Top.super.moveToBottom(fromIndex, toIndex);
     }
 
     @Override
@@ -71,6 +90,12 @@ final class ArrayTop<T> implements Top<T> {
     }
 
     @Override
+    public void moveUp(int fromIndex, int toIndex) {
+        checkRange(fromIndex, toIndex);
+        Top.super.moveUp(fromIndex, toIndex);
+    }
+
+    @Override
     public void moveDown(int index) throws IndexOutOfBoundsException {
         checkIndex(index);
         if (index < size - 1) {
@@ -81,11 +106,17 @@ final class ArrayTop<T> implements Top<T> {
     }
 
     @Override
+    public void moveDown(int fromIndex, int toIndex) {
+        checkRange(fromIndex, toIndex);
+        Top.super.moveDown(fromIndex, toIndex);
+    }
+
+    @Override
     public void pushTop(T e) {
         checkNonNull(e);
         size = Math.min(capacity, size + 1);
         if (size > elements.length) {
-            Object[] tmp = new Object[nextCapacity()];
+            Object[] tmp = new Object[nextCapacity(4)];
             tmp[0] = e;
             if (elements.length > 0)
                 arraycopy(elements, 0, tmp, 1, elements.length);
@@ -97,6 +128,12 @@ final class ArrayTop<T> implements Top<T> {
     }
 
     @Override
+    public void pushTop(T... es) {
+        //TODO
+        Top.super.pushTop(es);
+    }
+
+    @Override
     public void pushBottom(T e) {
         checkNonNull(e);
         if (size == capacity) {
@@ -105,8 +142,28 @@ final class ArrayTop<T> implements Top<T> {
         }
         size++;
         if (size > elements.length)
-            elements = Arrays.copyOf(elements, nextCapacity());
+            elements = Arrays.copyOf(elements, nextCapacity(4));
         elements[size - 1] = e;
+    }
+
+    @Override
+    public void pushBottom(T... es) {
+        //TODO
+        Top.super.pushBottom(es);
+    }
+
+    @Override
+    public void pushBottom(Collection<T> es) {
+        if (es.isEmpty()) return;
+        if (es instanceof ArrayTop other) {
+            int len = es.size();
+            if (this.size + len > elements.length)
+                elements = copyOf(elements, nextCapacity(len));
+            arraycopy(other.elements, 0, elements, size, len);
+            size += len;
+        } else {
+            Top.super.pushBottom(es);
+        }
     }
 
     @Override
@@ -130,12 +187,7 @@ final class ArrayTop<T> implements Top<T> {
 
     @Override
     public void remove(int fromIndex, int toIndex) throws IndexOutOfBoundsException {
-        checkIndex(fromIndex);
-        checkIndex(toIndex);
-        if (toIndex < fromIndex) throw new IllegalArgumentException(format(
-                "to index must not be smaller than from index: %s >= %s",
-                toIndex,
-                fromIndex));
+        checkRange(fromIndex, toIndex);
         int len = (toIndex - fromIndex) + 1;
         if (toIndex + 1 == size) {
             size -= len;
@@ -145,9 +197,26 @@ final class ArrayTop<T> implements Top<T> {
         size -= len;
     }
 
+    private void checkRange(int fromIndex, int toIndex) {
+        checkIndex(fromIndex);
+        checkIndex(toIndex);
+        if (toIndex < fromIndex) throw new IllegalArgumentException(format(
+                "to index must not be smaller than from index: %s >= %s",
+                toIndex,
+                fromIndex));
+    }
+
     @Override
     public int capacity() {
         return capacity;
+    }
+
+    @Override
+    public Top<T> slice(int fromIndex, int toIndex) throws IndexOutOfBoundsException {
+        checkRange(fromIndex, toIndex);
+        int len = (toIndex - fromIndex) + 1;
+        var slice = copyOfRange(elements, fromIndex, toIndex + 1);
+        return new ArrayTop<>(capacity, len, slice);
     }
 
     @SuppressWarnings("unchecked")
@@ -163,8 +232,8 @@ final class ArrayTop<T> implements Top<T> {
         if (e == null) throw new NullPointerException();
     }
 
-    private int nextCapacity() {
-        return Math.min(capacity, size + 5);
+    private int nextCapacity(int minAdditionalCapacity) {
+        return Math.min(capacity,
+                size + Math.max(minAdditionalCapacity, capacity / 8));
     }
-
 }

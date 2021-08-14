@@ -1,8 +1,8 @@
 package se.jbee.spacecrafts.sim.engine;
 
 /**
- * A {@link Top} is an ordered list ordered from most important at index zero to
- * least important at last index.
+ * A {@link Top} is an ordered list ordered from most important (top) at index
+ * zero to least important (bottom) at last index.
  *
  * @param <T> list item type
  */
@@ -42,6 +42,8 @@ public interface Top<T> extends Collection<T> {
 
     int capacity();
 
+    Top<T> slice(int fromIndex, int toIndex) throws IndexOutOfBoundsException;
+
     default T popTop() throws IllegalStateException {
         return remove(0);
     }
@@ -68,6 +70,10 @@ public interface Top<T> extends Collection<T> {
             pushBottom(e);
     }
 
+    default void pushBottom(Collection<T> es) {
+        es.forEach(this::pushBottom);
+    }
+
     default void moveUp(int fromIndex, int toIndex) {
         for (int i = fromIndex; i <= toIndex; i++)
             moveUp(i);
@@ -80,11 +86,11 @@ public interface Top<T> extends Collection<T> {
 
     default void moveToTop(int fromIndex, int toIndex) {
         for (int i = toIndex; i >= fromIndex; i--)
-            moveToTop(i);
+            moveToTop(toIndex);
     }
 
     default void moveToBottom(int fromIndex, int toIndex) {
         for (int i = fromIndex; i <= toIndex; i++)
-            moveToBottom(i);
+            moveToBottom(fromIndex);
     }
 }

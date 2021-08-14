@@ -7,6 +7,13 @@
   undisturbed modules.
 * have construction components suitable for surface have different boosts than
   one for orbit
+* use an _underground_ deck for colonies to model a mirror plane of the surface
+  plane where pirate like fractions establish their operations. These are no
+  ordinary building but what a building existing on the surface is used as. This
+  means they cannot actively build new buildings, but they can use they for
+  their affairs on the underground plane.
+* most fractions only use planet surface deck - subterranean fractions can use a
+  second _subterranean_ deck (which basically doubles the planet size)
 
 ## More Unlikely Ideas
 

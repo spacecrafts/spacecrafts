@@ -5,8 +5,6 @@ I
 docs/lore/housing-lore.md,d/c/dc568078ac84c929583a9d0590af44052c669be7
 U
 %docs/mechanics/discovery-mechanics.md,7/6/761a7ca6cbb6d2e13fe3adac35dd949e375ccc5b
-T
-$docs/mechanics/crafting-mechanics.md,d/7/d73f630e1c674fa9bfda767e0b0275deb693d24b
 U
 %docs/mechanics/processes-mechanics.md,b/0/b0fc0f9cfa634e8b01d9fcfd6d3e4f1183f10355
 J
@@ -156,8 +154,6 @@ w
 Gse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Marks.java,1/a/1a1059491dc4f154965fa62fb664fd39309e88af
 z
 Jse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Register.java,8/8/8816311b9d7605a5837e23358f11e9404c95987a
-s
-Cse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Q.java,b/a/bac7ebe020d9fbff6b79cbd9fc800d634a097857
 w
 Gse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Range.java,9/9/99a692c02c908fe7adc45aee722daa46222ba44e
 v
