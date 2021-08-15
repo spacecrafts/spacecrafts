@@ -128,9 +128,22 @@ final class ArrayTop<T> implements Top<T> {
     }
 
     @Override
-    public void pushTop(T... es) {
-        //TODO
-        Top.super.pushTop(es);
+    @SafeVarargs
+    public final void pushTop(T... es) {
+        int len = Math.min(es.length, capacity);
+        checkNonNull(es, len);
+        int moved = Math.min(size, capacity - len);
+        if (moved + len > elements.length) {
+            Object[] tmp = new Object[nextCapacity(len)];
+            arraycopy(es, 0, tmp, 0, len);
+            if (moved > 0) arraycopy(elements, 0, tmp, len, moved);
+            elements = tmp;
+            size = len + moved;
+        } else {
+            if (moved > 0) arraycopy(elements, 0, elements, len, moved);
+            arraycopy(es, 0, elements, 0, len);
+            size += len;
+        }
     }
 
     @Override
@@ -147,23 +160,31 @@ final class ArrayTop<T> implements Top<T> {
     }
 
     @Override
-    public void pushBottom(T... es) {
-        //TODO
-        Top.super.pushBottom(es);
+    @SafeVarargs
+    public final void pushBottom(T... es) {
+        if (es.length == 0) return;
+        pushBottom(es, es.length);
     }
 
     @Override
     public void pushBottom(Collection<T> es) {
         if (es.isEmpty()) return;
         if (es instanceof ArrayTop other) {
-            int len = es.size();
-            if (this.size + len > elements.length)
-                elements = copyOf(elements, nextCapacity(len));
-            arraycopy(other.elements, 0, elements, size, len);
-            size += len;
+            pushBottom(other.elements, es.size());
         } else {
+            int overflow = size + es.size() - capacity;
+            if (overflow > 0) popBottom(overflow);
             Top.super.pushBottom(es);
         }
+    }
+
+    private void pushBottom(Object[] es, int len) {
+        checkNonNull(es, len);
+        if (size + len > elements.length)
+            elements = copyOf(elements, nextCapacity(len));
+        int at = Math.min(size, capacity - len);
+        arraycopy(es, 0, elements, at, len);
+        size = at + len;
     }
 
     @Override
@@ -193,7 +214,11 @@ final class ArrayTop<T> implements Top<T> {
             size -= len;
             return;
         }
-        arraycopy(elements, toIndex + 1, elements, fromIndex, len);
+        arraycopy(elements,
+                toIndex + 1,
+                elements,
+                fromIndex,
+                size - toIndex - 1);
         size -= len;
     }
 
@@ -228,8 +253,13 @@ final class ArrayTop<T> implements Top<T> {
         if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
     }
 
-    private void checkNonNull(T e) {
+    private void checkNonNull(Object e) {
         if (e == null) throw new NullPointerException();
+    }
+
+    private void checkNonNull(Object[] es, int len) {
+        for (int i = 0; i < len; i++)
+            checkNonNull(es[i]);
     }
 
     private int nextCapacity(int minAdditionalCapacity) {

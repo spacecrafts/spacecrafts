@@ -44,11 +44,11 @@ public interface Top<T> extends Collection<T> {
 
     Top<T> slice(int fromIndex, int toIndex) throws IndexOutOfBoundsException;
 
-    default T popTop() throws IllegalStateException {
+    default T popTop() throws IndexOutOfBoundsException {
         return remove(0);
     }
 
-    default T popBottom() throws IllegalStateException {
+    default T popBottom() throws IndexOutOfBoundsException {
         return remove(size() - 1);
     }
 
@@ -58,6 +58,15 @@ public interface Top<T> extends Collection<T> {
 
     default T peekBottom() throws IndexOutOfBoundsException {
         return peek(size() - 1);
+    }
+
+    default void popTop(int n) throws IndexOutOfBoundsException {
+        remove(0, n);
+    }
+
+    default void popBottom(int n) throws IndexOutOfBoundsException {
+        int i0 = size() - n;
+        remove(i0, i0 + n - 1);
     }
 
     default void pushTop(T... es) {

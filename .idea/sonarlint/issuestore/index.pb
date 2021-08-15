@@ -142,12 +142,8 @@ u
 Etest.integration/test/java/test/integration/engine/TestBitsMarks.java,c/2/c25730d7a935635cb33df308f738d23d306b79f4
 |
 Lse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Collection.java,e/3/e36522577ce9371edf92c9ca5b927ce9d10b48d1
-~
-Nse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/ArrayNumbers.java,9/f/9f93780790ee14cf85f6c45c4ed24e96831c856b
 u
 Ese.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Resourcing.java,1/e/1ed95ec98205369be6546fd27c0105a43a905ebd
-x
-Htest.integration/test/java/test/integration/engine/TestArrayNumbers.java,4/b/4b47abfbaeda8a7c0ba00031a7c12a881d48dc37
 x
 Hse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/ArrayQ.java,5/6/56673a5ee5331b9818d5ac53e194dbeb2e3e6c20
 w
@@ -162,3 +158,7 @@ v
 Fse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Flux.java,e/c/ec00c38428ced2ab844c2e5f5f84ebf1d3f1a54d
 w
 Gse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Index.java,6/7/6734ba61213a575e181b85ed1af8e6d19a07523a
+T
+$docs/mechanics/crafting-mechanics.md,d/7/d73f630e1c674fa9bfda767e0b0275deb693d24b
+s
+Cse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Q.java,b/a/bac7ebe020d9fbff6b79cbd9fc800d634a097857

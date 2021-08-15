@@ -4,13 +4,13 @@ import se.jbee.spacecrafts.sim.engine.Any.Property;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static java.lang.Math.min;
-import static java.lang.System.arraycopy;
 
 final class ArrayNumbers implements Numbers {
+
+    private static final int NaN = Integer.MIN_VALUE;
 
     private final Range<Property> keys;
     private final int[] values;
@@ -45,7 +45,8 @@ final class ArrayNumbers implements Numbers {
     @Override
     public void zero(Numbers zeros) {
         if (zeros instanceof ArrayNumbers fn) {
-            arraycopy(fn.values, 0, values, 0, values.length);
+            for (int i = 0; i < values.length; i++)
+                if (isNaN(fn.values[i])) values[i] = fn.values[i];
         } else {
             zeros.forEach(this::set);
         }
@@ -55,7 +56,8 @@ final class ArrayNumbers implements Numbers {
     public void cap(Numbers at) {
         if (at instanceof ArrayNumbers fn) {
             for (int i = 0; i < values.length; i++)
-                if (fn.values[i] >= 0) values[i] = min(values[i], fn.values[i]);
+                if (isNaN(fn.values[i]))
+                    values[i] = min(values[i], fn.values[i]);
         } else {
             at.forEach(this::cap1);
         }
@@ -70,7 +72,7 @@ final class ArrayNumbers implements Numbers {
     public void add(Numbers added) {
         if (added instanceof ArrayNumbers fn) {
             for (int i = 0; i < values.length; i++)
-                if (fn.values[i] >= 0) values[i] += fn.values[i];
+                if (isNaN(fn.values[i])) values[i] += fn.values[i];
         } else {
             added.forEach(this::add1);
         }
@@ -84,7 +86,7 @@ final class ArrayNumbers implements Numbers {
     public void sub(Numbers subtracted) {
         if (subtracted instanceof ArrayNumbers fn) {
             for (int i = 0; i < values.length; i++)
-                if (fn.values[i] >= 0) values[i] -= fn.values[i];
+                if (isNaN(fn.values[i])) values[i] -= fn.values[i];
         } else {
             subtracted.forEach(this::sub1);
         }
@@ -96,24 +98,24 @@ final class ArrayNumbers implements Numbers {
 
     @Override
     public void clear() {
-        Arrays.fill(values, -1);
+        Arrays.fill(values, NaN);
     }
 
     @Override
-    public void forEach(ValueConsumer f) {
+    public void forEach(Consumer f) {
         for (int i = 0; i < values.length; i++)
-            if (values[i] >= 0) f.accept(keys.get(i), values[i]);
+            if (isNaN(values[i])) f.accept(keys.get(i), values[i]);
     }
 
     @Override
-    public void forEach(Consumer<? super Value> f) {
+    public void forEach(java.util.function.Consumer f) {
         forEach(((key, value) -> f.accept(new Value(key, value))));
     }
 
     @Override
     public Maybe<Value> first(Predicate<? super Value> test) {
         for (int i = 0; i < values.length; i++)
-            if (values[i] >= 0) {
+            if (isNaN(values[i])) {
                 var e = new Value(keys.get(i), values[i]);
                 if (test.test(e)) return Maybe.some(e);
             }
@@ -123,11 +125,15 @@ final class ArrayNumbers implements Numbers {
     @Override
     public int size() {
         int c = 0;
-        for (int value : values) if (value >= 0) c++;
+        for (int value : values) if (isNaN(value)) c++;
         return c;
     }
 
     private static int index(Property key) {
         return key.header().serial();
+    }
+
+    private boolean isNaN(int value) {
+        return value != NaN;
     }
 }

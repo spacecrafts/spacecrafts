@@ -95,4 +95,10 @@ public interface Engine {
 
         void installIn(Game game);
     }
+
+    interface Starter<G> {
+
+        G newGame();
+    }
+
 }

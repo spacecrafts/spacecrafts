@@ -189,6 +189,19 @@ class TestArrayTop {
     }
 
     @Test
+    void pushTop_grow() {
+        top.pushTop("a");
+        top.pushTop("b");
+        top.pushTop("c");
+        top.pushTop("d");
+        top.pushTop("e");
+        top.pushTop("f");
+        top.pushTop("g");
+        assertEquals(6, top.size());
+        assertForEach(asList("g", "f", "e", "d", "c", "b"), top::forEach);
+    }
+
+    @Test
     void pushBottom_0() {
         assertThrows(NullPointerException.class,
                 () -> top.pushBottom((String) null));
@@ -333,6 +346,15 @@ class TestArrayTop {
     }
 
     @Test
+    void pushTop_overflow() {
+        top.pushTop("a", "b");
+        top.pushTop("c", "d");
+        top.pushTop("e", "f", "g");
+        assertEquals(6, top.size());
+        assertForEach(asList("e", "f", "g", "c", "d", "a"), top::forEach);
+    }
+
+    @Test
     void pushBottom_0array() {
         assertDoesNotThrow((Executable) top::pushBottom);
         assertThrows(NullPointerException.class,
@@ -349,7 +371,7 @@ class TestArrayTop {
     }
 
     @Test
-    void pushButton_0collection() {
+    void pushBottom_0collection() {
         Q<String> tail = Q.newDefault(2);
         assertDoesNotThrow(() -> top.pushBottom(tail));
         assertThrows(NullPointerException.class,
@@ -357,7 +379,7 @@ class TestArrayTop {
     }
 
     @Test
-    void pushButton_collectionQ() {
+    void pushBottom_collectionQ() {
         Q<String> cd = Q.newDefault(2);
         cd.append("c");
         cd.append("d");
@@ -369,7 +391,7 @@ class TestArrayTop {
     }
 
     @Test
-    void pushButton_collectionTop() {
+    void pushBottom_collectionTop() {
         Top<String> cd = Top.newDefault(2, 2);
         cd.pushBottom("c", "d");
         top.pushBottom("a", "b");
@@ -377,6 +399,26 @@ class TestArrayTop {
         top.pushBottom("e", "f");
         assertEquals(6, top.size());
         assertForEach(asList("a", "b", "c", "d", "e", "f"), top::forEach);
+    }
+
+    @Test
+    void pushBottom_overflow() {
+        top.pushBottom("a", "b", "c", "d");
+        top.pushBottom("e", "f", "g");
+        assertEquals(6, top.size());
+        assertForEach(asList("a", "b", "c", "e", "f", "g"), top::forEach);
+    }
+
+    @Test
+    void pushBottom_overflowQ() {
+        top.pushBottom("a", "b", "c", "d");
+        Q<String> efg = Q.newDefault(2);
+        efg.append("e");
+        efg.append("f");
+        efg.append("g");
+        top.pushBottom(efg);
+        assertEquals(6, top.size());
+        assertForEach(asList("a", "b", "c", "e", "f", "g"), top::forEach);
     }
 
     @Test
