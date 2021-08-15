@@ -47,7 +47,9 @@ public record Game(
             Register<Governing.Leader> leaders,
 
             Register<Trading.Trade> trades,
-            Register<Trading.Deal> deals
+            Register<Trading.Bid> bids,
+            Register<Trading.Deal> deals,
+            Register<Trading.Sale> sales
     ) {
 
         Objects(Engine.Runtime runtime) {
@@ -81,7 +83,9 @@ public record Game(
                     pools.index(Governing.Sphere.class),
                     pools.register(Governing.Leader.class),
                     pools.register(Trading.Trade.class),
-                    pools.register(Trading.Deal.class));
+                    pools.register(Trading.Bid.class),
+                    pools.register(Trading.Deal.class),
+                    pools.register(Trading.Sale.class));
         }
     }
 

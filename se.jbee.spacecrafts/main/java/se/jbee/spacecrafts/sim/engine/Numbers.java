@@ -2,14 +2,7 @@ package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.engine.Any.Property;
 
-import java.util.NoSuchElementException;
-
-public interface Numbers extends Collection<Numbers.Value> {
-
-    record Value(
-            Property key,
-            int value
-    ) {}
+public interface Numbers extends NumberPer<Property> {
 
     static Numbers newDefault(Range<Property> of) {
         return new ArrayNumbers(of);
@@ -23,12 +16,6 @@ public interface Numbers extends Collection<Numbers.Value> {
     /*
     API
      */
-
-    int get(Property key) throws NoSuchElementException;
-
-    void set(Property key, int value);
-
-    void add(Property key, int delta);
 
     /**
      * Sets all properties in this instance with the properties set in zeros.
@@ -53,14 +40,4 @@ public interface Numbers extends Collection<Numbers.Value> {
      */
     void cap(Numbers at);
 
-    /**
-     * Unsets all {@link Property} values in this instance
-     */
-    void clear();
-
-    void forEach(Consumer f);
-
-    interface Consumer {
-        void accept(Property key, int value);
-    }
 }

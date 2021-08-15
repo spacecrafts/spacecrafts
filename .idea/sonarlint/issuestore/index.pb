@@ -106,18 +106,12 @@ i
 9legacy/src/se/jbee/game/scs/ecs/constant/Gravitation.java,5/2/52bdf24304bb480872fe1373b9b2c4ac477a042a
 v
 Fse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Discovering.java,e/0/e05b8152e76e7bc235307313d492dd05d32a1fca
-r
-Bse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Trading.java,7/6/76fd4cb63a17f10639f721f1e19ec39df90b3e0c
 u
 Ese.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Processing.java,0/3/032a19e298f556a75ab8c3bbf91091bae1aa890e
-
-Ose.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/ArrayControls.java,4/3/438179b260188412e1af019b1e4bd19a23dc7c3c
 k
 ;test.integration/test/java/test/integration/engine/Car.java,5/4/544e04e883cdb21ba05f490409e04fd0c6fed5c9
 ^
 .se.jbee.spacecrafts/main/java/module-info.java,7/e/7ecc68abaaa577f1ea13127f1bb23f012f016745
-{
-Kse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/ArrayPool.java,f/2/f2eb6d124128b025a8c99d3caf4ff0adb5276471
 u
 Etest.integration/test/java/test/integration/engine/TestArrayPool.java,1/9/196a520bbb72ceb1fff2a25df01ca5f06775be2d
 z
@@ -126,8 +120,6 @@ Jse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/BitsFlux.java,a/0
 Kse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/BitsMarks.java,6/9/692c1cabcb7fda144d9d81a56baf14a380a7579e
 u
 Etest.integration/test/java/test/integration/engine/TestBitsMarks.java,c/2/c25730d7a935635cb33df308f738d23d306b79f4
-u
-Ese.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Resourcing.java,1/e/1ed95ec98205369be6546fd27c0105a43a905ebd
 w
 Gse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Marks.java,1/a/1a1059491dc4f154965fa62fb664fd39309e88af
 T

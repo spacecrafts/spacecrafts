@@ -15,7 +15,7 @@ public interface Engine {
      */
     Range<Indicator> ATTRS = Range.newDefault(Indicator.class, 5);
 
-    Indicator ENABLED = ATTRS.add(id -> new Indicator(id, "engine-enabled"));
+    Indicator ENABLED = ATTRS.add(id -> new Indicator(id, "e-enabled"));
 
     // 1. load all Modules and Bundles via ServiceLoader
     // 2. build Engine record (bare Modules in synthetic Bundle Kit)
@@ -31,14 +31,15 @@ public interface Engine {
             Q<Kit> kits,
             Top<Option<Pools.Factory>> newPools,
             Top<Option<Q.Factory>> newQs,
+            Top<Option<Snapshot.Factory>> newSnapshots,
             Top<Option<Top.Factory>> newTops,
             Top<Option<Register.Factory>> newRegisters,
             Top<Option<Index.Factory>> newIndexes,
             Top<Option<Index.Factory>> newRanges,
             Top<Option<Flux.Factory>> newFluxes,
-            Top<Option<Numbers.Factory>> newNumbers,
             Top<Option<Marks.Factory>> newMarks,
-            Top<Option<Snapshot.Factory>> newSnapshots
+            Top<Option<Numbers.Factory>> newNumbers,
+            Top<Option<NumberPer.Factory>> newNumberPer
     ) {}
 
     /**
@@ -47,14 +48,15 @@ public interface Engine {
     record Runtime(
             Pools.Factory newPools,
             Q.Factory newQ,
+            Snapshot.Factory newSnapshot,
             Top.Factory newTop,
             Register.Factory newRegister,
             Index.Factory newIndex,
             Range.Factory newRange,
             Flux.Factory newFlux,
-            Numbers.Factory newNumbers,
             Marks.Factory newMarks,
-            Snapshot.Factory newSnapshot
+            Numbers.Factory newNumbers,
+            NumberPer.Factory newNumberPer
     ) {}
 
     /**

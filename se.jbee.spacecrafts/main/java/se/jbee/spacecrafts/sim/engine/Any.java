@@ -2,6 +2,8 @@ package se.jbee.spacecrafts.sim.engine;
 
 import java.util.NoSuchElementException;
 
+import static java.util.Objects.requireNonNull;
+
 public interface Any {
 
     interface Identity {
@@ -36,8 +38,19 @@ public interface Any {
 
     /**
      * An {@link Entity} is a game object that is persisted in a save-game file.
-     * It has a type and a {@link Header#serial()} which together make a
-     * globally unique ID for the {@link Entity}.
+     * It has a certain {@link Class} type and a {@link Header#serial()} which
+     * together make a globally unique ID for the {@link Entity}.
+     * <p>
+     * An {@link Entity} belongs to one of 3 kinds:
+     * <ul>
+     *     <li>A {@link Definition} is a kind of object that is predefined by the game</li>
+     *     <li>A {@link Quality} is a kind of object that is predefined and which is one of the members in a closed range of objects</li>
+     *     <li>A {@link Creation} is a kind of object that is created as a consequence of game interaction</li>
+     * </ul>
+     *
+     * @see Definition
+     * @see Quality
+     * @see Creation
      */
     interface Entity {
 
@@ -100,8 +113,31 @@ public interface Any {
      */
     interface Editable {}
 
-    final class Text implements Editable, Embedded {
-        public static final Text EMPTY = new Text();
+    abstract class Mutable<T> implements Editable, Embedded {
+
+        private T value;
+
+        Mutable(T initial) {
+            requireNonNull(initial);
+            this.value = initial;
+        }
+
+        public T get() {
+            return value;
+        }
+
+        public void set(T value) {
+            requireNonNull(value);
+            this.value = value;
+        }
+    }
+
+    final class Text extends Mutable<String> {
+        public static final Text EMPTY = new Text("");
+
+        public Text(String initial) {
+            super(initial);
+        }
     }
 
     record Created(
