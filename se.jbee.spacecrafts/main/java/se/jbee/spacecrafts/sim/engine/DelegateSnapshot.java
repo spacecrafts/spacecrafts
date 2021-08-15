@@ -28,6 +28,8 @@ final class DelegateSnapshot<T extends Any.Computed> implements Snapshot<T> {
 
     @Override
     public void update(Q<T> with) {
+        if (with == null)
+            throw new NullPointerException("Snapshot Q must be non-null");
         of = with;
     }
 }

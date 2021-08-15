@@ -32,6 +32,6 @@ public interface Snapshot<T extends Computed> extends Computed, Collection<T> {
         }
     }
 
-    void update(Q<T> items);
+    void update(Q<T> items) throws NullPointerException;
 
 }
