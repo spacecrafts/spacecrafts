@@ -15,6 +15,14 @@ public sealed interface Maybe<A> permits Maybe.Nothing, Maybe.Some {
         return value == null ? nothing() : new Some<>(value);
     }
 
+    static <T> Maybe<T> ofThrowing(Supplier<T> get) {
+        try {
+            return some(get.get());
+        } catch (RuntimeException ex) {
+            return nothing();
+        }
+    }
+
     boolean isSome();
 
     A get() throws NoSuchElementException;
