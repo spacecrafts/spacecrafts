@@ -12,7 +12,8 @@ public sealed interface Maybe<A> permits Maybe.Nothing, Maybe.Some {
     }
 
     static <T> Maybe<T> some(T value) {
-        return value == null ? nothing() : new Some<>(value);
+        if (value == null) throw new NullPointerException();
+        return new Some<>(value);
     }
 
     static <T> Maybe<T> ofThrowing(Supplier<T> get) {
