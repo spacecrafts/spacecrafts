@@ -31,7 +31,7 @@ public record Gravitation(
 
     private Phenomenon addPhenomenon(Game game, Influence... members) {
 
-        return game.entities().phenomena().add(serial -> new Phenomenon(new Any.Defined(
+        return game.objects().phenomena().add(serial -> new Phenomenon(new Any.Defined(
                 serial,
                 null,
                 ""), null));

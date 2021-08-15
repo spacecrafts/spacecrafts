@@ -40,6 +40,11 @@ final class ArrayQ<T> implements Q<T> {
     }
 
     @Override
+    public boolean isSealed() {
+        return sealed;
+    }
+
+    @Override
     public int size() {
         return size;
     }

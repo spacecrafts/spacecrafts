@@ -2,9 +2,7 @@ package se.jbee.spacecrafts.sim.engine;
 
 /**
  * A {@link Register} is a {@link Pool} of {@link Any.Creation}s that also
- * allows to {@link #remove(int)} elements. Removed serials might get reused.
- *
- * @param <T>
+ * allows removing elements. Removed serials might get reused.
  */
 public interface Register<T extends Any.Creation> extends Pool<T> {
 
@@ -23,4 +21,7 @@ public interface Register<T extends Any.Creation> extends Pool<T> {
 
     T remove(int serial) throws IllegalStateException;
 
+    default void remove(T e) throws IllegalStateException {
+        remove(e.header().serial());
+    }
 }

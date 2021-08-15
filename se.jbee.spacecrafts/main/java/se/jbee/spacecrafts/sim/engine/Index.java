@@ -1,5 +1,7 @@
 package se.jbee.spacecrafts.sim.engine;
 
+import se.jbee.spacecrafts.sim.engine.Any.Code;
+
 import java.util.NoSuchElementException;
 
 public interface Index<T extends Any.Definition> extends Pool<T> {
@@ -17,7 +19,7 @@ public interface Index<T extends Any.Definition> extends Pool<T> {
     API
      */
 
-    default T get(Any.Code code) throws NoSuchElementException {
+    default T get(Code code) throws NoSuchElementException {
         return first(e -> e.header().code().equals(code)) //
                 .orElseThrow(() -> new NoSuchElementException(of().getSimpleName() + " with code: " + code));
     }

@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public interface Collection<T> {
+    
     int size();
 
     void forEach(Consumer<? super T> f);

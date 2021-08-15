@@ -39,7 +39,7 @@ public interface Crafting {
             Numbers totals,
             XY<Unit> units,
             Top<Unit> construction,
-            Cache<Equipment> equipments
+            Snapshot<Equipment> equipments
     ) implements Creation {
         public enum Type {MAIN, SUPPORT, CARGO}
     }

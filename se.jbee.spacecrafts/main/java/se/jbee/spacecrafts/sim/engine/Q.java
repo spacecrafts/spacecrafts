@@ -40,6 +40,8 @@ public interface Q<T> extends Collection<T> {
      */
     Q<T> seal() throws IllegalStateException;
 
+    boolean isSealed();
+
     int firstIndex(Predicate<? super T> test);
 
     default int firstIndex(T sample) {

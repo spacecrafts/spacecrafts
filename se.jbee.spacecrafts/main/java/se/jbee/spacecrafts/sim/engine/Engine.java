@@ -29,28 +29,32 @@ public interface Engine {
      */
     record Configuration(
             Q<Kit> kits,
+            Top<Option<Pools.Factory>> newPools,
             Top<Option<Q.Factory>> newQs,
+            Top<Option<Top.Factory>> newTops,
             Top<Option<Register.Factory>> newRegisters,
             Top<Option<Index.Factory>> newIndexes,
             Top<Option<Index.Factory>> newRanges,
             Top<Option<Flux.Factory>> newFluxes,
             Top<Option<Numbers.Factory>> newNumbers,
             Top<Option<Marks.Factory>> newMarks,
-            Top<Option<Top.Factory>> newTops
+            Top<Option<Snapshot.Factory>> newSnapshots
     ) {}
 
     /**
      * A {@link Runtime} is the engine as used by a particular {@link Game}
      */
     record Runtime(
+            Pools.Factory newPools,
             Q.Factory newQ,
+            Top.Factory newTop,
             Register.Factory newRegister,
             Index.Factory newIndex,
             Range.Factory newRange,
             Flux.Factory newFlux,
             Numbers.Factory newNumbers,
             Marks.Factory newMarks,
-            Top.Factory newTop
+            Snapshot.Factory newSnapshot
     ) {}
 
     /**

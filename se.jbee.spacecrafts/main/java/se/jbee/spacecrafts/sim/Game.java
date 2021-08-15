@@ -1,30 +1,28 @@
 package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.engine.*;
-import se.jbee.spacecrafts.sim.engine.Any.Entity;
-
-import java.util.function.Supplier;
 
 public record Game(
         Engine.Runtime runtime,
-        Entities entities
+        Objects objects
         // Flux<Processing.Event> delayed
 ) {
 
     public record Settings() {}
 
-    public record Entities(
+    public record Objects(
             Pools pools,
 
-            Index<Any.Control> controls,
-            Index<Any.ControlGroup<?>> controlGroups,
+//            Index<Any.Control> controls,
+//            Index<Any.ControlGroup<?>> controlGroups,
 
             Range<Any.Indicator> indicators,
+            Index<Any.Classification> classifications,
             Range<Any.Property> properties,
+            Index<Any.Domain> domains,
+
             Range<Resourcing.Resource> resources,
             Range<Resourcing.Influence> influences,
-            Index<Any.Classification> classifications,
-            Index<Any.Domain> domains,
             Index<Resourcing.Phenomenon> phenomena,
             Index<Resourcing.Substance> substances,
 
@@ -51,16 +49,40 @@ public record Game(
             Register<Trading.Trade> trades,
             Register<Trading.Deal> deals
     ) {
-        public Entities {
-            pools.alias(Any.Indicator.class, this::indicators);
+
+        Objects(Engine.Runtime runtime) {
+            this(runtime.newPools().newPools(runtime));
         }
-    }
 
-    public interface Pools {
-
-        <T extends Entity> void alias(Class<T> type, Supplier<? extends Pool<T>> by);
-
-        <T extends Entity> Pool<T> entities(Class<T> type);
+        Objects(Pools pools) {
+            this(pools,
+                    pools.range(Any.Indicator.class),
+                    pools.index(Any.Classification.class),
+                    pools.range(Any.Property.class),
+                    pools.index(Any.Domain.class),
+                    pools.range(Resourcing.Resource.class),
+                    pools.range(Resourcing.Influence.class),
+                    pools.index(Resourcing.Phenomenon.class),
+                    pools.index(Resourcing.Substance.class),
+                    pools.index(Crafting.Component.class),
+                    pools.register(Crafting.Craft.class),
+                    pools.register(Crafting.Deck.class),
+                    pools.register(Conquering.Colony.class),
+                    pools.register(Conquering.LunarBase.class),
+                    pools.register(Conquering.OrbitalStation.class),
+                    pools.register(Conquering.Spaceship.class),
+                    pools.register(Conquering.SpaceStation.class),
+                    pools.register(Conquering.Galaxy.class),
+                    pools.register(Conquering.SolarSystem.class),
+                    pools.register(Conquering.Plant.class),
+                    pools.register(Conquering.Moon.class),
+                    pools.register(Governing.Fraction.class),
+                    pools.index(Governing.Trait.class),
+                    pools.index(Governing.Sphere.class),
+                    pools.register(Governing.Leader.class),
+                    pools.register(Trading.Trade.class),
+                    pools.register(Trading.Deal.class));
+        }
     }
 
 }

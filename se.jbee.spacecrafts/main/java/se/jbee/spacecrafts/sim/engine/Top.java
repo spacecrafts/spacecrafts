@@ -75,18 +75,18 @@ public interface Top<T> extends Collection<T> {
         remove(i0, i0 + n - 1);
     }
 
-    default void pushTop(T... es) {
-        for (int i = es.length - 1; i >= 0; i--)
-            pushTop(es[i]);
+    default void pushTop(T... items) {
+        for (int i = items.length - 1; i >= 0; i--)
+            pushTop(items[i]);
     }
 
-    default void pushBottom(T... es) {
-        for (T e : es)
+    default void pushBottom(T... items) {
+        for (T e : items)
             pushBottom(e);
     }
 
-    default void pushBottom(Collection<T> es) {
-        es.forEach(this::pushBottom);
+    default void pushBottom(Collection<T> items) {
+        items.forEach(this::pushBottom);
     }
 
     default void moveUp(int fromIndex, int toIndex) {

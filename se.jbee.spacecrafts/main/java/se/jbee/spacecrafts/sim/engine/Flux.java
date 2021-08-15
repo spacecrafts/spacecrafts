@@ -3,11 +3,12 @@ package se.jbee.spacecrafts.sim.engine;
 import se.jbee.spacecrafts.sim.engine.Any.Entity;
 
 /**
- * Is a semantic set of {@link Entity}s.
+ * Is a semantic set of {@link Entity}s that can change over time.
+ * <p>
+ * Copies of a particular moment are created as {@link Stasis} using {@link
+ * #inStasis()}.
  * <p>
  * Iteration follows no particular order.
- *
- * @param <T>
  */
 public interface Flux<T extends Entity> extends Collection<T> {
 

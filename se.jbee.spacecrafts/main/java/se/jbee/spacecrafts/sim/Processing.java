@@ -47,7 +47,7 @@ public interface Processing {
 
         @Override
         public void handle(Game game, EventDispatcher dispatcher) {
-            Colony founded = game.entities().colonies().add(serial -> new Colony(
+            Colony founded = game.objects().colonies().add(serial -> new Colony(
                     new Governed(serial, name, founder),
                     null,
                     null));

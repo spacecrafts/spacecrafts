@@ -129,19 +129,19 @@ final class ArrayTop<T> implements Top<T> {
 
     @Override
     @SafeVarargs
-    public final void pushTop(T... es) {
-        int len = Math.min(es.length, capacity);
-        checkNonNull(es, len);
+    public final void pushTop(T... items) {
+        int len = Math.min(items.length, capacity);
+        checkNonNull(items, len);
         int moved = Math.min(size, capacity - len);
         if (moved + len > elements.length) {
             Object[] tmp = new Object[nextCapacity(len)];
-            arraycopy(es, 0, tmp, 0, len);
+            arraycopy(items, 0, tmp, 0, len);
             if (moved > 0) arraycopy(elements, 0, tmp, len, moved);
             elements = tmp;
             size = len + moved;
         } else {
             if (moved > 0) arraycopy(elements, 0, elements, len, moved);
-            arraycopy(es, 0, elements, 0, len);
+            arraycopy(items, 0, elements, 0, len);
             size += len;
         }
     }
@@ -161,29 +161,29 @@ final class ArrayTop<T> implements Top<T> {
 
     @Override
     @SafeVarargs
-    public final void pushBottom(T... es) {
-        if (es.length == 0) return;
-        pushBottom(es, es.length);
+    public final void pushBottom(T... items) {
+        if (items.length == 0) return;
+        pushBottom(items, items.length);
     }
 
     @Override
-    public void pushBottom(Collection<T> es) {
-        if (es.isEmpty()) return;
-        if (es instanceof ArrayTop other) {
-            pushBottom(other.elements, es.size());
+    public void pushBottom(Collection<T> items) {
+        if (items.isEmpty()) return;
+        if (items instanceof ArrayTop other) {
+            pushBottom(other.elements, items.size());
         } else {
-            int overflow = size + es.size() - capacity;
+            int overflow = size + items.size() - capacity;
             if (overflow > 0) popBottom(overflow);
-            Top.super.pushBottom(es);
+            Top.super.pushBottom(items);
         }
     }
 
-    private void pushBottom(Object[] es, int len) {
-        checkNonNull(es, len);
+    private void pushBottom(Object[] items, int len) {
+        checkNonNull(items, len);
         if (size + len > elements.length)
             elements = copyOf(elements, nextCapacity(len));
         int at = Math.min(size, capacity - len);
-        arraycopy(es, 0, elements, at, len);
+        arraycopy(items, 0, elements, at, len);
         size = at + len;
     }
 
@@ -257,9 +257,9 @@ final class ArrayTop<T> implements Top<T> {
         if (e == null) throw new NullPointerException();
     }
 
-    private void checkNonNull(Object[] es, int len) {
+    private void checkNonNull(Object[] items, int len) {
         for (int i = 0; i < len; i++)
-            checkNonNull(es[i]);
+            checkNonNull(items[i]);
     }
 
     private int nextCapacity(int minAdditionalCapacity) {
