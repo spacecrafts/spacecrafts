@@ -41,12 +41,14 @@ class TestArrayQ {
     @Test
     void append_0() {
         assertThrows(NullPointerException.class, () -> q.append(null));
+        q.seal();
+        assertThrows(IllegalStateException.class, () -> q.append(13));
     }
 
     @Test
     void append() {
-        q.append(1);
-        q.append(2);
+        assertEquals(0, q.append(1));
+        assertEquals(1, q.append(2));
         assertForEach(asList(1, 2), q::forEach);
     }
 
@@ -57,6 +59,37 @@ class TestArrayQ {
         q.append(3);
         q.append(4);
         assertForEach(asList(1, 2, 3, 4), q::forEach);
+    }
+
+    @Test
+    void concat_0() {
+        assertThrows(NullPointerException.class, () -> q.concat(12, null));
+        q.seal();
+        assertThrows(IllegalStateException.class, () -> q.concat(12));
+    }
+
+    @Test
+    void concat() {
+        q.append(1);
+        q.concat(2, 3, 4, 5);
+        assertEquals(5, q.size());
+        assertForEach(asList(1, 2, 3, 4, 5), q::forEach);
+    }
+
+    @Test
+    void concat_0Q() {
+        q.seal();
+        Q<Integer> tail = Q.newDefault(0);
+        assertThrows(IllegalStateException.class, () -> q.concat(tail));
+    }
+
+    @Test
+    void concat_Q() {
+        var tail = Q.<Integer>newDefault(3).concat(3, 4, 5);
+        q.concat(1).concat(2);
+        q.concat(tail);
+        assertEquals(5, q.size());
+        assertForEach(asList(1, 2, 3, 4, 5), q::forEach);
     }
 
     @Test
@@ -90,6 +123,16 @@ class TestArrayQ {
         q.seal();
         assertThrows(IllegalStateException.class, q::seal);
         assertThrows(IllegalStateException.class, () -> q.append(42));
+    }
+
+    @Test
+    void isSealed_0() {
+        assertFalse(q.isSealed());
+    }
+
+    @Test
+    void isSealed() {
+        assertTrue(q.seal().isSealed());
     }
 
     @Test

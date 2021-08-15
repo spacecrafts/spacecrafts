@@ -29,10 +29,20 @@ public interface Q<T> extends Collection<T> {
 
     /**
      * @param e non null
+     * @return index assigned to the appended element
      * @throws IllegalStateException when this Q is sealed already
      * @throws NullPointerException  when e is null
      */
-    void append(T e) throws IllegalStateException, NullPointerException;
+    int append(T e) throws IllegalStateException, NullPointerException;
+
+    /**
+     * @param items items to append
+     * @throws IllegalStateException when this Q is sealed already
+     * @throws NullPointerException  when e is null
+     */
+    Q<T> concat(T... items) throws IllegalStateException, NullPointerException;
+
+    Q<T> concat(Q<T> tail) throws IllegalStateException;
 
     /**
      * @return this (now sealed) Q instance for chaining

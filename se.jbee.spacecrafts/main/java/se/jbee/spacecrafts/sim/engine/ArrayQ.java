@@ -3,6 +3,7 @@ package se.jbee.spacecrafts.sim.engine;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import static java.lang.System.arraycopy;
 import static java.util.Arrays.copyOf;
 
 final class ArrayQ<T> implements Q<T> {
@@ -23,13 +24,43 @@ final class ArrayQ<T> implements Q<T> {
     }
 
     @Override
-    public void append(T e) {
-        if (sealed) throw new IllegalStateException("Q is sealed");
-        if (e == null)
-            throw new NullPointerException("Q elements must not be null");
-        if (size >= elements.length)
-            elements = copyOf(elements, elements.length + 8);
+    public int append(T e) {
+        checkNotSealed();
+        checkNonNull(e);
+        ensureCapacity(1);
         elements[size++] = e;
+        return size - 1;
+    }
+
+    @Override
+    @SafeVarargs
+    public final Q<T> concat(T... items) throws IllegalStateException, NullPointerException {
+        checkNotSealed();
+        int len = items.length;
+        if (len == 0) return this;
+        if (len == 1) {
+            append(items[0]);
+            return this;
+        }
+        checkNonNull(items);
+        ensureCapacity(len);
+        arraycopy(items, 0, elements, size, len);
+        size += len;
+        return this;
+    }
+
+    @Override
+    public Q<T> concat(Q<T> tail) throws IllegalStateException {
+        checkNotSealed();
+        int len = tail.size();
+        ensureCapacity(len);
+        if (tail instanceof ArrayQ other) {
+            arraycopy(other.elements, 0, elements, this.size, len);
+            this.size += len;
+        } else {
+            tail.forEach(this::append);
+        }
+        return this;
     }
 
     @Override
@@ -66,5 +97,27 @@ final class ArrayQ<T> implements Q<T> {
         for (int i = 0; i < size; i++)
             if (test.test(get(i))) return i;
         return -1;
+    }
+
+    private void checkNotSealed() {
+        if (sealed) throw new IllegalStateException("Q is sealed");
+    }
+
+    private void checkNonNull(Object e) {
+        if (e == null)
+            throw new NullPointerException("Q elements must not be null");
+    }
+
+    private void checkNonNull(Object[] items) {
+        for (Object e : items)
+            checkNonNull(e);
+    }
+
+    private void ensureCapacity(int minAdditionalCapacity) {
+        if (size + minAdditionalCapacity >= elements.length) {
+            elements = copyOf(elements,
+                    size + Math.max(minAdditionalCapacity,
+                            Math.min(16, size / 8)));
+        }
     }
 }

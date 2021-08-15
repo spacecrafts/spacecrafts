@@ -114,16 +114,12 @@ r
 Bse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Trading.java,7/6/76fd4cb63a17f10639f721f1e19ec39df90b3e0c
 u
 Ese.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Processing.java,0/3/032a19e298f556a75ab8c3bbf91091bae1aa890e
-{
-Kse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/data/Gravitation.java,7/f/7f1f647bc7dfcb2de857d5dc56ace173cfccf4a3
 
 Ose.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/ArrayControls.java,4/3/438179b260188412e1af019b1e4bd19a23dc7c3c
 k
 ;test.integration/test/java/test/integration/engine/Car.java,5/4/544e04e883cdb21ba05f490409e04fd0c6fed5c9
 ^
 .se.jbee.spacecrafts/main/java/module-info.java,7/e/7ecc68abaaa577f1ea13127f1bb23f012f016745
-r
-Btest.integration/test/java/test/integration/engine/TestArrayQ.java,6/d/6d361e872026da7c40d3e068efb0ce52f068858a
 w
 Gse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Maybe.java,e/4/e465a4da6d97c0e8f834fcda9d7ca8aab1b76360
 {
