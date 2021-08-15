@@ -116,8 +116,6 @@ u
 Ese.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Processing.java,0/3/032a19e298f556a75ab8c3bbf91091bae1aa890e
 {
 Kse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/data/Gravitation.java,7/f/7f1f647bc7dfcb2de857d5dc56ace173cfccf4a3
-q
-Atest.integration/test/java/test/integration/utils/Assertions.java,9/7/974f10ab80d3713d604213a150aba6078df63eb8
 
 Ose.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/ArrayControls.java,4/3/438179b260188412e1af019b1e4bd19a23dc7c3c
 k

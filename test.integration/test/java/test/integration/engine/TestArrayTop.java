@@ -279,6 +279,14 @@ class TestArrayTop {
     }
 
     @Test
+    void popTop_n() {
+        top.pushBottom("a", "b", "c", "d");
+        top.popTop(2);
+        assertEquals(2, top.size());
+        assertForEach(asList("c", "d"), top::forEach);
+    }
+
+    @Test
     void popBottom_0() {
         assertThrows(IndexOutOfBoundsException.class, top::popBottom);
     }
@@ -287,9 +295,16 @@ class TestArrayTop {
     void popBottom() {
         top.pushBottom("a", "b", "c", "d");
         assertEquals("d", top.popBottom());
-        assertForEach(asList("a", "b", "c"), top::forEach);
         assertEquals(3, top.size());
+        assertForEach(asList("a", "b", "c"), top::forEach);
+    }
 
+    @Test
+    void popBottom_n() {
+        top.pushBottom("a", "b", "c", "d");
+        top.popBottom(2);
+        assertEquals(2, top.size());
+        assertForEach(asList("a", "b"), top::forEach);
     }
 
     @Test
@@ -433,5 +448,21 @@ class TestArrayTop {
         var slice = top.slice(2, 4);
         assertEquals(3, slice.size());
         assertForEach(asList("c", "d", "e"), slice::forEach);
+    }
+
+    @Test
+    void cut_0() {
+        top.pushBottom("a", "b", "c", "d", "e", "f");
+        assertThrows(IllegalArgumentException.class, () -> top.cut(4, 3));
+    }
+
+    @Test
+    void cut() {
+        top.pushBottom("a", "b", "c", "d", "e", "f");
+        var cut = top.cut(2, 4);
+        assertEquals(3, cut.size());
+        assertForEach(asList("c", "d", "e"), cut::forEach);
+        assertEquals(3, top.size());
+        assertForEach(asList("a", "b", "f"), top::forEach);
     }
 }

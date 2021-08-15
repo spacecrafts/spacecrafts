@@ -44,6 +44,12 @@ public interface Top<T> extends Collection<T> {
 
     Top<T> slice(int fromIndex, int toIndex) throws IndexOutOfBoundsException;
 
+    default Top<T> cut(int fromIndex, int toIndex) throws IndexOutOfBoundsException {
+        var cut = slice(fromIndex, toIndex);
+        remove(fromIndex, toIndex);
+        return cut;
+    }
+
     default T popTop() throws IndexOutOfBoundsException {
         return remove(0);
     }
@@ -61,7 +67,7 @@ public interface Top<T> extends Collection<T> {
     }
 
     default void popTop(int n) throws IndexOutOfBoundsException {
-        remove(0, n);
+        remove(0, n - 1);
     }
 
     default void popBottom(int n) throws IndexOutOfBoundsException {
