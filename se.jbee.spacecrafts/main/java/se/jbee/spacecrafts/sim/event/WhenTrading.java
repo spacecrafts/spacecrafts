@@ -18,6 +18,7 @@ public interface WhenTrading {
             Stasis<Resourcing.Resource> give,
             Pick<Resourcing.Quantity> take
     ) implements Trading, Event {
+
         @Override
         public void applyTo(Game game, Dispatcher dispatcher) {
             var emptyBids = game.runtime().newFlux().newFlux(game.objects().bids());
@@ -27,11 +28,21 @@ public interface WhenTrading {
         }
     }
 
+    record WithdrawTrade(Trade withdrawn) implements Trading, Event {
+
+        @Override
+        public void applyTo(Game game, Dispatcher dispatcher) {
+            game.objects().bids().perish(bid -> bid.on() == withdrawn);
+            game.objects().trades().perish(withdrawn);
+        }
+    }
+
     record MakeBid(
             Trade on,
             Governing.Fraction by,
             Pick<Resourcing.Quantity> amounts
     ) implements Trading, Event {
+
         @Override
         public void applyTo(Game game, Dispatcher dispatcher) {
             on.bids().add(game.objects().bids().spawn(serial -> new Bid( //
@@ -39,7 +50,18 @@ public interface WhenTrading {
         }
     }
 
-    record AcceptBid(Trading.Bid accepted) implements Trading, Event {
+    record WithdrawBid(Bid withdrawn) implements Trading, Event {
+
+        @Override
+        public void applyTo(Game game, Dispatcher dispatcher) {
+            withdrawn.on().bids().remove(withdrawn);
+            game.objects().bids().perish(withdrawn);
+        }
+    }
+
+    record AcceptBid(
+            Bid accepted
+    ) implements Trading, Event {
 
         @Override
         public void applyTo(Game game, Dispatcher dispatcher) {
@@ -52,12 +74,21 @@ public interface WhenTrading {
                 game.objects().trades().perish(trade);
             game.objects().bids().perish(accepted);
             game.objects().deals().spawn(serial -> new Deal( //
-                    new Offered(serial, partnerA),
-                    //
-                    partnerB,
-                    trade.perTern(),
-                    trade.take(),
+                    new Offered(serial, partnerA), //
+                    partnerB, trade.perTern(), trade.take(), //
                     accepted.amounts()));
+        }
+    }
+
+    record TerminateDeal(
+            Deal terminated,
+            Governing.Fraction by
+    ) implements Trading, Event {
+
+        @Override
+        public void applyTo(Game game, Dispatcher dispatcher) {
+            game.objects().deals().perish(terminated);
+            //TODO must leave some sort of info to the other party (if human)
         }
     }
 
