@@ -8,8 +8,8 @@ import se.jbee.spacecrafts.sim.Resourcing.Substance;
 import se.jbee.spacecrafts.sim.engine.Any.Created;
 import se.jbee.spacecrafts.sim.engine.Any.Creation;
 import se.jbee.spacecrafts.sim.engine.Flux;
-import se.jbee.spacecrafts.sim.engine.Maybe;
 import se.jbee.spacecrafts.sim.engine.Numbers;
+import se.jbee.spacecrafts.sim.engine.Vary;
 import se.jbee.spacecrafts.sim.engine.XY;
 
 public interface Conquering {
@@ -17,16 +17,16 @@ public interface Conquering {
     record Galaxy(
             Created header,
             Flux<SolarSystem> systems,
-            Flux<Plant> planets,
+            Flux<Planet> planets,
             Flux<Moon> moons
     ) implements Creation {}
 
-    record Plant(
+    record Planet(
             Created header,
             Flux<Influence> features,
             XY<Substance> surface,
             Flux<Moon> moons,
-            Maybe<OrbitalStation> orbit
+            Vary<OrbitalStation> orbit
     ) implements Creation {}
 
     record Moon(
@@ -37,8 +37,8 @@ public interface Conquering {
 
     record SolarSystem(
             Created header,
-            Flux<Plant> planets,
-            Maybe<SpaceStation> station,
+            Flux<Planet> planets,
+            Vary<SpaceStation> station,
             Flux<Spaceship> proximity
     ) implements Creation {}
 
@@ -49,7 +49,7 @@ public interface Conquering {
     record Colony(
             Governed header,
             Craft structure,
-            Plant on
+            Planet on
     ) implements Asset {}
 
     record Spaceship(
@@ -60,7 +60,7 @@ public interface Conquering {
     record OrbitalStation(
             Governed header,
             Craft structure,
-            Plant by
+            Planet by
     ) implements Asset {}
 
     record SpaceStation(

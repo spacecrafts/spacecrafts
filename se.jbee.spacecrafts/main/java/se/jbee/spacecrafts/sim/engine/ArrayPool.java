@@ -57,7 +57,7 @@ abstract class ArrayPool<T extends Any.Entity> implements Pool<T> {
     }
 
     @Override
-    public T add(IntFunction<T> factory) {
+    public T spawn(IntFunction<T> factory) {
         if (reusableCount == 0) {
             if (size >= elements.length) elements = copyOf(elements,
                     elements.length + max(8, min(32, elements.length / 2)));
@@ -89,7 +89,7 @@ abstract class ArrayPool<T extends Any.Entity> implements Pool<T> {
         return Maybe.nothing();
     }
 
-    public T remove(int serial) throws IllegalStateException {
+    public T perish(int serial) throws IllegalStateException {
         var e = getNullable(serial);
         if (e == null)
             throw new IllegalStateException(of().getSimpleName() + " with serial: " + serial);
@@ -132,15 +132,15 @@ class ArrayIndex<T extends Any.Definition> extends ArrayPool<T> implements Index
     }
 
     @Override
-    public T add(IntFunction<T> factory) {
-        var e = super.add(factory);
+    public T spawn(IntFunction<T> factory) {
+        var e = super.spawn(factory);
         byCode.put(e.header().code(), e);
         return e;
     }
 
 }
 
-final class ArrayRange<T extends Any.Quality> extends ArrayIndex<T> implements Range<T> {
+final class ArrayRange<T extends Any.Grade> extends ArrayIndex<T> implements Range<T> {
 
     private Object[] byOrdinal;
 
@@ -157,8 +157,8 @@ final class ArrayRange<T extends Any.Quality> extends ArrayIndex<T> implements R
     }
 
     @Override
-    public T add(IntFunction<T> factory) {
-        T e = super.add(factory);
+    public T spawn(IntFunction<T> factory) {
+        T e = super.spawn(factory);
         int ordinal = e.ordinal();
         if (ordinal >= byOrdinal.length) byOrdinal = copyOf(byOrdinal,
                 max(ordinal + 1, byOrdinal.length) + 8);

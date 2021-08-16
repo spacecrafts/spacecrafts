@@ -14,6 +14,11 @@
   their affairs on the underground plane.
 * most fractions only use planet surface deck - subterranean fractions can use a
   second _subterranean_ deck (which basically doubles the planet size)
+* on colony have simple construction yard be limited to 1 deck construction and
+  offer a construction hanger that can do 3 decks or so but has higher costs.
+  Orbit has the benefit of allowing many decks but is less efficient. a space
+  station has the benefits of allowing multi-deck construction with a higher
+  efficiency but has higher demands in general.
 
 ## More Unlikely Ideas
 

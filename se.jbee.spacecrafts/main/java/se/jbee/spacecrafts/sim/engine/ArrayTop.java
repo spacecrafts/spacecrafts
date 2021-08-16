@@ -222,6 +222,12 @@ final class ArrayTop<T> implements Top<T> {
         size -= len;
     }
 
+    @Override
+    public void clear() {
+        elements = new Object[Math.min(capacity / 4, 8)];
+        size = 0;
+    }
+
     private void checkRange(int fromIndex, int toIndex) {
         checkIndex(fromIndex);
         checkIndex(toIndex);

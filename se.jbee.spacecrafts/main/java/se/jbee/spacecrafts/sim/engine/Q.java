@@ -1,7 +1,5 @@
 package se.jbee.spacecrafts.sim.engine;
 
-import java.util.function.Predicate;
-
 /**
  * A "build once" list of items.
  * <p>
@@ -10,10 +8,15 @@ import java.util.function.Predicate;
  *
  * @param <T> item type
  */
-public interface Q<T> extends Collection<T> {
+public interface Q<T> extends Pick<T> {
 
     static <T> Q<T> newDefault(int initialCapacity) {
         return new ArrayQ<>(initialCapacity);
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> Pick<T> empty() {
+        return (Pick<T>) ArrayQ.EMPTY;
     }
 
     @FunctionalInterface
@@ -24,8 +27,6 @@ public interface Q<T> extends Collection<T> {
     /*
     API
      */
-
-    T get(int index) throws IndexOutOfBoundsException;
 
     /**
      * @param e non null
@@ -42,19 +43,17 @@ public interface Q<T> extends Collection<T> {
      */
     Q<T> concat(T... items) throws IllegalStateException, NullPointerException;
 
-    Q<T> concat(Q<T> tail) throws IllegalStateException;
+    Q<T> concat(Collection<T> tail) throws IllegalStateException;
 
     /**
-     * @return this (now sealed) Q instance for chaining
+     * Seals this {@link Q} and returns the read-only {@link Pick} API to the
+     * sealed {@link Q}.
+     *
+     * @return read-only API to this (now sealed) {@link Q}
      * @throws IllegalStateException when this Q is sealed already
      */
-    Q<T> seal() throws IllegalStateException;
+    Pick<T> seal() throws IllegalStateException;
 
     boolean isSealed();
 
-    int firstIndex(Predicate<? super T> test);
-
-    default int firstIndex(T sample) {
-        return firstIndex(e -> e.equals(sample));
-    }
 }

@@ -37,12 +37,12 @@ public interface Crafting {
     record Deck(
             Created header,
             Numbers totals,
+            Marks properties,
             XY<Unit> units,
             Top<Unit> construction,
-            Snapshot<Equipment> equipments
-    ) implements Creation {
-        public enum Type {MAIN, SUPPORT, CARGO}
-    }
+            Top<Equipment> equipments
+    ) implements Creation {}
+    // indicator-type: MAIN, SUPPORT, CARGO
 
     /*
      * Dynamic model:
@@ -50,20 +50,17 @@ public interface Crafting {
 
     record Equipment(
             Cluster full,
-            Controls<Equipment> controls
-            // boolean enabled,
-            //int priority
-    ) implements Computed {}
+            Vary<Boolean> disabled
+    ) implements Connectable {}
 
     record Cluster(
             Component of,
-            Q<Cell> members,
-            Q<Cluster> addOns
+            Pick<Cell> members,
+            Pick<Cluster> addOns
     ) implements Computed {
         public record Cell(
                 Unit of,
                 int relatives
         ) implements Embedded {}
     }
-
 }

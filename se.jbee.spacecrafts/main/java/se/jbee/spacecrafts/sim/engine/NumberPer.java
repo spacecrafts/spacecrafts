@@ -28,7 +28,7 @@ public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Va
             return newNumberPer((Pool<K>) keys);
         }
 
-        default <K extends Any.Quality> NumberPer<K> newNumberPer(Range<K> keys) {
+        default <K extends Any.Grade> NumberPer<K> newNumberPer(Range<K> keys) {
             return newNumberPer((Pool<K>) keys);
         }
     }

@@ -18,9 +18,9 @@ class TestArrayPool {
     }
 
     @Test
-    void span_add1() {
+    void span_spawn1() {
         assertEquals(-1, cars.span());
-        Car f0 = cars.add(Car::new);
+        Car f0 = cars.spawn(Car::new);
         assertEquals(0, cars.span());
         assertEquals(0, f0.header().serial());
     }

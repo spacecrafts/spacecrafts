@@ -8,6 +8,8 @@ import static java.util.Arrays.copyOf;
 
 final class ArrayQ<T> implements Q<T> {
 
+    static final Pick<?> EMPTY = new ArrayQ<>(0).seal();
+
     private Object[] elements;
     private int size;
     private boolean sealed = false;
@@ -50,7 +52,7 @@ final class ArrayQ<T> implements Q<T> {
     }
 
     @Override
-    public Q<T> concat(Q<T> tail) throws IllegalStateException {
+    public Q<T> concat(Collection<T> tail) throws IllegalStateException {
         checkNotSealed();
         int len = tail.size();
         ensureCapacity(len);

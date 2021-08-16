@@ -132,7 +132,8 @@ class TestArrayQ {
 
     @Test
     void isSealed() {
-        assertTrue(q.seal().isSealed());
+        q.seal();
+        assertTrue(q.isSealed());
     }
 
     @Test

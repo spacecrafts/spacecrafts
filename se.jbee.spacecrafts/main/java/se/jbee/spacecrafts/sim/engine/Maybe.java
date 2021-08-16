@@ -4,7 +4,15 @@ import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public sealed interface Maybe<A> permits Maybe.Nothing, Maybe.Some {
+/**
+ * {@link Maybe} is an immutable {@link Optional} container.
+ * <p>
+ * {@link #some(Object)} is always non-null. Any null value is represented by
+ * {@link #nothing()}.
+ */
+public sealed interface Maybe<T> extends Optional<T> permits Maybe.Nothing, Maybe.Some {
+
+    <R> Maybe<R> map(Function<T, R> f);
 
     @SuppressWarnings("unchecked")
     static <T> Maybe<T> nothing() {
@@ -24,17 +32,8 @@ public sealed interface Maybe<A> permits Maybe.Nothing, Maybe.Some {
         }
     }
 
-    boolean isSome();
 
-    A get() throws NoSuchElementException;
-
-    A orElse(A value);
-
-    <E extends RuntimeException> A orElseThrow(Supplier<E> ex) throws E;
-
-    <B> Maybe<B> map(Function<A, B> f);
-
-    final class Nothing<A> implements Maybe<A> {
+    final class Nothing<T> implements Maybe<T> {
 
         @SuppressWarnings({"rawtypes"})
         static final Nothing NULL = new Nothing();
@@ -45,28 +44,28 @@ public sealed interface Maybe<A> permits Maybe.Nothing, Maybe.Some {
         }
 
         @Override
-        public A get() throws NoSuchElementException {
+        public T get() throws NoSuchElementException {
             throw new NoSuchElementException();
         }
 
         @Override
-        public A orElse(A value) {
+        public T orElse(T value) {
             return value;
         }
 
         @Override
-        public <E extends RuntimeException> A orElseThrow(Supplier<E> ex) throws E {
+        public <E extends RuntimeException> T orElseThrow(Supplier<E> ex) throws E {
             throw ex.get();
         }
 
         @Override
         @SuppressWarnings("unchecked")
-        public <B> Maybe<B> map(Function<A, B> f) {
-            return (Maybe<B>) this;
+        public <R> Maybe<R> map(Function<T, R> f) {
+            return (Maybe<R>) this;
         }
     }
 
-    final record Some<A>(A e) implements Maybe<A> {
+    final record Some<T>(T get) implements Maybe<T> {
 
         @Override
         public boolean isSome() {
@@ -74,23 +73,18 @@ public sealed interface Maybe<A> permits Maybe.Nothing, Maybe.Some {
         }
 
         @Override
-        public A get() throws NoSuchElementException {
-            return e;
+        public T orElse(T value) {
+            return get;
         }
 
         @Override
-        public A orElse(A value) {
-            return e;
+        public <E extends RuntimeException> T orElseThrow(Supplier<E> ex) throws E {
+            return get;
         }
 
         @Override
-        public <E extends RuntimeException> A orElseThrow(Supplier<E> ex) throws E {
-            return e;
-        }
-
-        @Override
-        public <B> Maybe<B> map(Function<A, B> f) {
-            return some(f.apply(e));
+        public <R> Maybe<R> map(Function<T, R> f) {
+            return some(f.apply(get));
         }
     }
 }

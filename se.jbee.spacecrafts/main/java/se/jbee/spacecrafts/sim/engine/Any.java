@@ -6,27 +6,13 @@ import static java.util.Objects.requireNonNull;
 
 public interface Any {
 
-    interface Identity {
-
-        int id();
-    }
-
-    interface Identifiable {
-
-        Identity id();
-    }
-
-    interface Header extends Embedded, Identity {
+    interface Identifiable extends Embedded {
 
         int serial();
 
-        @Override
-        default int id() {
-            return serial();
-        }
     }
 
-    interface DefinedHeader extends Header {
+    interface IsDefined extends Identifiable {
         /**
          * @return A {@link Definition} can be identified statically by its code
          * which is unique for its type only.
@@ -34,27 +20,27 @@ public interface Any {
         Code code();
     }
 
-    interface CreatedHeader extends Header {}
+    interface IsCreated extends Identifiable {}
 
     /**
      * An {@link Entity} is a game object that is persisted in a save-game file.
-     * It has a certain {@link Class} type and a {@link Header#serial()} which
-     * together make a globally unique ID for the {@link Entity}.
+     * It has a certain {@link Class} type and a {@link Identifiable#serial()}
+     * which together make a globally unique ID for the {@link Entity}.
      * <p>
      * An {@link Entity} belongs to one of 3 kinds:
      * <ul>
      *     <li>A {@link Definition} is a kind of object that is predefined by the game</li>
-     *     <li>A {@link Quality} is a kind of object that is predefined and which is one of the members in a closed range of objects</li>
+     *     <li>A {@link Grade} is a kind of object that is predefined and which is one of the members in a closed range of objects</li>
      *     <li>A {@link Creation} is a kind of object that is created as a consequence of game interaction</li>
      * </ul>
      *
      * @see Definition
-     * @see Quality
+     * @see Grade
      * @see Creation
      */
     interface Entity {
 
-        Header header();
+        Identifiable header();
     }
 
     /**
@@ -64,11 +50,11 @@ public interface Any {
     interface Definition extends Entity {
 
         @Override
-        DefinedHeader header();
+        IsDefined header();
 
     }
 
-    interface Quality extends Definition {
+    interface Grade extends Definition {
 
         int ordinal();
     }
@@ -81,7 +67,7 @@ public interface Any {
     interface Creation extends Entity {
 
         @Override
-        CreatedHeader header();
+        IsCreated header();
     }
 
     /**
@@ -97,21 +83,19 @@ public interface Any {
     interface Computed {}
 
     /**
-     * An {@link Algorithmic} object is based on or requires the presence of a
-     * computation/function it refers to by a name. These functions are
-     * registered programmatically as part of the bootstrapping of the game
-     * engine.
-     */
-    interface Algorithmic {
-        Class<?> type();
-
-        //TODO do all actual algorithms have a verify(Game) method that makes sure they have what they need?
-    }
-
-    /**
      * Something the player can change at will.
      */
     interface Editable {}
+
+    @FunctionalInterface
+    interface Connectable {
+
+        Vary<Boolean> disabled();
+
+        default boolean isDisabled() {
+            return disabled().orElse(false);
+        }
+    }
 
     abstract class Mutable<T> implements Editable, Embedded {
 
@@ -144,22 +128,74 @@ public interface Any {
             int serial,
             Text name,
             Text about
-    ) implements CreatedHeader {}
+    ) implements IsCreated {}
 
     record Defined(
             int serial,
             Code code,
             String name
-    ) implements DefinedHeader {}
+    ) implements IsDefined {}
 
     record Code(String value) {}
 
-    record Algorithm<T>(
-            Defined header,
-            Class<T> type,
-            T f
-    ) implements Algorithmic, Definition {}
+    /*
+    Basic modelling blocks
+     */
 
+    record Limit(
+            Integer min,
+            Integer max,
+            Integer cap
+    ) implements Embedded {}
+
+    record Property(
+            Defined header,
+            int ordinal,
+            Limit limits
+    ) implements Grade {}
+
+    /**
+     * Groups multiple {@link Property}s
+     */
+    record Domain(
+            Defined header,
+            Stasis<Property> members
+    ) implements Definition {}
+
+    record Indicator(
+            Defined header,
+            int ordinal,
+            boolean hidden
+    ) implements Grade {
+        public Indicator(int serial, String code) {
+            this(new Defined(serial, new Code(code), code), serial, false);
+        }
+    }
+
+    /**
+     * Groups multiple {@link Indicator}s
+     */
+    record Classification(
+            Defined header,
+            Stasis<Indicator> members
+    ) implements Definition {}
+
+
+    /*
+    Ideas:
+     */
+
+    /**
+     * An {@link Algorithmic} object is based on or requires the presence of a
+     * computation/function it refers to by a name. These functions are
+     * registered programmatically as part of the bootstrapping of the game
+     * engine.
+     */
+    interface Algorithmic {
+        Class<?> type();
+
+        //TODO do all actual algorithms have a verify(Game) method that makes sure they have what they need?
+    }
 
     record Control(
             Defined header,
@@ -186,47 +222,4 @@ public interface Any {
 
         void reset();
     }
-
-
-    /*
-    Basic modelling blocks
-     */
-
-    record Limit(
-            Integer min,
-            Integer max,
-            Integer cap
-    ) implements Embedded {}
-
-    record Property(
-            Defined header,
-            int ordinal,
-            Limit limits
-    ) implements Quality {}
-
-    /**
-     * Groups multiple {@link Property}s
-     */
-    record Domain(
-            Defined header,
-            Stasis<Property> members
-    ) implements Definition {}
-
-    record Indicator(
-            Defined header,
-            int ordinal,
-            boolean hidden
-    ) implements Quality {
-        public Indicator(int serial, String code) {
-            this(new Defined(serial, new Code(code), code), serial, false);
-        }
-    }
-
-    /**
-     * Groups multiple {@link Indicator}s
-     */
-    record Classification(
-            Defined header,
-            Stasis<Indicator> members
-    ) implements Definition {}
 }

@@ -4,18 +4,18 @@ import se.jbee.spacecrafts.sim.Conquering.*;
 import se.jbee.spacecrafts.sim.Crafting.Component;
 import se.jbee.spacecrafts.sim.Discovering.Discovery;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
-import se.jbee.spacecrafts.sim.engine.*;
 import se.jbee.spacecrafts.sim.engine.Any.*;
+import se.jbee.spacecrafts.sim.engine.*;
 
 public interface Governing {
 
     record Fraction(
             Created header,
             Numbers score,
-            Marks attributes,
+            Marks properties,
             Flux<Trait> traits,
             Governance governed,
-            Awareness aware
+            Awareness awareOf
     ) implements Creation {}
 
     record Trait(
@@ -33,24 +33,24 @@ public interface Governing {
             Created header,
             Stasis<Influence> influences,
             Numbers multipliers,
-            Maybe<Asset> assignment
+            Vary<Asset> assignment
     ) implements Creation {}
 
     interface Asset extends Creation {
 
         @Override
-        GovernedHeader header();
+        IsGoverned header();
 
         Crafting.Craft structure();
     }
 
-    interface GovernedHeader extends Any.CreatedHeader {}
+    interface IsGoverned extends IsCreated {}
 
     record Governed(
             int serial,
             Text name,
             Fraction origin
-    ) implements GovernedHeader {}
+    ) implements IsGoverned {}
 
     /**
      * Ownership by a {@link Fraction} is given when an {@link Asset} is
@@ -77,7 +77,7 @@ public interface Governing {
             // galaxy
             Flux<Galaxy> galaxies,
             Flux<SolarSystem> systems,
-            Flux<Plant> planets,
+            Flux<Planet> planets,
             Flux<Moon> moons,
 
             // Assets

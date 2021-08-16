@@ -19,9 +19,9 @@ public interface Register<T extends Any.Creation> extends Pool<T> {
     API
      */
 
-    T remove(int serial) throws IllegalStateException;
+    T perish(int serial) throws IllegalStateException;
 
-    default void remove(T e) throws IllegalStateException {
-        remove(e.header().serial());
+    default void perish(T e) throws IllegalStateException {
+        perish(e.header().serial());
     }
 }

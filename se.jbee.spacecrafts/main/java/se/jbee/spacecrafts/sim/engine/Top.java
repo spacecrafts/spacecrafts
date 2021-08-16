@@ -40,6 +40,10 @@ public interface Top<T> extends Collection<T> {
 
     void remove(int fromIndex, int toIndex) throws IndexOutOfBoundsException;
 
+    default void clear() {
+        remove(0, size() - 1);
+    }
+
     int capacity();
 
     Top<T> slice(int fromIndex, int toIndex) throws IndexOutOfBoundsException;

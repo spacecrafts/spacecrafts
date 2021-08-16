@@ -13,9 +13,6 @@ public record Game(
     public record Objects(
             Pools pools,
 
-//            Index<Any.Control> controls,
-//            Index<Any.ControlGroup<?>> controlGroups,
-
             Range<Any.Indicator> indicators,
             Index<Any.Classification> classifications,
             Range<Any.Property> properties,
@@ -38,7 +35,7 @@ public record Game(
 
             Register<Conquering.Galaxy> galaxies,
             Register<Conquering.SolarSystem> systems,
-            Register<Conquering.Plant> planets,
+            Register<Conquering.Planet> planets,
             Register<Conquering.Moon> moons,
 
             Register<Governing.Fraction> fractions,
@@ -52,11 +49,11 @@ public record Game(
             Register<Trading.Sale> sales
     ) {
 
-        Objects(Engine.Runtime runtime) {
+        public Objects(Engine.Runtime runtime) {
             this(runtime.newPools().newPools(runtime));
         }
 
-        Objects(Pools pools) {
+        private Objects(Pools pools) {
             this(pools,
                     pools.range(Any.Indicator.class),
                     pools.index(Any.Classification.class),
@@ -76,7 +73,7 @@ public record Game(
                     pools.register(Conquering.SpaceStation.class),
                     pools.register(Conquering.Galaxy.class),
                     pools.register(Conquering.SolarSystem.class),
-                    pools.register(Conquering.Plant.class),
+                    pools.register(Conquering.Planet.class),
                     pools.register(Conquering.Moon.class),
                     pools.register(Governing.Fraction.class),
                     pools.index(Governing.Trait.class),

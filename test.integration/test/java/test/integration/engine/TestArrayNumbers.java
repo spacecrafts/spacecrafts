@@ -22,9 +22,9 @@ class TestArrayNumbers {
 
     {
         properties = Range.newDefault(Property.class, 3);
-        a = properties.add(TestArrayNumbers::newProperty);
-        b = properties.add(TestArrayNumbers::newProperty);
-        c = properties.add(TestArrayNumbers::newProperty);
+        a = properties.spawn(TestArrayNumbers::newProperty);
+        b = properties.spawn(TestArrayNumbers::newProperty);
+        c = properties.spawn(TestArrayNumbers::newProperty);
     }
 
     private final Numbers numbers = Numbers.newDefault(properties);

@@ -20,6 +20,6 @@ public interface Pools {
 
     <T extends Any.Definition> Index<T> index(Class<T> of);
 
-    <T extends Any.Quality> Range<T> range(Class<T> of);
+    <T extends Any.Grade> Range<T> range(Class<T> of);
 
 }

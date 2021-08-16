@@ -1,21 +1,13 @@
 package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Game;
-import se.jbee.spacecrafts.sim.engine.Any.Indicator;
+import se.jbee.spacecrafts.sim.engine.Any.Connectable;
 
 /**
  * State of the game engine - this is the state that is independent of any
  * {@link Game}.
  */
 public interface Engine {
-
-    /**
-     * All {@link Indicator}s used in the attributes of {@link Kit}s and {@link
-     * Feature}s
-     */
-    Range<Indicator> ATTRS = Range.newDefault(Indicator.class, 5);
-
-    Indicator ENABLED = ATTRS.add(id -> new Indicator(id, "e-enabled"));
 
     // 1. load all Modules and Bundles via ServiceLoader
     // 2. build Engine record (bare Modules in synthetic Bundle Kit)
@@ -28,10 +20,9 @@ public interface Engine {
      * Game}.
      */
     record Configuration(
-            Q<Kit> kits,
+            Pick<Kit> kits,
             Top<Option<Pools.Factory>> newPools,
             Top<Option<Q.Factory>> newQs,
-            Top<Option<Snapshot.Factory>> newSnapshots,
             Top<Option<Top.Factory>> newTops,
             Top<Option<Register.Factory>> newRegisters,
             Top<Option<Index.Factory>> newIndexes,
@@ -48,7 +39,6 @@ public interface Engine {
     record Runtime(
             Pools.Factory newPools,
             Q.Factory newQ,
-            Snapshot.Factory newSnapshot,
             Top.Factory newTop,
             Register.Factory newRegister,
             Index.Factory newIndex,
@@ -65,18 +55,18 @@ public interface Engine {
     record Kit(
             Class<? extends Bundle> from,
             String name,
-            Marks attributes,
-            Numbers values,
-            Q<Feature> features
-    ) {}
+            Vary<Boolean> disabled,
+            Pick<Feature> features
+    ) implements Connectable {}
 
     record Feature(
+            Class<? extends Bundle> in,
             Class<? extends Module> from,
             String name,
-            Marks attributes,
-            Numbers values,
-            Q<Feature> requires
-    ) {}
+            Vary<Boolean> disabled,
+            Pick<Feature> requires,
+            Pick<Feature> transitives
+    ) implements Connectable {}
 
     record Option<T>(
             String name,
@@ -86,20 +76,36 @@ public interface Engine {
 
     interface Bundle {
 
-        Class<? extends Bundle> id();
+        default Class<? extends Bundle> id() {
+            return getClass();
+        }
 
-        Class<? extends Module> modules();
+        default Pick<Class<? extends Module>> modules() {
+            return Q.empty();
+        }
 
-        void setup(Configuration config);
+        default void setup(Configuration config) {
+            // by default: nothing to do
+        }
     }
 
     interface Module {
 
-        Class<? extends Module> id();
+        default Class<? extends Module> id() {
+            return getClass();
+        }
 
-        Q<Class<? extends Module>> requires();
+        default Pick<Class<? extends Module>> requires() {
+            return Q.empty();
+        }
 
-        void installIn(Game game);
+        default void installIn0(Game game) {
+            // by default: nothing to do
+        }
+
+        default void installIn1(Game game) {
+            // by default: nothing to do
+        }
     }
 
     interface Starter<G> {

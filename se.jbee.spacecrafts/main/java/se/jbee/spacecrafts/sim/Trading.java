@@ -1,20 +1,19 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.engine.Any.CreatedHeader;
 import se.jbee.spacecrafts.sim.engine.Any.Creation;
+import se.jbee.spacecrafts.sim.engine.Any.IsCreated;
 import se.jbee.spacecrafts.sim.engine.Flux;
-import se.jbee.spacecrafts.sim.engine.Numbers;
-import se.jbee.spacecrafts.sim.engine.Q;
+import se.jbee.spacecrafts.sim.engine.Pick;
 import se.jbee.spacecrafts.sim.engine.Stasis;
 
 public interface Trading {
 
     interface Offer extends Creation {
         @Override
-        OfferedHeader header();
+        IsOffered header();
     }
 
-    interface OfferedHeader extends CreatedHeader {
+    interface IsOffered extends IsCreated {
 
         Governing.Fraction by();
     }
@@ -22,17 +21,17 @@ public interface Trading {
     record Offered(
             int serial,
             Governing.Fraction by
-    ) implements OfferedHeader {}
+    ) implements IsOffered {}
 
     /**
      * A player makes a trade proposal
      */
     record Trade(
             Offered header,
-            Q<Governing.Fraction> recipients,
+            Flux<Governing.Fraction> recipients,
             boolean perTern,
-            Q<Resourcing.Quantity> wants,
-            Stasis<Resourcing.Resource> payments,
+            Stasis<Resourcing.Resource> give,
+            Pick<Resourcing.Quantity> take,
             Flux<Bid> bids
     ) implements Offer {}
 
@@ -44,23 +43,22 @@ public interface Trading {
     record Bid(
             Offered header,
             Trade on,
-            Q<Resourcing.Quantity> amounts
+            Pick<Resourcing.Quantity> amounts
     ) implements Offer {}
 
     record Deal(
             Offered header,
             Governing.Fraction with,
             boolean perTurn,
-            Q<Resourcing.Quantity> ins,
-            Q<Resourcing.Quantity> outs
+            Pick<Resourcing.Quantity> ins,
+            Pick<Resourcing.Quantity> outs
     ) implements Offer {}
 
     record Sale(
             Offered header,
             Conquering.Spaceship of,
             int crew,
-            Q<Resourcing.Quantity> price,
-            Numbers details
+            Pick<Resourcing.Quantity> price
     ) implements Offer {}
 
 }

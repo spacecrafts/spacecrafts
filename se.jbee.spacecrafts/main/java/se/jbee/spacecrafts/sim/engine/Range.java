@@ -2,15 +2,15 @@ package se.jbee.spacecrafts.sim.engine;
 
 import java.util.function.Consumer;
 
-public interface Range<T extends Any.Quality> extends Index<T> {
+public interface Range<T extends Any.Grade> extends Index<T> {
 
-    static <T extends Any.Quality> Range<T> newDefault(Class<T> of, int initialCapacity) {
+    static <T extends Any.Grade> Range<T> newDefault(Class<T> of, int initialCapacity) {
         return new ArrayRange<>(of, initialCapacity);
     }
 
     @FunctionalInterface
     interface Factory {
-        <T extends Any.Quality> Range<T> newRange(Class<T> of, int initialCapacity);
+        <T extends Any.Grade> Range<T> newRange(Class<T> of, int initialCapacity);
     }
 
     /*
@@ -18,7 +18,7 @@ public interface Range<T extends Any.Quality> extends Index<T> {
      */
 
     /**
-     * Iterates the items in {@link Any.Quality#ordinal()} order
+     * Iterates the items in {@link Any.Grade#ordinal()} order
      *
      * @param f to call for each item
      */

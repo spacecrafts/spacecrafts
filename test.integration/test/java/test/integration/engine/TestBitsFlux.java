@@ -22,18 +22,18 @@ class TestBitsFlux {
 
     @Test
     void size() {
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
         assertEquals(1, eCars.size());
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
         assertEquals(2, eCars.size());
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
         assertEquals(3, eCars.size());
     }
 
     @Test
     void size_addingMultipleTimesHasNoEffect() {
-        eCars.add(cars.add(Car::new));
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
+        eCars.add(cars.spawn(Car::new));
         assertEquals(2, eCars.size());
         eCars.add(cars.get(1));
         assertEquals(2, eCars.size());
@@ -41,8 +41,8 @@ class TestBitsFlux {
 
     @Test
     void size_removingMultipleTimesHasNoEffect() {
-        eCars.add(cars.add(Car::new));
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
+        eCars.add(cars.spawn(Car::new));
         assertEquals(2, eCars.size());
         eCars.remove(cars.get(1));
         assertEquals(1, eCars.size());
@@ -57,20 +57,20 @@ class TestBitsFlux {
 
     @Test
     void forEach() {
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
         eCars.forEach(c -> assertEquals(cars.get(0), c));
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
         assertForEach(asList(cars.get(0), cars.get(1)), eCars::forEach);
     }
 
     @Test
     void contains_0() {
-        assertFalse(eCars.contains(cars.add(Car::new)));
+        assertFalse(eCars.contains(cars.spawn(Car::new)));
     }
 
     @Test
     void contains() {
-        var c1 = cars.add(Car::new);
+        var c1 = cars.spawn(Car::new);
         eCars.add(c1);
         assertTrue(eCars.contains(c1));
     }
@@ -82,7 +82,7 @@ class TestBitsFlux {
 
     @Test
     void first() {
-        var c1 = cars.add(Car::new);
+        var c1 = cars.spawn(Car::new);
         eCars.add(c1);
         assertTrue(eCars.first(c -> c.header().serial() == 0).isSome());
     }
@@ -94,7 +94,7 @@ class TestBitsFlux {
 
     @Test
     void isEmpty() {
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
         assertFalse(eCars.isEmpty());
     }
 
@@ -107,7 +107,7 @@ class TestBitsFlux {
 
     @Test
     void clear() {
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
         eCars.clear();
         assertEquals(0, eCars.size());
         assertTrue(eCars.isEmpty());
@@ -122,8 +122,8 @@ class TestBitsFlux {
 
     @Test
     void addCollection() {
-        eCars.add(cars.add(Car::new));
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
+        eCars.add(cars.spawn(Car::new));
         Stasis<Car> other = eCars.inStasis();
         eCars.clear();
         assertTrue(eCars.isEmpty());
@@ -140,9 +140,9 @@ class TestBitsFlux {
 
     @Test
     void removeCollection() {
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
         Stasis<Car> other = eCars.inStasis();
-        eCars.add(cars.add(Car::new));
+        eCars.add(cars.spawn(Car::new));
         assertEquals(2, eCars.size());
         eCars.remove(other);
         assertForEach(singletonList(cars.get(1)), eCars::forEach);

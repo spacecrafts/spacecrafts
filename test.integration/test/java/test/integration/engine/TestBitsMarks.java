@@ -19,9 +19,9 @@ class TestBitsMarks {
 
     {
         indicators = Range.newDefault(Indicator.class, 3);
-        a = indicators.add(TestBitsMarks::newIndicator);
-        b = indicators.add(TestBitsMarks::newIndicator);
-        c = indicators.add(TestBitsMarks::newIndicator);
+        a = indicators.spawn(TestBitsMarks::newIndicator);
+        b = indicators.spawn(TestBitsMarks::newIndicator);
+        c = indicators.spawn(TestBitsMarks::newIndicator);
     }
 
     private final Marks marks = Marks.newDefault(indicators);

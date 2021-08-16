@@ -1,8 +1,8 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.engine.Collection;
+import se.jbee.spacecrafts.sim.engine.Marks;
 import se.jbee.spacecrafts.sim.engine.Numbers;
-import se.jbee.spacecrafts.sim.engine.Q;
+import se.jbee.spacecrafts.sim.engine.Pick;
 import se.jbee.spacecrafts.sim.engine.Stasis;
 
 import static se.jbee.spacecrafts.sim.engine.Any.*;
@@ -20,7 +20,7 @@ public interface Resourcing {
             int ordinal,
             Property amount,
             Property boost
-    ) implements Quality {}
+    ) implements Grade {}
 
     record Substance(
             Defined header,
@@ -34,7 +34,7 @@ public interface Resourcing {
             int ordinal,
             Process progression,
             Numbers zeros
-    ) implements Quality {}
+    ) implements Grade {}
 
     /**
      * Groups multiple {@link Influence}s.
@@ -57,23 +57,15 @@ public interface Resourcing {
     ) implements Embedded {}
 
     record Process(
-            Q<Check> preconditions,
-            Q<Quantity> ins,
-            Q<Quantity> outs,
-            Q<Effect> shifts
+            Preconditions preconditions,
+            Pick<Quantity> ins,
+            Pick<Quantity> outs,
+            Pick<Effect> shifts
     ) implements Embedded {}
 
-    record Check(
-            Stasis<Property> on,
-            Numbers limits,
-            Algorithm<Comparison> target
-    ) implements Embedded {}
+    interface Preconditions {
 
-    interface Comparison {
-
-        boolean test(Collection<Property> on, Numbers actuals, Numbers limits);
-
-        //TODO add a way so that non-acceptance is explained?
+        boolean meatBy(Marks properties, Numbers actuals);
     }
 
 }

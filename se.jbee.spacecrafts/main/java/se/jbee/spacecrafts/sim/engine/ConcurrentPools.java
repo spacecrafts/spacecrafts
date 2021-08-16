@@ -29,7 +29,7 @@ final class ConcurrentPools implements Pools {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends Any.Quality> Range<T> range(Class<T> of) {
+    public <T extends Any.Grade> Range<T> range(Class<T> of) {
         return (Range<T>) ranges.computeIfAbsent(of,
                 key -> runtime.newRange().newRange(of, 8));
     }

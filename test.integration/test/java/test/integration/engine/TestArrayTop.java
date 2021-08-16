@@ -266,6 +266,19 @@ class TestArrayTop {
     }
 
     @Test
+    void clear_0() {
+        assertDoesNotThrow(top::clear);
+    }
+
+    @Test
+    void clear() {
+        top.pushBottom("a", "b", "c", "d");
+        top.clear();
+        assertEquals(0, top.size());
+        top.forEach(e -> fail("Should not be called for empty"));
+    }
+
+    @Test
     void popTop_0() {
         assertThrows(IndexOutOfBoundsException.class, top::popTop);
     }

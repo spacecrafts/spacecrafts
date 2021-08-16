@@ -9,7 +9,7 @@ import java.util.function.IntFunction;
  * Each {@link Pool} manages its serial numbers (IDs). Serials may be reused
  * when removed.
  * <p>
- * The serial assigned to a newly {@link #add(IntFunction)}ed element is
+ * The serial assigned to a newly {@link #spawn(IntFunction)}ed element is
  * determined and returned when adding the element.
  *
  * @param <T> element type
@@ -28,6 +28,6 @@ public interface Pool<T extends Any.Entity> extends Collection<T> {
 
     T get(int serial) throws NoSuchElementException;
 
-    T add(IntFunction<T> factory);
+    T spawn(IntFunction<T> factory);
 
 }
