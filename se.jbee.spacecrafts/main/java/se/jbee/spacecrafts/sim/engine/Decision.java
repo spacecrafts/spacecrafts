@@ -2,14 +2,14 @@ package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Game;
 
-public interface Event extends Any.Computed {
+public interface Decision extends Any.Computed {
 
-    interface Dispatcher {
+    interface Enforcer {
 
-        <E extends Record & Event> void dispatch(E e);
+        <E extends Record & Decision> void enforce(E e);
     }
 
-    void applyTo(Game game, Dispatcher dispatcher);
+    void enforceIn(Game game, Enforcer enforcer);
 
     /**
      * @return the turn in which to apply the event, or -1 if it should be
@@ -23,13 +23,13 @@ public interface Event extends Any.Computed {
      * A generic wrapper to make any other event a future event in a specific
      * turn.
      */
-    record FutureEvent<E extends Record & Event>(
+    record DelayedDecision<E extends Record & Decision>(
             E of,
             int turn
-    ) implements Event {
+    ) implements Decision {
         @Override
-        public void applyTo(Game game, Dispatcher dispatcher) {
-            dispatcher.dispatch(of);
+        public void enforceIn(Game game, Enforcer enforcer) {
+            enforcer.enforce(of);
         }
     }
 }

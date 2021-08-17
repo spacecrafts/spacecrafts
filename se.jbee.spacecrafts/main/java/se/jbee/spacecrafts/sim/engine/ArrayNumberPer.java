@@ -85,12 +85,7 @@ class ArrayFixedNumbersPer<K extends Any.Definition> extends ArrayNumberPer<K> {
 
     @Override
     public void add(K key, int delta) {
-        int index = index(key);
-        if (values[index] < 0) {
-            values[index] = delta;
-        } else {
-            values[index] += delta;
-        }
+        values[index(key)] += delta;
     }
 
     @Override
@@ -130,11 +125,7 @@ final class ArrayDynamicNumbersPer<K extends Any.Creation> extends ArrayNumberPe
     public void add(K key, int delta) {
         int index = index(key);
         ensureExists(index);
-        if (values[index] < 0) {
-            values[index] = delta;
-        } else {
-            values[index] += delta;
-        }
+        values[index] += delta;
     }
 
     @Override

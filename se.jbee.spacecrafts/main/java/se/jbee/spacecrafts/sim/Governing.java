@@ -16,7 +16,7 @@ public interface Governing {
             Flux<Trait> traits,
             Governance governed,
             Awareness awareOf
-    ) implements Creation {}
+    ) implements Creation, Balance {}
 
     record Trait(
             Defined header,

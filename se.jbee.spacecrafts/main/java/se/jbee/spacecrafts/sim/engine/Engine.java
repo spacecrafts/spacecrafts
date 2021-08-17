@@ -9,6 +9,8 @@ import se.jbee.spacecrafts.sim.engine.Any.Connectable;
  */
 public interface Engine {
 
+    //TODO move to se.jbee.turnmaster package
+
     // 1. load all Modules and Bundles via ServiceLoader
     // 2. build Engine record (bare Modules in synthetic Bundle Kit)
     // 3. user selects kits and features based on Engine

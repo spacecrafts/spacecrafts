@@ -43,15 +43,14 @@ public interface Trading {
     record Bid(
             Offered header,
             Trade on,
-            Pick<Resourcing.Quantity> amounts
+            Pick<Resourcing.Quantity> give
     ) implements Offer {}
 
     record Deal(
             Offered header,
             Governing.Fraction with,
-            boolean perTurn,
-            Pick<Resourcing.Quantity> ins,
-            Pick<Resourcing.Quantity> outs
+            Pick<Resourcing.Quantity> give,
+            Pick<Resourcing.Quantity> take
     ) implements Offer {}
 
     record Sale(
