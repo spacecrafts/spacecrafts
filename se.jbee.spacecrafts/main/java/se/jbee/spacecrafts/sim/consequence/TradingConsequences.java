@@ -3,14 +3,14 @@ package se.jbee.spacecrafts.sim.consequence;
 import se.jbee.spacecrafts.sim.Balance;
 import se.jbee.spacecrafts.sim.Trading;
 import se.jbee.spacecrafts.sim.engine.Consequence;
-import se.jbee.spacecrafts.sim.engine.Consequence.Supplier;
+import se.jbee.spacecrafts.sim.engine.Consequence.Binder;
 import se.jbee.spacecrafts.sim.engine.Register;
 
 public interface TradingConsequences {
 
-    Supplier ObeyDeals = game -> new ObeyDeals(game.objects().deals());
+    Binder ObeyingDeals = game -> new ObeyingDeals(game.objects().deals());
 
-    record ObeyDeals(Register<Deal> deals) implements Trading, Consequence {
+    record ObeyingDeals(Register<Deal> deals) implements Trading, Consequence {
 
         @Override
         public void manifest() {

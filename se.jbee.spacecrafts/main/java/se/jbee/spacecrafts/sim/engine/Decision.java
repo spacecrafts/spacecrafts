@@ -2,14 +2,22 @@ package se.jbee.spacecrafts.sim.engine;
 
 import se.jbee.spacecrafts.sim.Game;
 
+import java.util.function.Function;
+
 public interface Decision extends Any.Computed {
 
-    interface Enforcer {
+    interface Processor {
 
-        <E extends Record & Decision> void enforce(E e);
+        //Maybe have a boolean arg to say if the decision is optional
+        // to have the player chose if that part should happen as well
+        <E extends Record & Decision> void manifest(E e);
+
+        default <T, E extends Record & Decision> void manifest(Function<T, E> newDecision, Optional<T> source) {
+            if (source.isSome()) manifest(newDecision.apply(source.get()));
+        }
     }
 
-    void enforceIn(Game game, Enforcer enforcer);
+    void manifestIn(Game game, Processor processor);
 
     /**
      * @return the turn in which to apply the event, or -1 if it should be
@@ -28,8 +36,8 @@ public interface Decision extends Any.Computed {
             int turn
     ) implements Decision {
         @Override
-        public void enforceIn(Game game, Enforcer enforcer) {
-            enforcer.enforce(of);
+        public void manifestIn(Game game, Processor processor) {
+            processor.manifest(of);
         }
     }
 }

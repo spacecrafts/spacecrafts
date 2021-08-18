@@ -1,8 +1,10 @@
 package se.jbee.spacecrafts.sim;
 
+import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.engine.Any.Creation;
 import se.jbee.spacecrafts.sim.engine.Any.IsCreated;
 import se.jbee.spacecrafts.sim.engine.Flux;
+import se.jbee.spacecrafts.sim.engine.Maybe;
 import se.jbee.spacecrafts.sim.engine.Pick;
 import se.jbee.spacecrafts.sim.engine.Stasis;
 
@@ -15,12 +17,12 @@ public interface Trading {
 
     interface IsOffered extends IsCreated {
 
-        Governing.Fraction by();
+        Fraction by();
     }
 
     record Offered(
             int serial,
-            Governing.Fraction by
+            Fraction by
     ) implements IsOffered {}
 
     /**
@@ -28,7 +30,7 @@ public interface Trading {
      */
     record Trade(
             Offered header,
-            Flux<Governing.Fraction> recipients,
+            Flux<Fraction> recipients,
             boolean perTern,
             Stasis<Resourcing.Resource> give,
             Pick<Resourcing.Quantity> take,
@@ -48,7 +50,7 @@ public interface Trading {
 
     record Deal(
             Offered header,
-            Governing.Fraction with,
+            Fraction with,
             Pick<Resourcing.Quantity> give,
             Pick<Resourcing.Quantity> take
     ) implements Offer {}
@@ -60,4 +62,18 @@ public interface Trading {
             Pick<Resourcing.Quantity> price
     ) implements Offer {}
 
+    record Mission(
+            Offered header,
+            Conquering.SolarSystem in,
+            Governing.Asset on,
+            Maybe<Crafting.Deck> deck,
+            Maybe<Crafting.Unit> unit,
+            Pick<Resourcing.Quantity> bounty
+    ) implements Offer {}
+
+    record Hire(
+            Offered header,
+            Conquering.MercenaryUnit of,
+            Mission task
+    ) implements Offer {}
 }

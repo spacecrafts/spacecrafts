@@ -39,4 +39,5 @@ public interface Flux<T extends Entity> extends Collection<T> {
      * @return a non-modifiable copy of this
      */
     Stasis<T> inStasis();
+
 }

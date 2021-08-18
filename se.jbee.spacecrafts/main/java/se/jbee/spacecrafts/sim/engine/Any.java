@@ -30,7 +30,7 @@ public interface Any {
      * An {@link Entity} belongs to one of 3 kinds:
      * <ul>
      *     <li>A {@link Definition} is a kind of object that is predefined by the game</li>
-     *     <li>A {@link Grade} is a kind of object that is predefined and which is one of the members in a closed range of objects</li>
+     *     <li>A {@link Grade} is a kind of object that is predefined and which is one of the of in a closed range of objects</li>
      *     <li>A {@link Creation} is a kind of object that is created as a consequence of game interaction</li>
      * </ul>
      *
@@ -126,8 +126,7 @@ public interface Any {
 
     record Created(
             int serial,
-            Text name,
-            Text about
+            Text name
     ) implements IsCreated {}
 
     record Defined(

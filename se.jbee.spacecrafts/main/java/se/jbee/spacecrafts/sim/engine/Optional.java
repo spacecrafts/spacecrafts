@@ -1,6 +1,7 @@
 package se.jbee.spacecrafts.sim.engine;
 
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -13,6 +14,8 @@ import java.util.function.Supplier;
 public sealed interface Optional<T> permits Maybe, Vary {
 
     boolean isSome();
+
+    boolean is(Predicate<T> test);
 
     T get() throws NoSuchElementException;
 

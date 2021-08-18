@@ -24,25 +24,35 @@ public interface Crafting {
             Numbers actuals
     ) implements Embedded {}
 
+    record Material(
+            Defined header,
+            Numbers properties
+    ) implements Definition {}
+
     record Craft(
             Created header,
             Numbers totals,
+            Maybe<Craft> cloneOf,
             Flux<Influence> influences,
             Flux<Deck> decks,
 
             // configuration
             Top<Resource> priorities
+
+            //TODO have a list of planned launches where some decks become a new ship or orbital?
     ) implements Creation {}
 
     record Deck(
             Created header,
+            Material structure,
+            Vary<Material> plating,
             Numbers totals,
             Marks properties,
             XY<Unit> units,
             Top<Unit> construction,
             Top<Equipment> equipments
     ) implements Creation {}
-    // indicator-type: MAIN, SUPPORT, CARGO
+    // indicator-type: MAIN, SUPPORT, CARGO, ORBITAL
 
     /*
      * Dynamic model:

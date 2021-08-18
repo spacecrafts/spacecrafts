@@ -9,14 +9,22 @@ import se.jbee.spacecrafts.sim.engine.*;
 
 public interface Governing {
 
+    record Controller(
+            boolean artificialAgent,
+            int fromTurn
+    ) {}
+
     record Fraction(
             Created header,
+            Q<Controller> controlledBy,
             Numbers score,
             Marks properties,
             Flux<Trait> traits,
             Governance governed,
             Awareness awareOf
-    ) implements Creation, Balance {}
+    ) implements Creation,
+
+            Balance {}
 
     record Trait(
             Defined header,
@@ -32,7 +40,8 @@ public interface Governing {
     record Leader(
             Created header,
             Stasis<Influence> influences,
-            Numbers multipliers,
+            Numbers profile,
+            NumberPer<Fraction> affection,
             Vary<Asset> assignment
     ) implements Creation {}
 
@@ -62,13 +71,14 @@ public interface Governing {
     record Governance(
             // Assets
             Flux<Colony> colonies,
-            Flux<LunarBase> bases,
+            Flux<LunarOutpost> outposts,
             Flux<OrbitalStation> orbitals,
             Flux<Spaceship> spaceships,
             Flux<SpaceStation> stations,
 
             // Non assets
             Flux<Fleet> fleets,
+            Flux<MercenaryUnit> mercenaries,
             Flux<Leader> leaders
     ) implements Embedded {}
 
@@ -82,7 +92,7 @@ public interface Governing {
 
             // Assets
             Flux<Colony> colonies,
-            Flux<LunarBase> bases,
+            Flux<LunarOutpost> outposts,
             Flux<OrbitalStation> orbitals,
             Flux<Spaceship> spaceships,
             Flux<SpaceStation> stations,
@@ -91,6 +101,7 @@ public interface Governing {
             Flux<Fraction> fractions,
             Flux<Leader> leaders,
             Flux<Fleet> fleets,
+            Flux<MercenaryUnit> mercenaries,
             Flux<Discovery> discoveries,
             Flux<Component> components
     ) {}

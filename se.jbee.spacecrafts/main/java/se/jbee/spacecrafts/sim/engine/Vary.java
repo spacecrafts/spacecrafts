@@ -1,6 +1,7 @@
 package se.jbee.spacecrafts.sim.engine;
 
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -26,6 +27,10 @@ public sealed interface Vary<T> extends Optional<T> permits Vary.Varying {
      */
     Maybe<T> set(T value);
 
+    default void clear() {
+        set(null);
+    }
+
     final class Varying<T> implements Vary<T> {
 
         private T value;
@@ -37,6 +42,11 @@ public sealed interface Vary<T> extends Optional<T> permits Vary.Varying {
         @Override
         public boolean isSome() {
             return value != null;
+        }
+
+        @Override
+        public boolean is(Predicate<T> test) {
+            return value != null && test.test(value);
         }
 
         @Override

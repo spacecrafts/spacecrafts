@@ -2,6 +2,7 @@ package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Crafting.Craft;
 import se.jbee.spacecrafts.sim.Governing.Asset;
+import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.Resourcing.Substance;
@@ -69,7 +70,7 @@ public interface Conquering {
             SolarSystem in
     ) implements Asset {}
 
-    record LunarBase(
+    record LunarOutpost(
             Governed header,
             Craft structure,
             Moon on
@@ -81,9 +82,20 @@ public interface Conquering {
      * entity rather than a concept.
      */
     record Fleet(
-            Created header,
+            Governed header,
             Flux<Spaceship> members,
             Numbers actuals
+    ) implements Creation {}
+
+    /**
+     * A {@link Fleet} can be turned into a {@link MercenaryUnit}. As such it
+     * can be hired by other {@link Fraction}s to complete a {@link
+     * Trading.Mission}.
+     */
+    record MercenaryUnit(
+            Governed header,
+            Fleet unit,
+            Vary<Trading.Mission> mission
     ) implements Creation {}
 
 }

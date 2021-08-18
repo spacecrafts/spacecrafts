@@ -6,7 +6,7 @@ package se.jbee.spacecrafts.sim.engine;
  * This is used both to present these situations to human player and to have AA
  * make a decision.
  * <p>
- * This implies that no state is kept on what needs doing. This is entirely
+ * This implies that no state is kept on what needs task. This is entirely
  * derived from the state of game {@link se.jbee.spacecrafts.sim.engine.Any.Entity}s.
  * <p>
  * In addition this allows to customise the behaviour quite simple by using

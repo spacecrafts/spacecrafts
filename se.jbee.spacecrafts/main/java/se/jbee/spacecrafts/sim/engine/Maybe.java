@@ -2,6 +2,7 @@ package se.jbee.spacecrafts.sim.engine;
 
 import java.util.NoSuchElementException;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -44,6 +45,11 @@ public sealed interface Maybe<T> extends Optional<T> permits Maybe.Nothing, Mayb
         }
 
         @Override
+        public boolean is(Predicate<T> test) {
+            return false;
+        }
+
+        @Override
         public T get() throws NoSuchElementException {
             throw new NoSuchElementException();
         }
@@ -70,6 +76,11 @@ public sealed interface Maybe<T> extends Optional<T> permits Maybe.Nothing, Mayb
         @Override
         public boolean isSome() {
             return true;
+        }
+
+        @Override
+        public boolean is(Predicate<T> test) {
+            return test.test(get);
         }
 
         @Override
