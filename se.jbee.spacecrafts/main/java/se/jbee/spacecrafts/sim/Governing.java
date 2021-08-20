@@ -2,6 +2,7 @@ package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Conquering.*;
 import se.jbee.spacecrafts.sim.Crafting.Component;
+import se.jbee.spacecrafts.sim.Crafting.Craft;
 import se.jbee.spacecrafts.sim.Discovering.Discovery;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.engine.Any.*;
@@ -50,7 +51,7 @@ public interface Governing {
         @Override
         IsGoverned header();
 
-        Crafting.Craft structure();
+        Craft structure();
     }
 
     interface IsGoverned extends IsCreated {}
@@ -63,9 +64,9 @@ public interface Governing {
 
     /**
      * Ownership by a {@link Fraction} is given when an {@link Asset} is
-     * contained in any of the asserts lists of this record.
+     * contained in any from the asserts lists from this record.
      * <p>
-     * Shared ownership simply means an {@link Asset} occurs in lists of
+     * Shared ownership simply means an {@link Asset} occurs in lists from
      * multiple {@link Fraction}s.
      */
     record Governance(
@@ -85,10 +86,10 @@ public interface Governing {
 
     record Awareness(
             // galaxy
-            Flux<Galaxy> galaxies,
-            Flux<SolarSystem> systems,
-            Flux<Planet> planets,
-            Flux<Moon> moons,
+            Flux<Exploring.Sector> galaxies,
+            Flux<Exploring.SolarSystem> systems,
+            Flux<Exploring.Planet> planets,
+            Flux<Exploring.Moon> moons,
 
             // Assets
             Flux<Colony> colonies,
@@ -98,6 +99,7 @@ public interface Governing {
             Flux<SpaceStation> stations,
 
             // Non assets
+            Flux<Craft> crafts,
             Flux<Fraction> fractions,
             Flux<Leader> leaders,
             Flux<Fleet> fleets,

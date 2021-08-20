@@ -1,5 +1,7 @@
 package se.jbee.spacecrafts.sim.engine;
 
+import java.util.function.Predicate;
+
 /**
  * A {@link Top} is an ordered list ordered from most important (top) at index
  * zero to least important (bottom) at last index.
@@ -22,6 +24,8 @@ public interface Top<T> extends Collection<T> {
     API
      */
 
+    int firstIndex(Predicate<T> test);
+
     void moveToTop(int index) throws IndexOutOfBoundsException;
 
     void moveToBottom(int index) throws IndexOutOfBoundsException;
@@ -39,6 +43,13 @@ public interface Top<T> extends Collection<T> {
     T remove(int index) throws IndexOutOfBoundsException;
 
     void remove(int fromIndex, int toIndex) throws IndexOutOfBoundsException;
+
+    default void remove(T item) {
+        int index = item instanceof Any.Entity
+                ? firstIndex(e -> e == item)
+                : firstIndex(e -> e.equals(item));
+        if (index > 0) remove(index);
+    }
 
     default void clear() {
         remove(0, size() - 1);

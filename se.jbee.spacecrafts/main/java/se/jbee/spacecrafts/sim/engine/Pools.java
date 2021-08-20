@@ -3,7 +3,7 @@ package se.jbee.spacecrafts.sim.engine;
 /**
  * {@link Pool} management.
  * <p>
- * Provides a single instance for each type of {@link Register}, {@link Index}
+ * Provides a single instance for each type from {@link Register}, {@link Index}
  * or {@link Range}.
  */
 public interface Pools {

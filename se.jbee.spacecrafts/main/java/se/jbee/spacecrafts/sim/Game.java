@@ -6,7 +6,6 @@ public record Game(
         Engine.Runtime runtime,
         Turn turn,
         Objects objects
-        // Flux<Processing.Event> delayed
 ) {
 
     public record Settings() {}
@@ -36,10 +35,10 @@ public record Game(
             Register<Conquering.Fleet> fleets,
             Register<Conquering.MercenaryUnit> mercenaries,
 
-            Register<Conquering.Galaxy> galaxies,
-            Register<Conquering.SolarSystem> systems,
-            Register<Conquering.Planet> planets,
-            Register<Conquering.Moon> moons,
+            Register<Exploring.Sector> sectors,
+            Register<Exploring.SolarSystem> systems,
+            Register<Exploring.Planet> planets,
+            Register<Exploring.Moon> moons,
 
             Register<Governing.Fraction> fractions,
             Index<Governing.Trait> traits,
@@ -50,8 +49,9 @@ public record Game(
             Register<Trading.Bid> bids,
             Register<Trading.Deal> deals,
             Register<Trading.Sale> sales,
-            Register<Trading.Hire> hires,
-            Register<Trading.Mission> missions
+            Register<Trading.Mission> missions,
+            Register<Trading.Approach> approaches,
+            Register<Trading.Hire> hires
     ) {
 
         public Objects(Engine.Runtime runtime) {
@@ -77,10 +77,10 @@ public record Game(
                     pools.register(Conquering.SpaceStation.class),
                     pools.register(Conquering.Fleet.class),
                     pools.register(Conquering.MercenaryUnit.class),
-                    pools.register(Conquering.Galaxy.class),
-                    pools.register(Conquering.SolarSystem.class),
-                    pools.register(Conquering.Planet.class),
-                    pools.register(Conquering.Moon.class),
+                    pools.register(Exploring.Sector.class),
+                    pools.register(Exploring.SolarSystem.class),
+                    pools.register(Exploring.Planet.class),
+                    pools.register(Exploring.Moon.class),
                     pools.register(Governing.Fraction.class),
                     pools.index(Governing.Trait.class),
                     pools.index(Governing.Sphere.class),
@@ -89,20 +89,21 @@ public record Game(
                     pools.register(Trading.Bid.class),
                     pools.register(Trading.Deal.class),
                     pools.register(Trading.Sale.class),
-                    pools.register(Trading.Hire.class),
-                    pools.register(Trading.Mission.class));
+                    pools.register(Trading.Mission.class),
+                    pools.register(Trading.Approach.class),
+                    pools.register(Trading.Hire.class));
         }
     }
 
     public Numbers newNumbers() {
-        return runtime.newNumbers().newNumbers(objects.properties);
+        return runtime.newNumbers().newNumbers(objects.properties).clear();
     }
 
     public <T extends Any.Entity> Flux<T> newFlux(Class<T> of) {
         return runtime.newFlux().newFlux(objects.pools.pool(of));
     }
 
-    public <T extends Any.Definition> Top<T> newTop(Class<T> of) {
+    public <T extends Any.Entity> Top<T> newTop(Class<T> of) {
         return newTop(4, objects().pools.pool(of).size());
     }
 

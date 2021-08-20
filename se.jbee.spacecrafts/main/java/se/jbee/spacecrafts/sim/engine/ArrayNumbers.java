@@ -12,6 +12,12 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     }
 
     @Override
+    public Numbers clear() {
+        super.clear();
+        return this;
+    }
+
+    @Override
     public void zero(Numbers zeros) {
         if (zeros instanceof ArrayNumbers anz) {
             for (int i = 0; i < values.length; i++)

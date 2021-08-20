@@ -18,41 +18,45 @@ public interface Crafting {
             Numbers zeros
     ) implements Definition {}
 
+    record Material(
+            Defined header,
+            Numbers properties
+    ) implements Definition {}
+
     record Unit(
             Component of,
             XY.Location at,
             Numbers actuals
     ) implements Embedded {}
 
-    record Material(
-            Defined header,
-            Numbers properties
-    ) implements Definition {}
-
     record Craft(
             Created header,
             Numbers totals,
             Maybe<Craft> cloneOf,
             Flux<Influence> influences,
-            Flux<Deck> decks,
 
-            // configuration
+            // in order top to bottom
+            Top<Deck> decks,
+
+            // operating priorities for units (which resources you try to maximise)
             Top<Resource> priorities
 
-            //TODO have a list of planned launches where some decks become a new ship or orbital?
     ) implements Creation {}
 
     record Deck(
             Created header,
             Material structure,
-            Vary<Material> plating,
+            Maybe<Material> plating,
             Numbers totals,
             Marks properties,
             XY<Unit> units,
+            // in priority order:
             Top<Unit> construction,
             Top<Equipment> equipments
     ) implements Creation {}
     // indicator-type: MAIN, SUPPORT, CARGO, ORBITAL
+
+    record Launch(Flux<Deck> launched) implements Embedded {}
 
     /*
      * Dynamic model:

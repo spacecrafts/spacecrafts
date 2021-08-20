@@ -50,4 +50,13 @@ public interface GoverningDecisions {
             discharged.assignment().set(null);
         }
     }
+
+    record DischargeExistingLeader(Asset perished) implements Governing, Decision {
+
+        @Override
+        public void manifestIn(Game game, Processor processor) {
+            processor.manifest(DischargeLeader::new, game.objects().leaders() //
+                    .first(l -> l.assignment().is(a -> a == perished)));
+        }
+    }
 }

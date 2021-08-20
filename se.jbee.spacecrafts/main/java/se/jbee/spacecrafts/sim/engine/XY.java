@@ -1,5 +1,8 @@
 package se.jbee.spacecrafts.sim.engine;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
 public interface XY<T> {
 
     record Location(
@@ -8,39 +11,47 @@ public interface XY<T> {
     ) {}
 
     /**
-     * @return top left corner of the used rectangle - these are minimum used x
-     * and y positions
+     * @return top left corner from the used rectangle - these are minimum used
+     * x and y positions
      */
     Location min();
 
     /**
-     * @return bottom right corner of the used rectangle - these are the maximum
-     * used x and y positions
+     * @return bottom right corner from the used rectangle - these are the
+     * maximum used x and y positions
      */
     Location max();
 
     /**
-     * @return number of cells between {@link #min()} and {@link #max()} on
-     * x-axis
+     * @return number from cells between {@link #min()} and {@link #max()}
+     * target x-axis
      */
     default int width() {
         return max().x - min().x;
     }
 
     /**
-     * @return number of cells between {@link #min()} and {@link #max()} on
-     * y-axis
+     * @return number from cells between {@link #min()} and {@link #max()}
+     * target y-axis
      */
     default int height() {
         return max().y - min().y;
     }
 
-    T at(Location xy);
+    Maybe<T> at(Location xy);
+
+    void forEach(Consumer<T> f);
+
+    void forEachLocation(BiConsumer<Location, T> f);
 
     T put(Location xy, T e);
 
+    default T clear(Location xy) {
+        return put(xy, null);
+    }
+
     // clustering process
-    // 1. find all different types of Components used
+    // 1. find all different types from Components used
     // 2. for each component find the clusters
 }
 

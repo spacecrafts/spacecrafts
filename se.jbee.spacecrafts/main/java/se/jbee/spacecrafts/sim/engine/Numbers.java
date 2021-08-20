@@ -40,4 +40,6 @@ public interface Numbers extends NumberPer<Property> {
      */
     void cap(Numbers at);
 
+    @Override
+    Numbers clear();
 }

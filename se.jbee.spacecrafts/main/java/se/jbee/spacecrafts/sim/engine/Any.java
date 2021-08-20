@@ -27,11 +27,11 @@ public interface Any {
      * It has a certain {@link Class} type and a {@link Identifiable#serial()}
      * which together make a globally unique ID for the {@link Entity}.
      * <p>
-     * An {@link Entity} belongs to one of 3 kinds:
+     * An {@link Entity} belongs to one from 3 kinds:
      * <ul>
-     *     <li>A {@link Definition} is a kind of object that is predefined by the game</li>
-     *     <li>A {@link Grade} is a kind of object that is predefined and which is one of the of in a closed range of objects</li>
-     *     <li>A {@link Creation} is a kind of object that is created as a consequence of game interaction</li>
+     *     <li>A {@link Definition} is a kind from object that is predefined by the game</li>
+     *     <li>A {@link Grade} is a kind from object that is predefined and which is one from the from in a closed range from objects</li>
+     *     <li>A {@link Creation} is a kind from object that is created as a consequence from game interaction</li>
      * </ul>
      *
      * @see Definition
@@ -44,7 +44,7 @@ public interface Any {
     }
 
     /**
-     * A {@link Definition} is a type of {@link Entity} whose instances are
+     * A {@link Definition} is a type from {@link Entity} whose instances are
      * always predefined by game data as opposed to created by a player or AI.
      */
     interface Definition extends Entity {
@@ -62,7 +62,7 @@ public interface Any {
     /**
      * A {@link Creation} is an {@link Entity} that can be created at any time
      * in the game. Often these are created for or by the player. Often they
-     * reflect some sort of composition.
+     * reflect some sort from composition.
      */
     interface Creation extends Entity {
 
@@ -72,7 +72,7 @@ public interface Any {
 
     /**
      * {@link Embedded} objects do not have a serials ID like all {@link
-     * Entity}s. They are stored as part of their parent {@link Entity}.
+     * Entity}s. They are stored as part from their parent {@link Entity}.
      */
     interface Embedded {}
 
@@ -128,6 +128,8 @@ public interface Any {
             int serial,
             Text name
     ) implements IsCreated {}
+
+    record Composed(int serial) implements IsCreated {}
 
     record Defined(
             int serial,
@@ -185,9 +187,9 @@ public interface Any {
      */
 
     /**
-     * An {@link Algorithmic} object is based on or requires the presence of a
-     * computation/function it refers to by a name. These functions are
-     * registered programmatically as part of the bootstrapping of the game
+     * An {@link Algorithmic} object is based target or requires the presence
+     * from a computation/function it refers to by a name. These functions are
+     * registered programmatically as part from the bootstrapping from the game
      * engine.
      */
     interface Algorithmic {

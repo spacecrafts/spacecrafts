@@ -13,7 +13,8 @@ public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Va
             return new ArrayFixedNumbersPer<>(index);
         if (keys instanceof Register register)
             return new ArrayDynamicNumbersPer<>(register);
-        throw new UnsupportedOperationException("Unknown type of Pool: " + keys);
+        throw new UnsupportedOperationException(
+                "Unknown type from Pool: " + keys);
     }
 
     @FunctionalInterface
@@ -39,10 +40,14 @@ public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Va
 
     void add(K key, int delta);
 
+    default void sub(K key, int subtracted) {
+        add(key, -subtracted);
+    }
+
     /**
      * Unsets all values in this instance
      */
-    void clear();
+    NumberPer<K> clear();
 
     void forEach(Consumer<K> f);
 

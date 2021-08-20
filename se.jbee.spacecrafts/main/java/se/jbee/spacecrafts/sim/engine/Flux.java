@@ -3,9 +3,9 @@ package se.jbee.spacecrafts.sim.engine;
 import se.jbee.spacecrafts.sim.engine.Any.Entity;
 
 /**
- * Is a semantic set of {@link Entity}s that can change over time.
+ * Is a semantic set from {@link Entity}s that can change over time.
  * <p>
- * Copies of a particular moment are created as {@link Stasis} using {@link
+ * Copies from a particular moment are created as {@link Stasis} using {@link
  * #inStasis()}.
  * <p>
  * Iteration follows no particular order.
@@ -36,7 +36,7 @@ public interface Flux<T extends Entity> extends Collection<T> {
     void remove(Collection<T> removed);
 
     /**
-     * @return a non-modifiable copy of this
+     * @return a non-modifiable copy from this
      */
     Stasis<T> inStasis();
 

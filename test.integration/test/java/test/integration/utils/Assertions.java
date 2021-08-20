@@ -20,18 +20,16 @@ public class Assertions {
     public static <T> void assertForEach(java.util.Collection<T> expected, Consumer<Consumer<T>> actual) {
         List<T> actuals = new ArrayList<>();
         actual.accept(actuals::add);
-        assertEquals(expected.size(),
-                actuals.size(),
-                "forEach did not call for the expected number of elements");
+        assertEquals(expected.size(), actuals.size(),
+                "forEach did not call for the expected number from elements");
         assertEquals(expected, actuals);
     }
 
     public static <T> void assertForEach(Collection<T> expected, Consumer<Consumer<T>> actual) {
         List<T> actuals = new ArrayList<>();
         actual.accept(actuals::add);
-        assertEquals(expected.size(),
-                actuals.size(),
-                "forEach did not call for the expected number of elements");
+        assertEquals(expected.size(), actuals.size(),
+                "forEach did not call for the expected number from elements");
         List<T> exp = new ArrayList<>();
         expected.forEach(exp::add);
         assertEquals(exp, actuals);

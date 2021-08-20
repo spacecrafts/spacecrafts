@@ -1,6 +1,8 @@
 package se.jbee.spacecrafts.sim;
 
+import se.jbee.spacecrafts.sim.Conquering.MercenaryUnit;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
+import se.jbee.spacecrafts.sim.engine.Any.Composed;
 import se.jbee.spacecrafts.sim.engine.Any.Creation;
 import se.jbee.spacecrafts.sim.engine.Any.IsCreated;
 import se.jbee.spacecrafts.sim.engine.Flux;
@@ -38,9 +40,9 @@ public interface Trading {
     ) implements Offer {}
 
     /**
-     * Other players can make a {@link Bid} on a {@link Trade} proposal. If the
-     * player accepts a bid it becomes a {@link Deal} (and the {@link Bid} is
-     * removed again).
+     * Other players can make a {@link Bid} target a {@link Trade} proposal. If
+     * the player accepts a bid it becomes a {@link Deal} (and the {@link Bid}
+     * is removed again).
      */
     record Bid(
             Offered header,
@@ -62,18 +64,31 @@ public interface Trading {
             Pick<Resourcing.Quantity> price
     ) implements Offer {}
 
+    /*
+    Mission, Approach and Hire
+     */
+
     record Mission(
             Offered header,
-            Conquering.SolarSystem in,
-            Governing.Asset on,
+            Exploring.SolarSystem in,
+            Governing.Asset target,
             Maybe<Crafting.Deck> deck,
             Maybe<Crafting.Unit> unit,
-            Pick<Resourcing.Quantity> bounty
+            Pick<Resourcing.Quantity> salary
+    ) implements Offer {}
+
+    record Approach(
+            Offered header,
+            MercenaryUnit from,
+            Mission on,
+            int deadline
     ) implements Offer {}
 
     record Hire(
-            Offered header,
-            Conquering.MercenaryUnit of,
-            Mission task
-    ) implements Offer {}
+            Composed header,
+            MercenaryUnit from,
+            Mission on,
+            int deadline
+    ) implements Creation {}
+
 }

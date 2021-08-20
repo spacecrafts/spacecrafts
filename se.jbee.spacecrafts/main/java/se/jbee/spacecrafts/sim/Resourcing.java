@@ -20,6 +20,8 @@ public interface Resourcing {
             int ordinal,
             Property amount,
             Property boost
+            //TODO likely needs info target zeroing and if it is a physical or virtual resource (which level it aggregates) or local/global or transferable
+            // maybe this should be part of the Property
     ) implements Grade {}
 
     record Substance(
@@ -57,13 +59,13 @@ public interface Resourcing {
     ) implements Embedded {}
 
     record Process(
-            Preconditions preconditions,
+            Precondition precondition,
             Pick<Quantity> ins,
             Pick<Quantity> outs,
-            Pick<Effect> shifts
+            Pick<Effect> effects
     ) implements Embedded {}
 
-    interface Preconditions {
+    interface Precondition {
 
         boolean meatBy(Marks properties, Numbers actuals);
     }

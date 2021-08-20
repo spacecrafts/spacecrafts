@@ -4,7 +4,7 @@ import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.engine.Any.Connectable;
 
 /**
- * State of the game engine - this is the state that is independent of any
+ * State from the game engine - this is the state that is independent from any
  * {@link Game}.
  */
 public interface Engine {
@@ -13,7 +13,7 @@ public interface Engine {
 
     // 1. load all Modules and Bundles via ServiceLoader
     // 2. build Engine record (bare Modules in synthetic Bundle Kit)
-    // 3. user selects kits and features based on Engine
+    // 3. user selects kits and features based target Engine
     // 4. when user starts a game selected features get installed in order
 
     /**
@@ -52,7 +52,7 @@ public interface Engine {
     ) {}
 
     /**
-     * A {@link Kit} is a semantic package of game functionality.
+     * A {@link Kit} is a semantic package from game functionality.
      */
     record Kit(
             Class<? extends Bundle> from,

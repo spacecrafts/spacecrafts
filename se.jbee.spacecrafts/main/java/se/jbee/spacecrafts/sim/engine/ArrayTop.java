@@ -44,6 +44,13 @@ final class ArrayTop<T> implements Top<T> {
     }
 
     @Override
+    public int firstIndex(Predicate<T> test) {
+        for (int i = 0; i < size; i++)
+            if (test.test(getUnchecked(i))) return i;
+        return -1;
+    }
+
+    @Override
     public void moveToTop(int index) throws IndexOutOfBoundsException {
         checkIndex(index);
         if (index <= 1) {
@@ -214,10 +221,7 @@ final class ArrayTop<T> implements Top<T> {
             size -= len;
             return;
         }
-        arraycopy(elements,
-                toIndex + 1,
-                elements,
-                fromIndex,
+        arraycopy(elements, toIndex + 1, elements, fromIndex,
                 size - toIndex - 1);
         size -= len;
     }
@@ -231,10 +235,9 @@ final class ArrayTop<T> implements Top<T> {
     private void checkRange(int fromIndex, int toIndex) {
         checkIndex(fromIndex);
         checkIndex(toIndex);
-        if (toIndex < fromIndex) throw new IllegalArgumentException(format(
-                "to index must not be smaller than from index: %s >= %s",
-                toIndex,
-                fromIndex));
+        if (toIndex < fromIndex) throw new IllegalArgumentException(
+                format("to index must not be smaller than from index: %s >= %s",
+                        toIndex, fromIndex));
     }
 
     @Override

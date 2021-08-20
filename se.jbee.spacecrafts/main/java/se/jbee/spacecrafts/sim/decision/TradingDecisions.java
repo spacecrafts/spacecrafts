@@ -1,7 +1,9 @@
 package se.jbee.spacecrafts.sim.decision;
 
 import se.jbee.spacecrafts.sim.*;
+import se.jbee.spacecrafts.sim.Governing.Asset;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
+import se.jbee.spacecrafts.sim.engine.Any.Composed;
 import se.jbee.spacecrafts.sim.engine.*;
 
 public interface TradingDecisions {
@@ -88,7 +90,7 @@ public interface TradingDecisions {
         @Override
         public void manifestIn(Game game, Processor processor) {
             game.objects().deals().perish(terminated);
-            //TODO must leave some sort of info to the other party (if human)
+            //TODO must leave some sort from info to the other party (if human)
         }
     }
 
@@ -130,10 +132,11 @@ public interface TradingDecisions {
         }
     }
 
-    record PutBountyOnMission(
+
+    record PublishMission(
             Fraction by,
-            Conquering.SolarSystem in,
-            Governing.Asset on,
+            Exploring.SolarSystem in,
+            Asset on,
             Maybe<Crafting.Deck> deck,
             Maybe<Crafting.Unit> unit,
             Pick<Resourcing.Quantity> bounty
@@ -146,15 +149,6 @@ public interface TradingDecisions {
         }
     }
 
-    record HireForMission(Hire hired) implements Trading, Decision {
-
-        @Override
-        public void manifestIn(Game game, Processor processor) {
-            game.objects().hires().perish(hire -> hire.task() == hired.task());
-            hired.of().mission().set(hired.task());
-        }
-    }
-
     record CancelMission(Mission cancelled) implements Trading, Decision {
 
         @Override
@@ -163,13 +157,44 @@ public interface TradingDecisions {
         }
     }
 
+    record FailExistingMissions(Asset targeted) implements Trading, Decision {
+
+        @Override
+        public void manifestIn(Game game, Processor processor) {
+            game.objects().missions().forEach(mission -> {
+                if (mission.target() == targeted)
+                    processor.manifest(new CancelMission(mission));
+            });
+        }
+    }
+
+    record AcceptApproach(Approach accepted) implements Trading, Decision {
+
+        @Override
+        public void manifestIn(Game game, Processor processor) {
+            game.objects().approaches().perish(
+                    approach -> approach.on() == accepted.on());
+            accepted.header().by().debitUnconditionals(accepted.on().salary());
+            game.objects().hires().spawn(serial -> new Hire( //
+                    new Composed(serial), accepted.from(), accepted.on(),
+                    accepted.deadline()));
+        }
+    }
+
+    record CancelHire(Hire cancelled) implements Trading, Decision {
+
+        @Override
+        public void manifestIn(Game game, Processor processor) {
+            game.objects().hires().perish(cancelled);
+        }
+    }
+
     record PerishMission(Mission perished) implements Trading, Decision {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-            var givenTo = game.objects().mercenaries() //
-                    .first(unit -> unit.mission().is(m -> m == perished));
-            if (givenTo.isSome()) givenTo.get().mission().clear();
+            processor.manifest(CancelHire::new, game.objects().hires().first(
+                    hire -> hire.on() == perished));
             game.objects().missions().perish(perished);
         }
     }

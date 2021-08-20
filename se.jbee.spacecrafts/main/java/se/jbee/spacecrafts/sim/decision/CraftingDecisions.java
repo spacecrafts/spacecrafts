@@ -16,7 +16,7 @@ public interface CraftingDecisions {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-
+            units.forEach(unit -> on.units().clear(unit.at()));
         }
     }
 
@@ -28,7 +28,7 @@ public interface CraftingDecisions {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-
+            on.construction().pushBottom(new Unit(of, at, game.newNumbers()));
         }
     }
 
@@ -88,6 +88,19 @@ public interface CraftingDecisions {
                 //TODO mark as design
                 return;
             }
+            game.objects().fractions().forEach(
+                    fraction -> fraction.awareOf().crafts().remove(perished));
+            perished.decks().forEach(
+                    deck -> processor.manifest(new PerishDeck(deck)));
+            game.objects().crafts().perish(perished);
+        }
+    }
+
+    record PerishDeck(Deck perished) implements Crafting, Decision {
+
+        @Override
+        public void manifestIn(Game game, Processor processor) {
+            game.objects().decks().perish(perished);
         }
     }
 }

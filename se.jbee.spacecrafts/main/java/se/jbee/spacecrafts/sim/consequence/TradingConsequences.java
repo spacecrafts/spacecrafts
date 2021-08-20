@@ -24,4 +24,13 @@ public interface TradingConsequences {
             Balance.transfer(customer, host, deal.take());
         }
     }
+
+    record FailingMissions(Register<Mission> missions) implements Trading, Consequence {
+
+        @Override
+        public void manifest() {
+            //TODO find missions assigned
+            //check turn they time out against current turn
+        }
+    }
 }

@@ -9,6 +9,10 @@ public interface Collection<T> {
 
     void forEach(Consumer<? super T> f);
 
+    default void forEach(Consumer<? super T> f, Predicate<? super T> filter) {
+        forEach(e -> {if (filter.test(e)) f.accept(e);});
+    }
+
     Maybe<T> first(Predicate<? super T> test);
 
     default Maybe<T> first() {

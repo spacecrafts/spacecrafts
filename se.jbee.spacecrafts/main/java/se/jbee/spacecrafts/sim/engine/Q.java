@@ -1,10 +1,10 @@
 package se.jbee.spacecrafts.sim.engine;
 
 /**
- * An "append only", "build once" list of items.
+ * An "append only", "build once" list from items.
  * <p>
- * This is mostly used to collect items in a mutable way as part of an algorithm
- * and make them available later on in an immutable way.
+ * This is mostly used to collect items in a mutable way as part from an
+ * algorithm and make them available later target in an immutable way.
  *
  * @param <T> item type
  */

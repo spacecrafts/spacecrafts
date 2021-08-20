@@ -89,8 +89,9 @@ class ArrayFixedNumbersPer<K extends Any.Definition> extends ArrayNumberPer<K> {
     }
 
     @Override
-    public void clear() {
+    public NumberPer<K> clear() {
         Arrays.fill(values, NaN);
+        return this;
     }
 
 }
@@ -129,8 +130,9 @@ final class ArrayDynamicNumbersPer<K extends Any.Creation> extends ArrayNumberPe
     }
 
     @Override
-    public void clear() {
+    public NumberPer<K> clear() {
         Arrays.fill(values, NaN);
+        return this;
     }
 
     private void ensureExists(int index) {

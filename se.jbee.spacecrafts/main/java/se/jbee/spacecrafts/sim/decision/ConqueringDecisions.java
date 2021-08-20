@@ -2,30 +2,30 @@ package se.jbee.spacecrafts.sim.decision;
 
 import se.jbee.spacecrafts.sim.*;
 import se.jbee.spacecrafts.sim.Crafting.Deck;
-import se.jbee.spacecrafts.sim.Governing.Asset;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.spacecrafts.sim.decision.CraftingDecisions.CloneCraft;
 import se.jbee.spacecrafts.sim.decision.CraftingDecisions.PerishCraft;
-import se.jbee.spacecrafts.sim.decision.GoverningDecisions.DischargeLeader;
+import se.jbee.spacecrafts.sim.decision.GoverningDecisions.DischargeExistingLeader;
+import se.jbee.spacecrafts.sim.decision.TradingDecisions.CancelHire;
+import se.jbee.spacecrafts.sim.decision.TradingDecisions.FailExistingMissions;
 import se.jbee.spacecrafts.sim.engine.Any.Created;
 import se.jbee.spacecrafts.sim.engine.Any.Text;
 import se.jbee.spacecrafts.sim.engine.Collection;
 import se.jbee.spacecrafts.sim.engine.Decision;
 import se.jbee.spacecrafts.sim.engine.Maybe;
-import se.jbee.spacecrafts.sim.engine.Vary;
 
 public interface ConqueringDecisions {
 
     record FoundSpaceStation(
-            SolarSystem in,
+            Exploring.SolarSystem in,
             Fraction by,
             Collection<Spaceship> from
     ) implements Conquering, Decision {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-            //TODO find leader instead of 1st
+            //TODO find leader instead from 1st
             var ship1 = from.first().get();
             var name = in.header().name().get();
             var craft = game.objects().crafts().spawn(
@@ -33,7 +33,7 @@ public interface ConqueringDecisions {
                             new Created(serial, new Text("DSS " + name)),
                             game.newNumbers(), Maybe.nothing(),
                             game.newFlux(Resourcing.Influence.class),
-                            game.newFlux(Deck.class),
+                            game.newTop(Deck.class),
                             game.newTop(Resourcing.Resource.class)));
             processor.manifest(new CloneCraft(ship1.structure(), craft));
             var station = game.objects().stations().spawn(
@@ -56,15 +56,14 @@ public interface ConqueringDecisions {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-            docking.structure().decks().forEach(
-                    deck -> to.structure().decks().add(deck));
-            docking.structure().decks().clear(); // prevent perish
+            to.structure().decks().pushBottom(docking.structure().decks());
+            docking.structure().decks().clear(); // prevent perish from docked decks
             processor.manifest(new PerishSpaceship(docking));
         }
     }
 
     record FoundColony(
-            Planet on,
+            Exploring.Planet on,
             Fraction by,
             Deck from,
             Spaceship origin
@@ -77,7 +76,7 @@ public interface ConqueringDecisions {
     }
 
     record FoundOutpost(
-            Moon on,
+            Exploring.Moon on,
             Fraction by,
             Deck from,
             Spaceship origin
@@ -142,7 +141,7 @@ public interface ConqueringDecisions {
             var unit = game.objects().mercenaries().spawn(
                     serial -> new MercenaryUnit(new Governed(serial,
                             new Text(banded.header().name().get()), fraction),
-                            banded, Vary.nothing()));
+                            banded));
             fraction.awareOf().mercenaries().add(unit);
             fraction.governed().fleets().remove(banded);
             fraction.governed().mercenaries().add(unit);
@@ -153,7 +152,8 @@ public interface ConqueringDecisions {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-            processor.manifest(FailMission::new, disbanded.mission());
+            processor.manifest(CancelHire::new, game.objects().hires().first(
+                    hire -> hire.from() == disbanded));
             var faction = disbanded.header().origin();
             faction.governed().fleets().add(disbanded.unit());
             game.objects().fractions().forEach(fraction -> {
@@ -161,14 +161,6 @@ public interface ConqueringDecisions {
                 fraction.governed().mercenaries().remove(disbanded);
             });
             game.objects().mercenaries().perish(disbanded);
-        }
-    }
-
-    record FailMission(Trading.Mission failed) implements Conquering, Decision {
-
-        @Override
-        public void manifestIn(Game game, Processor processor) {
-
         }
     }
 
@@ -180,6 +172,13 @@ public interface ConqueringDecisions {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
+            processor.manifest(DisbandMercenaryUnit::new,
+                    game.objects().mercenaries() //
+                            .first(m -> m.unit() == perished));
+
+            game.objects().systems().forEach(
+                    system -> system.proximity().remove(perished));
+
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().fleets().remove(perished);
                 fraction.governed().fleets().remove(perished);
@@ -192,10 +191,11 @@ public interface ConqueringDecisions {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-            dischargePotentialLeader(perished, game, processor);
-
             game.objects().fleets().forEach(
                     fleet -> fleet.members().remove(perished));
+
+            processor.manifest(new DischargeExistingLeader(perished));
+            processor.manifest(new FailExistingMissions(perished));
 
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().spaceships().remove(perished);
@@ -212,7 +212,8 @@ public interface ConqueringDecisions {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-            dischargePotentialLeader(perished, game, processor);
+            processor.manifest(new DischargeExistingLeader(perished));
+            processor.manifest(new FailExistingMissions(perished));
 
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().stations().remove(perished);
@@ -228,7 +229,8 @@ public interface ConqueringDecisions {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-            dischargePotentialLeader(perished, game, processor);
+            processor.manifest(new DischargeExistingLeader(perished));
+            processor.manifest(new FailExistingMissions(perished));
 
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().colonies().remove(perished);
@@ -244,7 +246,8 @@ public interface ConqueringDecisions {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-            dischargePotentialLeader(perished, game, processor);
+            processor.manifest(new DischargeExistingLeader(perished));
+            processor.manifest(new FailExistingMissions(perished));
 
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().outposts().remove(perished);
@@ -260,7 +263,8 @@ public interface ConqueringDecisions {
 
         @Override
         public void manifestIn(Game game, Processor processor) {
-            dischargePotentialLeader(perished, game, processor);
+            processor.manifest(new DischargeExistingLeader(perished));
+            processor.manifest(new FailExistingMissions(perished));
 
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().orbitals().remove(perished);
@@ -272,8 +276,4 @@ public interface ConqueringDecisions {
         }
     }
 
-    private static void dischargePotentialLeader(Asset of, Game game, Decision.Processor processor) {
-        processor.manifest(DischargeLeader::new, game.objects().leaders() //
-                .first(l -> l.assignment().is(a -> a == of)));
-    }
 }
