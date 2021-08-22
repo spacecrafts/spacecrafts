@@ -18,6 +18,7 @@ public interface Exploring {
 
     record Sector(
         Generated header,
+        int vastness,
         Flux<SolarSystem> systems,
         Flux<Planet> planets,
         Flux<Moon> moons
@@ -25,15 +26,17 @@ public interface Exploring {
 
     record SolarSystem(
         Generated header,
+        int vastness,
         Sector in,
-        Coordinate location,
+        Coordinate at,
         Flux<Planet> planets,
-        // local, in proximity
+        // orbiting
         Flux<Fleet> fleets
     ) implements Creation, Conquering.Fleets {}
 
     record Planet(
         Generated header,
+        int vastness,
         SolarSystem in,
         Flux<Influence> features,
         XY<Substance> surface,
@@ -42,6 +45,7 @@ public interface Exploring {
 
     record Moon(
         Generated header,
+        int vastness,
         Planet by,
         Flux<Influence> features,
         XY<Substance> surface

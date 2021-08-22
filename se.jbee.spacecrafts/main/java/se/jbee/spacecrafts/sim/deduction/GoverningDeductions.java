@@ -1,11 +1,13 @@
 package se.jbee.spacecrafts.sim.deduction;
 
+import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.Game.Deducting;
+import se.jbee.spacecrafts.sim.Game.Deduction;
 import se.jbee.spacecrafts.sim.Governing;
 import se.jbee.spacecrafts.sim.Properties;
+import se.jbee.turnmaster.Engine.Flow;
 import se.jbee.turnmaster.data.Any.Property;
 import se.jbee.turnmaster.data.Register;
-import se.jbee.turnmaster.eval.Deduction;
 
 public interface GoverningDeductions {
 
@@ -18,7 +20,7 @@ public interface GoverningDeductions {
     record NoticingLeaders() implements Governing, Deduction {
 
         @Override
-        public void manifest() {
+        public void manifest(Flow<Game> flow) {
 
         }
     }
@@ -26,7 +28,7 @@ public interface GoverningDeductions {
     record ResigningLeaders(Property morale) implements Governing, Deduction {
 
         @Override
-        public void manifest() {
+        public void manifest(Flow<Game> flow) {
             // TODO if morale is too low => resign
             // TODO if affection for another fraction is much higher => resign
         }
@@ -35,7 +37,7 @@ public interface GoverningDeductions {
     record RetiringLeaders(Register<Leader> leaders) implements Governing, Deduction {
 
         @Override
-        public void manifest() {
+        public void manifest(Flow<Game> flow) {
 
         }
     }
@@ -43,7 +45,7 @@ public interface GoverningDeductions {
     record ArisingLeaders() implements Governing, Deduction {
 
         @Override
-        public void manifest() {
+        public void manifest(Flow<Game> flow) {
 
         }
     }

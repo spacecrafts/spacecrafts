@@ -1,14 +1,15 @@
 package se.jbee.spacecrafts.sim.deduction;
 
 import se.jbee.spacecrafts.sim.Crafting;
-import se.jbee.turnmaster.eval.Deduction;
+import se.jbee.spacecrafts.sim.Game;
+import se.jbee.turnmaster.Engine.Flow;
 
 public interface CraftingDeductions {
 
-    record CompletingUnits() implements Crafting, Deduction {
+    record CompletingUnits() implements Crafting, Game.Deduction {
 
         @Override
-        public void manifest() {
+        public void manifest(Flow<Game> flow) {
 
         }
     }

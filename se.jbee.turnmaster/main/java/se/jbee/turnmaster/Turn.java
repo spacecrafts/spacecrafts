@@ -15,4 +15,12 @@ public final class Turn {
     public void advance() {
         current++;
     }
+
+    public boolean after(int turn) {
+        return current > turn;
+    }
+
+    public boolean before(int turn) {
+        return current < turn;
+    }
 }

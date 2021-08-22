@@ -1,5 +1,6 @@
 package se.jbee.turnmaster.eval;
 
+import se.jbee.turnmaster.Engine;
 import se.jbee.turnmaster.data.Any;
 import se.jbee.turnmaster.data.Numbers;
 
@@ -15,8 +16,8 @@ import se.jbee.turnmaster.data.Numbers;
  * {@link Any.Code} to needed to read/write the {@link Numbers} checked or
  * modified.
  */
-public interface Deduction {
+public interface Deduction<G extends Engine.Game> {
 
-    void manifest();
+    void manifest(Engine.Flow<G> flow);
 
 }

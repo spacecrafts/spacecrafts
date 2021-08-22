@@ -6,6 +6,7 @@ import se.jbee.spacecrafts.sim.Exploring.Moon;
 import se.jbee.spacecrafts.sim.Exploring.Planet;
 import se.jbee.spacecrafts.sim.Exploring.SolarSystem;
 import se.jbee.spacecrafts.sim.Governing.Asset;
+import se.jbee.spacecrafts.sim.Governing.Commanded;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.turnmaster.data.Any.Creation;
@@ -54,7 +55,7 @@ public interface Conquering {
      * entity rather than a concept.
      */
     record Fleet(
-        Governed header,
+        Commanded header,
         Flux<Spaceship> members,
         Numbers actuals,
         Vary<Coordinate> location,
@@ -67,7 +68,7 @@ public interface Conquering {
      * Trading.Mission}.
      */
     record MercenaryUnit(
-        Governed header,
+        Commanded header,
         Fleet unit
     ) implements Creation {}
 

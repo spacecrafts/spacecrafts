@@ -1,5 +1,6 @@
 package se.jbee.spacecrafts.sim;
 
+import se.jbee.spacecrafts.sim.Governing.Commanded;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.spacecrafts.sim.Trading.Offered;
@@ -21,7 +22,6 @@ import se.jbee.turnmaster.data.Range;
 import se.jbee.turnmaster.data.Register;
 import se.jbee.turnmaster.data.Top;
 import se.jbee.turnmaster.data.XY;
-import se.jbee.turnmaster.eval.Deduction;
 
 public record Game(
     Engine.Runtime runtime,
@@ -34,7 +34,9 @@ public record Game(
 
     public interface Decision extends se.jbee.turnmaster.eval.Decision<Game> {}
 
-    public interface Byproduct<T> extends se.jbee.turnmaster.eval.Decision.Byproduct<Game, T> {}
+    public interface Implication<T> extends se.jbee.turnmaster.eval.Decision.Implication<Game, T> {}
+
+    public interface Deduction extends se.jbee.turnmaster.eval.Deduction<Game> {}
 
     public interface Deducting extends se.jbee.turnmaster.eval.Analysis<Game, Deduction> {}
 
@@ -126,6 +128,10 @@ public record Game(
 
     public Governed newGoverned(int serial, CharSequence name, Fraction origin) {
         return new Governed(serial, new Text(name), turn.current(), origin);
+    }
+
+    public Commanded newCommanded(int serial, CharSequence name, Fraction origin) {
+        return new Commanded(serial, new Text(name), turn.current(), origin);
     }
 
     public Created newCreated(int serial, CharSequence name) {

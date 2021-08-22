@@ -7,7 +7,7 @@ public interface Decision<G extends Engine.Game> extends Any.Computed {
 
     void manifestIn(G game, Engine.Flow<G> flow);
 
-    interface Byproduct<G extends Engine.Game, T> extends Decision<G> {
+    interface Implication<G extends Engine.Game, T> extends Decision<G> {
 
         @Override
         default void manifestIn(G game, Engine.Flow<G> flow) {

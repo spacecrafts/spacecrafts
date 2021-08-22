@@ -3,8 +3,8 @@ package se.jbee.spacecrafts.sim.decision;
 import se.jbee.spacecrafts.sim.Crafting;
 import se.jbee.spacecrafts.sim.Crafting.Craft;
 import se.jbee.spacecrafts.sim.Game;
-import se.jbee.spacecrafts.sim.Game.Byproduct;
 import se.jbee.spacecrafts.sim.Game.Decision;
+import se.jbee.spacecrafts.sim.Game.Implication;
 import se.jbee.spacecrafts.sim.Resourcing;
 import se.jbee.turnmaster.Engine.Flow;
 import se.jbee.turnmaster.data.Any.Text;
@@ -96,7 +96,7 @@ public interface CraftingDecisions {
         Text name,
         Section with,
         Maybe<Craft> cloneOf
-    ) implements Crafting, Byproduct<Craft> {
+    ) implements Crafting, Implication<Craft> {
 
         SpawnCraft(Text name, Section with) {
             this(name, with, Maybe.nothing());
@@ -115,7 +115,7 @@ public interface CraftingDecisions {
         }
     }
 
-    record PerishCraft(Craft perished) implements Crafting, Byproduct<Void> {
+    record PerishCraft(Craft perished) implements Crafting, Implication<Void> {
 
         @Override
         public Void andManifestIn(Game game, Flow<Game> flow) {
@@ -135,7 +135,7 @@ public interface CraftingDecisions {
         }
     }
 
-    record PerishSection(Section perished) implements Crafting, Byproduct<Void> {
+    record PerishSection(Section perished) implements Crafting, Implication<Void> {
 
         @Override
         public Void andManifestIn(Game game, Flow<Game> flow) {

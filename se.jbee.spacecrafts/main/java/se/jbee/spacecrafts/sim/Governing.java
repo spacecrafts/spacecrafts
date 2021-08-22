@@ -62,7 +62,7 @@ public interface Governing {
     ) implements Definition {}
 
     record Leader(
-        Created header,
+        Commanded header,
         Stasis<Influence> influences,
         Numbers profile,
         NumberPer<Fraction> affection,
@@ -86,9 +86,16 @@ public interface Governing {
         Fraction origin
     ) implements IsGoverned {}
 
+    record Commanded(
+        int serial,
+        Text name,
+        int inTurn,
+        Fraction origin
+    ) implements IsGoverned {}
+
     /**
      * Ownership by a {@link Fraction} is given when an {@link Asset} is
-     * contained in any from the asserts lists from this record.
+     * contained in any form the asserts lists from this record.
      * <p>
      * Shared ownership simply means an {@link Asset} occurs in lists from
      * multiple {@link Fraction}s.
@@ -101,7 +108,7 @@ public interface Governing {
         Flux<Spaceship> spaceships,
         Flux<SpaceStation> stations,
 
-        // Non assets
+        // Non assets => Commanded
         Flux<Fleet> fleets,
         Flux<MercenaryUnit> mercenaries,
         Flux<Leader> leaders
@@ -109,7 +116,7 @@ public interface Governing {
 
     record Awareness(
         // galaxy
-        Flux<Exploring.Sector> galaxies,
+        Flux<Exploring.Sector> sectors,
         Flux<Exploring.SolarSystem> systems,
         Flux<Exploring.Planet> planets,
         Flux<Exploring.Moon> moons,
@@ -129,5 +136,5 @@ public interface Governing {
         Flux<MercenaryUnit> mercenaries,
         Flux<Discovery> discoveries,
         Flux<Component> components
-    ) implements Fleets {}
+    ) implements Embedded, Fleets {}
 }

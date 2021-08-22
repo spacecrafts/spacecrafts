@@ -19,6 +19,7 @@ import se.jbee.turnmaster.data.XY;
 import se.jbee.turnmaster.eval.Decision;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * State from the game engine - this is the state that is independent of any
@@ -145,10 +146,18 @@ public interface Engine {
         // to have the player chose if that part should happen as well
         <D extends Record & Decision<G>> void manifest(D decision);
 
-        <T, D extends Record & Decision.Byproduct<G, T>> T andManifest(D decision);
+        <T, D extends Record & Decision.Implication<G, T>> T andManifest(D decision);
 
         default <T, E extends Record & Decision<G>> void manifest(Function<T, E> newDecision, Optional<T> source) {
             if (source.isSome()) manifest(newDecision.apply(source.get()));
+        }
+
+        default <T, E extends Record & Decision<G>> void manifest(T value, Function<T, E> newDecision, Predicate<T> when) {
+            if (when.test(value)) manifest(newDecision.apply(value));
+        }
+
+        default <T, E extends Record & Decision<G>> void manifest(T value, Function<T, E> newDecision, boolean when) {
+            if (when) manifest(newDecision.apply(value));
         }
     }
 }

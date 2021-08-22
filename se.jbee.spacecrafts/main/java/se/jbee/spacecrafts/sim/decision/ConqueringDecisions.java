@@ -8,8 +8,8 @@ import se.jbee.spacecrafts.sim.Exploring.Moon;
 import se.jbee.spacecrafts.sim.Exploring.Planet;
 import se.jbee.spacecrafts.sim.Exploring.SolarSystem;
 import se.jbee.spacecrafts.sim.Game;
-import se.jbee.spacecrafts.sim.Game.Byproduct;
 import se.jbee.spacecrafts.sim.Game.Decision;
+import se.jbee.spacecrafts.sim.Game.Implication;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.decision.CraftingDecisions.PerishCraft;
 import se.jbee.spacecrafts.sim.decision.CraftingDecisions.SpawnCraft;
@@ -189,8 +189,8 @@ public interface ConqueringDecisions {
             if (members.isEmpty()) return;
             Spaceship ship1 = members.first().get();
             var fleet = game.objects().fleets().spawn(serial -> new Fleet(
-                game.newGoverned(serial, ship1.header().name(), by),
-                members.inFlux(), game.newNumbers(), Vary.some(in.location()),
+                game.newCommanded(serial, ship1.header().name(), by),
+                members.inFlux(), game.newNumbers(), Vary.some(in.at()),
                 Vary.nothing()));
             by.awareOf().fleets().add(fleet);
             by.governed().fleets().add(fleet);
@@ -218,7 +218,7 @@ public interface ConqueringDecisions {
         public void manifestIn(Game game, Flow<Game> flow) {
             var fraction = banded.header().origin();
             var unit = game.objects().mercenaries().spawn(
-                serial -> new MercenaryUnit(game.newGoverned(serial,
+                serial -> new MercenaryUnit(game.newCommanded(serial,
                     new Text(banded.header().name().get()), fraction), banded));
             fraction.awareOf().mercenaries().add(unit);
             fraction.governed().fleets().remove(banded);
@@ -268,7 +268,7 @@ public interface ConqueringDecisions {
         }
     }
 
-    record PerishFleet(Fleet perished) implements Conquering, Byproduct<Void> {
+    record PerishFleet(Fleet perished) implements Conquering, Implication<Void> {
 
         @Override
         public Void andManifestIn(Game game, Flow<Game> flow) {
@@ -291,7 +291,7 @@ public interface ConqueringDecisions {
     record PerishSpaceship(
         Spaceship perished,
         boolean craftTransformation
-    ) implements Conquering, Byproduct<Void> {
+    ) implements Conquering, Implication<Void> {
 
         @Override
         public Void andManifestIn(Game game, Flow<Game> flow) {
@@ -313,7 +313,7 @@ public interface ConqueringDecisions {
         }
     }
 
-    record PerishSpaceStation(SpaceStation perished) implements Conquering, Byproduct<Void> {
+    record PerishSpaceStation(SpaceStation perished) implements Conquering, Implication<Void> {
 
         @Override
         public Void andManifestIn(Game game, Flow<Game> flow) {
@@ -331,7 +331,7 @@ public interface ConqueringDecisions {
         }
     }
 
-    record PerishColony(Colony perished) implements Conquering, Byproduct<Void> {
+    record PerishColony(Colony perished) implements Conquering, Implication<Void> {
 
         @Override
         public Void andManifestIn(Game game, Flow<Game> flow) {
@@ -349,7 +349,7 @@ public interface ConqueringDecisions {
         }
     }
 
-    record PerishOutpost(LunarOutpost perished) implements Conquering, Byproduct<Void> {
+    record PerishOutpost(LunarOutpost perished) implements Conquering, Implication<Void> {
 
         @Override
         public Void andManifestIn(Game game, Flow<Game> flow) {
@@ -367,7 +367,7 @@ public interface ConqueringDecisions {
         }
     }
 
-    record PerishOrbitalStation(OrbitalStation perished) implements Conquering, Byproduct<Void> {
+    record PerishOrbitalStation(OrbitalStation perished) implements Conquering, Implication<Void> {
 
         @Override
         public Void andManifestIn(Game game, Flow<Game> flow) {
