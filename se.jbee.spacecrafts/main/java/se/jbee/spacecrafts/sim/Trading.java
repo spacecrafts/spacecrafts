@@ -2,10 +2,10 @@ package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Conquering.MercenaryUnit;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
-import se.jbee.turnmaster.Any.Composed;
-import se.jbee.turnmaster.Any.Creation;
-import se.jbee.turnmaster.Any.Embedded;
-import se.jbee.turnmaster.Any.IsCreated;
+import se.jbee.turnmaster.data.Any.Composed;
+import se.jbee.turnmaster.data.Any.Creation;
+import se.jbee.turnmaster.data.Any.Embedded;
+import se.jbee.turnmaster.data.Any.IsCreated;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Maybe;
 import se.jbee.turnmaster.data.Pick;

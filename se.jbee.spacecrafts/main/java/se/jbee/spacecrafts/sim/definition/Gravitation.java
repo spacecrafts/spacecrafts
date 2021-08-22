@@ -3,7 +3,7 @@ package se.jbee.spacecrafts.sim.definition;
 import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.Resourcing.Phenomenon;
-import se.jbee.turnmaster.Any;
+import se.jbee.turnmaster.data.Any;
 
 /**
  * Gravitation is a {@link Phenomenon} ranging from low to high gravity {@link

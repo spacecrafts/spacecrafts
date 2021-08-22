@@ -1,6 +1,6 @@
 package se.jbee.turnmaster.data;
 
-import se.jbee.turnmaster.Any.Entity;
+import se.jbee.turnmaster.data.Any.Entity;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;

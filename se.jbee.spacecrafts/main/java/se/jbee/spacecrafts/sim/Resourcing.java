@@ -5,7 +5,7 @@ import se.jbee.turnmaster.data.Numbers;
 import se.jbee.turnmaster.data.Pick;
 import se.jbee.turnmaster.data.Stasis;
 
-import static se.jbee.turnmaster.Any.*;
+import static se.jbee.turnmaster.data.Any.*;
 
 public interface Resourcing {
 

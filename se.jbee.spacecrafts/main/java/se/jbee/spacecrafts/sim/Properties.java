@@ -1,7 +1,7 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.turnmaster.Any.Code;
 import se.jbee.turnmaster.Turn;
+import se.jbee.turnmaster.data.Any.Code;
 
 public interface Properties {
 

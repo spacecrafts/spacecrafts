@@ -3,14 +3,14 @@ package se.jbee.spacecrafts.sim;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.spacecrafts.sim.Trading.Offered;
-import se.jbee.turnmaster.Any;
-import se.jbee.turnmaster.Any.Composed;
-import se.jbee.turnmaster.Any.Created;
-import se.jbee.turnmaster.Any.Generated;
-import se.jbee.turnmaster.Any.Text;
 import se.jbee.turnmaster.Engine;
 import se.jbee.turnmaster.RNG;
 import se.jbee.turnmaster.Turn;
+import se.jbee.turnmaster.data.Any;
+import se.jbee.turnmaster.data.Any.Composed;
+import se.jbee.turnmaster.data.Any.Created;
+import se.jbee.turnmaster.data.Any.Generated;
+import se.jbee.turnmaster.data.Any.Text;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Index;
 import se.jbee.turnmaster.data.Marks;
@@ -125,7 +125,7 @@ public record Game(
     }
 
     public Governed newGoverned(int serial, CharSequence name, Fraction origin) {
-        return new Governed(serial, new Text(name), origin);
+        return new Governed(serial, new Text(name), turn.current(), origin);
     }
 
     public Created newCreated(int serial, CharSequence name) {

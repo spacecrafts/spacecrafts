@@ -2,7 +2,7 @@ package se.jbee.spacecrafts.sim.definition;
 
 import se.jbee.spacecrafts.sim.Conquering.MercenaryUnit;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
-import se.jbee.turnmaster.Any;
+import se.jbee.turnmaster.data.Any;
 
 /**
  * {@link Capabilities} is a {@link Any.Classification} from {@link

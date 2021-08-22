@@ -1,10 +1,8 @@
 package se.jbee.turnmaster.data;
 
-import se.jbee.turnmaster.Any;
-
 public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Value<K>> {
 
-    int NaN = Integer.MIN_VALUE;
+    int Undefined = Integer.MIN_VALUE;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     static <K extends Any.Entity> NumberPer<K> newDefault(Pool<K> keys) {
@@ -64,8 +62,8 @@ public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Va
         int value
     ) {}
 
-    static boolean isNaN(int value) {
-        return value == NaN;
+    static boolean isUndefined(int value) {
+        return value == Undefined;
     }
 
 }

@@ -3,8 +3,8 @@ package se.jbee.spacecrafts.sim;
 import se.jbee.spacecrafts.sim.Conquering.Fleet;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.Resourcing.Substance;
-import se.jbee.turnmaster.Any.Creation;
-import se.jbee.turnmaster.Any.Generated;
+import se.jbee.turnmaster.data.Any.Creation;
+import se.jbee.turnmaster.data.Any.Generated;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.XY;
 

@@ -1,9 +1,9 @@
 package se.jbee.turnmaster.data;
 
-import se.jbee.turnmaster.Any.Property;
+import se.jbee.turnmaster.data.Any.Property;
 
 import static java.lang.Math.min;
-import static se.jbee.turnmaster.data.NumberPer.isNaN;
+import static se.jbee.turnmaster.data.NumberPer.isUndefined;
 
 final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbers {
 
@@ -21,7 +21,7 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     public void zero(Numbers zeros) {
         if (zeros instanceof ArrayNumbers anz) {
             for (int i = 0; i < values.length; i++)
-                if (!isNaN(anz.values[i])) values[i] = anz.values[i];
+                if (!isUndefined(anz.values[i])) values[i] = anz.values[i];
         } else {
             zeros.forEach(this::set);
         }
@@ -31,7 +31,7 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     public void cap(Numbers at) {
         if (at instanceof ArrayNumbers anc) {
             for (int i = 0; i < values.length; i++)
-                if (!isNaN(anc.values[i]))
+                if (!isUndefined(anc.values[i]))
                     values[i] = min(values[i], anc.values[i]);
         } else {
             at.forEach(this::cap1);
@@ -47,7 +47,7 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     public void add(Numbers added) {
         if (added instanceof ArrayNumbers ana) {
             for (int i = 0; i < values.length; i++)
-                if (!isNaN(ana.values[i])) values[i] += ana.values[i];
+                if (!isUndefined(ana.values[i])) values[i] += ana.values[i];
         } else {
             added.forEach(this::add1);
         }
@@ -61,7 +61,7 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     public void sub(Numbers subtracted) {
         if (subtracted instanceof ArrayNumbers ans) {
             for (int i = 0; i < values.length; i++)
-                if (!isNaN(ans.values[i])) values[i] -= ans.values[i];
+                if (!isUndefined(ans.values[i])) values[i] -= ans.values[i];
         } else {
             subtracted.forEach(this::sub1);
         }

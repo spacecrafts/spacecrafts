@@ -1,6 +1,5 @@
 package se.jbee.turnmaster.data;
 
-import se.jbee.turnmaster.Any;
 import se.jbee.turnmaster.Engine;
 
 import java.util.Map;

@@ -8,7 +8,7 @@ import se.jbee.spacecrafts.sim.Exploring.SolarSystem;
 import se.jbee.spacecrafts.sim.Governing.Asset;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
-import se.jbee.turnmaster.Any.Creation;
+import se.jbee.turnmaster.data.Any.Creation;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Maybe;
 import se.jbee.turnmaster.data.Numbers;

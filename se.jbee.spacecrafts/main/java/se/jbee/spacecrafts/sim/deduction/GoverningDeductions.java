@@ -3,7 +3,7 @@ package se.jbee.spacecrafts.sim.deduction;
 import se.jbee.spacecrafts.sim.Game.Deducting;
 import se.jbee.spacecrafts.sim.Governing;
 import se.jbee.spacecrafts.sim.Properties;
-import se.jbee.turnmaster.Any.Property;
+import se.jbee.turnmaster.data.Any.Property;
 import se.jbee.turnmaster.data.Register;
 import se.jbee.turnmaster.eval.Deduction;
 

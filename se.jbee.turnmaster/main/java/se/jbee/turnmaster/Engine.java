@@ -1,8 +1,9 @@
 package se.jbee.turnmaster;
 
-import se.jbee.turnmaster.Any.Connectable;
+import se.jbee.turnmaster.data.Any.Connectable;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Index;
+import se.jbee.turnmaster.data.MarkPer;
 import se.jbee.turnmaster.data.Marks;
 import se.jbee.turnmaster.data.NumberPer;
 import se.jbee.turnmaster.data.Numbers;
@@ -54,6 +55,7 @@ public interface Engine {
         Top<Option<Index.Factory>> newRanges,
         Top<Option<Flux.Factory>> newFluxes,
         Top<Option<Marks.Factory>> newMarks,
+        Top<Option<MarkPer.Factory>> newMarkPer,
         Top<Option<Numbers.Factory>> newNumbers,
         Top<Option<NumberPer.Factory>> newNumberPer,
         Top<Option<XY.Factory>> newXYs
@@ -71,6 +73,7 @@ public interface Engine {
         Range.Factory newRange,
         Flux.Factory newFlux,
         Marks.Factory newMarks,
+        MarkPer.Factory newMarkPer,
         Numbers.Factory newNumbers,
         NumberPer.Factory newNumberPer,
         XY.Factory newXY

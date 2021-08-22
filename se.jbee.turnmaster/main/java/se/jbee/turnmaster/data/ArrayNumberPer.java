@@ -1,13 +1,11 @@
 package se.jbee.turnmaster.data;
 
-import se.jbee.turnmaster.Any;
-
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 import static java.util.Arrays.copyOf;
-import static se.jbee.turnmaster.data.NumberPer.isNaN;
+import static se.jbee.turnmaster.data.NumberPer.isUndefined;
 
 abstract class ArrayNumberPer<K extends Any.Entity> implements NumberPer<K> {
 
@@ -20,14 +18,15 @@ abstract class ArrayNumberPer<K extends Any.Entity> implements NumberPer<K> {
     @Override
     public final int get(K key) {
         int value = at(index(key));
-        if (isNaN(value)) throw new NoSuchElementException(key.toString());
+        if (isUndefined(value))
+            throw new NoSuchElementException(key.toString());
         return value;
     }
 
     @Override
     public final Maybe<Value<K>> first(Predicate<? super Value<K>> test) {
         for (int i = 0; i < length(); i++)
-            if (!isNaN(at(i))) {
+            if (!isUndefined(at(i))) {
                 var e = new Value<>(keys.get(i), at(i));
                 if (test.test(e)) return Maybe.some(e);
             }
@@ -42,13 +41,13 @@ abstract class ArrayNumberPer<K extends Any.Entity> implements NumberPer<K> {
     @Override
     public final void forEach(Consumer<K> f) {
         for (int i = 0; i < length(); i++)
-            if (!isNaN(at(i))) f.accept(keys.get(i), at(i));
+            if (!isUndefined(at(i))) f.accept(keys.get(i), at(i));
     }
 
     @Override
     public final int size() {
         int c = 0;
-        for (int i = 0; i < length(); i++) if (!isNaN(at(i))) c++;
+        for (int i = 0; i < length(); i++) if (!isUndefined(at(i))) c++;
         return c;
     }
 
@@ -88,14 +87,14 @@ class ArrayFixedNumbersPer<K extends Any.Definition> extends ArrayNumberPer<K> {
     @Override
     public void add(K key, int delta) {
         int index = index(key);
-        if (isNaN(values[index])) {
+        if (isUndefined(values[index])) {
             values[index] = delta;
         } else values[index] += delta;
     }
 
     @Override
     public NumberPer<K> clear() {
-        Arrays.fill(values, NaN);
+        Arrays.fill(values, Undefined);
         return this;
     }
 
@@ -131,14 +130,14 @@ final class ArrayDynamicNumbersPer<K extends Any.Creation> extends ArrayNumberPe
     public void add(K key, int delta) {
         int index = index(key);
         ensureExists(index);
-        if (isNaN(values[index])) {
+        if (isUndefined(values[index])) {
             values[index] = delta;
         } else values[index] += delta;
     }
 
     @Override
     public NumberPer<K> clear() {
-        Arrays.fill(values, NaN);
+        Arrays.fill(values, Undefined);
         return this;
     }
 

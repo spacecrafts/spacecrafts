@@ -1,8 +1,8 @@
 package test.integration.turnmaster;
 
 import org.junit.jupiter.api.Test;
-import se.jbee.turnmaster.Any.Defined;
-import se.jbee.turnmaster.Any.Property;
+import se.jbee.turnmaster.data.Any.Defined;
+import se.jbee.turnmaster.data.Any.Property;
 import se.jbee.turnmaster.data.Numbers;
 import se.jbee.turnmaster.data.Range;
 

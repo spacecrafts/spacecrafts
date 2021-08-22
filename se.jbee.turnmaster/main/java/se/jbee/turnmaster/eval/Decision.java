@@ -1,7 +1,7 @@
 package se.jbee.turnmaster.eval;
 
-import se.jbee.turnmaster.Any;
 import se.jbee.turnmaster.Engine;
+import se.jbee.turnmaster.data.Any;
 
 public interface Decision<G extends Engine.Game> extends Any.Computed {
 

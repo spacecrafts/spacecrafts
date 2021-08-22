@@ -1,6 +1,6 @@
 package se.jbee.turnmaster.data;
 
-import se.jbee.turnmaster.Any.Property;
+import se.jbee.turnmaster.data.Any.Property;
 
 public interface Numbers extends NumberPer<Property> {
 

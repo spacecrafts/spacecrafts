@@ -1,8 +1,8 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.turnmaster.Any.Defined;
-import se.jbee.turnmaster.Any.Definition;
-import se.jbee.turnmaster.Any.Grade;
+import se.jbee.turnmaster.data.Any.Defined;
+import se.jbee.turnmaster.data.Any.Definition;
+import se.jbee.turnmaster.data.Any.Grade;
 import se.jbee.turnmaster.data.Numbers;
 import se.jbee.turnmaster.data.Stasis;
 

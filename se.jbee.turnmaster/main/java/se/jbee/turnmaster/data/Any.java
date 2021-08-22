@@ -1,7 +1,4 @@
-package se.jbee.turnmaster;
-
-import se.jbee.turnmaster.data.Stasis;
-import se.jbee.turnmaster.data.Vary;
+package se.jbee.turnmaster.data;
 
 import java.util.Objects;
 

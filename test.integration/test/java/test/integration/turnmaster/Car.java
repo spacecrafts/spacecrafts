@@ -1,6 +1,6 @@
 package test.integration.turnmaster;
 
-import se.jbee.turnmaster.Any;
+import se.jbee.turnmaster.data.Any;
 
 record Car(Any.Created header) implements Any.Creation {
 

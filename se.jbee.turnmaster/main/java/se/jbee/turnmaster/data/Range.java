@@ -1,7 +1,5 @@
 package se.jbee.turnmaster.data;
 
-import se.jbee.turnmaster.Any;
-
 import java.util.function.Consumer;
 
 public interface Range<T extends Any.Grade> extends Index<T> {

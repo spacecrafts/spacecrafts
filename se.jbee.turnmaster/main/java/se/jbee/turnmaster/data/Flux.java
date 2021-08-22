@@ -1,7 +1,5 @@
 package se.jbee.turnmaster.data;
 
-import se.jbee.turnmaster.Any;
-
 /**
  * Is a semantic set from {@link Any.Entity}s that can change over time.
  * <p>

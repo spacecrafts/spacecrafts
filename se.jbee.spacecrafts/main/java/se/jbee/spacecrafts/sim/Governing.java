@@ -12,13 +12,13 @@ import se.jbee.spacecrafts.sim.Crafting.Component;
 import se.jbee.spacecrafts.sim.Crafting.Craft;
 import se.jbee.spacecrafts.sim.Discovering.Discovery;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
-import se.jbee.turnmaster.Any.Created;
-import se.jbee.turnmaster.Any.Creation;
-import se.jbee.turnmaster.Any.Defined;
-import se.jbee.turnmaster.Any.Definition;
-import se.jbee.turnmaster.Any.Embedded;
-import se.jbee.turnmaster.Any.IsCreated;
-import se.jbee.turnmaster.Any.Text;
+import se.jbee.turnmaster.data.Any.Created;
+import se.jbee.turnmaster.data.Any.Creation;
+import se.jbee.turnmaster.data.Any.Defined;
+import se.jbee.turnmaster.data.Any.Definition;
+import se.jbee.turnmaster.data.Any.Embedded;
+import se.jbee.turnmaster.data.Any.IsCreated;
+import se.jbee.turnmaster.data.Any.Text;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Marks;
 import se.jbee.turnmaster.data.NumberPer;
@@ -82,6 +82,7 @@ public interface Governing {
     record Governed(
         int serial,
         Text name,
+        int inTurn,
         Fraction origin
     ) implements IsGoverned {}
 

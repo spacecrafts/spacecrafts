@@ -1,7 +1,5 @@
 package se.jbee.turnmaster.data;
 
-import se.jbee.turnmaster.Any;
-
 import java.util.function.Predicate;
 
 /**

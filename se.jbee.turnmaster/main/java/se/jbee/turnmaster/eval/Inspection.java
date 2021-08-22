@@ -1,6 +1,6 @@
 package se.jbee.turnmaster.eval;
 
-import se.jbee.turnmaster.Any;
+import se.jbee.turnmaster.data.Any;
 
 /**
  * Process game state to find situations that need a decision to be made.

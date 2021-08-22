@@ -1,7 +1,5 @@
 package se.jbee.turnmaster.data;
 
-import se.jbee.turnmaster.Any;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
