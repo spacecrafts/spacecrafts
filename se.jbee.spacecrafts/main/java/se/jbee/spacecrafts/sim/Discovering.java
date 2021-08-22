@@ -3,8 +3,8 @@ package se.jbee.spacecrafts.sim;
 import se.jbee.turnmaster.Any.Defined;
 import se.jbee.turnmaster.Any.Definition;
 import se.jbee.turnmaster.Any.Grade;
-import se.jbee.turnmaster.Numbers;
-import se.jbee.turnmaster.Stasis;
+import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Stasis;
 
 public interface Discovering {
 

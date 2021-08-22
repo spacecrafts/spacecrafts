@@ -11,14 +11,14 @@ import se.jbee.turnmaster.Any.Defined;
 import se.jbee.turnmaster.Any.Definition;
 import se.jbee.turnmaster.Any.Embedded;
 import se.jbee.turnmaster.Any.Text;
-import se.jbee.turnmaster.Flux;
-import se.jbee.turnmaster.Marks;
-import se.jbee.turnmaster.Maybe;
-import se.jbee.turnmaster.Numbers;
-import se.jbee.turnmaster.Pick;
-import se.jbee.turnmaster.Top;
-import se.jbee.turnmaster.Vary;
-import se.jbee.turnmaster.XY;
+import se.jbee.turnmaster.data.Flux;
+import se.jbee.turnmaster.data.Marks;
+import se.jbee.turnmaster.data.Maybe;
+import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Pick;
+import se.jbee.turnmaster.data.Top;
+import se.jbee.turnmaster.data.Vary;
+import se.jbee.turnmaster.data.XY;
 
 public interface Crafting {
 

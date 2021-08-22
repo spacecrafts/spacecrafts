@@ -1,4 +1,4 @@
-package se.jbee.turnmaster;
+package se.jbee.turnmaster.data;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;

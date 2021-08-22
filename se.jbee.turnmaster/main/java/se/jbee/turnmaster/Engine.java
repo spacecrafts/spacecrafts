@@ -1,6 +1,23 @@
 package se.jbee.turnmaster;
 
 import se.jbee.turnmaster.Any.Connectable;
+import se.jbee.turnmaster.data.Flux;
+import se.jbee.turnmaster.data.Index;
+import se.jbee.turnmaster.data.Marks;
+import se.jbee.turnmaster.data.NumberPer;
+import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Optional;
+import se.jbee.turnmaster.data.Pick;
+import se.jbee.turnmaster.data.Pools;
+import se.jbee.turnmaster.data.Q;
+import se.jbee.turnmaster.data.Range;
+import se.jbee.turnmaster.data.Register;
+import se.jbee.turnmaster.data.Top;
+import se.jbee.turnmaster.data.Vary;
+import se.jbee.turnmaster.data.XY;
+import se.jbee.turnmaster.eval.Decision;
+
+import java.util.function.Function;
 
 /**
  * State from the game engine - this is the state that is independent of any
@@ -64,7 +81,7 @@ public interface Engine {
 
     record Feature(
         Class<? extends Bundle> in,
-        Class<? extends Module> from,
+        Class<? extends Module<?>> from,
         String name,
         Vary<Boolean> disabled,
         Pick<Feature> requires,
@@ -83,7 +100,7 @@ public interface Engine {
             return getClass();
         }
 
-        default Pick<Class<? extends Module>> modules() {
+        default Pick<Class<? extends Module<?>>> modules() {
             return Q.empty();
         }
 
@@ -94,11 +111,12 @@ public interface Engine {
 
     interface Module<G extends Game> {
 
-        default Class<? extends Module> id() {
-            return getClass();
+        @SuppressWarnings("unchecked")
+        default Class<? extends Module<G>> id() {
+            return (Class<? extends Module<G>>) getClass();
         }
 
-        default Pick<Class<? extends Module>> requires() {
+        default Pick<Class<? extends Module<G>>> requires() {
             return Q.empty();
         }
 
@@ -111,9 +129,16 @@ public interface Engine {
         }
     }
 
-    interface Starter<G> {
+    interface Flow<G extends Game> {
 
-        G newGame();
+        //Maybe have a boolean arg to say if the decision is optional
+        // to have the player chose if that part should happen as well
+        <G extends Game, D extends Record & Decision<G>> void manifest(D decision);
+
+        <G extends Game, T, D extends Record & Decision.Byproduct<G, T>> T andManifest(D decision);
+
+        default <G extends Game, T, E extends Record & Decision<G>> void manifest(Function<T, E> newDecision, Optional<T> source) {
+            if (source.isSome()) manifest(newDecision.apply(source.get()));
+        }
     }
-
 }

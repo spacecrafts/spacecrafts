@@ -1,7 +1,7 @@
 package test.integration.turnmaster;
 
 import org.junit.jupiter.api.Test;
-import se.jbee.turnmaster.Q;
+import se.jbee.turnmaster.data.Q;
 
 import java.util.ArrayList;
 import java.util.List;

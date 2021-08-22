@@ -8,9 +8,10 @@ import se.jbee.spacecrafts.sim.Game.Byproduct;
 import se.jbee.spacecrafts.sim.Game.Decision;
 import se.jbee.spacecrafts.sim.Resourcing;
 import se.jbee.turnmaster.Any.Text;
-import se.jbee.turnmaster.Maybe;
-import se.jbee.turnmaster.Q;
-import se.jbee.turnmaster.XY;
+import se.jbee.turnmaster.Engine.Flow;
+import se.jbee.turnmaster.data.Maybe;
+import se.jbee.turnmaster.data.Q;
+import se.jbee.turnmaster.data.XY;
 
 public interface CraftingDecisions {
 
@@ -21,7 +22,7 @@ public interface CraftingDecisions {
     ) implements Crafting, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             in.commissions()
               .pushBottom(new Commission(on, on.units().at(at).get(), true));
         }
@@ -35,7 +36,7 @@ public interface CraftingDecisions {
     ) implements Crafting, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             var unit = new Unit(of, at, game.newNumbers());
             on.units().put(at, unit);
             in.commissions().pushBottom(new Commission(on, unit, false));
@@ -51,7 +52,7 @@ public interface CraftingDecisions {
     ) implements Crafting, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             Q<Deck> decksQ = game.newQ(decks);
             for (int i = 0; i < decks; i++)
                 decksQ.append(new Deck(new Text("Deck " + i), false,
@@ -72,7 +73,7 @@ public interface CraftingDecisions {
     ) implements Crafting, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
 
         }
     }
@@ -83,7 +84,7 @@ public interface CraftingDecisions {
     ) implements Crafting, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             // TODO would be to build it section by section, launch and merge it again
         }
     }
@@ -103,7 +104,7 @@ public interface CraftingDecisions {
         }
 
         @Override
-        public Crafting.Craft andManifestIn(Game game, Karma<Game> karma) {
+        public Crafting.Craft andManifestIn(Game game, Flow<Game> flow) {
             var craft = game.objects().crafts().spawn(
                 serial -> new Crafting.Craft(game.newCreated(serial, name),
                     game.newNumbers(), cloneOf,
@@ -118,7 +119,7 @@ public interface CraftingDecisions {
     record PerishCraft(Craft perished) implements Crafting, Byproduct<Void> {
 
         @Override
-        public Void andManifestIn(Game game, Karma<Game> karma) {
+        public Void andManifestIn(Game game, Flow<Game> flow) {
             if (game.objects().crafts()
                     .first(craft -> craft.cloneOf().is(c -> c == perished))
                     .isSome()) {
@@ -129,7 +130,7 @@ public interface CraftingDecisions {
             game.objects().fractions().forEach(
                 fraction -> fraction.awareOf().crafts().remove(perished));
             perished.sections().forEach(
-                section -> karma.manifest(new PerishSection(section)));
+                section -> flow.manifest(new PerishSection(section)));
             game.objects().crafts().perish(perished);
             return null;
         }
@@ -138,7 +139,7 @@ public interface CraftingDecisions {
     record PerishSection(Section perished) implements Crafting, Byproduct<Void> {
 
         @Override
-        public Void andManifestIn(Game game, Karma<Game> karma) {
+        public Void andManifestIn(Game game, Flow<Game> flow) {
             game.objects().sections().perish(perished);
             return null;
         }

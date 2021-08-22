@@ -1,9 +1,9 @@
-package se.jbee.turnmaster;
+package se.jbee.turnmaster.data;
 
 import se.jbee.turnmaster.Any.Property;
 
 import static java.lang.Math.min;
-import static se.jbee.turnmaster.NumberPer.isNaN;
+import static se.jbee.turnmaster.data.NumberPer.isNaN;
 
 final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbers {
 

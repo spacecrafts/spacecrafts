@@ -1,4 +1,6 @@
-package se.jbee.turnmaster;
+package se.jbee.turnmaster.data;
+
+import se.jbee.turnmaster.Any;
 
 public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Value<K>> {
 

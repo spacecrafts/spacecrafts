@@ -1,9 +1,9 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.turnmaster.Marks;
-import se.jbee.turnmaster.Numbers;
-import se.jbee.turnmaster.Pick;
-import se.jbee.turnmaster.Stasis;
+import se.jbee.turnmaster.data.Marks;
+import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Pick;
+import se.jbee.turnmaster.data.Stasis;
 
 import static se.jbee.turnmaster.Any.*;
 

@@ -5,10 +5,10 @@ import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.turnmaster.Any.Composed;
 import se.jbee.turnmaster.Any.Creation;
 import se.jbee.turnmaster.Any.IsCreated;
-import se.jbee.turnmaster.Flux;
-import se.jbee.turnmaster.Maybe;
-import se.jbee.turnmaster.Pick;
-import se.jbee.turnmaster.Stasis;
+import se.jbee.turnmaster.data.Flux;
+import se.jbee.turnmaster.data.Maybe;
+import se.jbee.turnmaster.data.Pick;
+import se.jbee.turnmaster.data.Stasis;
 
 public interface Trading {
 

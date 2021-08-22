@@ -1,9 +1,9 @@
 package test.integration.turnmaster;
 
 import org.junit.jupiter.api.Test;
-import se.jbee.turnmaster.Flux;
-import se.jbee.turnmaster.Register;
-import se.jbee.turnmaster.Stasis;
+import se.jbee.turnmaster.data.Flux;
+import se.jbee.turnmaster.data.Register;
+import se.jbee.turnmaster.data.Stasis;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;

@@ -1,7 +1,7 @@
 package test.integration.turnmaster;
 
 import org.junit.jupiter.api.Test;
-import se.jbee.turnmaster.Maybe;
+import se.jbee.turnmaster.data.Maybe;
 
 import java.util.NoSuchElementException;
 

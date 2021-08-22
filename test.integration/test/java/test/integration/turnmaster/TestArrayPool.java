@@ -1,7 +1,7 @@
 package test.integration.turnmaster;
 
 import org.junit.jupiter.api.Test;
-import se.jbee.turnmaster.Register;
+import se.jbee.turnmaster.data.Register;
 
 import java.util.NoSuchElementException;
 

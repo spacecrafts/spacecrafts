@@ -1,6 +1,6 @@
 package test.integration.utils;
 
-import se.jbee.turnmaster.Collection;
+import se.jbee.turnmaster.data.Collection;
 
 import java.util.ArrayList;
 import java.util.List;

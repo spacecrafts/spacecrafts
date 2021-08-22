@@ -4,6 +4,7 @@ import se.jbee.spacecrafts.sim.Conquering.Fleet;
 import se.jbee.spacecrafts.sim.Exploring;
 import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.Game.Decision;
+import se.jbee.turnmaster.Engine.Flow;
 
 public interface ExploringDecisions {
 
@@ -13,7 +14,7 @@ public interface ExploringDecisions {
     ) implements Exploring, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             dispatched.destination().set(to);
         }
     }

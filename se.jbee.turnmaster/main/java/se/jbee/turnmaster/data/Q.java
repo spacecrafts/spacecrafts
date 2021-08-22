@@ -1,4 +1,4 @@
-package se.jbee.turnmaster;
+package se.jbee.turnmaster.data;
 
 /**
  * An "append only", "build once" list from items.

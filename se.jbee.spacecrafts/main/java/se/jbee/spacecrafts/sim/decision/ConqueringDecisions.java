@@ -17,10 +17,11 @@ import se.jbee.spacecrafts.sim.decision.GoverningDecisions.DischargeExistingLead
 import se.jbee.spacecrafts.sim.decision.TradingDecisions.CancelHire;
 import se.jbee.spacecrafts.sim.decision.TradingDecisions.FailExistingMissions;
 import se.jbee.turnmaster.Any.Text;
-import se.jbee.turnmaster.Maybe;
-import se.jbee.turnmaster.Q;
-import se.jbee.turnmaster.Stasis;
-import se.jbee.turnmaster.Vary;
+import se.jbee.turnmaster.Engine.Flow;
+import se.jbee.turnmaster.data.Maybe;
+import se.jbee.turnmaster.data.Q;
+import se.jbee.turnmaster.data.Stasis;
+import se.jbee.turnmaster.data.Vary;
 
 public interface ConqueringDecisions {
 
@@ -32,7 +33,7 @@ public interface ConqueringDecisions {
     ) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             SpaceStation station;
             var name = in.header().name().copy();
             if (origin.structure().sections().size() == 1) {
@@ -40,9 +41,9 @@ public interface ConqueringDecisions {
                     serial -> new SpaceStation(
                         game.newGoverned(serial, name, by), origin.structure(),
                         in));
-                karma.manifest(new PerishSpaceship(origin, true));
+                flow.manifest(new PerishSpaceship(origin, true));
             } else {
-                var craft = karma.andManifest(
+                var craft = flow.andManifest(
                     new SpawnCraft(origin.structure().header().name().copy(),
                         from));
                 station = game.objects().stations().spawn(
@@ -62,12 +63,12 @@ public interface ConqueringDecisions {
     ) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             to.structure().sections().pushBottom(from);
             // prevent perish from docked sections
             origin.structure().sections().remove(from);
             if (origin.structure().sections().isEmpty())
-                karma.manifest(new PerishSpaceship(origin, false));
+                flow.manifest(new PerishSpaceship(origin, false));
         }
     }
 
@@ -79,7 +80,7 @@ public interface ConqueringDecisions {
     ) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             Colony colony;
             var name = on.header().name().copy();
             Q<Deck> decks = game.newQ(3);
@@ -98,7 +99,7 @@ public interface ConqueringDecisions {
                 game.newCreated(serial, from.header().name()), from.structure(),
                 from.plating(), from.totals(), from.properties(), decks.seal(),
                 from.commissions()));
-            var craft = karma.andManifest(
+            var craft = flow.andManifest(
                 new SpawnCraft(origin.structure().header().name().copy(),
                     section));
             colony = game.objects().colonies().spawn(
@@ -106,7 +107,7 @@ public interface ConqueringDecisions {
                     on));
             origin.structure().sections().remove(from);
             if (origin.structure().sections().isEmpty())
-                karma.manifest(new PerishSpaceship(origin, true));
+                flow.manifest(new PerishSpaceship(origin, true));
             by.governed().colonies().add(colony);
             by.awareOf().colonies().add(colony);
         }
@@ -120,7 +121,7 @@ public interface ConqueringDecisions {
     ) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             LunarOutpost outpost;
             var name = on.header().name().copy();
             if (origin.structure().sections().size() == 1) {
@@ -128,9 +129,9 @@ public interface ConqueringDecisions {
                     serial -> new LunarOutpost(
                         game.newGoverned(serial, name, by), origin.structure(),
                         on));
-                karma.manifest(new PerishSpaceship(origin, true));
+                flow.manifest(new PerishSpaceship(origin, true));
             } else {
-                var craft = karma.andManifest(
+                var craft = flow.andManifest(
                     new SpawnCraft(origin.structure().header().name().copy(),
                         from));
                 outpost = game.objects().outposts().spawn(
@@ -151,8 +152,8 @@ public interface ConqueringDecisions {
     ) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
-            var craft = karma.andManifest(
+        public void manifestIn(Game game, Flow<Game> flow) {
+            var craft = flow.andManifest(
                 new SpawnCraft(from.header().name().copy(), from));
             game.objects().orbitals().spawn(serial -> new OrbitalStation(
                 game.newGoverned(serial, origin.header().name().copy(), by),
@@ -168,15 +169,15 @@ public interface ConqueringDecisions {
     ) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             var name = Text.EMPTY;
-            var craft = karma.andManifest(new SpawnCraft(name, from, cloneOf));
+            var craft = flow.andManifest(new SpawnCraft(name, from, cloneOf));
             Spaceship ship = game.objects().spaceships().spawn(
                 serial -> new Spaceship(game.newGoverned(serial, name, by),
                     craft));
             by.awareOf().spaceships().add(ship);
             by.governed().spaceships().add(ship);
-            karma.manifest(new JoinOrFoundFleet(ship, origin.on().in(), by));
+            flow.manifest(new JoinOrFoundFleet(ship, origin.on().in(), by));
         }
     }
 
@@ -187,7 +188,7 @@ public interface ConqueringDecisions {
     ) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             if (members.isEmpty()) return;
             Spaceship ship1 = members.first().get();
             var fleet = game.objects().fleets().spawn(serial -> new Fleet(
@@ -207,9 +208,9 @@ public interface ConqueringDecisions {
     ) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             from.members().remove(reassigned);
-            if (from.members().isEmpty()) karma.manifest(new PerishFleet(from));
+            if (from.members().isEmpty()) flow.manifest(new PerishFleet(from));
             to.members().add(reassigned);
         }
     }
@@ -217,7 +218,7 @@ public interface ConqueringDecisions {
     record BandMercenaryUnit(Fleet banded) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             var fraction = banded.header().origin();
             var unit = game.objects().mercenaries().spawn(
                 serial -> new MercenaryUnit(game.newGoverned(serial,
@@ -234,8 +235,8 @@ public interface ConqueringDecisions {
     record DisbandMercenaryUnit(MercenaryUnit disbanded) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
-            karma.manifest(CancelHire::new,
+        public void manifestIn(Game game, Flow<Game> flow) {
+            flow.manifest(CancelHire::new,
                 game.objects().hires().first(hire -> hire.from() == disbanded));
             var faction = disbanded.header().origin();
             faction.governed().fleets().add(disbanded.unit());
@@ -258,10 +259,10 @@ public interface ConqueringDecisions {
     ) implements Conquering, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             var fleet = in.fleet(by);
             if (!fleet.isSome()) {
-                karma.manifest(new FoundFleet(
+                flow.manifest(new FoundFleet(
                     game.newFlux(Spaceship.class).addAnd(joining).inStasis(),
                     by, in));
                 fleet = in.fleet(by);
@@ -273,8 +274,8 @@ public interface ConqueringDecisions {
     record PerishFleet(Fleet perished) implements Conquering, Byproduct<Void> {
 
         @Override
-        public Void andManifestIn(Game game, Karma<Game> karma) {
-            karma.manifest(DisbandMercenaryUnit::new,
+        public Void andManifestIn(Game game, Flow<Game> flow) {
+            flow.manifest(DisbandMercenaryUnit::new,
                 game.objects().mercenaries() //
                     .first(m -> m.unit() == perished));
 
@@ -296,12 +297,12 @@ public interface ConqueringDecisions {
     ) implements Conquering, Byproduct<Void> {
 
         @Override
-        public Void andManifestIn(Game game, Karma<Game> karma) {
+        public Void andManifestIn(Game game, Flow<Game> flow) {
             game.objects().fleets()
                 .forEach(fleet -> fleet.members().remove(perished));
 
-            karma.manifest(new DischargeExistingLeader(perished));
-            karma.manifest(new FailExistingMissions(perished));
+            flow.manifest(new DischargeExistingLeader(perished));
+            flow.manifest(new FailExistingMissions(perished));
 
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().spaceships().remove(perished);
@@ -309,7 +310,7 @@ public interface ConqueringDecisions {
             });
 
             if (!craftTransformation)
-                karma.manifest(new PerishCraft(perished.structure()));
+                flow.manifest(new PerishCraft(perished.structure()));
             game.objects().spaceships().perish(perished);
             return null;
         }
@@ -318,16 +319,16 @@ public interface ConqueringDecisions {
     record PerishSpaceStation(SpaceStation perished) implements Conquering, Byproduct<Void> {
 
         @Override
-        public Void andManifestIn(Game game, Karma<Game> karma) {
-            karma.manifest(new DischargeExistingLeader(perished));
-            karma.manifest(new FailExistingMissions(perished));
+        public Void andManifestIn(Game game, Flow<Game> flow) {
+            flow.manifest(new DischargeExistingLeader(perished));
+            flow.manifest(new FailExistingMissions(perished));
 
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().stations().remove(perished);
                 fraction.governed().stations().remove(perished);
             });
 
-            karma.manifest(new PerishCraft(perished.structure()));
+            flow.manifest(new PerishCraft(perished.structure()));
             game.objects().stations().perish(perished);
             return null;
         }
@@ -336,16 +337,16 @@ public interface ConqueringDecisions {
     record PerishColony(Colony perished) implements Conquering, Byproduct<Void> {
 
         @Override
-        public Void andManifestIn(Game game, Karma<Game> karma) {
-            karma.manifest(new DischargeExistingLeader(perished));
-            karma.manifest(new FailExistingMissions(perished));
+        public Void andManifestIn(Game game, Flow<Game> flow) {
+            flow.manifest(new DischargeExistingLeader(perished));
+            flow.manifest(new FailExistingMissions(perished));
 
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().colonies().remove(perished);
                 fraction.governed().colonies().remove(perished);
             });
 
-            karma.manifest(new PerishCraft(perished.structure()));
+            flow.manifest(new PerishCraft(perished.structure()));
             game.objects().colonies().perish(perished);
             return null;
         }
@@ -354,16 +355,16 @@ public interface ConqueringDecisions {
     record PerishOutpost(LunarOutpost perished) implements Conquering, Byproduct<Void> {
 
         @Override
-        public Void andManifestIn(Game game, Karma<Game> karma) {
-            karma.manifest(new DischargeExistingLeader(perished));
-            karma.manifest(new FailExistingMissions(perished));
+        public Void andManifestIn(Game game, Flow<Game> flow) {
+            flow.manifest(new DischargeExistingLeader(perished));
+            flow.manifest(new FailExistingMissions(perished));
 
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().outposts().remove(perished);
                 fraction.governed().outposts().remove(perished);
             });
 
-            karma.manifest(new PerishCraft(perished.structure()));
+            flow.manifest(new PerishCraft(perished.structure()));
             game.objects().outposts().perish(perished);
             return null;
         }
@@ -372,16 +373,16 @@ public interface ConqueringDecisions {
     record PerishOrbitalStation(OrbitalStation perished) implements Conquering, Byproduct<Void> {
 
         @Override
-        public Void andManifestIn(Game game, Karma<Game> karma) {
-            karma.manifest(new DischargeExistingLeader(perished));
-            karma.manifest(new FailExistingMissions(perished));
+        public Void andManifestIn(Game game, Flow<Game> flow) {
+            flow.manifest(new DischargeExistingLeader(perished));
+            flow.manifest(new FailExistingMissions(perished));
 
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().orbitals().remove(perished);
                 fraction.governed().orbitals().remove(perished);
             });
 
-            karma.manifest(new PerishCraft(perished.structure()));
+            flow.manifest(new PerishCraft(perished.structure()));
             game.objects().orbitals().perish(perished);
             return null;
         }

@@ -1,4 +1,4 @@
-package se.jbee.turnmaster;
+package se.jbee.turnmaster.data;
 
 import java.util.NoSuchElementException;
 import java.util.function.Function;

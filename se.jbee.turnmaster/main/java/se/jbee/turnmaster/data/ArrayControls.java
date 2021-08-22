@@ -1,4 +1,4 @@
-package se.jbee.turnmaster;
+package se.jbee.turnmaster.data;
 
 import se.jbee.turnmaster.Any.Control;
 import se.jbee.turnmaster.Any.ControlOption;

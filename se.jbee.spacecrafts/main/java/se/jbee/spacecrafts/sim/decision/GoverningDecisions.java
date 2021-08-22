@@ -4,6 +4,7 @@ import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.Game.Decision;
 import se.jbee.spacecrafts.sim.Governing;
 import se.jbee.spacecrafts.sim.Properties;
+import se.jbee.turnmaster.Engine.Flow;
 
 public interface GoverningDecisions {
 
@@ -13,7 +14,7 @@ public interface GoverningDecisions {
     ) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             by.governed().leaders().add(hired);
         }
     }
@@ -24,7 +25,7 @@ public interface GoverningDecisions {
     ) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             by.governed().leaders().remove(dismissed);
         }
     }
@@ -35,7 +36,7 @@ public interface GoverningDecisions {
     ) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             var prior = assigned.assignment().set(to);
             var eta = game.objects().properties().get(Properties.eta);
             //TODO calculate actual eta costs
@@ -46,7 +47,7 @@ public interface GoverningDecisions {
     record DischargeLeader(Leader discharged) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
+        public void manifestIn(Game game, Flow<Game> flow) {
             discharged.assignment().set(null);
         }
     }
@@ -54,10 +55,10 @@ public interface GoverningDecisions {
     record DischargeExistingLeader(Asset perished) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma<Game> karma) {
-            karma.manifest(DischargeLeader::new, game.objects().leaders() //
-                                                     .first(l -> l.assignment()
-                                                                  .is(a -> a == perished)));
+        public void manifestIn(Game game, Flow<Game> flow) {
+            flow.manifest(DischargeLeader::new, game.objects().leaders() //
+                                                    .first(l -> l.assignment()
+                                                                 .is(a -> a == perished)));
         }
     }
 }

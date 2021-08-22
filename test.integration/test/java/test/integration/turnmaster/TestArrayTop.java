@@ -2,9 +2,9 @@ package test.integration.turnmaster;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import se.jbee.turnmaster.Collection;
-import se.jbee.turnmaster.Q;
-import se.jbee.turnmaster.Top;
+import se.jbee.turnmaster.data.Collection;
+import se.jbee.turnmaster.data.Q;
+import se.jbee.turnmaster.data.Top;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;

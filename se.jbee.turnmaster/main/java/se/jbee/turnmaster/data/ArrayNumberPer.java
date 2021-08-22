@@ -1,11 +1,13 @@
-package se.jbee.turnmaster;
+package se.jbee.turnmaster.data;
+
+import se.jbee.turnmaster.Any;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 import static java.util.Arrays.copyOf;
-import static se.jbee.turnmaster.NumberPer.isNaN;
+import static se.jbee.turnmaster.data.NumberPer.isNaN;
 
 abstract class ArrayNumberPer<K extends Any.Entity> implements NumberPer<K> {
 

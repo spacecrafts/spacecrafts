@@ -1,4 +1,8 @@
-package se.jbee.turnmaster;
+package se.jbee.turnmaster.eval;
+
+import se.jbee.turnmaster.Any;
+import se.jbee.turnmaster.Engine;
+import se.jbee.turnmaster.data.Numbers;
 
 /**
  * {@link Eventuality}s are evaluated at the beginning from a turn before

@@ -1,7 +1,7 @@
 package se.jbee.spacecrafts.sim.eventuality;
 
 import se.jbee.spacecrafts.sim.Crafting;
-import se.jbee.turnmaster.Eventuality;
+import se.jbee.turnmaster.eval.Eventuality;
 
 public interface CraftingEventualities {
 

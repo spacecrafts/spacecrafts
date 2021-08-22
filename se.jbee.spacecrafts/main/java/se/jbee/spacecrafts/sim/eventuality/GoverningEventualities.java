@@ -4,8 +4,8 @@ import se.jbee.spacecrafts.sim.Game.Builder;
 import se.jbee.spacecrafts.sim.Governing;
 import se.jbee.spacecrafts.sim.Properties;
 import se.jbee.turnmaster.Any.Property;
-import se.jbee.turnmaster.Eventuality;
-import se.jbee.turnmaster.Register;
+import se.jbee.turnmaster.data.Register;
+import se.jbee.turnmaster.eval.Eventuality;
 
 public interface GoverningEventualities {
 

@@ -1,6 +1,7 @@
 package se.jbee.turnmaster;
 
-import java.util.NoSuchElementException;
+import se.jbee.turnmaster.data.Stasis;
+import se.jbee.turnmaster.data.Vary;
 
 import static java.util.Objects.requireNonNull;
 
@@ -98,38 +99,6 @@ public interface Any {
         }
     }
 
-    abstract class Mutable<T> implements Editable, Embedded {
-
-        protected T value;
-
-        Mutable(T initial) {
-            requireNonNull(initial);
-            this.value = initial;
-        }
-
-        public T get() {
-            return value;
-        }
-
-        public void set(T value) {
-            requireNonNull(value);
-            this.value = value;
-        }
-    }
-
-    final class Text extends Mutable<String> {
-
-        public static final Text EMPTY = new Text("");
-
-        public Text(String initial) {
-            super(initial);
-        }
-
-        public Text copy() {
-            return new Text(value);
-        }
-    }
-
     record Created(
         int serial,
         Text name
@@ -194,47 +163,35 @@ public interface Any {
         Stasis<Indicator> members
     ) implements Definition {}
 
+    abstract class Mutable<T> implements Editable, Embedded {
 
-    /*
-    Ideas:
-     */
+        protected T value;
 
-    /**
-     * An {@link Algorithmic} object is based target or requires the presence
-     * from a computation/function it refers to by a name. These functions are
-     * registered programmatically as part from the bootstrapping from the game
-     * engine.
-     */
-    interface Algorithmic {
+        Mutable(T initial) {
+            requireNonNull(initial);
+            this.value = initial;
+        }
 
-        Class<?> type();
+        public T get() {
+            return value;
+        }
 
-        //TODO do all actual algorithms have a verify(Game) method that makes sure they have what they need?
+        public void set(T value) {
+            requireNonNull(value);
+            this.value = value;
+        }
     }
 
-    record Control(
-        Defined header,
-        ControlOption initial,
-        Stasis<ControlOption> options
-    ) implements Definition {}
+    final class Text extends Mutable<String> {
 
-    record ControlOption(
-        Defined header,
-        int value
-    ) implements Definition {}
+        public static final Text EMPTY = new Text("");
 
-    record ControlGroup<T>(
-        Defined header,
-        Class<T> of,
-        Stasis<Control> controls
-    ) implements Definition {}
+        public Text(String initial) {
+            super(initial);
+        }
 
-    interface Controls<T> {
-
-        ControlOption get(Control key) throws NoSuchElementException;
-
-        void set(Control key, ControlOption value) throws IllegalStateException;
-
-        void reset();
+        public Text copy() {
+            return new Text(value);
+        }
     }
 }

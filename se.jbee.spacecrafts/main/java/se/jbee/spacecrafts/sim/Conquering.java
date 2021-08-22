@@ -9,10 +9,10 @@ import se.jbee.spacecrafts.sim.Governing.Asset;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.turnmaster.Any.Creation;
-import se.jbee.turnmaster.Flux;
-import se.jbee.turnmaster.Maybe;
-import se.jbee.turnmaster.Numbers;
-import se.jbee.turnmaster.Vary;
+import se.jbee.turnmaster.data.Flux;
+import se.jbee.turnmaster.data.Maybe;
+import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Vary;
 
 public interface Conquering {
 

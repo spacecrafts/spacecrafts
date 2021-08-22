@@ -5,8 +5,8 @@ import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.Resourcing.Substance;
 import se.jbee.turnmaster.Any.Creation;
 import se.jbee.turnmaster.Any.Generated;
-import se.jbee.turnmaster.Flux;
-import se.jbee.turnmaster.XY;
+import se.jbee.turnmaster.data.Flux;
+import se.jbee.turnmaster.data.XY;
 
 public interface Exploring {
 

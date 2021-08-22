@@ -8,18 +8,18 @@ import se.jbee.turnmaster.Any.Created;
 import se.jbee.turnmaster.Any.Generated;
 import se.jbee.turnmaster.Any.Text;
 import se.jbee.turnmaster.Engine;
-import se.jbee.turnmaster.Eventuality;
-import se.jbee.turnmaster.Flux;
-import se.jbee.turnmaster.Index;
-import se.jbee.turnmaster.Marks;
-import se.jbee.turnmaster.Numbers;
-import se.jbee.turnmaster.Pools;
-import se.jbee.turnmaster.Q;
-import se.jbee.turnmaster.Range;
-import se.jbee.turnmaster.Register;
-import se.jbee.turnmaster.Top;
 import se.jbee.turnmaster.Turn;
-import se.jbee.turnmaster.XY;
+import se.jbee.turnmaster.data.Flux;
+import se.jbee.turnmaster.data.Index;
+import se.jbee.turnmaster.data.Marks;
+import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Pools;
+import se.jbee.turnmaster.data.Q;
+import se.jbee.turnmaster.data.Range;
+import se.jbee.turnmaster.data.Register;
+import se.jbee.turnmaster.data.Top;
+import se.jbee.turnmaster.data.XY;
+import se.jbee.turnmaster.eval.Eventuality;
 
 public record Game(
     Engine.Runtime runtime,
@@ -29,9 +29,9 @@ public record Game(
 
     public interface Module extends Engine.Module<Game> {}
 
-    public interface Decision extends se.jbee.turnmaster.Decision<Game> {}
+    public interface Decision extends se.jbee.turnmaster.eval.Decision<Game> {}
 
-    public interface Byproduct<T> extends se.jbee.turnmaster.Decision.Byproduct<Game, T> {}
+    public interface Byproduct<T> extends se.jbee.turnmaster.eval.Decision.Byproduct<Game, T> {}
 
     public interface Builder extends Eventuality.Builder<Game> {}
 

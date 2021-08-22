@@ -1,8 +1,8 @@
 package se.jbee.spacecrafts.sim.eventuality;
 
 import se.jbee.spacecrafts.sim.Conquering;
-import se.jbee.turnmaster.Eventuality;
-import se.jbee.turnmaster.Register;
+import se.jbee.turnmaster.data.Register;
+import se.jbee.turnmaster.eval.Eventuality;
 
 public class ExploringEventualities {
 

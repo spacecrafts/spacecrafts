@@ -1,8 +1,8 @@
 package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Resourcing.Quantity;
-import se.jbee.turnmaster.Collection;
-import se.jbee.turnmaster.Numbers;
+import se.jbee.turnmaster.data.Collection;
+import se.jbee.turnmaster.data.Numbers;
 
 @FunctionalInterface
 public interface Balance {

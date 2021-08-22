@@ -19,13 +19,13 @@ import se.jbee.turnmaster.Any.Definition;
 import se.jbee.turnmaster.Any.Embedded;
 import se.jbee.turnmaster.Any.IsCreated;
 import se.jbee.turnmaster.Any.Text;
-import se.jbee.turnmaster.Flux;
-import se.jbee.turnmaster.Marks;
-import se.jbee.turnmaster.NumberPer;
-import se.jbee.turnmaster.Numbers;
-import se.jbee.turnmaster.Q;
-import se.jbee.turnmaster.Stasis;
-import se.jbee.turnmaster.Vary;
+import se.jbee.turnmaster.data.Flux;
+import se.jbee.turnmaster.data.Marks;
+import se.jbee.turnmaster.data.NumberPer;
+import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Q;
+import se.jbee.turnmaster.data.Stasis;
+import se.jbee.turnmaster.data.Vary;
 
 public interface Governing {
 
