@@ -4,6 +4,7 @@ import se.jbee.spacecrafts.sim.Conquering.MercenaryUnit;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.turnmaster.Any.Composed;
 import se.jbee.turnmaster.Any.Creation;
+import se.jbee.turnmaster.Any.Embedded;
 import se.jbee.turnmaster.Any.IsCreated;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Maybe;
@@ -25,7 +26,8 @@ public interface Trading {
 
     record Offered(
         int serial,
-        Fraction by
+        Fraction by,
+        int inTurn
     ) implements IsOffered {}
 
     /**
@@ -71,12 +73,17 @@ public interface Trading {
 
     record Mission(
         Offered header,
-        Exploring.SolarSystem in,
-        Governing.Asset target,
-        Maybe<Crafting.Deck> deck,
-        Maybe<Crafting.Unit> unit,
+        Target target,
         Pick<Resourcing.Quantity> salary
     ) implements Offer {}
+
+    record Target(
+        Exploring.SolarSystem in,
+        Governing.Asset on,
+        Maybe<Crafting.Section> section,
+        Maybe<Crafting.Deck> deck,
+        Maybe<Crafting.Unit> unit
+    ) implements Embedded {}
 
     record Approach(
         Offered header,

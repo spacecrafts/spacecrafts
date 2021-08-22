@@ -35,7 +35,7 @@ public interface ConqueringDecisions {
         @Override
         public void manifestIn(Game game, Flow<Game> flow) {
             SpaceStation station;
-            var name = in.header().name().copy();
+            var name = in.header().name();
             if (origin.structure().sections().size() == 1) {
                 station = game.objects().stations().spawn(
                     serial -> new SpaceStation(
@@ -44,8 +44,7 @@ public interface ConqueringDecisions {
                 flow.manifest(new PerishSpaceship(origin, true));
             } else {
                 var craft = flow.andManifest(
-                    new SpawnCraft(origin.structure().header().name().copy(),
-                        from));
+                    new SpawnCraft(origin.structure().header().name(), from));
                 station = game.objects().stations().spawn(
                     serial -> new SpaceStation(
                         game.newGoverned(serial, name, by), craft, in));
@@ -82,7 +81,7 @@ public interface ConqueringDecisions {
         @Override
         public void manifestIn(Game game, Flow<Game> flow) {
             Colony colony;
-            var name = on.header().name().copy();
+            var name = on.header().name();
             Q<Deck> decks = game.newQ(3);
             var surface = from.decks().first().get();
             surface.name().set("surface");
@@ -100,8 +99,7 @@ public interface ConqueringDecisions {
                 from.plating(), from.totals(), from.properties(), decks.seal(),
                 from.commissions()));
             var craft = flow.andManifest(
-                new SpawnCraft(origin.structure().header().name().copy(),
-                    section));
+                new SpawnCraft(origin.structure().header().name(), section));
             colony = game.objects().colonies().spawn(
                 serial -> new Colony(game.newGoverned(serial, name, by), craft,
                     on));
@@ -123,7 +121,7 @@ public interface ConqueringDecisions {
         @Override
         public void manifestIn(Game game, Flow<Game> flow) {
             LunarOutpost outpost;
-            var name = on.header().name().copy();
+            var name = on.header().name();
             if (origin.structure().sections().size() == 1) {
                 outpost = game.objects().outposts().spawn(
                     serial -> new LunarOutpost(
@@ -132,8 +130,7 @@ public interface ConqueringDecisions {
                 flow.manifest(new PerishSpaceship(origin, true));
             } else {
                 var craft = flow.andManifest(
-                    new SpawnCraft(origin.structure().header().name().copy(),
-                        from));
+                    new SpawnCraft(origin.structure().header().name(), from));
                 outpost = game.objects().outposts().spawn(
                     serial -> new LunarOutpost(
                         game.newGoverned(serial, name, by), craft, on));
@@ -154,10 +151,10 @@ public interface ConqueringDecisions {
         @Override
         public void manifestIn(Game game, Flow<Game> flow) {
             var craft = flow.andManifest(
-                new SpawnCraft(from.header().name().copy(), from));
+                new SpawnCraft(from.header().name(), from));
             game.objects().orbitals().spawn(serial -> new OrbitalStation(
-                game.newGoverned(serial, origin.header().name().copy(), by),
-                craft, origin.on()));
+                game.newGoverned(serial, origin.header().name(), by), craft,
+                origin.on()));
         }
     }
 

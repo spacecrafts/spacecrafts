@@ -3,6 +3,8 @@ package se.jbee.turnmaster;
 import se.jbee.turnmaster.data.Stasis;
 import se.jbee.turnmaster.data.Vary;
 
+import java.util.Objects;
+
 import static java.util.Objects.requireNonNull;
 
 public interface Any {
@@ -188,9 +190,30 @@ public interface Any {
             requireNonNull(value);
             this.value = value;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            Mutable<?> mutable = (Mutable<?>) obj;
+            return Objects.equals(value, mutable.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value);
+        }
+
+        @Override
+        public String toString() {
+            return value == null
+                   ? ""
+                   : value.toString();
+        }
+
     }
 
-    final class Text extends Mutable<String> {
+    final class Text extends Mutable<String> implements CharSequence {
 
         public static final Text EMPTY = new Text("");
 
@@ -198,8 +221,23 @@ public interface Any {
             super(initial);
         }
 
-        public Text copy() {
-            return new Text(value);
+        public Text(CharSequence initial) {
+            this(initial.toString());
+        }
+
+        @Override
+        public int length() {
+            return value.length();
+        }
+
+        @Override
+        public char charAt(int index) {
+            return value.charAt(index);
+        }
+
+        @Override
+        public Text subSequence(int start, int end) {
+            return new Text(value.subSequence(start, end).toString());
         }
     }
 }

@@ -9,6 +9,7 @@ import se.jbee.turnmaster.Any.Created;
 import se.jbee.turnmaster.Any.Generated;
 import se.jbee.turnmaster.Any.Text;
 import se.jbee.turnmaster.Engine;
+import se.jbee.turnmaster.RNG;
 import se.jbee.turnmaster.Turn;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Index;
@@ -25,6 +26,7 @@ import se.jbee.turnmaster.eval.Deduction;
 public record Game(
     Engine.Runtime runtime,
     Turn turn,
+    RNG rng,
     Objects objects
 ) implements Engine.Game {
 
@@ -122,16 +124,17 @@ public record Game(
         }
     }
 
-    public Governed newGoverned(int serial, Text name, Fraction origin) {
-        return new Governed(serial, name, origin);
+    public Governed newGoverned(int serial, CharSequence name, Fraction origin) {
+        return new Governed(serial, new Text(name), origin);
     }
 
-    public Created newCreated(int serial, Text name) {
-        return new Created(serial, name, turn.current());
+    public Created newCreated(int serial, CharSequence name) {
+        return new Created(serial, new Text(name), turn.current());
     }
 
-    public Generated newGenerated(int serial, Text name) {
-        return new Generated(serial, name, turn.current(), 42L); //TODO
+    public Generated newGenerated(int serial, CharSequence name) {
+        return new Generated(serial, new Text(name), turn.current(),
+            rng.nextLong());
     }
 
     public Composed newComposed(int serial) {
@@ -139,7 +142,7 @@ public record Game(
     }
 
     public Offered newOffered(int serial, Fraction by) {
-        return new Offered(serial, by);
+        return new Offered(serial, by, turn.current());
     }
 
     public Numbers newNumbers() {

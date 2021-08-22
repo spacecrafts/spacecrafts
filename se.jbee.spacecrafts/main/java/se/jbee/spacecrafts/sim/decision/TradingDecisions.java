@@ -2,8 +2,6 @@ package se.jbee.spacecrafts.sim.decision;
 
 import se.jbee.spacecrafts.sim.Balance;
 import se.jbee.spacecrafts.sim.Conquering;
-import se.jbee.spacecrafts.sim.Crafting;
-import se.jbee.spacecrafts.sim.Exploring;
 import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.Game.Decision;
 import se.jbee.spacecrafts.sim.Governing.Asset;
@@ -12,7 +10,6 @@ import se.jbee.spacecrafts.sim.Resourcing;
 import se.jbee.spacecrafts.sim.Trading;
 import se.jbee.turnmaster.Engine.Flow;
 import se.jbee.turnmaster.data.Flux;
-import se.jbee.turnmaster.data.Maybe;
 import se.jbee.turnmaster.data.Pick;
 import se.jbee.turnmaster.data.Stasis;
 
@@ -144,17 +141,14 @@ public interface TradingDecisions {
 
     record PublishMission(
         Fraction by,
-        Exploring.SolarSystem in,
-        Asset on,
-        Maybe<Crafting.Deck> deck,
-        Maybe<Crafting.Unit> unit,
+        Target targeting,
         Pick<Resourcing.Quantity> bounty
     ) implements Trading, Decision {
 
         @Override
         public void manifestIn(Game game, Flow<Game> flow) {
             game.objects().missions().spawn(serial -> new Mission( //
-                game.newOffered(serial, by), in, on, deck, unit, bounty));
+                game.newOffered(serial, by), targeting, bounty));
         }
     }
 
@@ -171,7 +165,7 @@ public interface TradingDecisions {
         @Override
         public void manifestIn(Game game, Flow<Game> flow) {
             game.objects().missions().forEach(mission -> {
-                if (mission.target() == targeted)
+                if (mission.target().on() == targeted)
                     flow.manifest(new CancelMission(mission));
             });
         }

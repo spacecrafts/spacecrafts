@@ -30,6 +30,8 @@ public interface Engine {
         Runtime runtime();
 
         Turn turn();
+
+        RNG rng();
     }
 
     // 1. load all Modules and Bundles via ServiceLoader
@@ -138,11 +140,11 @@ public interface Engine {
 
         //Maybe have a boolean arg to say if the decision is optional
         // to have the player chose if that part should happen as well
-        <G extends Game, D extends Record & Decision<G>> void manifest(D decision);
+        <D extends Record & Decision<G>> void manifest(D decision);
 
-        <G extends Game, T, D extends Record & Decision.Byproduct<G, T>> T andManifest(D decision);
+        <T, D extends Record & Decision.Byproduct<G, T>> T andManifest(D decision);
 
-        default <G extends Game, T, E extends Record & Decision<G>> void manifest(Function<T, E> newDecision, Optional<T> source) {
+        default <T, E extends Record & Decision<G>> void manifest(Function<T, E> newDecision, Optional<T> source) {
             if (source.isSome()) manifest(newDecision.apply(source.get()));
         }
     }
