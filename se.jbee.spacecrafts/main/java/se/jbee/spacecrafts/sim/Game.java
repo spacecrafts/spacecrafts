@@ -20,7 +20,7 @@ import se.jbee.turnmaster.data.Range;
 import se.jbee.turnmaster.data.Register;
 import se.jbee.turnmaster.data.Top;
 import se.jbee.turnmaster.data.XY;
-import se.jbee.turnmaster.eval.Eventuality;
+import se.jbee.turnmaster.eval.Deduction;
 
 public record Game(
     Engine.Runtime runtime,
@@ -34,7 +34,7 @@ public record Game(
 
     public interface Byproduct<T> extends se.jbee.turnmaster.eval.Decision.Byproduct<Game, T> {}
 
-    public interface Builder extends Eventuality.Builder<Game> {}
+    public interface Deducting extends se.jbee.turnmaster.eval.Analysis<Game, Deduction> {}
 
     public record Settings() {}
 

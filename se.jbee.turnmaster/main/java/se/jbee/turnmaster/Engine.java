@@ -25,7 +25,12 @@ import java.util.function.Function;
  */
 public interface Engine {
 
-    interface Game {}
+    interface Game {
+
+        Runtime runtime();
+
+        Turn turn();
+    }
 
     // 1. load all Modules and Bundles via ServiceLoader
     // 2. build Engine record (bare Modules in synthetic Bundle Kit)

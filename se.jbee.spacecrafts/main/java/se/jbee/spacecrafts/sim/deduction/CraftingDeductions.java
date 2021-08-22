@@ -1,11 +1,11 @@
-package se.jbee.spacecrafts.sim.eventuality;
+package se.jbee.spacecrafts.sim.deduction;
 
 import se.jbee.spacecrafts.sim.Crafting;
-import se.jbee.turnmaster.eval.Eventuality;
+import se.jbee.turnmaster.eval.Deduction;
 
-public interface CraftingEventualities {
+public interface CraftingDeductions {
 
-    record CompletingUnits() implements Crafting, Eventuality {
+    record CompletingUnits() implements Crafting, Deduction {
 
         @Override
         public void manifest() {

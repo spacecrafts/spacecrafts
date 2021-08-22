@@ -1,16 +1,16 @@
-package se.jbee.spacecrafts.sim.eventuality;
+package se.jbee.spacecrafts.sim.deduction;
 
 import se.jbee.spacecrafts.sim.Balance;
-import se.jbee.spacecrafts.sim.Game.Builder;
+import se.jbee.spacecrafts.sim.Game.Deducting;
 import se.jbee.spacecrafts.sim.Trading;
 import se.jbee.turnmaster.data.Register;
-import se.jbee.turnmaster.eval.Eventuality;
+import se.jbee.turnmaster.eval.Deduction;
 
-public interface TradingEventualities {
+public interface TradingDeductions {
 
-    Builder ObeyingDeals = game -> new ObeyingDeals(game.objects().deals());
+    Deducting ObeyingDeals = game -> new ObeyingDeals(game.objects().deals());
 
-    record ObeyingDeals(Register<Deal> deals) implements Trading, Eventuality {
+    record ObeyingDeals(Register<Deal> deals) implements Trading, Deduction {
 
         @Override
         public void manifest() {
@@ -25,7 +25,7 @@ public interface TradingEventualities {
         }
     }
 
-    record FailingMissions(Register<Mission> missions) implements Trading, Eventuality {
+    record FailingMissions(Register<Mission> missions) implements Trading, Deduction {
 
         @Override
         public void manifest() {

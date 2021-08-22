@@ -1,8 +1,7 @@
 package se.jbee.spacecrafts.sim.decision;
 
-import se.jbee.spacecrafts.sim.Conquering;
 import se.jbee.spacecrafts.sim.Crafting;
-import se.jbee.spacecrafts.sim.Crafting.Section;
+import se.jbee.spacecrafts.sim.Crafting.Craft;
 import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.Game.Byproduct;
 import se.jbee.spacecrafts.sim.Game.Decision;
@@ -96,17 +95,17 @@ public interface CraftingDecisions {
     record SpawnCraft(
         Text name,
         Section with,
-        Maybe<Crafting.Craft> cloneOf
-    ) implements Conquering, Byproduct<Crafting.Craft> {
+        Maybe<Craft> cloneOf
+    ) implements Crafting, Byproduct<Craft> {
 
         SpawnCraft(Text name, Section with) {
             this(name, with, Maybe.nothing());
         }
 
         @Override
-        public Crafting.Craft andManifestIn(Game game, Flow<Game> flow) {
+        public Craft andManifestIn(Game game, Flow<Game> flow) {
             var craft = game.objects().crafts().spawn(
-                serial -> new Crafting.Craft(game.newCreated(serial, name),
+                serial -> new Craft(game.newCreated(serial, name),
                     game.newNumbers(), cloneOf,
                     game.newFlux(Resourcing.Influence.class),
                     game.newTop(Section.class),

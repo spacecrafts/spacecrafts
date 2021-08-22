@@ -1,21 +1,21 @@
-package se.jbee.spacecrafts.sim.eventuality;
+package se.jbee.spacecrafts.sim.deduction;
 
-import se.jbee.spacecrafts.sim.Game.Builder;
+import se.jbee.spacecrafts.sim.Game.Deducting;
 import se.jbee.spacecrafts.sim.Governing;
 import se.jbee.spacecrafts.sim.Properties;
 import se.jbee.turnmaster.Any.Property;
 import se.jbee.turnmaster.data.Register;
-import se.jbee.turnmaster.eval.Eventuality;
+import se.jbee.turnmaster.eval.Deduction;
 
-public interface GoverningEventualities {
+public interface GoverningDeductions {
 
-    Builder ResigningLeaders = game -> new ResigningLeaders(
+    Deducting ResigningLeaders = game -> new ResigningLeaders(
         game.objects().properties().get(Properties.morale));
 
-    Builder RetiringLeaders = game -> new RetiringLeaders(
+    Deducting RetiringLeaders = game -> new RetiringLeaders(
         game.objects().leaders());
 
-    record NoticingLeaders() implements Governing, Eventuality {
+    record NoticingLeaders() implements Governing, Deduction {
 
         @Override
         public void manifest() {
@@ -23,7 +23,7 @@ public interface GoverningEventualities {
         }
     }
 
-    record ResigningLeaders(Property morale) implements Governing, Eventuality {
+    record ResigningLeaders(Property morale) implements Governing, Deduction {
 
         @Override
         public void manifest() {
@@ -32,7 +32,7 @@ public interface GoverningEventualities {
         }
     }
 
-    record RetiringLeaders(Register<Leader> leaders) implements Governing, Eventuality {
+    record RetiringLeaders(Register<Leader> leaders) implements Governing, Deduction {
 
         @Override
         public void manifest() {
@@ -40,7 +40,7 @@ public interface GoverningEventualities {
         }
     }
 
-    record ArisingLeaders() implements Governing, Eventuality {
+    record ArisingLeaders() implements Governing, Deduction {
 
         @Override
         public void manifest() {
