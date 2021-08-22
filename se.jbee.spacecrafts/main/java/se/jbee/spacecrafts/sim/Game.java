@@ -4,6 +4,7 @@ import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.spacecrafts.sim.Trading.Offered;
 import se.jbee.turnmaster.Any;
+import se.jbee.turnmaster.Any.Composed;
 import se.jbee.turnmaster.Any.Created;
 import se.jbee.turnmaster.Any.Generated;
 import se.jbee.turnmaster.Any.Text;
@@ -126,11 +127,15 @@ public record Game(
     }
 
     public Created newCreated(int serial, Text name) {
-        return new Created(serial, name);
+        return new Created(serial, name, turn.current());
     }
 
     public Generated newGenerated(int serial, Text name) {
-        return new Generated(serial, name, 42L); //TODO
+        return new Generated(serial, name, turn.current(), 42L); //TODO
+    }
+
+    public Composed newComposed(int serial) {
+        return new Composed(serial, turn.current());
     }
 
     public Offered newOffered(int serial, Fraction by) {

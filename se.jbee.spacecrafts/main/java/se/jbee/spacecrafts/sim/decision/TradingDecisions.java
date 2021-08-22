@@ -10,7 +10,6 @@ import se.jbee.spacecrafts.sim.Governing.Asset;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Resourcing;
 import se.jbee.spacecrafts.sim.Trading;
-import se.jbee.turnmaster.Any.Composed;
 import se.jbee.turnmaster.Engine.Flow;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Maybe;
@@ -186,7 +185,7 @@ public interface TradingDecisions {
                 .perish(approach -> approach.on() == accepted.on());
             accepted.header().by().debitUnconditionals(accepted.on().salary());
             game.objects().hires().spawn(serial -> new Hire( //
-                new Composed(serial), accepted.from(), accepted.on(),
+                game.newComposed(serial), accepted.from(), accepted.on(),
                 accepted.deadline()));
         }
     }

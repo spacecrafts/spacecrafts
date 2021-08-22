@@ -22,7 +22,10 @@ public interface Any {
         Code code();
     }
 
-    interface IsCreated extends Identifiable {}
+    interface IsCreated extends Identifiable {
+
+        int inTurn();
+    }
 
     /**
      * An {@link Entity} is a game object that is persisted in a save-game file.
@@ -101,14 +104,19 @@ public interface Any {
 
     record Created(
         int serial,
-        Text name
+        Text name,
+        int inTurn
     ) implements IsCreated {}
 
-    record Composed(int serial) implements IsCreated {}
+    record Composed(
+        int serial,
+        int inTurn
+    ) implements IsCreated {}
 
     record Generated(
         int serial,
         Text name,
+        int inTurn,
         long seed
     ) implements IsCreated {}
 
