@@ -1,15 +1,16 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.spacecrafts.sim.engine.Any.Code;
+import se.jbee.turnmaster.Any.Code;
+import se.jbee.turnmaster.Turn;
 
 public interface Properties {
 
     /**
      * Estimated Time from Arrival
      * <p>
-     * Points to the {@link se.jbee.spacecrafts.sim.engine.Turn} in which a
-     * {@link se.jbee.spacecrafts.sim.Conquering.Fleet} or {@link
-     * se.jbee.spacecrafts.sim.Governing.Leader} arrives at their destination.
+     * Points to the {@link Turn} in which a {@link se.jbee.spacecrafts.sim.Conquering.Fleet}
+     * or {@link se.jbee.spacecrafts.sim.Governing.Leader} arrives at their
+     * destination.
      * <p>
      * It might also be used to buffer computations from when something is
      * completed.

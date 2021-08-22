@@ -2,17 +2,18 @@ package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Conquering.MercenaryUnit;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
-import se.jbee.spacecrafts.sim.engine.Any.Composed;
-import se.jbee.spacecrafts.sim.engine.Any.Creation;
-import se.jbee.spacecrafts.sim.engine.Any.IsCreated;
-import se.jbee.spacecrafts.sim.engine.Flux;
-import se.jbee.spacecrafts.sim.engine.Maybe;
-import se.jbee.spacecrafts.sim.engine.Pick;
-import se.jbee.spacecrafts.sim.engine.Stasis;
+import se.jbee.turnmaster.Any.Composed;
+import se.jbee.turnmaster.Any.Creation;
+import se.jbee.turnmaster.Any.IsCreated;
+import se.jbee.turnmaster.Flux;
+import se.jbee.turnmaster.Maybe;
+import se.jbee.turnmaster.Pick;
+import se.jbee.turnmaster.Stasis;
 
 public interface Trading {
 
     interface Offer extends Creation {
+
         @Override
         IsOffered header();
     }
@@ -23,20 +24,20 @@ public interface Trading {
     }
 
     record Offered(
-            int serial,
-            Fraction by
+        int serial,
+        Fraction by
     ) implements IsOffered {}
 
     /**
      * A player makes a trade proposal
      */
     record Trade(
-            Offered header,
-            Flux<Fraction> recipients,
-            boolean perTern,
-            Stasis<Resourcing.Resource> give,
-            Pick<Resourcing.Quantity> take,
-            Flux<Bid> bids
+        Offered header,
+        Flux<Fraction> recipients,
+        boolean perTern,
+        Stasis<Resourcing.Resource> give,
+        Pick<Resourcing.Quantity> take,
+        Flux<Bid> bids
     ) implements Offer {}
 
     /**
@@ -45,23 +46,23 @@ public interface Trading {
      * is removed again).
      */
     record Bid(
-            Offered header,
-            Trade on,
-            Pick<Resourcing.Quantity> give
+        Offered header,
+        Trade on,
+        Pick<Resourcing.Quantity> give
     ) implements Offer {}
 
     record Deal(
-            Offered header,
-            Fraction with,
-            Pick<Resourcing.Quantity> given,
-            Pick<Resourcing.Quantity> taken
+        Offered header,
+        Fraction with,
+        Pick<Resourcing.Quantity> given,
+        Pick<Resourcing.Quantity> taken
     ) implements Offer {}
 
     record Sale(
-            Offered header,
-            Conquering.Spaceship of,
-            int crew,
-            Pick<Resourcing.Quantity> price
+        Offered header,
+        Conquering.Spaceship of,
+        int crew,
+        Pick<Resourcing.Quantity> price
     ) implements Offer {}
 
     /*
@@ -69,26 +70,26 @@ public interface Trading {
      */
 
     record Mission(
-            Offered header,
-            Exploring.SolarSystem in,
-            Governing.Asset target,
-            Maybe<Crafting.Deck> deck,
-            Maybe<Crafting.Unit> unit,
-            Pick<Resourcing.Quantity> salary
+        Offered header,
+        Exploring.SolarSystem in,
+        Governing.Asset target,
+        Maybe<Crafting.Deck> deck,
+        Maybe<Crafting.Unit> unit,
+        Pick<Resourcing.Quantity> salary
     ) implements Offer {}
 
     record Approach(
-            Offered header,
-            MercenaryUnit from,
-            Mission on,
-            int deadline
+        Offered header,
+        MercenaryUnit from,
+        Mission on,
+        int deadline
     ) implements Offer {}
 
     record Hire(
-            Composed header,
-            MercenaryUnit from,
-            Mission on,
-            int deadline
+        Composed header,
+        MercenaryUnit from,
+        Mission on,
+        int deadline
     ) implements Creation {}
 
 }

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/se.jbee.spacecrafts.iml" filepath="$PROJECT_DIR$/.idea/se.jbee.spacecrafts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/se.jbee.turnmaster.iml" filepath="$PROJECT_DIR$/.idea/se.jbee.turnmaster.iml" />
       <module fileurl="file://$PROJECT_DIR$/spacecrafts.iml" filepath="$PROJECT_DIR$/spacecrafts.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/test.integration.iml" filepath="$PROJECT_DIR$/.idea/test.integration.iml" />
     </modules>

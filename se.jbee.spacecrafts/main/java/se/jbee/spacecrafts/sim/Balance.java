@@ -1,8 +1,8 @@
 package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Resourcing.Quantity;
-import se.jbee.spacecrafts.sim.engine.Collection;
-import se.jbee.spacecrafts.sim.engine.Numbers;
+import se.jbee.turnmaster.Collection;
+import se.jbee.turnmaster.Numbers;
 
 @FunctionalInterface
 public interface Balance {
@@ -19,7 +19,7 @@ public interface Balance {
 
     default void debitUnconditionals(Collection<Quantity> amounts) {
         amounts.forEach(a -> totals().sub(a.of().amount(), a.n()),
-                Quantity::unconditional);
+            Quantity::unconditional);
     }
 
     static void transfer(Balance from, Balance to, Collection<Quantity> amounts) {

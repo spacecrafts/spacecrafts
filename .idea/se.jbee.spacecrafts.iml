@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/se.jbee.spacecrafts/test/java" isTestSource="true" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="se.jbee.turnmaster" />
     <orderEntry type="inheritedJdk" />
   </component>
 </module>

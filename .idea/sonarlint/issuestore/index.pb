@@ -88,8 +88,6 @@ h
 8legacy/src/se/jbee/game/scs/ecs/constant/Reputation.java,3/e/3eb3a1eaa13a73aed3fb4ee78572de14fbae519a
 i
 9legacy/src/se/jbee/game/scs/ecs/constant/Gravitation.java,5/2/52bdf24304bb480872fe1373b9b2c4ac477a042a
-^
-.se.jbee.spacecrafts/main/java/module-info.java,7/e/7ecc68abaaa577f1ea13127f1bb23f012f016745
 z
 Jse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/BitsFlux.java,a/0/a074257cb5cd415ba923021862165817af7cb5ab
 {
@@ -100,8 +98,6 @@ w
 Gse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Marks.java,1/a/1a1059491dc4f154965fa62fb664fd39309e88af
 w
 Gse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Range.java,9/9/99a692c02c908fe7adc45aee722daa46222ba44e
-[
-+test.integration/test/java/module-info.java,7/7/7719b78a3ad2bb90095846ade7ff9cf26e78a9df
 q
 Atest.integration/test/java/test/integration/utils/Assertions.java,9/7/974f10ab80d3713d604213a150aba6078df63eb8
 x
@@ -118,8 +114,6 @@ t
 Dtest.integration/test/java/test/integration/engine/TestArrayTop.java,f/7/f70fe7c833ed272ffc50be8aa335050c32b8b3e6
 v
 Fse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Negotiating.java,7/8/78f9016f0e15e4c5b04d7ef024af914882f2070a
-Å
-Qse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/definition/Gravitation.java,5/c/5cf143ea9c16a7cc4fb5fada9bb505baa8d67343
 v
 Fse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Discovering.java,e/0/e05b8152e76e7bc235307313d492dd05d32a1fca
 r
@@ -158,8 +152,6 @@ U
 Lse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Collection.java,e/3/e36522577ce9371edf92c9ca5b927ce9d10b48d1
 y
 Ise.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Numbers.java,e/9/e9174423bca10892cbb0d36dd38c0b04aac93fcd
-Ç
-Rse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/definition/Capabilities.java,7/8/783f2ea24cb45e6716a366a7dde8e3b7d09fd8d5
 u
 Ese.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Top.java,4/2/4227f8af9ffd3b47a9be41f5654009b5ec1e7bb1
 }
@@ -174,14 +166,6 @@ L
 docs/lore/governance-lore.md,8/8/88b3bcc6c12afe6998884cbce15f083dce9ade3a
 u
 Ese.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Properties.java,f/5/f5df15d188a0340907ec3530bd831b5bac508b50
-ç
-]se.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/eventuality/ExploringEventualities.java,2/4/24d15dfe7471db431f19c4b9105222d3ac4820f0
-é
-^se.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/eventuality/ConqueringEventualities.java,4/d/4da16b7fbc8b2df034b6712a1699ec6673843839
-ç
-]se.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/eventuality/GoverningEventualities.java,4/8/487f9212b64d45409d38acd1cf5666b856d2db7d
-ã
-[se.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/eventuality/TradingEventualities.java,0/4/0447455f3dd6bc9769ddf882c3e4ed387b9cea4e
 z
 Jse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Decision.java,d/5/d5b784873e4ae607721bd79b50f4929488e348e6
 K
@@ -196,8 +180,6 @@ L
 docs/lore/components-lore.md,8/3/83b7ff260694a72e2fc2516720d0007431196d01
 H
 docs/lore/battle-lore.md,e/6/e6bfca72e405cb17c067efad4a99497b1293df29
-å
-\se.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/eventuality/CraftingEventualities.java,b/3/b3241ea7cb78b4df61de3f0328bf857295075f07
 s
 Cse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/engine/Q.java,b/a/bac7ebe020d9fbff6b79cbd9fc800d634a097857
 v

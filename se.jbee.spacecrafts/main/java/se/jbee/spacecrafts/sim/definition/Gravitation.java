@@ -3,17 +3,16 @@ package se.jbee.spacecrafts.sim.definition;
 import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.Resourcing.Phenomenon;
-import se.jbee.spacecrafts.sim.engine.Any;
-import se.jbee.spacecrafts.sim.engine.Engine;
+import se.jbee.turnmaster.Any;
 
 /**
  * Gravitation is a {@link Phenomenon} ranging from low to high gravity {@link
  * Influence}.
  */
 public record Gravitation(
-        String code
+    String code
 
-) implements Engine.Module {
+) implements Game.Module {
 
     static final Gravitation LOW = new Gravitation("g-low");
     static final Gravitation NORMAL = new Gravitation("g-normal");
@@ -33,9 +32,7 @@ public record Gravitation(
 
     private Phenomenon addPhenomenon(Game game, Influence... members) {
 
-        return game.objects().phenomena().spawn(serial -> new Phenomenon(new Any.Defined(
-                serial,
-                null,
-                ""), null));
+        return game.objects().phenomena().spawn(
+            serial -> new Phenomenon(new Any.Defined(serial, null, ""), null));
     }
 }

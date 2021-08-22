@@ -1,6 +1,6 @@
 package test.integration.utils;
 
-import se.jbee.spacecrafts.sim.engine.Collection;
+import se.jbee.turnmaster.Collection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Assertions {
         List<T> actuals = new ArrayList<>();
         actual.accept(actuals::add);
         assertEquals(expected.size(), actuals.size(),
-                "forEach did not call for the expected number from elements");
+            "forEach did not call for the expected number from elements");
         assertEquals(expected, actuals);
     }
 
@@ -29,7 +29,7 @@ public class Assertions {
         List<T> actuals = new ArrayList<>();
         actual.accept(actuals::add);
         assertEquals(expected.size(), actuals.size(),
-                "forEach did not call for the expected number from elements");
+            "forEach did not call for the expected number from elements");
         List<T> exp = new ArrayList<>();
         expected.forEach(exp::add);
         assertEquals(exp, actuals);

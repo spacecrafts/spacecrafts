@@ -8,11 +8,11 @@ import se.jbee.spacecrafts.sim.Exploring.SolarSystem;
 import se.jbee.spacecrafts.sim.Governing.Asset;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
-import se.jbee.spacecrafts.sim.engine.Any.Creation;
-import se.jbee.spacecrafts.sim.engine.Flux;
-import se.jbee.spacecrafts.sim.engine.Maybe;
-import se.jbee.spacecrafts.sim.engine.Numbers;
-import se.jbee.spacecrafts.sim.engine.Vary;
+import se.jbee.turnmaster.Any.Creation;
+import se.jbee.turnmaster.Flux;
+import se.jbee.turnmaster.Maybe;
+import se.jbee.turnmaster.Numbers;
+import se.jbee.turnmaster.Vary;
 
 public interface Conquering {
 
@@ -21,32 +21,32 @@ public interface Conquering {
      */
 
     record Colony(
-            Governed header,
-            Craft structure,
-            Planet on
+        Governed header,
+        Craft structure,
+        Planet on
     ) implements Asset {}
 
     record Spaceship(
-            Governed header,
-            Craft structure
+        Governed header,
+        Craft structure
     ) implements Asset {}
 
     record OrbitalStation(
-            Governed header,
-            Craft structure,
-            Planet by
+        Governed header,
+        Craft structure,
+        Planet by
     ) implements Asset {}
 
     record SpaceStation(
-            Governed header,
-            Craft structure,
-            SolarSystem in
+        Governed header,
+        Craft structure,
+        SolarSystem in
     ) implements Asset {}
 
     record LunarOutpost(
-            Governed header,
-            Craft structure,
-            Moon on
+        Governed header,
+        Craft structure,
+        Moon on
     ) implements Asset {}
 
     /**
@@ -54,11 +54,11 @@ public interface Conquering {
      * entity rather than a concept.
      */
     record Fleet(
-            Governed header,
-            Flux<Spaceship> members,
-            Numbers actuals,
-            Vary<Coordinate> location,
-            Vary<SolarSystem> destination
+        Governed header,
+        Flux<Spaceship> members,
+        Numbers actuals,
+        Vary<Coordinate> location,
+        Vary<SolarSystem> destination
     ) implements Creation {}
 
     /**
@@ -67,8 +67,8 @@ public interface Conquering {
      * Trading.Mission}.
      */
     record MercenaryUnit(
-            Governed header,
-            Fleet unit
+        Governed header,
+        Fleet unit
     ) implements Creation {}
 
     @FunctionalInterface

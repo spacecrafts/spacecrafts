@@ -1,10 +1,10 @@
 package se.jbee.spacecrafts.sim.eventuality;
 
 import se.jbee.spacecrafts.sim.Balance;
+import se.jbee.spacecrafts.sim.Game.Builder;
 import se.jbee.spacecrafts.sim.Trading;
-import se.jbee.spacecrafts.sim.engine.Eventuality;
-import se.jbee.spacecrafts.sim.engine.Eventuality.Builder;
-import se.jbee.spacecrafts.sim.engine.Register;
+import se.jbee.turnmaster.Eventuality;
+import se.jbee.turnmaster.Register;
 
 public interface TradingEventualities {
 

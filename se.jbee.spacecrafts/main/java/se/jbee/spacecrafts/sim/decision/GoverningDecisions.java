@@ -1,41 +1,41 @@
 package se.jbee.spacecrafts.sim.decision;
 
 import se.jbee.spacecrafts.sim.Game;
+import se.jbee.spacecrafts.sim.Game.Decision;
 import se.jbee.spacecrafts.sim.Governing;
 import se.jbee.spacecrafts.sim.Properties;
-import se.jbee.spacecrafts.sim.engine.Decision;
 
 public interface GoverningDecisions {
 
     record HireLeader(
-            Leader hired,
-            Fraction by
+        Leader hired,
+        Fraction by
     ) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma karma) {
+        public void manifestIn(Game game, Karma<Game> karma) {
             by.governed().leaders().add(hired);
         }
     }
 
     record DismissLeader(
-            Leader dismissed,
-            Fraction by
+        Leader dismissed,
+        Fraction by
     ) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma karma) {
+        public void manifestIn(Game game, Karma<Game> karma) {
             by.governed().leaders().remove(dismissed);
         }
     }
 
     record AssignLeader(
-            Leader assigned,
-            Asset to
+        Leader assigned,
+        Asset to
     ) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma karma) {
+        public void manifestIn(Game game, Karma<Game> karma) {
             var prior = assigned.assignment().set(to);
             var eta = game.objects().properties().get(Properties.eta);
             //TODO calculate actual eta costs
@@ -46,7 +46,7 @@ public interface GoverningDecisions {
     record DischargeLeader(Leader discharged) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma karma) {
+        public void manifestIn(Game game, Karma<Game> karma) {
             discharged.assignment().set(null);
         }
     }
@@ -54,9 +54,10 @@ public interface GoverningDecisions {
     record DischargeExistingLeader(Asset perished) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Karma karma) {
+        public void manifestIn(Game game, Karma<Game> karma) {
             karma.manifest(DischargeLeader::new, game.objects().leaders() //
-                    .first(l -> l.assignment().is(a -> a == perished)));
+                                                     .first(l -> l.assignment()
+                                                                  .is(a -> a == perished)));
         }
     }
 }
