@@ -17,19 +17,19 @@ public interface TradingDecisions {
     ) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             var emptyBids = game.runtime().newFlux().newFlux(
                     game.objects().bids());
             game.objects().trades().spawn(
-                    serial -> new Trade(new Offered(serial, by), to, perTern,
-                            give, take, emptyBids));
+                    serial -> new Trade(game.newOffered(serial, by), to,
+                            perTern, give, take, emptyBids));
         }
     }
 
     record WithdrawTrade(Trade withdrawn) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             game.objects().bids().perish(bid -> bid.on() == withdrawn);
             game.objects().trades().perish(withdrawn);
         }
@@ -42,16 +42,16 @@ public interface TradingDecisions {
     ) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             on.bids().add(game.objects().bids().spawn(serial -> new Bid( //
-                    new Offered(serial, by), on, bid)));
+                    game.newOffered(serial, by), on, bid)));
         }
     }
 
     record WithdrawBid(Bid withdrawn) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             withdrawn.on().bids().remove(withdrawn);
             game.objects().bids().perish(withdrawn);
         }
@@ -62,19 +62,19 @@ public interface TradingDecisions {
     ) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             var trade = accepted.on();
             var host = trade.header().by();
             var customer = accepted.header().by();
             trade.bids().remove(accepted);
             trade.recipients().remove(customer);
-            if (trade.recipients().isEmpty())
-                game.objects().trades().perish(trade);
+            if (trade.recipients().isEmpty()) game.objects().trades().perish(
+                    trade);
             game.objects().bids().perish(accepted);
             if (trade.perTern()) {
                 game.objects().deals().spawn(serial -> new Deal( //
-                        new Offered(serial, host), customer, accepted.give(),
-                        trade.take()));
+                        game.newOffered(serial, host), customer,
+                        accepted.give(), trade.take()));
             } else {
                 Balance.transfer(host, customer, accepted.give());
                 Balance.transfer(customer, host, trade.take());
@@ -88,7 +88,7 @@ public interface TradingDecisions {
     ) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             game.objects().deals().perish(terminated);
             //TODO must leave some sort from info to the other party (if human)
         }
@@ -102,16 +102,16 @@ public interface TradingDecisions {
     ) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             game.objects().sales().spawn(serial -> new Sale( //
-                    new Offered(serial, by), item, crew, price));
+                    game.newOffered(serial, by), item, crew, price));
         }
     }
 
     record WithdrawFromSale(Sale withdrawn) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             game.objects().sales().perish(withdrawn);
         }
     }
@@ -122,7 +122,7 @@ public interface TradingDecisions {
     ) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             var seller = closed.header().by();
             var ship = closed.of();
             seller.governed().spaceships().remove(ship);
@@ -143,27 +143,27 @@ public interface TradingDecisions {
     ) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             game.objects().missions().spawn(serial -> new Mission( //
-                    new Offered(serial, by), in, on, deck, unit, bounty));
+                    game.newOffered(serial, by), in, on, deck, unit, bounty));
         }
     }
 
     record CancelMission(Mission cancelled) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
-            processor.manifest(new PerishMission(cancelled));
+        public void manifestIn(Game game, Karma karma) {
+            karma.manifest(new PerishMission(cancelled));
         }
     }
 
     record FailExistingMissions(Asset targeted) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             game.objects().missions().forEach(mission -> {
-                if (mission.target() == targeted)
-                    processor.manifest(new CancelMission(mission));
+                if (mission.target() == targeted) karma.manifest(
+                        new CancelMission(mission));
             });
         }
     }
@@ -171,7 +171,7 @@ public interface TradingDecisions {
     record AcceptApproach(Approach accepted) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             game.objects().approaches().perish(
                     approach -> approach.on() == accepted.on());
             accepted.header().by().debitUnconditionals(accepted.on().salary());
@@ -184,7 +184,7 @@ public interface TradingDecisions {
     record CancelHire(Hire cancelled) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             game.objects().hires().perish(cancelled);
         }
     }
@@ -192,8 +192,8 @@ public interface TradingDecisions {
     record PerishMission(Mission perished) implements Trading, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
-            processor.manifest(CancelHire::new, game.objects().hires().first(
+        public void manifestIn(Game game, Karma karma) {
+            karma.manifest(CancelHire::new, game.objects().hires().first(
                     hire -> hire.on() == perished));
             game.objects().missions().perish(perished);
         }

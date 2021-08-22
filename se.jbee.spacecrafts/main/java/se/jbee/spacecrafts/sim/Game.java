@@ -1,6 +1,12 @@
 package se.jbee.spacecrafts.sim;
 
+import se.jbee.spacecrafts.sim.Governing.Fraction;
+import se.jbee.spacecrafts.sim.Governing.Governed;
+import se.jbee.spacecrafts.sim.Trading.Offered;
 import se.jbee.spacecrafts.sim.engine.*;
+import se.jbee.spacecrafts.sim.engine.Any.Created;
+import se.jbee.spacecrafts.sim.engine.Any.Generated;
+import se.jbee.spacecrafts.sim.engine.Any.Text;
 
 public record Game(
         Engine.Runtime runtime,
@@ -25,7 +31,7 @@ public record Game(
 
             Index<Crafting.Component> components,
             Register<Crafting.Craft> crafts,
-            Register<Crafting.Deck> decks,
+            Register<Crafting.Section> sections,
 
             Register<Conquering.Colony> colonies,
             Register<Conquering.LunarOutpost> outposts,
@@ -40,7 +46,7 @@ public record Game(
             Register<Exploring.Planet> planets,
             Register<Exploring.Moon> moons,
 
-            Register<Governing.Fraction> fractions,
+            Register<Fraction> fractions,
             Index<Governing.Trait> traits,
             Index<Governing.Sphere> spheres,
             Register<Governing.Leader> leaders,
@@ -69,7 +75,7 @@ public record Game(
                     pools.index(Resourcing.Substance.class),
                     pools.index(Crafting.Component.class),
                     pools.register(Crafting.Craft.class),
-                    pools.register(Crafting.Deck.class),
+                    pools.register(Crafting.Section.class),
                     pools.register(Conquering.Colony.class),
                     pools.register(Conquering.LunarOutpost.class),
                     pools.register(Conquering.OrbitalStation.class),
@@ -81,7 +87,7 @@ public record Game(
                     pools.register(Exploring.SolarSystem.class),
                     pools.register(Exploring.Planet.class),
                     pools.register(Exploring.Moon.class),
-                    pools.register(Governing.Fraction.class),
+                    pools.register(Fraction.class),
                     pools.index(Governing.Trait.class),
                     pools.index(Governing.Sphere.class),
                     pools.register(Governing.Leader.class),
@@ -95,8 +101,28 @@ public record Game(
         }
     }
 
+    public Governed newGoverned(int serial, Text name, Fraction origin) {
+        return new Governed(serial, name, origin);
+    }
+
+    public Created newCreated(int serial, Text name) {
+        return new Created(serial, name);
+    }
+
+    public Generated newGenerated(int serial, Text name) {
+        return new Generated(serial, name, 42L); //TODO
+    }
+
+    public Offered newOffered(int serial, Fraction by) {
+        return new Offered(serial, by);
+    }
+
     public Numbers newNumbers() {
         return runtime.newNumbers().newNumbers(objects.properties).clear();
+    }
+
+    public Marks newMarks() {
+        return runtime.newMarks().newMarks(objects.indicators);
     }
 
     public <T extends Any.Entity> Flux<T> newFlux(Class<T> of) {
@@ -109,5 +135,17 @@ public record Game(
 
     public <T> Top<T> newTop(int initialCapacity, int maxCapacity) {
         return runtime().newTop().newTop(initialCapacity, maxCapacity);
+    }
+
+    public <T> Top<T> newTop(int initialCapacity) {
+        return runtime().newTop().newTop(initialCapacity, -1);
+    }
+
+    public <T> Q<T> newQ(int initialCapacity) {
+        return runtime.newQ().newQ(initialCapacity);
+    }
+
+    public <T> XY<T> newXY(XY.Location capacity) {
+        return runtime.newXY().newXY(capacity);
     }
 }

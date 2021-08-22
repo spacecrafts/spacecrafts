@@ -1,12 +1,16 @@
 package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Crafting.Craft;
+import se.jbee.spacecrafts.sim.Exploring.Coordinate;
+import se.jbee.spacecrafts.sim.Exploring.Moon;
+import se.jbee.spacecrafts.sim.Exploring.Planet;
 import se.jbee.spacecrafts.sim.Exploring.SolarSystem;
 import se.jbee.spacecrafts.sim.Governing.Asset;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.spacecrafts.sim.engine.Any.Creation;
 import se.jbee.spacecrafts.sim.engine.Flux;
+import se.jbee.spacecrafts.sim.engine.Maybe;
 import se.jbee.spacecrafts.sim.engine.Numbers;
 import se.jbee.spacecrafts.sim.engine.Vary;
 
@@ -19,7 +23,7 @@ public interface Conquering {
     record Colony(
             Governed header,
             Craft structure,
-            Exploring.Planet on
+            Planet on
     ) implements Asset {}
 
     record Spaceship(
@@ -30,7 +34,7 @@ public interface Conquering {
     record OrbitalStation(
             Governed header,
             Craft structure,
-            Exploring.Planet by
+            Planet by
     ) implements Asset {}
 
     record SpaceStation(
@@ -42,7 +46,7 @@ public interface Conquering {
     record LunarOutpost(
             Governed header,
             Craft structure,
-            Exploring.Moon on
+            Moon on
     ) implements Asset {}
 
     /**
@@ -53,6 +57,7 @@ public interface Conquering {
             Governed header,
             Flux<Spaceship> members,
             Numbers actuals,
+            Vary<Coordinate> location,
             Vary<SolarSystem> destination
     ) implements Creation {}
 
@@ -66,4 +71,13 @@ public interface Conquering {
             Fleet unit
     ) implements Creation {}
 
+    @FunctionalInterface
+    interface Fleets {
+
+        Flux<Fleet> fleets();
+
+        default Maybe<Fleet> fleet(Fraction by) {
+            return fleets().first(fleet -> fleet.header().origin() == by);
+        }
+    }
 }

@@ -7,18 +7,18 @@ import se.jbee.spacecrafts.sim.engine.Numbers;
 @FunctionalInterface
 public interface Balance {
 
-    Numbers score();
+    Numbers totals();
 
     default void credit(Collection<Quantity> amounts) {
-        amounts.forEach(a -> score().add(a.of().amount(), a.n()));
+        amounts.forEach(a -> totals().add(a.of().amount(), a.n()));
     }
 
     default void debit(Collection<Quantity> amounts) {
-        amounts.forEach(a -> score().sub(a.of().amount(), a.n()));
+        amounts.forEach(a -> totals().sub(a.of().amount(), a.n()));
     }
 
     default void debitUnconditionals(Collection<Quantity> amounts) {
-        amounts.forEach(a -> score().sub(a.of().amount(), a.n()),
+        amounts.forEach(a -> totals().sub(a.of().amount(), a.n()),
                 Quantity::unconditional);
     }
 

@@ -16,6 +16,7 @@ public interface Crafting {
             Defined header,
             Process production,
             Numbers zeros
+            //TODO requirements, e.g. substances or indicators
     ) implements Definition {}
 
     record Material(
@@ -36,27 +37,37 @@ public interface Crafting {
             Flux<Influence> influences,
 
             // in order top to bottom
-            Top<Deck> decks,
+            Top<Section> sections,
 
             // operating priorities for units (which resources you try to maximise)
             Top<Resource> priorities
+    ) implements Creation, Balance {}
 
-    ) implements Creation {}
-
-    record Deck(
+    record Section(
             Created header,
             Material structure,
             Maybe<Material> plating,
             Numbers totals,
             Marks properties,
+            Pick<Deck> decks,
+            Top<Commission> commissions
+    ) implements Creation, Balance {}
+
+    record Commission(
+            Deck on,
+            Unit item,
+            boolean dismantle
+    ) implements Embedded {}
+
+    record Deck(
+            Text name,
+            boolean shared,
             XY<Unit> units,
             // in priority order:
-            Top<Unit> construction,
             Top<Equipment> equipments
-    ) implements Creation {}
-    // indicator-type: MAIN, SUPPORT, CARGO, ORBITAL
+    ) implements Embedded {}
 
-    record Launch(Flux<Deck> launched) implements Embedded {}
+    record Launch(Flux<Section> launched) implements Embedded {}
 
     /*
      * Dynamic model:
@@ -64,7 +75,8 @@ public interface Crafting {
 
     record Equipment(
             Cluster full,
-            Vary<Boolean> disabled
+            Vary<Boolean> disabled,
+            Numbers actuals
     ) implements Connectable {}
 
     record Cluster(

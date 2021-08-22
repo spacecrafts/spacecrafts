@@ -1,11 +1,11 @@
-package se.jbee.spacecrafts.sim.consequence;
+package se.jbee.spacecrafts.sim.eventuality;
 
 import se.jbee.spacecrafts.sim.Crafting;
-import se.jbee.spacecrafts.sim.engine.Consequence;
+import se.jbee.spacecrafts.sim.engine.Eventuality;
 
-public interface CraftingConsequences {
+public interface CraftingEventualities {
 
-    record CompletingUnits() implements Crafting, Consequence {
+    record CompletingUnits() implements Crafting, Eventuality {
 
         @Override
         public void manifest() {
@@ -16,7 +16,7 @@ public interface CraftingConsequences {
     // 0. zero `actuals`
     // 1. apply influences to units `actuals`
     // 2. distribute staff in units following priorities and lock ins
-    // 3. process resources in order of range:
+    // 3. process resources in order at range:
     // -energy
     // -rare materials
     // -construction points
@@ -27,5 +27,5 @@ public interface CraftingConsequences {
     // -population (staff)
     // => for each Unit add to their `actuals`
     // 4. aggregate resources amounts from Units to Deck and Decks to Craft
-    // 5. use construction points to complete construction queue items
+    // 5. use construction points to complete construction commissions items
 }

@@ -1,5 +1,6 @@
 package se.jbee.spacecrafts.sim.engine;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -12,6 +13,8 @@ public interface Pick<T> extends Collection<T> {
      */
 
     T get(int index) throws IndexOutOfBoundsException;
+
+    <B> Pick<B> map(Function<T, B> mapper);
 
     int firstIndex(Predicate<? super T> test);
 

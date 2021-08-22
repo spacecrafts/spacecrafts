@@ -27,6 +27,11 @@ public interface Flux<T extends Entity> extends Collection<T> {
 
     void add(T e);
 
+    default Flux<T> addAnd(T e) {
+        add(e);
+        return this;
+    }
+
     void remove(T e);
 
     void clear();

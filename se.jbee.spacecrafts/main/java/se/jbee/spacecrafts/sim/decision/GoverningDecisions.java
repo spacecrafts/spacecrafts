@@ -13,7 +13,7 @@ public interface GoverningDecisions {
     ) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             by.governed().leaders().add(hired);
         }
     }
@@ -24,7 +24,7 @@ public interface GoverningDecisions {
     ) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             by.governed().leaders().remove(dismissed);
         }
     }
@@ -35,7 +35,7 @@ public interface GoverningDecisions {
     ) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             var prior = assigned.assignment().set(to);
             var eta = game.objects().properties().get(Properties.eta);
             //TODO calculate actual eta costs
@@ -46,7 +46,7 @@ public interface GoverningDecisions {
     record DischargeLeader(Leader discharged) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             discharged.assignment().set(null);
         }
     }
@@ -54,8 +54,8 @@ public interface GoverningDecisions {
     record DischargeExistingLeader(Asset perished) implements Governing, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
-            processor.manifest(DischargeLeader::new, game.objects().leaders() //
+        public void manifestIn(Game game, Karma karma) {
+            karma.manifest(DischargeLeader::new, game.objects().leaders() //
                     .first(l -> l.assignment().is(a -> a == perished)));
         }
     }

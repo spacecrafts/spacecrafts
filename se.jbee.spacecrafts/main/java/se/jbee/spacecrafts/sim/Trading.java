@@ -53,8 +53,8 @@ public interface Trading {
     record Deal(
             Offered header,
             Fraction with,
-            Pick<Resourcing.Quantity> give,
-            Pick<Resourcing.Quantity> take
+            Pick<Resourcing.Quantity> given,
+            Pick<Resourcing.Quantity> taken
     ) implements Offer {}
 
     record Sale(

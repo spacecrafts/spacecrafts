@@ -99,7 +99,7 @@ public interface Any {
 
     abstract class Mutable<T> implements Editable, Embedded {
 
-        private T value;
+        protected T value;
 
         Mutable(T initial) {
             requireNonNull(initial);
@@ -122,6 +122,10 @@ public interface Any {
         public Text(String initial) {
             super(initial);
         }
+
+        public Text copy() {
+            return new Text(value);
+        }
     }
 
     record Created(
@@ -130,6 +134,12 @@ public interface Any {
     ) implements IsCreated {}
 
     record Composed(int serial) implements IsCreated {}
+
+    record Generated(
+            int serial,
+            Text name,
+            long seed
+    ) implements IsCreated {}
 
     record Defined(
             int serial,

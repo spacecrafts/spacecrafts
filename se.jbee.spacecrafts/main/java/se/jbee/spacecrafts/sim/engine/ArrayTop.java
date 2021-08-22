@@ -121,12 +121,14 @@ final class ArrayTop<T> implements Top<T> {
     @Override
     public void pushTop(T e) {
         checkNonNull(e);
-        size = Math.min(capacity, size + 1);
+        size = isUnbound()
+               ? size + 1
+               : Math.min(capacity, size + 1);
         if (size > elements.length) {
             Object[] tmp = new Object[nextCapacity(4)];
             tmp[0] = e;
-            if (elements.length > 0)
-                arraycopy(elements, 0, tmp, 1, elements.length);
+            if (elements.length > 0) arraycopy(elements, 0, tmp, 1,
+                    elements.length);
             elements = tmp;
         } else if (size > 1) {
             arraycopy(elements, 0, elements, 1, size - 1);
@@ -137,9 +139,13 @@ final class ArrayTop<T> implements Top<T> {
     @Override
     @SafeVarargs
     public final void pushTop(T... items) {
-        int len = Math.min(items.length, capacity);
+        int len = isUnbound()
+                  ? items.length
+                  : Math.min(items.length, capacity);
         checkNonNull(items, len);
-        int moved = Math.min(size, capacity - len);
+        int moved = isUnbound()
+                    ? size
+                    : Math.min(size, capacity - len);
         if (moved + len > elements.length) {
             Object[] tmp = new Object[nextCapacity(len)];
             arraycopy(items, 0, tmp, 0, len);
@@ -161,8 +167,8 @@ final class ArrayTop<T> implements Top<T> {
             return;
         }
         size++;
-        if (size > elements.length)
-            elements = Arrays.copyOf(elements, nextCapacity(4));
+        if (size > elements.length) elements = Arrays.copyOf(elements,
+                nextCapacity(4));
         elements[size - 1] = e;
     }
 
@@ -187,8 +193,8 @@ final class ArrayTop<T> implements Top<T> {
 
     private void pushBottom(Object[] items, int len) {
         checkNonNull(items, len);
-        if (size + len > elements.length)
-            elements = copyOf(elements, nextCapacity(len));
+        if (size + len > elements.length) elements = copyOf(elements,
+                nextCapacity(len));
         int at = Math.min(size, capacity - len);
         arraycopy(items, 0, elements, at, len);
         size = at + len;
@@ -271,8 +277,14 @@ final class ArrayTop<T> implements Top<T> {
             checkNonNull(items[i]);
     }
 
+    private boolean isUnbound() {
+        return capacity <= 0;
+    }
+
     private int nextCapacity(int minAdditionalCapacity) {
-        return Math.min(capacity,
-                size + Math.max(minAdditionalCapacity, capacity / 8));
+        return isUnbound()
+               ? size + minAdditionalCapacity
+               : Math.min(capacity,
+                       size + Math.max(minAdditionalCapacity, capacity / 8));
     }
 }

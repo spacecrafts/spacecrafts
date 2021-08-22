@@ -32,7 +32,8 @@ public interface Engine {
             Top<Option<Flux.Factory>> newFluxes,
             Top<Option<Marks.Factory>> newMarks,
             Top<Option<Numbers.Factory>> newNumbers,
-            Top<Option<NumberPer.Factory>> newNumberPer
+            Top<Option<NumberPer.Factory>> newNumberPer,
+            Top<Option<XY.Factory>> newXYs
     ) {}
 
     /**
@@ -48,7 +49,8 @@ public interface Engine {
             Flux.Factory newFlux,
             Marks.Factory newMarks,
             Numbers.Factory newNumbers,
-            NumberPer.Factory newNumberPer
+            NumberPer.Factory newNumberPer,
+            XY.Factory newXY
     ) {}
 
     /**

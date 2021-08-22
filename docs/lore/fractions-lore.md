@@ -40,6 +40,14 @@ and cannot be changed during the game.
 * ruthless
 * artistic
 
+## Titles
+
+depending on the power structure you have a title:
+
+* emperor
+* alpha
+*
+
 ## Life-forms
 
 ### Cellular/Biological

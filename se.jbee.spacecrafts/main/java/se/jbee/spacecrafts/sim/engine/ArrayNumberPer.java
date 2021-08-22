@@ -18,7 +18,7 @@ abstract class ArrayNumberPer<K extends Any.Entity> implements NumberPer<K> {
     @Override
     public final int get(K key) {
         int value = at(index(key));
-        if (value < 0) throw new NoSuchElementException(key.toString());
+        if (isNaN(value)) throw new NoSuchElementException(key.toString());
         return value;
     }
 
@@ -85,7 +85,10 @@ class ArrayFixedNumbersPer<K extends Any.Definition> extends ArrayNumberPer<K> {
 
     @Override
     public void add(K key, int delta) {
-        values[index(key)] += delta;
+        int index = index(key);
+        if (isNaN(values[index])) {
+            values[index] = delta;
+        } else values[index] += delta;
     }
 
     @Override
@@ -126,7 +129,9 @@ final class ArrayDynamicNumbersPer<K extends Any.Creation> extends ArrayNumberPe
     public void add(K key, int delta) {
         int index = index(key);
         ensureExists(index);
-        values[index] += delta;
+        if (isNaN(values[index])) {
+            values[index] = delta;
+        } else values[index] += delta;
     }
 
     @Override

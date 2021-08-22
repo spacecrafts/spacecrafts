@@ -1,6 +1,7 @@
 package se.jbee.spacecrafts.sim.engine;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static java.lang.System.arraycopy;
@@ -18,11 +19,22 @@ final class ArrayQ<T> implements Q<T> {
         this.elements = new Object[initialCapacity];
     }
 
+    private ArrayQ(Object[] elements) {
+        this.elements = elements;
+        this.size = elements.length;
+        this.sealed = true;
+    }
+
     @Override
-    @SuppressWarnings("unchecked")
+
     public T get(int index) throws IndexOutOfBoundsException {
         if (index >= size) throw new IndexOutOfBoundsException();
-        return (T) elements[index];
+        return getUnchecked(elements[index]);
+    }
+
+    @SuppressWarnings("unchecked")
+    private T getUnchecked(Object element) {
+        return (T) element;
     }
 
     @Override
@@ -89,6 +101,14 @@ final class ArrayQ<T> implements Q<T> {
     }
 
     @Override
+    public <B> Pick<B> map(Function<T, B> mapper) {
+        Object[] mapped = new Object[size];
+        for (int i = 0; i < size; i++)
+            mapped[i] = mapper.apply(getUnchecked(i));
+        return new ArrayQ<>(mapped);
+    }
+
+    @Override
     public Maybe<T> first(Predicate<? super T> test) {
         var index = firstIndex(test);
         return index < 0 ? Maybe.nothing() : Maybe.some(get(index));
@@ -106,8 +126,8 @@ final class ArrayQ<T> implements Q<T> {
     }
 
     private void checkNonNull(Object e) {
-        if (e == null)
-            throw new NullPointerException("Q elements must not be null");
+        if (e == null) throw new NullPointerException(
+                "Q elements must not be null");
     }
 
     private void checkNonNull(Object[] items) {
@@ -117,9 +137,8 @@ final class ArrayQ<T> implements Q<T> {
 
     private void ensureCapacity(int minAdditionalCapacity) {
         if (size + minAdditionalCapacity >= elements.length) {
-            elements = copyOf(elements,
-                    size + Math.max(minAdditionalCapacity,
-                            Math.min(16, size / 8)));
+            elements = copyOf(elements, size + Math.max(minAdditionalCapacity,
+                    Math.min(16, size / 8)));
         }
     }
 }

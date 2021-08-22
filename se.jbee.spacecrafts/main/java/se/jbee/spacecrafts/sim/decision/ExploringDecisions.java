@@ -13,7 +13,7 @@ public interface ExploringDecisions {
     ) implements Exploring, Decision {
 
         @Override
-        public void manifestIn(Game game, Processor processor) {
+        public void manifestIn(Game game, Karma karma) {
             dispatched.destination().set(to);
         }
     }

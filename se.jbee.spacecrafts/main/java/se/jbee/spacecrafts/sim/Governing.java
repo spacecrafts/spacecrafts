@@ -23,9 +23,12 @@ public interface Governing {
             Flux<Trait> traits,
             Governance governed,
             Awareness awareOf
-    ) implements Creation,
-
-            Balance {}
+    ) implements Creation, Balance {
+        @Override
+        public Numbers totals() {
+            return score;
+        }
+    }
 
     record Trait(
             Defined header,
@@ -81,7 +84,7 @@ public interface Governing {
             Flux<Fleet> fleets,
             Flux<MercenaryUnit> mercenaries,
             Flux<Leader> leaders
-    ) implements Embedded {}
+    ) implements Embedded, Fleets {}
 
 
     record Awareness(
@@ -106,5 +109,5 @@ public interface Governing {
             Flux<MercenaryUnit> mercenaries,
             Flux<Discovery> discoveries,
             Flux<Component> components
-    ) {}
+    ) implements Fleets {}
 }

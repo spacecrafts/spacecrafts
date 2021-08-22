@@ -5,10 +5,20 @@ import java.util.function.Consumer;
 
 public interface XY<T> {
 
+    @FunctionalInterface
+    interface Factory {
+
+        <T> XY<T> newXY(Location capacity);
+    }
+
     record Location(
             int x,
             int y
-    ) {}
+    ) {
+        public Location movedBy(int dx, int dy) {
+            return new Location(x + dx, y + dy);
+        }
+    }
 
     /**
      * @return top left corner from the used rectangle - these are minimum used
@@ -21,6 +31,10 @@ public interface XY<T> {
      * maximum used x and y positions
      */
     Location max();
+
+    Location capacity();
+
+    void trimTo(Location capacity);
 
     /**
      * @return number from cells between {@link #min()} and {@link #max()}

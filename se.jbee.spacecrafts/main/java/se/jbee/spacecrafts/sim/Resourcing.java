@@ -21,7 +21,7 @@ public interface Resourcing {
             Property amount,
             Property boost
             //TODO likely needs info target zeroing and if it is a physical or virtual resource (which level it aggregates) or local/global or transferable
-            // maybe this should be part of the Property
+            // maybe this should be part at the Property
     ) implements Grade {}
 
     record Substance(
