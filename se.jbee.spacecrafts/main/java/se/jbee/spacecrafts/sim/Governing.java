@@ -12,6 +12,7 @@ import se.jbee.spacecrafts.sim.Crafting.Component;
 import se.jbee.spacecrafts.sim.Crafting.Craft;
 import se.jbee.spacecrafts.sim.Discovering.Discovery;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
+import se.jbee.turnmaster.data.Any;
 import se.jbee.turnmaster.data.Any.Created;
 import se.jbee.turnmaster.data.Any.Creation;
 import se.jbee.turnmaster.data.Any.Defined;
@@ -23,8 +24,10 @@ import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Marks;
 import se.jbee.turnmaster.data.NumberPer;
 import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Per;
 import se.jbee.turnmaster.data.Q;
 import se.jbee.turnmaster.data.Stasis;
+import se.jbee.turnmaster.data.Top;
 import se.jbee.turnmaster.data.Vary;
 
 public interface Governing {
@@ -41,7 +44,8 @@ public interface Governing {
         Marks properties,
         Flux<Trait> traits,
         Governance governed,
-        Awareness awareOf
+        Awareness awareOf,
+        Per<Fleet, Top<Sighting>> sightings
     ) implements Creation, Balance {
 
         @Override
@@ -137,4 +141,9 @@ public interface Governing {
         Flux<Discovery> discoveries,
         Flux<Component> components
     ) implements Embedded, Fleets {}
+
+    record Sighting(
+        Exploring.Coordinate at,
+        int inTurn
+    ) implements Any.Embedded {}
 }

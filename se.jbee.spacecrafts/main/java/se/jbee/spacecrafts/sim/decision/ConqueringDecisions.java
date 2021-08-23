@@ -282,6 +282,7 @@ public interface ConqueringDecisions {
             game.objects().fractions().forEach(fraction -> {
                 fraction.awareOf().fleets().remove(perished);
                 fraction.governed().fleets().remove(perished);
+                fraction.sightings().remove(perished);
             });
             game.objects().fleets().perish(perished);
             return null;

@@ -2,11 +2,12 @@ package se.jbee.spacecrafts.sim.deduction;
 
 import se.jbee.spacecrafts.sim.Crafting;
 import se.jbee.spacecrafts.sim.Game;
+import se.jbee.spacecrafts.sim.Game.Deduction;
 import se.jbee.turnmaster.Engine.Flow;
 
 public interface CraftingDeductions {
 
-    record CompletingUnits() implements Crafting, Game.Deduction {
+    record CompletingUnits() implements Crafting, Deduction {
 
         @Override
         public void manifest(Flow<Game> flow) {

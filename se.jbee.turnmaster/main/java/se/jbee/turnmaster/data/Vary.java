@@ -3,6 +3,7 @@ package se.jbee.turnmaster.data;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 /**
  * {@link Vary} is a mutable {@link Optional} container where a {@code null}
@@ -27,8 +28,16 @@ public sealed interface Vary<T> extends Optional<T> permits Vary.Varying {
      */
     Maybe<T> set(T value);
 
+    default void update(UnaryOperator<T> f) {
+        if (isSome()) set(f.apply(get()));
+    }
+
     default void clear() {
         set(null);
+    }
+
+    default boolean isEqual(T at) {
+        return isSome() && get().equals(at);
     }
 
     final class Varying<T> implements Vary<T> {

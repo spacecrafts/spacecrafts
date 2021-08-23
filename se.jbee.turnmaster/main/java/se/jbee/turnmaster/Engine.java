@@ -8,6 +8,7 @@ import se.jbee.turnmaster.data.Marks;
 import se.jbee.turnmaster.data.NumberPer;
 import se.jbee.turnmaster.data.Numbers;
 import se.jbee.turnmaster.data.Optional;
+import se.jbee.turnmaster.data.Per;
 import se.jbee.turnmaster.data.Pick;
 import se.jbee.turnmaster.data.Pools;
 import se.jbee.turnmaster.data.Q;
@@ -59,6 +60,7 @@ public interface Engine {
         Top<Option<MarkPer.Factory>> newMarkPer,
         Top<Option<Numbers.Factory>> newNumbers,
         Top<Option<NumberPer.Factory>> newNumberPer,
+        Top<Option<Per.Factory>> newPers,
         Top<Option<XY.Factory>> newXYs
     ) {}
 
@@ -77,6 +79,7 @@ public interface Engine {
         MarkPer.Factory newMarkPer,
         Numbers.Factory newNumbers,
         NumberPer.Factory newNumberPer,
+        Per.Factory newPer,
         XY.Factory newXY
     ) {}
 

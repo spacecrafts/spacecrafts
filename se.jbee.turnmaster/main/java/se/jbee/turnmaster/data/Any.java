@@ -141,6 +141,7 @@ public interface Any {
         Defined header,
         int ordinal,
         Limit limits
+        // volatile => whether it disappears or accumulates after a turn
     ) implements Grade {}
 
     /**

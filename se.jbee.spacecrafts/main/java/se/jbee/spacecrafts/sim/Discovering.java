@@ -8,17 +8,18 @@ import se.jbee.turnmaster.data.Stasis;
 
 public interface Discovering {
 
-    record Field(
+    record AreaOfInterest(
         Defined header,
         int ordinal
     ) implements Grade {}
 
     record Discovery(
         Defined header,
-        Field in,
+        AreaOfInterest in,
         int level,
         Numbers preconditions,
-        Stasis<Crafting.Component> provided
+        Stasis<Crafting.Component> enables,
+        Numbers contributes
     ) implements Definition {}
 
 }

@@ -83,7 +83,10 @@ public record Game(
         Register<Trading.Sale> sales,
         Register<Trading.Mission> missions,
         Register<Trading.Approach> approaches,
-        Register<Trading.Hire> hires
+        Register<Trading.Hire> hires,
+
+        Range<Discovering.AreaOfInterest> areaOfInterests,
+        Index<Discovering.Discovery> discoveries
     ) {
 
         public Objects(Engine.Runtime runtime) {
@@ -122,7 +125,9 @@ public record Game(
                 pools.register(Trading.Sale.class),
                 pools.register(Trading.Mission.class),
                 pools.register(Trading.Approach.class),
-                pools.register(Trading.Hire.class));
+                pools.register(Trading.Hire.class),
+                pools.range(Discovering.AreaOfInterest.class),
+                pools.index(Discovering.Discovery.class));
         }
     }
 

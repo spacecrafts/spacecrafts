@@ -1,6 +1,6 @@
 package se.jbee.turnmaster.data;
 
-public interface MarkPer<T extends Any.Entity> extends Collection<T> {
+public interface MarkPer<K extends Any.Entity> extends Collection<K> {
 
     @FunctionalInterface
     interface Factory {
@@ -12,24 +12,24 @@ public interface MarkPer<T extends Any.Entity> extends Collection<T> {
     API
      */
 
-    boolean has(T key);
+    boolean has(K key);
 
-    void set(T key, boolean value);
+    void set(K key, boolean value);
 
     void clear();
 
-    void zero(MarkPer<T> zeros);
+    void zero(MarkPer<K> zeros);
 
-    default void set(T key) {
+    default void set(K key) {
         set(key, true);
     }
 
-    default void unset(T key) {
+    default void unset(K key) {
         set(key, false);
     }
 
     @Override
-    default boolean contains(T key) {
+    default boolean contains(K key) {
         return has(key);
     }
 }

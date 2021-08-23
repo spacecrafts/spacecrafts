@@ -8,13 +8,9 @@ import se.jbee.turnmaster.data.Any.Generated;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.XY;
 
-public interface Exploring {
+import static java.lang.Math.round;
 
-    record Coordinate(
-        int x,
-        int y,
-        int z
-    ) {}
+public interface Exploring {
 
     record Sector(
         Generated header,
@@ -50,4 +46,22 @@ public interface Exploring {
         Flux<Influence> features,
         XY<Substance> surface
     ) implements Creation {}
+
+    record Coordinate(
+        int x,
+        int y,
+        int z
+    ) {
+
+        public Coordinate movedTowards(Coordinate target, int distance) {
+            int dx = target.x - x;
+            int dy = target.y - y;
+            int dz = target.z - z;
+            double total = Math.sqrt((double) dx * dx + dy * dy + dz * dz);
+            if (total <= distance) return target;
+            float factor = (float) (distance / total);
+            return new Coordinate(round(dx * factor), round(dy * factor),
+                round(dy * factor));
+        }
+    }
 }

@@ -6,14 +6,14 @@ import java.util.function.Predicate;
 
 import static java.lang.System.arraycopy;
 
-abstract class BitsMarkPer<T extends Any.Entity> implements MarkPer<T> {
+abstract class BitsMarkPer<K extends Any.Entity> implements MarkPer<K> {
 
-    protected final Pool<T> of;
+    protected final Pool<K> of;
 
-    protected BitsMarkPer(Pool<T> of) {this.of = of;}
+    protected BitsMarkPer(Pool<K> of) {this.of = of;}
 
     @Override
-    public boolean has(T key) {
+    public boolean has(K key) {
         int index = index(key);
         int wordIndex = wordIndex(index);
         return wordIndex < words() && (word(wordIndex) & wordMask(index)) != 0;
@@ -36,11 +36,11 @@ abstract class BitsMarkPer<T extends Any.Entity> implements MarkPer<T> {
     }
 }
 
-abstract class FixedBitsMarkPer<T extends Any.Definition> extends BitsMarkPer<T> {
+abstract class FixedBitsMarkPer<K extends Any.Definition> extends BitsMarkPer<K> {
 
     private final long[] words;
 
-    FixedBitsMarkPer(Index<T> of) {
+    FixedBitsMarkPer(Index<K> of) {
         super(of);
         this.words = new long[wordIndex(of.span() + 1) + 1];
     }
@@ -56,7 +56,7 @@ abstract class FixedBitsMarkPer<T extends Any.Definition> extends BitsMarkPer<T>
     }
 
     @Override
-    public void set(T key, boolean value) {
+    public void set(K key, boolean value) {
         int index = index(key);
         int wordIndex = wordIndex(index);
         if (value) {
@@ -72,7 +72,7 @@ abstract class FixedBitsMarkPer<T extends Any.Definition> extends BitsMarkPer<T>
     }
 
     @Override
-    public void forEach(Consumer<? super T> f) {
+    public void forEach(Consumer<? super K> f) {
         for (int i = 0; i < words.length; i++) {
             long word = words[i];
             if (word != 0L) {
@@ -88,7 +88,7 @@ abstract class FixedBitsMarkPer<T extends Any.Definition> extends BitsMarkPer<T>
     }
 
     @Override
-    public void zero(MarkPer<T> zeros) {
+    public void zero(MarkPer<K> zeros) {
         if (zeros instanceof FixedBitsMarkPer ft) {
             arraycopy(ft.words, 0, words, 0, words.length);
         } else {
@@ -106,7 +106,7 @@ abstract class FixedBitsMarkPer<T extends Any.Definition> extends BitsMarkPer<T>
     }
 
     @Override
-    public Maybe<T> first(Predicate<? super T> test) {
+    public Maybe<K> first(Predicate<? super K> test) {
         for (int i = 0; i < words.length; i++) {
             long word = words[i];
             if (word != 0L) {
@@ -126,7 +126,7 @@ abstract class FixedBitsMarkPer<T extends Any.Definition> extends BitsMarkPer<T>
     }
 }
 
-abstract class DynamicBitsMarkPer<T extends Any.Creation> extends BitsMarkPer<T> {
+abstract class DynamicBitsMarkPer<K extends Any.Creation> extends BitsMarkPer<K> {
 
-    DynamicBitsMarkPer(Register<T> of) {super(of);}
+    DynamicBitsMarkPer(Register<K> of) {super(of);}
 }
