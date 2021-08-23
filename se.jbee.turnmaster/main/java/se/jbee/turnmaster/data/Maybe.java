@@ -68,6 +68,7 @@ public sealed interface Maybe<T> extends Optional<T> permits Maybe.Nothing, Mayb
         public <R> Maybe<R> map(Function<T, R> f) {
             return (Maybe<R>) this;
         }
+
     }
 
     final record Some<T>(T get) implements Maybe<T> {

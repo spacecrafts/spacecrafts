@@ -23,6 +23,7 @@ public class ArrayPer<K extends Any.Entity, V> implements Per<K, V> {
 
     @Override
     public void forEach(Consumer<? super Value<K, V>> f) {
+        if (size == 0) return;
         for (int i = 0; i < values.length; i++)
             if (values[i] != null) f.accept(getEntry(i));
     }
@@ -75,10 +76,10 @@ public class ArrayPer<K extends Any.Entity, V> implements Per<K, V> {
     public Maybe<V> remove(K key) {
         int index = key.header().serial();
         var e = getUnchecked(index);
+        if (e == null) return Maybe.nothing();
         values[index] = null;
-        if (e != null) return Maybe.some(e);
         size--;
-        return Maybe.nothing();
+        return Maybe.some(e);
     }
 
     @Override

@@ -54,6 +54,7 @@ public interface Exploring {
     ) {
 
         public Coordinate movedTowards(Coordinate target, int distance) {
+            assert distance >= 0;
             int dx = target.x - x;
             int dy = target.y - y;
             int dz = target.z - z;

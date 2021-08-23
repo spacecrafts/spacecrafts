@@ -25,7 +25,7 @@ public interface Per<K extends Any.Entity, V> extends Collection<Per.Value<K, V>
         }
     }
 
-    Maybe<V> get(K key);
+    Maybe<V> get(K key) throws NullPointerException;
 
     Maybe<V> set(K key, V value) throws NullPointerException;
 

@@ -72,4 +72,16 @@ class TestMaybe {
     void ofThrowing() {
         assertEquals(42, Maybe.ofThrowing(() -> 42).get());
     }
+
+    @Test
+    void nothing_equals() {
+        assertEquals(Maybe.nothing(), Maybe.nothing());
+        assertNotEquals(Maybe.nothing(), Maybe.some("a"));
+    }
+
+    @Test
+    void some_equals() {
+        assertEquals(Maybe.some("a"), Maybe.some("a"));
+        assertNotEquals(Maybe.some("a"), Maybe.some("b"));
+    }
 }

@@ -1,6 +1,7 @@
 package se.jbee.turnmaster.data;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
@@ -83,6 +84,18 @@ public sealed interface Vary<T> extends Optional<T> permits Vary.Varying {
                            : Maybe.nothing();
             this.value = value;
             return old;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (!(obj instanceof Varying<?> varying)) return false;
+            return Objects.equals(value, varying.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value);
         }
     }
 }
