@@ -16,7 +16,6 @@ public interface Resourcing {
      */
     record Resource(
         Defined header,
-        int ordinal,
         Property amount,
         Property boost
         //TODO likely needs info target zeroing and if it is a physical or virtual resource (which level it aggregates) or local/global or transferable
@@ -32,7 +31,6 @@ public interface Resourcing {
 
     record Influence(
         Defined header,
-        int ordinal,
         Process progression,
         Numbers zeros
     ) implements Grade {}

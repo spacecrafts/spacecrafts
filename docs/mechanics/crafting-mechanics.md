@@ -28,12 +28,6 @@
 * add "sockets" to components, e.g. for lasers and other tech that can operate
   on crystals there can be a socket to plug in a crystal that buffs the
   efficiency and other stats => via edges
-* a special "connector" component can be used to fuse modules without being a
-  module themselves. part from being cheaper this is better in some regards (
-  extra tech needed)
-  planetary lift: a component that is build both on planet and in orbit to allow
-  transfering modules without the modules being able to fly on their own. more
-  components = larger modules allowed to transfer
 
 ## Computation
 

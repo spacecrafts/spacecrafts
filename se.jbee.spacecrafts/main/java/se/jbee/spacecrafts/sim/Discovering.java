@@ -9,8 +9,7 @@ import se.jbee.turnmaster.data.Stasis;
 public interface Discovering {
 
     record AreaOfInterest(
-        Defined header,
-        int ordinal
+        Defined header
     ) implements Grade {}
 
     record Discovery(

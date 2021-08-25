@@ -56,9 +56,8 @@ public interface GoverningDecisions {
 
         @Override
         public void manifestIn(Game game, Flow<Game> flow) {
-            flow.manifest(DischargeLeader::new, game.objects().leaders() //
-                                                    .first(l -> l.assignment()
-                                                                 .is(a -> a == perished)));
+            flow.manifest(DischargeLeader::new, game.objects().leaders().first(
+                l -> l.assignment().is(a -> a == perished)));
         }
     }
 }

@@ -60,7 +60,6 @@ public interface Any {
 
     interface Grade extends Definition {
 
-        int ordinal();
     }
 
     /**
@@ -139,7 +138,6 @@ public interface Any {
 
     record Property(
         Defined header,
-        int ordinal,
         Limit limits
         // volatile => whether it disappears or accumulates after a turn
     ) implements Grade {}
@@ -154,12 +152,11 @@ public interface Any {
 
     record Indicator(
         Defined header,
-        int ordinal,
         boolean hidden
     ) implements Grade {
 
         public Indicator(int serial, String code) {
-            this(new Defined(serial, new Code(code), code), serial, false);
+            this(new Defined(serial, new Code(code), code), false);
         }
     }
 

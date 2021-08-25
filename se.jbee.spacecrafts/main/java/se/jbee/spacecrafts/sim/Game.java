@@ -4,12 +4,15 @@ import se.jbee.spacecrafts.sim.Governing.Commanded;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.spacecrafts.sim.Governing.Governed;
 import se.jbee.spacecrafts.sim.Trading.Offered;
+import se.jbee.spacecrafts.sim.definition.Definitions;
 import se.jbee.turnmaster.Engine;
 import se.jbee.turnmaster.RNG;
 import se.jbee.turnmaster.Turn;
 import se.jbee.turnmaster.data.Any;
+import se.jbee.turnmaster.data.Any.Code;
 import se.jbee.turnmaster.data.Any.Composed;
 import se.jbee.turnmaster.data.Any.Created;
+import se.jbee.turnmaster.data.Any.Defined;
 import se.jbee.turnmaster.data.Any.Generated;
 import se.jbee.turnmaster.data.Any.Text;
 import se.jbee.turnmaster.data.Flux;
@@ -28,7 +31,7 @@ public record Game(
     Turn turn,
     RNG rng,
     Objects objects
-) implements Engine.Game {
+) implements Engine.Game, Definitions.AddPhenomena {
 
     public interface Module extends Engine.Module<Game> {}
 
@@ -131,6 +134,12 @@ public record Game(
         }
     }
 
+    @Override
+    public Defined newDefined(int serial, String code) {
+        //TODO use code to lookup name by code from i18n
+        return new Defined(serial, new Code(code), code);
+    }
+
     public Governed newGoverned(int serial, CharSequence name, Fraction origin) {
         return new Governed(serial, new Text(name), turn.current(), origin);
     }
@@ -156,6 +165,7 @@ public record Game(
         return new Offered(serial, by, turn.current());
     }
 
+    @Override
     public Numbers newNumbers() {
         return runtime.newNumbers().newNumbers(objects.properties).clear();
     }
@@ -164,6 +174,7 @@ public record Game(
         return runtime.newMarks().newMarks(objects.indicators);
     }
 
+    @Override
     public <T extends Any.Entity> Flux<T> newFlux(Class<T> of) {
         return runtime.newFlux().newFlux(objects.pools.pool(of));
     }
@@ -187,4 +198,5 @@ public record Game(
     public <T> XY<T> newXY(XY.Location capacity) {
         return runtime.newXY().newXY(capacity);
     }
+
 }

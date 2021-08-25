@@ -134,11 +134,11 @@ public interface Engine {
             return Q.empty();
         }
 
-        default void installIn0(G game) {
-            // by default: nothing to do
+        default Pick<Class<? extends Module<G>>> supports() {
+            return Q.empty();
         }
 
-        default void installIn1(G game) {
+        default void installIn(G game) {
             // by default: nothing to do
         }
     }

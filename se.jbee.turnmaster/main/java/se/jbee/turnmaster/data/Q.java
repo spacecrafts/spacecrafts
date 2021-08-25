@@ -19,6 +19,12 @@ public interface Q<T> extends Pick<T> {
         return (Pick<T>) ArrayQ.EMPTY;
     }
 
+    static <T> Pick<T> single(T e) {
+        Q<T> q = newDefault(1);
+        q.append(e);
+        return q.seal();
+    }
+
     @FunctionalInterface
     interface Factory {
 

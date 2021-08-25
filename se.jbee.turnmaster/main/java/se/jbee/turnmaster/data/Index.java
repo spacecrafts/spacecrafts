@@ -20,10 +20,11 @@ public interface Index<T extends Any.Definition> extends Pool<T> {
     API
      */
 
+    default Maybe<T> find(Code code) {
+        return first(e -> e.header().code().equals(code));
+    }
+
     default T get(Code code) throws NoSuchElementException {
-        return first(e -> e.header().code().equals(code)) //
-                                                          .orElseThrow(
-                                                              () -> new NoSuchElementException(
-                                                                  of().getSimpleName() + " with code: " + code));
+        return find(code).orElseThrow(NoSuchElementException::new);
     }
 }

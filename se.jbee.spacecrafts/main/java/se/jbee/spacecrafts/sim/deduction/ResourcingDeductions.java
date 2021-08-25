@@ -11,4 +11,6 @@ public interface ResourcingDeductions {
     // => crafts cannot have accumulators (otherwise we would not be able to zero)
     //
 
+    // eval equipment
+    // staff equipment
 }

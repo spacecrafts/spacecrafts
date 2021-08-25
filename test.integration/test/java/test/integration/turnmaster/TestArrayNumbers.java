@@ -145,6 +145,6 @@ class TestArrayNumbers {
 
     static Property newProperty(int serial) {
         return new Property(new Defined(serial, null, "prop" + ('a' + serial)),
-            serial, null);
+            null);
     }
 }

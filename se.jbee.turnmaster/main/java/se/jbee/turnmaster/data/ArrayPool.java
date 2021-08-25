@@ -124,11 +124,11 @@ class ArrayIndex<T extends Any.Definition> extends ArrayPool<T> implements Index
     }
 
     @Override
-    public T get(Any.Code code) {
+    public Maybe<T> find(Any.Code code) {
         var e = byCode.get(code);
-        if (e == null) throw new NoSuchElementException(
-            of().getSimpleName() + " with code: " + code);
-        return e;
+        return e == null
+               ? Maybe.nothing()
+               : Maybe.some(e);
     }
 
     @Override
@@ -142,28 +142,13 @@ class ArrayIndex<T extends Any.Definition> extends ArrayPool<T> implements Index
 
 final class ArrayRange<T extends Any.Grade> extends ArrayIndex<T> implements Range<T> {
 
-    private Object[] byOrdinal;
-
     ArrayRange(Class<T> elementType, int initialCapacity) {
         super(elementType, initialCapacity);
-        this.byOrdinal = new Object[initialCapacity];
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void forEachInOrder(Consumer<? super T> f) {
-        for (Object e : byOrdinal)
-            if (e != null) f.accept((T) e);
-    }
-
-    @Override
-    public T spawn(IntFunction<T> factory) {
-        T e = super.spawn(factory);
-        int ordinal = e.ordinal();
-        if (ordinal >= byOrdinal.length) byOrdinal = copyOf(byOrdinal,
-            max(ordinal + 1, byOrdinal.length) + 8);
-        byOrdinal[ordinal] = e;
-        return e;
+        forEach(f);
     }
 
 }

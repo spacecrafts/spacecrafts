@@ -107,7 +107,6 @@ class TestBitsMarks {
     }
 
     private static Indicator newIndicator(int serial) {
-        return new Indicator(new Defined(serial, null, "indi" + serial), serial,
-            false);
+        return new Indicator(new Defined(serial, null, "indi" + serial), false);
     }
 }
