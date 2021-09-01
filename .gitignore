@@ -4,4 +4,6 @@
 
 *~
 
+.bach/external-modules/
+.bach/workspace/
 .idea/sonarlint/

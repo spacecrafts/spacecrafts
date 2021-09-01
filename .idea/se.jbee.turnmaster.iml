@@ -5,7 +5,7 @@
     <content url="file://$MODULE_DIR$/se.jbee.turnmaster">
       <sourceFolder url="file://$MODULE_DIR$/se.jbee.turnmaster/main/java" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
   </component>
 </module>
