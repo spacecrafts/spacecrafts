@@ -84,8 +84,8 @@ final class BitsFlux<T extends Entity> implements Flux<T>, Stasis<T> {
     public boolean contains(T e) {
         int index = index(e);
         int wordIndex = wordIndex(index);
-        return wordIndex < words.length && (words[wordIndex] & (wordMask(
-            index))) != 0;
+        return wordIndex < words.length &&
+               (words[wordIndex] & (wordMask(index))) != 0;
     }
 
     @Override
@@ -103,7 +103,7 @@ final class BitsFlux<T extends Entity> implements Flux<T>, Stasis<T> {
 
     @Override
     public void add(Collection<T> added) {
-        if (added instanceof BitsFlux other) {
+        if (added instanceof BitsFlux<T> other) {
             if (other.words.length > words.length)
                 words = copyOf(words, other.words.length);
             for (int i = 0; i < other.words.length; i++)
@@ -129,7 +129,7 @@ final class BitsFlux<T extends Entity> implements Flux<T>, Stasis<T> {
 
     @Override
     public void remove(Collection<T> removed) {
-        if (removed instanceof BitsFlux other) {
+        if (removed instanceof BitsFlux<T> other) {
             for (int i = 0; i < Math.min(words.length, other.words.length); i++)
                 words[i] &= ~other.words[i];
             size = countBits();

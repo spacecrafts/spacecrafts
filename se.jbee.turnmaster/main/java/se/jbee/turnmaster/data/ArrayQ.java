@@ -68,7 +68,7 @@ final class ArrayQ<T> implements Q<T> {
         checkNotSealed();
         int len = tail.size();
         ensureCapacity(len);
-        if (tail instanceof ArrayQ other) {
+        if (tail instanceof ArrayQ<T> other) {
             arraycopy(other.elements, 0, elements, this.size, len);
             this.size += len;
         } else {
@@ -127,12 +127,12 @@ final class ArrayQ<T> implements Q<T> {
         if (sealed) throw new IllegalStateException("Q is sealed");
     }
 
-    private void checkNonNull(Object e) {
+    private static void checkNonNull(Object e) {
         if (e == null)
             throw new NullPointerException("Q elements must not be null");
     }
 
-    private void checkNonNull(Object[] items) {
+    private static void checkNonNull(Object[] items) {
         for (Object e : items)
             checkNonNull(e);
     }
