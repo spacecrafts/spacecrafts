@@ -70,8 +70,6 @@ q
 Atest.integration/test/java/test/integration/utils/Assertions.java,9/7/974f10ab80d3713d604213a150aba6078df63eb8
 r
 Bse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Balance.java,7/7/7774bda85158eca52b9cd1fa9455a6471ab3b305
-[
-+test.integration/test/java/module-info.java,7/7/7719b78a3ad2bb90095846ade7ff9cf26e78a9df
 o
 ?test.integration/test/java/test/integration/turnmaster/Car.java,1/9/19faf19d1252e99b42d1701dedb22088a9eff46a
 t
