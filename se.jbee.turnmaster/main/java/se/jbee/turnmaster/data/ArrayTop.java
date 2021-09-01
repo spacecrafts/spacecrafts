@@ -182,7 +182,7 @@ final class ArrayTop<T> implements Top<T> {
     @Override
     public void pushBottom(Collection<T> items) {
         if (items.isEmpty()) return;
-        if (items instanceof ArrayTop other) {
+        if (items instanceof ArrayTop<T> other) {
             pushBottom(other.elements, items.size());
         } else {
             int overflow = size + items.size() - capacity;
@@ -268,11 +268,11 @@ final class ArrayTop<T> implements Top<T> {
         if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
     }
 
-    private void checkNonNull(Object e) {
+    private static void checkNonNull(Object e) {
         if (e == null) throw new NullPointerException();
     }
 
-    private void checkNonNull(Object[] items, int len) {
+    private static void checkNonNull(Object[] items, int len) {
         for (int i = 0; i < len; i++)
             checkNonNull(items[i]);
     }

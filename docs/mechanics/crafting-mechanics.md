@@ -57,7 +57,10 @@
     * => recompute equipments when units have changed
     * apply population growth (section)
     * => compute and update available staff
+    * apply ship movement
     * zero turn numbers
+
+4. Battles
 
 ## Grid, Reach, Edges and Boosts
 

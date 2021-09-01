@@ -38,9 +38,11 @@ public interface XY<T> {
      */
     Location max();
 
-    Dimension capacity();
-
     void trimTo(Dimension capacity);
+
+    default Dimension capacity() {
+        return new Dimension(width(), height());
+    }
 
     /**
      * @return number from cells between {@link #min()} and {@link #max()}

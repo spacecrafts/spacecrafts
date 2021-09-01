@@ -38,6 +38,8 @@ public sealed interface Maybe<T> extends Optional<T> permits Maybe.Nothing, Mayb
         @SuppressWarnings({"rawtypes"})
         static final Nothing NULL = new Nothing();
 
+        private Nothing() {}
+
         @Override
         public boolean isSome() {
             return false;
