@@ -13,4 +13,4 @@ import se.jbee.turnmaster.data.Any;
  * For example, whether a {@link Fraction} can create or control {@link
  * MercenaryUnit}s.
  */
-public class Capabilities {}
+public interface Capabilities {}

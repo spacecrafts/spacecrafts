@@ -74,8 +74,6 @@ o
 ?test.integration/test/java/test/integration/turnmaster/Car.java,1/9/19faf19d1252e99b42d1701dedb22088a9eff46a
 t
 Dse.jbee.turnmaster/main/java/se/jbee/turnmaster/eval/Inspection.java,d/2/d2199d92982b96f2dec80be9258f8a55f396f905
-p
-@se.jbee.turnmaster/main/java/se/jbee/turnmaster/data/ArrayQ.java,1/f/1f68bf2bcd58f65ea4e57530b350a71707b14fe2
 h
 8se.jbee.turnmaster/main/java/se/jbee/turnmaster/RNG.java,b/c/bc6889b3c6208c144c0e9ecc0f098cd749a44c95
 r
@@ -84,8 +82,6 @@ o
 ?se.jbee.turnmaster/main/java/se/jbee/turnmaster/data/Marks.java,0/d/0dfe55674be8a6ac71b2c58f7cd96ea222011d4d
 s
 Cse.jbee.turnmaster/main/java/se/jbee/turnmaster/eval/Generator.java,a/9/a9936c79e4867815883c21842c27afdf3beb9ff8
-s
-Cse.jbee.turnmaster/main/java/se/jbee/turnmaster/data/BitsMarks.java,9/4/94abe60f0723938e43b84280b13d93aac92bb0a2
 †
 Vse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/decision/ExploringDecisions.java,a/5/a57806b898007cf7d73f8a1d2b5a49565c83f5fc
 „
@@ -100,18 +96,12 @@ q
 Ase.jbee.turnmaster/main/java/se/jbee/turnmaster/data/MarkPer.java,5/5/55ab9cabe26e03db3019f92d8814c113d8c511f4
 y
 Ise.jbee.turnmaster/main/java/se/jbee/turnmaster/data/ConcurrentPools.java,2/e/2ed68a9ca2635267ee6cc31d2279e496ba84197c
-r
-Bse.jbee.turnmaster/main/java/se/jbee/turnmaster/data/BitsFlux.java,5/d/5d4230ebec0e6eff714e3db162a3183bc5331497
 u
 Ese.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/Conquering.java,e/8/e88666623b506ed5c98566f91d60f24077dc3151
 r
 Bse.jbee.turnmaster/main/java/se/jbee/turnmaster/eval/Decision.java,e/e/eeceb6e056395a0f523f654d35c1d05e0227498c
 r
 Bse.jbee.turnmaster/main/java/se/jbee/turnmaster/eval/Analysis.java,5/e/5e22535e93a2099450b36367d0c775857121a018
-u
-Ese.jbee.turnmaster/main/java/se/jbee/turnmaster/data/BitsMarkPer.java,6/b/6babc284846e053d7521560bfbeceb31890cb81e
-o
-?se.jbee.turnmaster/main/java/se/jbee/turnmaster/data/Maybe.java,3/3/33b792d40eb7327f57d83c4118ba5b38ea93127f
 x
 Htest.integration/test/java/test/integration/turnmaster/TestBitsFlux.java,b/d/bd4bb94b0690ea54a1351ae54899e0cbbf79ec47
 u
@@ -134,12 +124,8 @@ Z
 *legacy/src/se/jbee/game/scs/ecs/Fleet.java,6/c/6c3707082ce2f4534f58ee03e89365955da92b89
 Y
 )legacy/src/se/jbee/game/scs/ecs/Race.java,6/b/6b2157e9996eb0f3fe77ab6cd125562fe8ab7039
-‚
-Rse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/definition/Capabilities.java,7/8/783f2ea24cb45e6716a366a7dde8e3b7d09fd8d5
 n
 >se.jbee.turnmaster/main/java/se/jbee/turnmaster/data/Flux.java,f/5/f53717f5a3fb9d293758ce00e5fc784499da082c
-s
-Cse.jbee.turnmaster/main/java/se/jbee/turnmaster/data/ArrayPool.java,8/f/8f973e1332cd1b534f5dad9390800017001ba52b
 o
 ?se.jbee.turnmaster/main/java/se/jbee/turnmaster/data/Index.java,2/2/2289a928e13e8a414d4a1c7c01b2d0abb9e68788
 y
@@ -156,8 +142,6 @@ t
 Dse.jbee.turnmaster/main/java/se/jbee/turnmaster/data/Collection.java,f/a/fa7de80a5c55c5c46b135ab339db34db71a43a8a
 m
 =se.jbee.turnmaster/main/java/se/jbee/turnmaster/data/Top.java,6/4/64628c17449052714372b1b377f7fe0fdfc57815
-r
-Bse.jbee.turnmaster/main/java/se/jbee/turnmaster/data/ArrayTop.java,6/f/6f96a4af8185a2cfa54dad1295d4b4abb21461f2
 ‰
 Yse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/deduction/ConqueringDeductions.java,6/7/67bd7632af83abd45358a1162583e35aa8521798
 ˆ
@@ -192,8 +176,6 @@ F
 docs/lore/fate-lore.md,f/3/f32036d7309e34c455519725cff51a9a82ea2c9c
 q
 Ase.jbee.turnmaster/main/java/se/jbee/turnmaster/data/Numbers.java,e/f/ef22cff4f8845e66b7d706e2f927a0183551a728
-v
-Fse.jbee.turnmaster/main/java/se/jbee/turnmaster/data/ArrayNumbers.java,f/3/f3594ae6ea3bf9dafbd2cfe8b732ea74c8091950
 s
 Cse.jbee.turnmaster/main/java/se/jbee/turnmaster/data/NumberPer.java,2/9/29e7d2834cbaade3a32f8031b9034b027bec19d2
 x

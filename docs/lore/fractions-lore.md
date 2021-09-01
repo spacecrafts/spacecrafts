@@ -114,4 +114,9 @@ depending on the power structure you have a title:
   learn" by copying others. Since they have to start this with some basic
   non-superior techs they have to utilise their strength of being strong in
   scaling by repeating something boring over and over. Which means it is a
-  consequence that their ships are big as this is their way to scale.   
+  consequence that their ships are big as this is their way to scale.
+
+* robotic fraction populations do not grow naturally. They need to produce more
+  robots.
+* cybernetic fraction populations do not grow naturally. They need a biological
+  fraction as basis.

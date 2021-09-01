@@ -89,7 +89,7 @@ abstract class FixedBitsMarkPer<K extends Any.Definition> extends BitsMarkPer<K>
 
     @Override
     public void zero(MarkPer<K> zeros) {
-        if (zeros instanceof FixedBitsMarkPer ft) {
+        if (zeros instanceof FixedBitsMarkPer<K> ft) {
             arraycopy(ft.words, 0, words, 0, words.length);
         } else {
             clear();
