@@ -8,6 +8,7 @@ import se.jbee.turnmaster.data.Any;
 import se.jbee.turnmaster.data.Any.Defined;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Pick;
 
 public interface Definitions {
 
@@ -26,7 +27,7 @@ public interface Definitions {
 
         String code();
 
-        Resourcing.Process progression();
+        Pick<Resourcing.Process> progression();
     }
 
     interface AddPhenomena extends Defining {

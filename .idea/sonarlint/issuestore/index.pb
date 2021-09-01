@@ -148,14 +148,10 @@ s
 Cse.jbee.turnmaster/main/java/se/jbee/turnmaster/data/ArrayPool.java,8/f/8f973e1332cd1b534f5dad9390800017001ba52b
 o
 ?se.jbee.turnmaster/main/java/se/jbee/turnmaster/data/Index.java,2/2/2289a928e13e8a414d4a1c7c01b2d0abb9e68788
-|
-Ltest.integration/test/java/test/integration/turnmaster/TestArrayNumbers.java,7/f/7ff0c2ba297f8b37e7b32814c673196490bbf8e2
 y
 Itest.integration/test/java/test/integration/turnmaster/TestArrayPool.java,9/e/9e3d60ee57843a56f6d46e59f0a09c35c5bbe889
 y
 Itest.integration/test/java/test/integration/turnmaster/TestBitsMarks.java,0/f/0f57a11cb2093b88f60b4516ac8c191865e2676c
-
-Qse.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/definition/Definitions.java,8/f/8fd11861db39327017cced5ac8d14553b286be27
 
 Ose.jbee.spacecrafts/main/java/se/jbee/spacecrafts/sim/definition/Processes.java,b/c/bc46269c409b67b75153a33a7c336c2fadae0a33
 k

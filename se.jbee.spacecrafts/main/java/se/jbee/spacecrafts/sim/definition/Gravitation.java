@@ -4,6 +4,7 @@ import se.jbee.spacecrafts.sim.Game;
 import se.jbee.spacecrafts.sim.Resourcing;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.Resourcing.Phenomenon;
+import se.jbee.turnmaster.data.Pick;
 
 /**
  * Gravitation is a {@link Phenomenon} ranging from low to high gravity {@link
@@ -11,7 +12,7 @@ import se.jbee.spacecrafts.sim.Resourcing.Phenomenon;
  */
 public record Gravitation(
     String code,
-    Resourcing.Process progression
+    Pick<Resourcing.Process> progression
 ) implements Game.Module, Definitions.InfluenceSource {
 
     //TODO affects physical work performance only!
