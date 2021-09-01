@@ -32,6 +32,16 @@ import se.jbee.turnmaster.data.Vary;
 
 public interface Governing {
 
+    interface Asset extends Creation {
+
+        @Override
+        IsGoverned header();
+
+        Craft structure();
+    }
+
+    interface IsGoverned extends IsCreated {}
+
     record Controller(
         boolean artificialAgent,
         int fromTurn
@@ -72,16 +82,6 @@ public interface Governing {
         NumberPer<Fraction> affection,
         Vary<Asset> assignment
     ) implements Creation {}
-
-    interface Asset extends Creation {
-
-        @Override
-        IsGoverned header();
-
-        Craft structure();
-    }
-
-    interface IsGoverned extends IsCreated {}
 
     record Governed(
         int serial,

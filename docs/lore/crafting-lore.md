@@ -21,7 +21,7 @@ A loose list of ideas for crafting in the game.
   the obvious idea but they also need a way to grow it
 * Make asteroid belt or field into a rocky planet
 * Ships need deflector shields to guard against all kind of smaller mass flying
-  around. Otherwise they would constantly collide with those.
+  around. Otherwise, they would constantly collide with those.
 * captured components might be incompatible with the new owner - they need to be
   demolished
 * need to track who build a component to be able to tell what players can use it

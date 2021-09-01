@@ -19,6 +19,9 @@
   Orbit has the benefit of allowing many decks but is less efficient. a space
   station has the benefits of allowing multi-deck construction with a higher
   efficiency but has higher demands in general.
+* demolition first does not provide back rare materials. with recycling these
+  are provided back when the demo is complete. but demo costs might raise for
+  that.
 
 ## More Unlikely Ideas
 
@@ -37,10 +40,28 @@
     * what is an add-on?
 * is always component/edge based
 
+1. Before player turn (begin of new turn):
+
+    * distribute staff according to strategy, locks and blocks (on equipment)
+    * compute equipment gains as `turn` numbers
+    * accumulate gains per craft and fraction from section
+
+2. Player turn:
+
+    * recompute equipment gains as `turn` per section
+    * re-accumulate gains per craft and fraction from section
+
+3. After player turn (end of turn):
+
+    * apply complete commissions
+    * => recompute equipments when units have changed
+    * apply population growth (section)
+    * => compute and update available staff
+    * zero turn numbers
+
 ## Grid, Reach, Edges and Boosts
 
 * grid pattern (4 edge neighbors, corners do not "touch")
-* 1 module per deck (vertical layer), no 2d module overlap
 * required input(s) are fixed per cell
 * output has a fixed base value per cell
 * same components touching form a cluster

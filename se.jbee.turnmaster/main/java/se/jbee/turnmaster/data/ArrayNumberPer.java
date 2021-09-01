@@ -24,6 +24,11 @@ abstract class ArrayNumberPer<K extends Any.Entity> implements NumberPer<K> {
     }
 
     @Override
+    public boolean contains(K key) {
+        return !isUndefined(at(index(key)));
+    }
+
+    @Override
     public final Maybe<Value<K>> first(Predicate<? super Value<K>> test) {
         for (int i = 0; i < length(); i++)
             if (!isUndefined(at(i))) {
@@ -31,6 +36,12 @@ abstract class ArrayNumberPer<K extends Any.Entity> implements NumberPer<K> {
                 if (test.test(e)) return Maybe.some(e);
             }
         return Maybe.nothing();
+    }
+
+    @Override
+    public void forEachKey(java.util.function.Consumer<K> f) {
+        for (int i = 0; i < length(); i++)
+            if (!isUndefined(at(i))) f.accept(keys.get(i));
     }
 
     @Override
@@ -86,6 +97,7 @@ class ArrayFixedNumbersPer<K extends Any.Definition> extends ArrayNumberPer<K> {
 
     @Override
     public void add(K key, int delta) {
+        if (delta == 0) return;
         int index = index(key);
         if (isUndefined(values[index])) {
             values[index] = delta;
@@ -128,6 +140,7 @@ final class ArrayDynamicNumbersPer<K extends Any.Creation> extends ArrayNumberPe
 
     @Override
     public void add(K key, int delta) {
+        if (delta == 0) return;
         int index = index(key);
         ensureExists(index);
         if (isUndefined(values[index])) {

@@ -26,7 +26,7 @@ public interface TradingDecisions {
         @Override
         public void manifestIn(Game game, Flow<Game> flow) {
             var emptyBids = game.runtime().newFlux()
-                                .newFlux(game.objects().bids());
+                .newFlux(game.objects().bids());
             game.objects().trades().spawn(
                 serial -> new Trade(game.newOffered(serial, by), to, perTern,
                     give, take, emptyBids));

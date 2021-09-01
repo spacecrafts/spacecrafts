@@ -21,6 +21,16 @@ public interface Conquering {
     Assets
      */
 
+    @FunctionalInterface
+    interface Fleets {
+
+        Flux<Fleet> fleets();
+
+        default Maybe<Fleet> fleet(Fraction by) {
+            return fleets().first(fleet -> fleet.header().origin() == by);
+        }
+    }
+
     record Colony(
         Governed header,
         Craft structure,
@@ -71,14 +81,4 @@ public interface Conquering {
         Commanded header,
         Fleet unit
     ) implements Creation {}
-
-    @FunctionalInterface
-    interface Fleets {
-
-        Flux<Fleet> fleets();
-
-        default Maybe<Fleet> fleet(Fraction by) {
-            return fleets().first(fleet -> fleet.header().origin() == by);
-        }
-    }
 }

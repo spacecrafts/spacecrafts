@@ -14,6 +14,14 @@ public record Gravitation(
     Resourcing.Process progression
 ) implements Game.Module, Definitions.InfluenceSource {
 
+    //TODO affects physical work performance only!
+
+    // effect is different depending on indicators
+    // when robotic: low, normal, high => 100%, very-low => 110%, very-high => 90%
+    // when low-g-home:
+    // when high-g-home:
+    // otherwise
+
     @Override
     public void installIn(Game game) {
         game.addPhenomenon("gravitation", //

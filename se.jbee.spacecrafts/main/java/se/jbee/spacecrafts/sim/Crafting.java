@@ -29,7 +29,7 @@ public interface Crafting {
     record Component(
         Defined header,
         Process production,
-        Numbers zeros
+        Numbers profile
         //TODO requirements, e.g. substances or indicators
     ) implements Definition {}
 
@@ -61,24 +61,30 @@ public interface Crafting {
         Created header,
         Material structure,
         Maybe<Material> plating,
-        Numbers totals,
         Marks properties,
+        Numbers totals,
+        Numbers turn,
+        // top -> bottom
         Pick<Deck> decks,
-        Top<Commission> commissions
+        // high -> low priority:
+        Top<Commission> commissions,
+        Top<Equipment> productionPriorities,
+        Top<Equipment> battlePriorities
     ) implements Creation, Balance {}
 
     record Commission(
         Deck on,
         Unit item,
-        boolean dismantle
-    ) implements Embedded {}
+        Type type
+    ) implements Embedded {
+
+        public enum Type {CONSTRUCTION, DEMOLITION, REPAIR}
+    }
 
     record Deck(
         Text name,
         boolean shared,
-        XY<Unit> units,
-        // in priority order:
-        Top<Equipment> equipments
+        XY<Unit> units
     ) implements Embedded {}
 
     record Launch(Flux<Section> launched) implements Embedded {}
@@ -88,8 +94,10 @@ public interface Crafting {
      */
 
     record Equipment(
-        Cluster full,
+        Deck on,
+        Cluster apex,
         Vary<Boolean> disabled,
+        Marks properties,
         Numbers actuals
     ) implements Connectable {}
 

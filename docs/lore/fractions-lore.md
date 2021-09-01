@@ -21,7 +21,7 @@ and cannot be changed during the game.
 * resistance (NPC)
 * corporations
 * syndicate
-* freebooters (pirates)
+* freebooters (pirates) (scavenger?)
 * trade union
 * empire/kingdom
 
@@ -106,3 +106,12 @@ depending on the power structure you have a title:
 * not effected by low/high gravitation
 * cannot use multi-module ships
 * reduced culture factor
+
+## Thoughts and Ideas
+
+* Borg-like fraction: Many characteristics follow from their lack of freedom of
+  the individuals. This causes lack of creativity and innovation. They have to "
+  learn" by copying others. Since they have to start this with some basic
+  non-superior techs they have to utilise their strength of being strong in
+  scaling by repeating something boring over and over. Which means it is a
+  consequence that their ships are big as this is their way to scale.   

@@ -17,9 +17,8 @@ public interface Resourcing {
     record Resource(
         Defined header,
         Property amount,
-        Property boost
-        //TODO likely needs info target zeroing and if it is a physical or virtual resource (which level it aggregates) or local/global or transferable
-        // maybe this should be part at the Property
+        Property boost,
+        boolean physical
     ) implements Grade {}
 
     record Substance(
@@ -31,7 +30,7 @@ public interface Resourcing {
 
     record Influence(
         Defined header,
-        Process progression,
+        Pick<Process> progressions,
         Numbers zeros
     ) implements Grade {}
 
@@ -56,15 +55,10 @@ public interface Resourcing {
     ) implements Embedded {}
 
     record Process(
-        Precondition precondition,
+        Marks when,
         Pick<Quantity> ins,
         Pick<Quantity> outs,
-        Pick<Effect> effects
+        Pick<Effect> then
     ) implements Embedded {}
-
-    interface Precondition {
-
-        boolean meatBy(Marks properties, Numbers actuals);
-    }
 
 }

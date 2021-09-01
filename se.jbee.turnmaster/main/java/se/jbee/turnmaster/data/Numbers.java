@@ -27,6 +27,8 @@ public interface Numbers extends NumberPer<Property> {
      */
     void zero(Numbers zeros);
 
+    void zero(Numbers zeros, Collection<Property> filter);
+
     void add(Numbers added);
 
     void sub(Numbers subtracted);
@@ -43,4 +45,5 @@ public interface Numbers extends NumberPer<Property> {
 
     @Override
     Numbers clear();
+
 }

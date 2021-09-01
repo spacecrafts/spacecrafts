@@ -8,7 +8,7 @@ public interface XY<T> {
     @FunctionalInterface
     interface Factory {
 
-        <T> XY<T> newXY(Location capacity);
+        <T> XY<T> newXY(Location offset, Dimension capacity);
     }
 
     record Location(
@@ -20,6 +20,11 @@ public interface XY<T> {
             return new Location(x + dx, y + dy);
         }
     }
+
+    record Dimension(
+        int width,
+        int height
+    ) {}
 
     /**
      * @return top left corner from the used rectangle - these are minimum used
@@ -33,9 +38,9 @@ public interface XY<T> {
      */
     Location max();
 
-    Location capacity();
+    Dimension capacity();
 
-    void trimTo(Location capacity);
+    void trimTo(Dimension capacity);
 
     /**
      * @return number from cells between {@link #min()} and {@link #max()}

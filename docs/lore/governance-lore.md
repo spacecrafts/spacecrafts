@@ -19,11 +19,13 @@ On the management of people, resources and so forth in the game.
   on spirit.
 
 ## On Uniqueness and Differences
-Nothing is just be a better version of another thing. 
-There needs to be something you cannot get otherwise. 
-This is what allows unique strategies that are fun to try.
+
+Nothing is just be a better version of another thing. There needs to be
+something you cannot get otherwise. This is what allows unique strategies that
+are fun to try.
 
 ## On Colony vs Orbit
+
 Colony should be better building small modules, Orbit better at building large
 modules. => colony on 1 deck, orbit many decks at a time There must be a limit
 to workers so workers work similar to other buildings where a building enables a
@@ -32,12 +34,12 @@ on. Also there maybe should a maximum cell distance between a component
 providing a workplace, and a cell constructed by that place.
 
 ## Ecosystem
-The conditions of the ecosystem are tracked per planet.
-A healthy ecosystem is required for farms and forests to work and grow.
-Tree nurseries are used to help the ecosystem to develop faster.
-Like population growth the ecosystems "grows".
-Food forests are planed when "build" but grow through a healthy ecosystem and decline when it is unhealthy.
 
+The conditions of the ecosystem are tracked per planet. A healthy ecosystem is
+required for farms and forests to work and grow. Tree nurseries are used to help
+the ecosystem to develop faster. Like population growth the ecosystems "grows".
+Food forests are planed when "build" but grow through a healthy ecosystem and
+decline when it is unhealthy.
 
 ## Professions
 
@@ -51,37 +53,41 @@ Food forests are planed when "build" but grow through a healthy ecosystem and de
     S scholar (academy)
     A artist (studio)
 
-
 ## Resources
 
 Player Resources (Scores):
 
 * Reputation
+* Wisdom
 
 Module Resources:
 
 * Energy
 * Rare Materials
-* Control
+    * Rare Metals
+    * Rare Earths
+    * Rare Crystals
+* Control ? => replace with boost add-ons
 * Command
 * Food
 * Housing
 * Knowledge
-* Wisdom
 * Culture (in a way a mental pollution level)
 * Spirit
 * Pollution
 
-Ship Resources:
+Ship Properties:
 
 * Mass (Weight)
 
 ### Reputation
-A players' reputation is an aggregate of the players' status as well as his previous actions.
-Technologies, leaders and such do raise the reputation, inconsistent actions lower it.
-The details are not yet clear.
+
+A players' reputation is an aggregate of the players' status as well as his
+previous actions. Technologies, leaders and such do raise the reputation,
+inconsistent actions lower it. The details are not yet clear.
 
 ### Culture
+
 How people think about solving problems, what solutions they seek. Worrier
 culture vs explorer vs ?.
 
@@ -117,6 +123,7 @@ The culture is negated (when positive) when colonies are captured (resistance)
 or becomes maximum negative (-5).
 
 ### Command
+
 A resource of how many workers can be assigned to specific tasks by the player.
 This limits the total amount of workers that can be assigned. Command is not "
 used" or "required" by components but by workers working in them. Should a
@@ -129,12 +136,14 @@ player might not be able to assign tasks at will. The worker might decide
 themselves instead.
 
 ### Wisdom
+
 Wisdom should be linked to spirit or culture. In an environment with low culture
-and spiritual being there is little change to gain important wisdom.
-Wisdom is per race (player). It increases through academies and decreases when
-hiring leaders or diplomatic inconsistency.
+and spiritual being there is little change to gain important wisdom. Wisdom is
+per race (player). It increases through academies and decreases when hiring
+leaders or diplomatic inconsistency.
 
 ### Spirit
+
 Is both the short term mood people get into and their level of being connected
 with nature and soul. In contrast, the culture is more about customs and rites
 and their long term effects.
@@ -165,21 +174,22 @@ and `switch-factor` being
 * 2 (otherwise)
 
 ## Command
-Command Points reflect a players fleet size.
-The bridge component (used in ships) generates CPs.
-Great ship leaders get attracted by control points.
+
+Command Points reflect a players fleet size. The bridge component (used in
+ships) generates CPs. Great ship leaders get attracted by control points.
 
 	command = sum(cluster(command-base)) + leader-control-supply
 
-Depending on the race characteristics command points are needed per structure to control troops.
-On ships the size of the bridge determines the possible crew's quarters.
-On planets the size of the headquarters determines the possible number of barracks.  
+Depending on the race characteristics command points are needed per structure to
+control troops. On ships the size of the bridge determines the possible crew's
+quarters. On planets the size of the headquarters determines the possible number
+of barracks.  
 For each command point one barrack/crew's quarter can be build.
 
 Collective races can build any number of troop quarters.
 
-
 ## Rare Materials
+
 Rare materials are stockpiled and spent for construction. Amounts are computed
 when starting the component that requires the rare materials. Should the
 construction be canceled the rare materials are refunded.
@@ -198,7 +208,6 @@ Each planet has one of the following levels for rare materials:
 3. scattered
 4. common
 5. rich
-
 
 ### Housing
 
@@ -231,7 +240,9 @@ staffed to be effective.
 `natural-growth` is 2 for cellular, 1 for mineral and 0 for robots and cyborgs.
 
 ### Energy
-Energy production and usage is looked at per structure and for each turn individually.
+
+Energy production and usage is looked at per structure and for each turn
+individually.
 
 	energy = sum(floor(cluster(energy-base)) * leader-energy-factor
 	energy-consumption = sum(energy-usage) + robot-energy-consumption

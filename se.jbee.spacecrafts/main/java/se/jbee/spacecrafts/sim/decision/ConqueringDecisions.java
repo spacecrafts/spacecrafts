@@ -85,19 +85,19 @@ public interface ConqueringDecisions {
             Q<Deck> decks = game.newQ(3);
             var surface = from.decks().first().get();
             surface.name().set("surface");
+            var offset = on.surface().min();
             var capacity = on.surface().capacity();
             surface.units().trimTo(capacity);
             decks.append(surface);
-            decks.append(
-                new Deck(new Text("underground"), true, game.newXY(capacity),
-                    game.newTop(5)));
-            decks.append(
-                new Deck(new Text("subterranean"), false, game.newXY(capacity),
-                    game.newTop(5)));
+            decks.append(new Deck(new Text("underground"), true,
+                game.newXY(offset, capacity)));
+            decks.append(new Deck(new Text("subterranean"), false,
+                game.newXY(offset, capacity)));
             var section = game.objects().sections().spawn(serial -> new Section(
                 game.newCreated(serial, from.header().name()), from.structure(),
-                from.plating(), from.totals(), from.properties(), decks.seal(),
-                from.commissions()));
+                from.plating(), from.properties(), from.totals(), from.turn(),
+                decks.seal(), from.commissions(), game.newTop(5),
+                game.newTop(5)));
             var craft = flow.andManifest(
                 new SpawnCraft(origin.structure().header().name(), section));
             colony = game.objects().colonies().spawn(

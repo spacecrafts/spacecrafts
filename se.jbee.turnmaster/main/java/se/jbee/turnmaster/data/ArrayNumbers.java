@@ -28,11 +28,23 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     }
 
     @Override
-    public void cap(Numbers at) {
-        if (at instanceof ArrayNumbers anc) {
+    public void zero(Numbers zeros, Collection<Property> filter) {
+        if (zeros instanceof ArrayNumbers anZeros) {
             for (int i = 0; i < values.length; i++)
-                if (!isUndefined(anc.values[i]))
-                    values[i] = min(values[i], anc.values[i]);
+                if (!isUndefined(anZeros.values[i]) && filter.contains(
+                    keys.get(i))) values[i] = anZeros.values[i];
+        } else {
+            zeros.forEach(
+                (key, value) -> {if (filter.contains(key)) set(key, value);});
+        }
+    }
+
+    @Override
+    public void cap(Numbers at) {
+        if (at instanceof ArrayNumbers anCap) {
+            for (int i = 0; i < values.length; i++)
+                if (!isUndefined(anCap.values[i]))
+                    values[i] = min(values[i], anCap.values[i]);
         } else {
             at.forEach(this::cap1);
         }

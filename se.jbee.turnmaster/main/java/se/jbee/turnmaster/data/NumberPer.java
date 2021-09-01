@@ -1,5 +1,7 @@
 package se.jbee.turnmaster.data;
 
+import java.util.NoSuchElementException;
+
 public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Value<K>> {
 
     int Undefined = Integer.MIN_VALUE;
@@ -35,7 +37,16 @@ public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Va
         }
     }
 
-    int get(K key);
+    int get(K key) throws NoSuchElementException;
+
+    boolean contains(K key);
+
+    /**
+     * @return true, if all defined keys have a zero value
+     */
+    default boolean isZero() {
+        return !first(e -> e.value != 0).isSome();
+    }
 
     void set(K key, int value);
 
@@ -45,12 +56,34 @@ public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Va
         add(key, -subtracted);
     }
 
+    default int subZero(K key, int subtracted) {
+        return subDownTo(key, subtracted, 0);
+    }
+
+    default int subDownTo(K key, int subtracted, int min) {
+        int val = get(key);
+        if (val <= min) return 0;
+        int delta = Math.min(subtracted, val);
+        sub(key, delta);
+        return delta;
+    }
+
+    default int addUpTo(K key, int added, int max) {
+        int val = get(key);
+        if (val >= max) return 0;
+        int delta = Math.min(max - val, added);
+        add(key, delta);
+        return delta;
+    }
+
     /**
      * Unsets all values in this instance
      */
     NumberPer<K> clear();
 
     void forEach(Consumer<K> f);
+
+    void forEachKey(java.util.function.Consumer<K> f);
 
     interface Consumer<K> {
 

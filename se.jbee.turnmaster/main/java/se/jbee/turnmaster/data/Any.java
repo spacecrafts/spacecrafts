@@ -1,5 +1,6 @@
 package se.jbee.turnmaster.data;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
@@ -124,7 +125,12 @@ public interface Any {
         String name
     ) implements IsDefined {}
 
-    record Code(String value) {}
+    record Code(String value) {
+
+        public Code(Class<? extends Entity> type, String name) {
+            this(type.getSimpleName().toLowerCase(Locale.ROOT) + "." + name);
+        }
+    }
 
     /*
     Basic modelling blocks
@@ -138,8 +144,8 @@ public interface Any {
 
     record Property(
         Defined header,
-        Limit limits
-        // volatile => whether it disappears or accumulates after a turn
+        Limit limits,
+        boolean transitory
     ) implements Grade {}
 
     /**

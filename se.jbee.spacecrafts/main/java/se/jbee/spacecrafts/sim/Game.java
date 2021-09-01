@@ -14,6 +14,7 @@ import se.jbee.turnmaster.data.Any.Composed;
 import se.jbee.turnmaster.data.Any.Created;
 import se.jbee.turnmaster.data.Any.Defined;
 import se.jbee.turnmaster.data.Any.Generated;
+import se.jbee.turnmaster.data.Any.Property;
 import se.jbee.turnmaster.data.Any.Text;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Index;
@@ -33,105 +34,12 @@ public record Game(
     Objects objects
 ) implements Engine.Game, Definitions.AddPhenomena {
 
-    public interface Module extends Engine.Module<Game> {}
+    public Property property(String code) {
+        return property(new Code(code));
+    }
 
-    public interface Decision extends se.jbee.turnmaster.eval.Decision<Game> {}
-
-    public interface Implication<T> extends se.jbee.turnmaster.eval.Decision.Implication<Game, T> {}
-
-    public interface Deduction extends se.jbee.turnmaster.eval.Deduction<Game> {}
-
-    public interface Deducting extends se.jbee.turnmaster.eval.Analysis<Game, Deduction> {}
-
-    public record Settings() {}
-
-    public record Objects(
-        Pools pools,
-
-        Range<Any.Indicator> indicators,
-        Index<Any.Classification> classifications,
-        Range<Any.Property> properties,
-        Index<Any.Domain> domains,
-
-        Range<Resourcing.Resource> resources,
-        Range<Resourcing.Influence> influences,
-        Index<Resourcing.Phenomenon> phenomena,
-        Index<Resourcing.Substance> substances,
-
-        Index<Crafting.Component> components,
-        Register<Crafting.Craft> crafts,
-        Register<Crafting.Section> sections,
-
-        Register<Conquering.Colony> colonies,
-        Register<Conquering.LunarOutpost> outposts,
-        Register<Conquering.OrbitalStation> orbitals,
-        Register<Conquering.Spaceship> spaceships,
-        Register<Conquering.SpaceStation> stations,
-        Register<Conquering.Fleet> fleets,
-        Register<Conquering.MercenaryUnit> mercenaries,
-
-        Register<Exploring.Sector> sectors,
-        Register<Exploring.SolarSystem> systems,
-        Register<Exploring.Planet> planets,
-        Register<Exploring.Moon> moons,
-
-        Register<Fraction> fractions,
-        Index<Governing.Trait> traits,
-        Index<Governing.Sphere> spheres,
-        Register<Governing.Leader> leaders,
-
-        Register<Trading.Trade> trades,
-        Register<Trading.Bid> bids,
-        Register<Trading.Deal> deals,
-        Register<Trading.Sale> sales,
-        Register<Trading.Mission> missions,
-        Register<Trading.Approach> approaches,
-        Register<Trading.Hire> hires,
-
-        Range<Discovering.AreaOfInterest> areaOfInterests,
-        Index<Discovering.Discovery> discoveries
-    ) {
-
-        public Objects(Engine.Runtime runtime) {
-            this(runtime.newPools().newPools(runtime));
-        }
-
-        private Objects(Pools pools) {
-            this(pools, pools.range(Any.Indicator.class),
-                pools.index(Any.Classification.class),
-                pools.range(Any.Property.class), pools.index(Any.Domain.class),
-                pools.range(Resourcing.Resource.class),
-                pools.range(Resourcing.Influence.class),
-                pools.index(Resourcing.Phenomenon.class),
-                pools.index(Resourcing.Substance.class),
-                pools.index(Crafting.Component.class),
-                pools.register(Crafting.Craft.class),
-                pools.register(Crafting.Section.class),
-                pools.register(Conquering.Colony.class),
-                pools.register(Conquering.LunarOutpost.class),
-                pools.register(Conquering.OrbitalStation.class),
-                pools.register(Conquering.Spaceship.class),
-                pools.register(Conquering.SpaceStation.class),
-                pools.register(Conquering.Fleet.class),
-                pools.register(Conquering.MercenaryUnit.class),
-                pools.register(Exploring.Sector.class),
-                pools.register(Exploring.SolarSystem.class),
-                pools.register(Exploring.Planet.class),
-                pools.register(Exploring.Moon.class),
-                pools.register(Fraction.class),
-                pools.index(Governing.Trait.class),
-                pools.index(Governing.Sphere.class),
-                pools.register(Governing.Leader.class),
-                pools.register(Trading.Trade.class),
-                pools.register(Trading.Bid.class),
-                pools.register(Trading.Deal.class),
-                pools.register(Trading.Sale.class),
-                pools.register(Trading.Mission.class),
-                pools.register(Trading.Approach.class),
-                pools.register(Trading.Hire.class),
-                pools.range(Discovering.AreaOfInterest.class),
-                pools.index(Discovering.Discovery.class));
-        }
+    public Property property(Code code) {
+        return objects.properties.get(code);
     }
 
     @Override
@@ -195,8 +103,109 @@ public record Game(
         return runtime.newQ().newQ(initialCapacity);
     }
 
-    public <T> XY<T> newXY(XY.Location capacity) {
-        return runtime.newXY().newXY(capacity);
+    public <T> XY<T> newXY(XY.Location offset, XY.Dimension capacity) {
+        return runtime.newXY().newXY(offset, capacity);
+    }
+
+    public interface Module extends Engine.Module<Game> {}
+
+    public interface Decision extends se.jbee.turnmaster.eval.Decision<Game> {}
+
+    public interface Implication<T> extends se.jbee.turnmaster.eval.Decision.Implication<Game, T> {}
+
+    public interface Deduction extends se.jbee.turnmaster.eval.Deduction<Game> {}
+
+    public interface Deducting extends se.jbee.turnmaster.eval.Analysis<Game, Deduction> {}
+
+    public record Settings() {}
+
+    public record Objects(
+        Pools pools,
+
+        Range<Any.Indicator> indicators,
+        Index<Any.Classification> classifications,
+        Range<Property> properties,
+        Index<Any.Domain> domains,
+
+        Range<Resourcing.Resource> resources,
+        Range<Resourcing.Influence> influences,
+        Index<Resourcing.Phenomenon> phenomena,
+        Index<Resourcing.Substance> substances,
+
+        Index<Crafting.Component> components,
+        Register<Crafting.Craft> crafts,
+        Register<Crafting.Section> sections,
+
+        Register<Conquering.Colony> colonies,
+        Register<Conquering.LunarOutpost> outposts,
+        Register<Conquering.OrbitalStation> orbitals,
+        Register<Conquering.Spaceship> spaceships,
+        Register<Conquering.SpaceStation> stations,
+        Register<Conquering.Fleet> fleets,
+        Register<Conquering.MercenaryUnit> mercenaries,
+
+        Register<Exploring.Sector> sectors,
+        Register<Exploring.SolarSystem> systems,
+        Register<Exploring.Planet> planets,
+        Register<Exploring.Moon> moons,
+
+        Register<Fraction> fractions,
+        Index<Governing.Trait> traits,
+        Index<Governing.Sphere> spheres,
+        Register<Governing.Leader> leaders,
+
+        Register<Trading.Trade> trades,
+        Register<Trading.Bid> bids,
+        Register<Trading.Deal> deals,
+        Register<Trading.Sale> sales,
+        Register<Trading.Mission> missions,
+        Register<Trading.Approach> approaches,
+        Register<Trading.Hire> hires,
+
+        Range<Discovering.AreaOfInterest> areaOfInterests,
+        Index<Discovering.Discovery> discoveries
+    ) {
+
+        public Objects(Engine.Runtime runtime) {
+            this(runtime.newPools().newPools(runtime));
+        }
+
+        private Objects(Pools pools) {
+            this(pools, pools.range(Any.Indicator.class),
+                pools.index(Any.Classification.class),
+                pools.range(Property.class), pools.index(Any.Domain.class),
+                pools.range(Resourcing.Resource.class),
+                pools.range(Resourcing.Influence.class),
+                pools.index(Resourcing.Phenomenon.class),
+                pools.index(Resourcing.Substance.class),
+                pools.index(Crafting.Component.class),
+                pools.register(Crafting.Craft.class),
+                pools.register(Crafting.Section.class),
+                pools.register(Conquering.Colony.class),
+                pools.register(Conquering.LunarOutpost.class),
+                pools.register(Conquering.OrbitalStation.class),
+                pools.register(Conquering.Spaceship.class),
+                pools.register(Conquering.SpaceStation.class),
+                pools.register(Conquering.Fleet.class),
+                pools.register(Conquering.MercenaryUnit.class),
+                pools.register(Exploring.Sector.class),
+                pools.register(Exploring.SolarSystem.class),
+                pools.register(Exploring.Planet.class),
+                pools.register(Exploring.Moon.class),
+                pools.register(Fraction.class),
+                pools.index(Governing.Trait.class),
+                pools.index(Governing.Sphere.class),
+                pools.register(Governing.Leader.class),
+                pools.register(Trading.Trade.class),
+                pools.register(Trading.Bid.class),
+                pools.register(Trading.Deal.class),
+                pools.register(Trading.Sale.class),
+                pools.register(Trading.Mission.class),
+                pools.register(Trading.Approach.class),
+                pools.register(Trading.Hire.class),
+                pools.range(Discovering.AreaOfInterest.class),
+                pools.index(Discovering.Discovery.class));
+        }
     }
 
 }
