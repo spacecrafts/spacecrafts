@@ -8,22 +8,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="se.jbee.spacecrafts" />
     <orderEntry type="module" module-name="se.jbee.turnmaster" />
-    <orderEntry type="module-library" scope="TEST">
-      <library name="JUnit5.7.0">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/.bach/external-modules/junit-jupiter-5.7.2.jar!/" />
-          <root url="jar://$MODULE_DIR$/.bach/external-modules/junit-jupiter-api-5.7.2.jar!/" />
-          <root url="jar://$MODULE_DIR$/.bach/external-modules/apiguardian-api-1.1.0.jar!/" />
-          <root url="jar://$MODULE_DIR$/.bach/external-modules/opentest4j-1.2.0.jar!/" />
-          <root url="jar://$MODULE_DIR$/.bach/external-modules/junit-platform-commons-1.7.2.jar!/" />
-          <root url="jar://$MODULE_DIR$/.bach/external-modules/junit-jupiter-params-5.7.2.jar!/" />
-          <root url="jar://$MODULE_DIR$/.bach/external-modules/junit-jupiter-engine-5.7.2.jar!/" />
-          <root url="jar://$MODULE_DIR$/.bach/external-modules/junit-platform-engine-1.7.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="bach-external-modules" level="project" />
     <orderEntry type="inheritedJdk" />
   </component>
 </module>
