@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build with Bach" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="build" />
+    <module name="spacecrafts" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
