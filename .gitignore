@@ -1,11 +1,10 @@
 /target/
 /resources/
-/classes/
 
-.idea/sonarlint/
 Q
 *~
 
 .bach/external-modules/
 .bach/workspace/
+.idea/out/
 .idea/sonarlint/
