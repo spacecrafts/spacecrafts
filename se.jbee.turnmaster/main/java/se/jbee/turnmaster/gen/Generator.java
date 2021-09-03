@@ -1,4 +1,4 @@
-package se.jbee.turnmaster.eval;
+package se.jbee.turnmaster.gen;
 
 import se.jbee.turnmaster.Engine;
 import se.jbee.turnmaster.data.Any;

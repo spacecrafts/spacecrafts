@@ -1,10 +1,6 @@
 package se.jbee.turnmaster.data;
 
-import java.util.NoSuchElementException;
-
-public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Value<K>> {
-
-    int Undefined = Integer.MIN_VALUE;
+public interface NumberPer<K extends Any.Entity> extends ConstantPer<K> {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     static <K extends Any.Entity> NumberPer<K> newDefault(Pool<K> keys) {
@@ -35,17 +31,6 @@ public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Va
         default <K extends Any.Grade> NumberPer<K> newNumberPer(Range<K> keys) {
             return newNumberPer((Pool<K>) keys);
         }
-    }
-
-    int get(K key) throws NoSuchElementException;
-
-    boolean contains(K key);
-
-    /**
-     * @return true, if all defined keys have a zero value
-     */
-    default boolean isZero() {
-        return !first(e -> e.value != 0).isSome();
     }
 
     void set(K key, int value);
@@ -80,23 +65,5 @@ public interface NumberPer<K extends Any.Entity> extends Collection<NumberPer.Va
      * Unsets all values in this instance
      */
     NumberPer<K> clear();
-
-    void forEach(Consumer<K> f);
-
-    void forEachKey(java.util.function.Consumer<K> f);
-
-    interface Consumer<K> {
-
-        void accept(K key, int value);
-    }
-
-    record Value<K>(
-        K key,
-        int value
-    ) {}
-
-    static boolean isUndefined(int value) {
-        return value == Undefined;
-    }
 
 }

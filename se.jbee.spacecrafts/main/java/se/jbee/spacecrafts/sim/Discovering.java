@@ -3,7 +3,7 @@ package se.jbee.spacecrafts.sim;
 import se.jbee.turnmaster.data.Any.Defined;
 import se.jbee.turnmaster.data.Any.Definition;
 import se.jbee.turnmaster.data.Any.Grade;
-import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Constants;
 import se.jbee.turnmaster.data.Stasis;
 
 public interface Discovering {
@@ -16,9 +16,9 @@ public interface Discovering {
         Defined header,
         AreaOfInterest in,
         int level,
-        Numbers preconditions,
+        Constants preconditions,
         Stasis<Crafting.Component> enables,
-        Numbers contributes
+        Constants contributes
     ) implements Definition {}
 
 }

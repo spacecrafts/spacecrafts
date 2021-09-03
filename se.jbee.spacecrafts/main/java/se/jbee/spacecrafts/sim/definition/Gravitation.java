@@ -23,6 +23,10 @@ public record Gravitation(
     // when high-g-home:
     // otherwise
 
+    // also note that spaceships, orbital- and space-stations need gravitation dynamically evaluated
+    // one of their drawbacks is that gravitation has to be established using equipments
+    // this means gravitation levels are per cell or equipment based on the spread of the gravitation-generator
+
     @Override
     public void installIn(Game game) {
         game.addPhenomenon("gravitation", //

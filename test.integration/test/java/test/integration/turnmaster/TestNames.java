@@ -88,8 +88,5 @@ class TestNames {
         for (int i = 0; i < n; i++)
             names.add(Names.nextName(rnd, scheme));
         assertTrue(names.size() * 8 > n);
-        System.out.println();
-        System.out.println(scheme.name());
-        System.out.println(names);
     }
 }

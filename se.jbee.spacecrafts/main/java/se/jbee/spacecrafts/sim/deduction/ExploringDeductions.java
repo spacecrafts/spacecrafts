@@ -2,12 +2,16 @@ package se.jbee.spacecrafts.sim.deduction;
 
 import se.jbee.spacecrafts.sim.Conquering;
 import se.jbee.spacecrafts.sim.Game;
+import se.jbee.spacecrafts.sim.Game.Deducting;
 import se.jbee.spacecrafts.sim.Game.Deduction;
 import se.jbee.turnmaster.Engine.Flow;
 import se.jbee.turnmaster.data.Any.Property;
 import se.jbee.turnmaster.data.Register;
 
 public interface ExploringDeductions {
+
+    Deducting MovingFleets = game -> new MovingFleets(game.objects().fleets(),
+        game.property("parsec/turn"));
 
     record MovingFleets(
         Register<Fleet> fleets,

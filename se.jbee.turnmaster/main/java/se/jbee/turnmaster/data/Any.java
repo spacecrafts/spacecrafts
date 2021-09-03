@@ -153,7 +153,7 @@ public interface Any {
      */
     record Domain(
         Defined header,
-        Stasis<Property> members
+        Flux<Property> members
     ) implements Definition {}
 
     record Indicator(

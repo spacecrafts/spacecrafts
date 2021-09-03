@@ -1,6 +1,7 @@
 package se.jbee.spacecrafts.sim;
 
 import se.jbee.spacecrafts.sim.Conquering.MercenaryUnit;
+import se.jbee.spacecrafts.sim.Conquering.Spaceship;
 import se.jbee.spacecrafts.sim.Governing.Fraction;
 import se.jbee.turnmaster.data.Any.Composed;
 import se.jbee.turnmaster.data.Any.Creation;
@@ -62,7 +63,7 @@ public interface Trading {
 
     record Sale(
         Offered header,
-        Conquering.Spaceship of,
+        Spaceship of,
         int crew,
         Pick<Resourcing.Quantity> price
     ) implements Offer {}

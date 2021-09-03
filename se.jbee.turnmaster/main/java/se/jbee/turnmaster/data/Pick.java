@@ -8,6 +8,10 @@ import java.util.function.Predicate;
  */
 public interface Pick<T> extends Collection<T> {
 
+    static <T> Pick<T> ofDefault(T[] items) {
+        return Q.<T>newDefault(items.length).concat(items).seal();
+    }
+
     /*
     API
      */

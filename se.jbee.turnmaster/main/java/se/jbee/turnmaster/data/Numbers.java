@@ -2,7 +2,7 @@ package se.jbee.turnmaster.data;
 
 import se.jbee.turnmaster.data.Any.Property;
 
-public interface Numbers extends NumberPer<Property> {
+public interface Numbers extends Constants, NumberPer<Property> {
 
     static Numbers newDefault(Range<Property> of) {
         return new ArrayNumbers(of);
@@ -25,13 +25,13 @@ public interface Numbers extends NumberPer<Property> {
      *
      * @param zeros zero values to apply
      */
-    void zero(Numbers zeros);
+    void zero(Constants zeros);
 
-    void zero(Numbers zeros, Collection<Property> filter);
+    void zero(Constants zeros, Collection<Property> filter);
 
-    void add(Numbers added);
+    void add(Constants added);
 
-    void sub(Numbers subtracted);
+    void sub(Constants subtracted);
 
     /**
      * Caps all properties in this instance at the maximum set in cap. Any value
@@ -41,7 +41,7 @@ public interface Numbers extends NumberPer<Property> {
      *
      * @param at maximum values to apply.
      */
-    void cap(Numbers at);
+    void cap(Constants at);
 
     @Override
     Numbers clear();

@@ -1,9 +1,9 @@
 package se.jbee.spacecrafts.sim;
 
-import se.jbee.turnmaster.data.Marks;
-import se.jbee.turnmaster.data.Numbers;
+import se.jbee.turnmaster.data.Constants;
 import se.jbee.turnmaster.data.Pick;
 import se.jbee.turnmaster.data.Stasis;
+import se.jbee.turnmaster.data.Tags;
 
 import static se.jbee.turnmaster.data.Any.*;
 
@@ -31,7 +31,7 @@ public interface Resourcing {
     record Influence(
         Defined header,
         Pick<Process> progressions,
-        Numbers zeros
+        Constants zeros
     ) implements Grade {}
 
     /**
@@ -55,7 +55,7 @@ public interface Resourcing {
     ) implements Embedded {}
 
     record Process(
-        Marks when,
+        Tags when,
         Pick<Quantity> ins,
         Pick<Quantity> outs,
         Pick<Effect> then

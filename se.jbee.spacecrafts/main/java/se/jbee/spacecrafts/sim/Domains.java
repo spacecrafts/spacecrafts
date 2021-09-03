@@ -6,18 +6,23 @@ import se.jbee.turnmaster.data.Any.Code;
 public interface Domains {
 
     /**
-     * The set of properties that needs to be provided during a construction
-     * process. These are {@link se.jbee.spacecrafts.sim.Resourcing.Resource}s
-     * but also other {@link se.jbee.turnmaster.data.Any.Property}s.
+     * Properties that need to be provided during a construction process. These
+     * are {@link se.jbee.spacecrafts.sim.Resourcing.Resource}s but also other
+     * {@link se.jbee.turnmaster.data.Any.Property}s.
      */
     Code construction = code("construction");
 
     /**
-     * The set of properties that is used when operating a component that is
-     * completed (build). This e.g. does not include {@link
-     * se.jbee.spacecrafts.sim.Resourcing.Resource}s.
+     * Properties that are used when operating a component that is completed
+     * (build). This e.g. does not include {@link se.jbee.spacecrafts.sim.Resourcing.Resource}s.
      */
     Code operation = code("operation");
+
+    /**
+     * Properties that are liable to taxation. Meaning the taxation percentage
+     * of the output is turned into money.
+     */
+    Code taxed = code("taxed");
 
     /**
      * Set of properties aggregated from {@link se.jbee.spacecrafts.sim.Crafting.Section}

@@ -3,8 +3,6 @@ package se.jbee.turnmaster;
 import se.jbee.turnmaster.data.Any.Connectable;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Index;
-import se.jbee.turnmaster.data.MarkPer;
-import se.jbee.turnmaster.data.Marks;
 import se.jbee.turnmaster.data.NumberPer;
 import se.jbee.turnmaster.data.Numbers;
 import se.jbee.turnmaster.data.Optional;
@@ -14,10 +12,14 @@ import se.jbee.turnmaster.data.Pools;
 import se.jbee.turnmaster.data.Q;
 import se.jbee.turnmaster.data.Range;
 import se.jbee.turnmaster.data.Register;
+import se.jbee.turnmaster.data.TagPer;
+import se.jbee.turnmaster.data.Tags;
 import se.jbee.turnmaster.data.Top;
 import se.jbee.turnmaster.data.Vary;
 import se.jbee.turnmaster.data.XY;
 import se.jbee.turnmaster.eval.Decision;
+import se.jbee.turnmaster.eval.Deduction;
+import se.jbee.turnmaster.eval.Inspection;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -49,23 +51,25 @@ public interface Engine {
      */
     record Configuration(
         Pick<Kit> kits,
-        Top<Option<Pools.Factory>> newPools,
-        Top<Option<Q.Factory>> newQs,
-        Top<Option<Top.Factory>> newTops,
-        Top<Option<Register.Factory>> newRegisters,
-        Top<Option<Index.Factory>> newIndexes,
-        Top<Option<Index.Factory>> newRanges,
-        Top<Option<Flux.Factory>> newFluxes,
-        Top<Option<Marks.Factory>> newMarks,
-        Top<Option<MarkPer.Factory>> newMarkPer,
-        Top<Option<Numbers.Factory>> newNumbers,
-        Top<Option<NumberPer.Factory>> newNumberPer,
-        Top<Option<Per.Factory>> newPers,
-        Top<Option<XY.Factory>> newXYs
+        Top<Option<Pools.Factory>> poolOptions,
+        Top<Option<Q.Factory>> qOptions,
+        Top<Option<Top.Factory>> topOptions,
+        Top<Option<Register.Factory>> registerOptions,
+        Top<Option<Index.Factory>> indexOptions,
+        Top<Option<Index.Factory>> rangeOptions,
+        Top<Option<Flux.Factory>> fluxOptions,
+        Top<Option<Tags.Factory>> tagOptions,
+        Top<Option<TagPer.Factory>> tagPerOptions,
+        Top<Option<Numbers.Factory>> numbersOptions,
+        Top<Option<NumberPer.Factory>> numberPerOptions,
+        Top<Option<Per.Factory>> perOptions,
+        Top<Option<XY.Factory>> xyOptions
     ) {}
 
     /**
-     * A {@link Runtime} is the engine as used by a particular {@link Game}
+     * A {@link Runtime} is the engine as used by a particular {@link Game}. It
+     * contains the chosen options. These can be changed for an existing
+     * save-game.
      */
     record Runtime(
         Pools.Factory newPools,
@@ -75,8 +79,8 @@ public interface Engine {
         Index.Factory newIndex,
         Range.Factory newRange,
         Flux.Factory newFlux,
-        Marks.Factory newMarks,
-        MarkPer.Factory newMarkPer,
+        Tags.Factory newTags,
+        TagPer.Factory newTagPer,
         Numbers.Factory newNumbers,
         NumberPer.Factory newNumberPer,
         Per.Factory newPer,
@@ -108,6 +112,17 @@ public interface Engine {
         T of
     ) {}
 
+    record Loop<G extends Game>(
+        Deduction.Sequence<G> atStartOfTurn,
+        Inspection.Sequence<G> duringTurn,
+        Deduction.Sequence<G> atEndOfTurn
+    ) {}
+
+    /**
+     * A engine setup is a semantic set of {@link Bundle}s. {@link Bundle}s are
+     * located and loaded in no particular order using the {@link
+     * java.util.ServiceLoader}.
+     */
     interface Bundle {
 
         default Class<? extends Bundle> id() {
@@ -130,10 +145,18 @@ public interface Engine {
             return (Class<? extends Module<G>>) getClass();
         }
 
+        /**
+         * @return set of modules this module needs to be installed before this
+         * module can be installed
+         */
         default Pick<Class<? extends Module<G>>> requires() {
             return Q.empty();
         }
 
+        /**
+         * @return set of modules that needs to be installed after this module
+         * was installed
+         */
         default Pick<Class<? extends Module<G>>> supports() {
             return Q.empty();
         }
@@ -163,4 +186,5 @@ public interface Engine {
             if (when) manifest(newDecision.apply(value));
         }
     }
+
 }

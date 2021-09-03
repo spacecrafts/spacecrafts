@@ -1,5 +1,6 @@
 package se.jbee.turnmaster.eval;
 
+import se.jbee.turnmaster.Engine;
 import se.jbee.turnmaster.data.Any;
 
 /**
@@ -15,6 +16,9 @@ import se.jbee.turnmaster.data.Any;
  * different lists from active {@link Inspection}s for human players (their
  * choice) and for AA (e.g. different sets for different AA difficulties).
  */
-public interface Inspection {
+public interface Inspection<G extends Engine.Game> {
 
+    interface Sequence<G extends Engine.Game> {
+
+    }
 }
