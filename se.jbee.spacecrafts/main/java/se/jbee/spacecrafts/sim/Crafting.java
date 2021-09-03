@@ -11,11 +11,12 @@ import se.jbee.turnmaster.data.Any.Defined;
 import se.jbee.turnmaster.data.Any.Definition;
 import se.jbee.turnmaster.data.Any.Embedded;
 import se.jbee.turnmaster.data.Any.Text;
+import se.jbee.turnmaster.data.Constants;
 import se.jbee.turnmaster.data.Flux;
-import se.jbee.turnmaster.data.Marks;
 import se.jbee.turnmaster.data.Maybe;
 import se.jbee.turnmaster.data.Numbers;
 import se.jbee.turnmaster.data.Pick;
+import se.jbee.turnmaster.data.Tags;
 import se.jbee.turnmaster.data.Top;
 import se.jbee.turnmaster.data.Vary;
 import se.jbee.turnmaster.data.XY;
@@ -29,13 +30,13 @@ public interface Crafting {
     record Component(
         Defined header,
         Process production,
-        Numbers profile
+        Constants profile
         //TODO requirements, e.g. substances or indicators
     ) implements Definition {}
 
     record Material(
         Defined header,
-        Numbers properties
+        Constants properties
     ) implements Definition {}
 
     record Unit(
@@ -61,7 +62,7 @@ public interface Crafting {
         Created header,
         Material structure,
         Maybe<Material> plating,
-        Marks properties,
+        Tags properties,
         Numbers totals,
         Numbers turn,
         // top -> bottom
@@ -97,7 +98,7 @@ public interface Crafting {
         Deck on,
         Cluster apex,
         Vary<Boolean> disabled,
-        Marks properties,
+        Tags properties,
         Numbers actuals
     ) implements Connectable {}
 

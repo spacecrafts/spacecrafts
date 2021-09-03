@@ -1,11 +1,11 @@
 package se.jbee.turnmaster.data;
 
-public interface MarkPer<K extends Any.Entity> extends Collection<K> {
+public interface TagPer<K extends Any.Entity> extends Collection<K> {
 
     @FunctionalInterface
     interface Factory {
 
-        <T extends Any.Definition> Marks newMarks(Index<T> of);
+        <T extends Any.Definition> Tags newMarks(Index<T> of);
     }
 
     /*
@@ -18,7 +18,7 @@ public interface MarkPer<K extends Any.Entity> extends Collection<K> {
 
     void clear();
 
-    void zero(MarkPer<K> zeros);
+    void zero(TagPer<K> zeros);
 
     default void set(K key) {
         set(key, true);

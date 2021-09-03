@@ -6,11 +6,11 @@ import java.util.function.Predicate;
 
 import static java.lang.System.arraycopy;
 
-abstract class BitsMarkPer<K extends Any.Entity> implements MarkPer<K> {
+abstract class BitsTagPer<K extends Any.Entity> implements TagPer<K> {
 
     protected final Pool<K> of;
 
-    protected BitsMarkPer(Pool<K> of) {this.of = of;}
+    protected BitsTagPer(Pool<K> of) {this.of = of;}
 
     @Override
     public boolean has(K key) {
@@ -36,11 +36,11 @@ abstract class BitsMarkPer<K extends Any.Entity> implements MarkPer<K> {
     }
 }
 
-abstract class FixedBitsMarkPer<K extends Any.Definition> extends BitsMarkPer<K> {
+abstract class FixedBitsTagPer<K extends Any.Definition> extends BitsTagPer<K> {
 
     private final long[] words;
 
-    FixedBitsMarkPer(Index<K> of) {
+    FixedBitsTagPer(Index<K> of) {
         super(of);
         this.words = new long[wordIndex(of.span() + 1) + 1];
     }
@@ -88,8 +88,8 @@ abstract class FixedBitsMarkPer<K extends Any.Definition> extends BitsMarkPer<K>
     }
 
     @Override
-    public void zero(MarkPer<K> zeros) {
-        if (zeros instanceof FixedBitsMarkPer<K> ft) {
+    public void zero(TagPer<K> zeros) {
+        if (zeros instanceof FixedBitsTagPer<K> ft) {
             arraycopy(ft.words, 0, words, 0, words.length);
         } else {
             clear();
@@ -126,7 +126,7 @@ abstract class FixedBitsMarkPer<K extends Any.Definition> extends BitsMarkPer<K>
     }
 }
 
-abstract class DynamicBitsMarkPer<K extends Any.Creation> extends BitsMarkPer<K> {
+abstract class DynamicBitsTagPer<K extends Any.Creation> extends BitsTagPer<K> {
 
-    DynamicBitsMarkPer(Register<K> of) {super(of);}
+    DynamicBitsTagPer(Register<K> of) {super(of);}
 }

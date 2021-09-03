@@ -5,7 +5,6 @@ import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 import static java.util.Arrays.copyOf;
-import static se.jbee.turnmaster.data.NumberPer.isUndefined;
 
 abstract class ArrayNumberPer<K extends Any.Entity> implements NumberPer<K> {
 
@@ -18,21 +17,21 @@ abstract class ArrayNumberPer<K extends Any.Entity> implements NumberPer<K> {
     @Override
     public final int get(K key) {
         int value = at(index(key));
-        if (isUndefined(value))
+        if (ConstantPer.isUndefined(value))
             throw new NoSuchElementException(key.toString());
         return value;
     }
 
     @Override
     public boolean contains(K key) {
-        return !isUndefined(at(index(key)));
+        return !ConstantPer.isUndefined(at(index(key)));
     }
 
     @Override
-    public final Maybe<Value<K>> first(Predicate<? super Value<K>> test) {
+    public final Maybe<ConstantPer.Value<K>> first(Predicate<? super ConstantPer.Value<K>> test) {
         for (int i = 0; i < length(); i++)
-            if (!isUndefined(at(i))) {
-                var e = new Value<>(keys.get(i), at(i));
+            if (!ConstantPer.isUndefined(at(i))) {
+                var e = new ConstantPer.Value<>(keys.get(i), at(i));
                 if (test.test(e)) return Maybe.some(e);
             }
         return Maybe.nothing();
@@ -41,24 +40,26 @@ abstract class ArrayNumberPer<K extends Any.Entity> implements NumberPer<K> {
     @Override
     public void forEachKey(java.util.function.Consumer<K> f) {
         for (int i = 0; i < length(); i++)
-            if (!isUndefined(at(i))) f.accept(keys.get(i));
+            if (!ConstantPer.isUndefined(at(i))) f.accept(keys.get(i));
     }
 
     @Override
-    public final void forEach(java.util.function.Consumer<? super Value<K>> f) {
-        forEach(((key, value) -> f.accept(new Value<>(key, value))));
+    public final void forEach(java.util.function.Consumer<? super ConstantPer.Value<K>> f) {
+        forEach(
+            ((key, value) -> f.accept(new ConstantPer.Value<>(key, value))));
     }
 
     @Override
     public final void forEach(Consumer<K> f) {
         for (int i = 0; i < length(); i++)
-            if (!isUndefined(at(i))) f.accept(keys.get(i), at(i));
+            if (!ConstantPer.isUndefined(at(i))) f.accept(keys.get(i), at(i));
     }
 
     @Override
     public final int size() {
         int c = 0;
-        for (int i = 0; i < length(); i++) if (!isUndefined(at(i))) c++;
+        for (int i = 0; i < length(); i++)
+            if (!ConstantPer.isUndefined(at(i))) c++;
         return c;
     }
 
@@ -99,14 +100,14 @@ class ArrayFixedNumbersPer<K extends Any.Definition> extends ArrayNumberPer<K> {
     public void add(K key, int delta) {
         if (delta == 0) return;
         int index = index(key);
-        if (isUndefined(values[index])) {
+        if (ConstantPer.isUndefined(values[index])) {
             values[index] = delta;
         } else values[index] += delta;
     }
 
     @Override
     public NumberPer<K> clear() {
-        Arrays.fill(values, Undefined);
+        Arrays.fill(values, ConstantPer.Undefined);
         return this;
     }
 
@@ -143,14 +144,14 @@ final class ArrayDynamicNumbersPer<K extends Any.Creation> extends ArrayNumberPe
         if (delta == 0) return;
         int index = index(key);
         ensureExists(index);
-        if (isUndefined(values[index])) {
+        if (ConstantPer.isUndefined(values[index])) {
             values[index] = delta;
         } else values[index] += delta;
     }
 
     @Override
     public NumberPer<K> clear() {
-        Arrays.fill(values, Undefined);
+        Arrays.fill(values, ConstantPer.Undefined);
         return this;
     }
 

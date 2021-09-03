@@ -11,8 +11,8 @@ import se.jbee.spacecrafts.sim.Conquering.Spaceship;
 import se.jbee.spacecrafts.sim.Crafting.Component;
 import se.jbee.spacecrafts.sim.Crafting.Craft;
 import se.jbee.spacecrafts.sim.Discovering.Discovery;
+import se.jbee.spacecrafts.sim.Exploring.Sighting;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
-import se.jbee.turnmaster.data.Any;
 import se.jbee.turnmaster.data.Any.Created;
 import se.jbee.turnmaster.data.Any.Creation;
 import se.jbee.turnmaster.data.Any.Defined;
@@ -20,13 +20,14 @@ import se.jbee.turnmaster.data.Any.Definition;
 import se.jbee.turnmaster.data.Any.Embedded;
 import se.jbee.turnmaster.data.Any.IsCreated;
 import se.jbee.turnmaster.data.Any.Text;
+import se.jbee.turnmaster.data.Constants;
 import se.jbee.turnmaster.data.Flux;
-import se.jbee.turnmaster.data.Marks;
 import se.jbee.turnmaster.data.NumberPer;
 import se.jbee.turnmaster.data.Numbers;
 import se.jbee.turnmaster.data.Per;
 import se.jbee.turnmaster.data.Q;
 import se.jbee.turnmaster.data.Stasis;
+import se.jbee.turnmaster.data.Tags;
 import se.jbee.turnmaster.data.Top;
 import se.jbee.turnmaster.data.Vary;
 
@@ -51,7 +52,7 @@ public interface Governing {
         Created header,
         Q<Controller> controlledBy,
         Numbers score,
-        Marks properties,
+        Tags properties,
         Flux<Trait> traits,
         Governance governed,
         Awareness awareOf,
@@ -66,7 +67,7 @@ public interface Governing {
 
     record Trait(
         Defined header,
-        Numbers bonuses,
+        Constants bonuses,
         Stasis<Influence> influences
     ) implements Definition {}
 
@@ -142,8 +143,4 @@ public interface Governing {
         Flux<Component> components
     ) implements Embedded, Fleets {}
 
-    record Sighting(
-        Exploring.Coordinate at,
-        int inTurn
-    ) implements Any.Embedded {}
 }

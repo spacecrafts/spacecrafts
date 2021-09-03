@@ -18,17 +18,18 @@ import se.jbee.turnmaster.data.Any.Property;
 import se.jbee.turnmaster.data.Any.Text;
 import se.jbee.turnmaster.data.Flux;
 import se.jbee.turnmaster.data.Index;
-import se.jbee.turnmaster.data.Marks;
 import se.jbee.turnmaster.data.Numbers;
 import se.jbee.turnmaster.data.Pools;
 import se.jbee.turnmaster.data.Q;
 import se.jbee.turnmaster.data.Range;
 import se.jbee.turnmaster.data.Register;
+import se.jbee.turnmaster.data.Tags;
 import se.jbee.turnmaster.data.Top;
 import se.jbee.turnmaster.data.XY;
 
 public record Game(
     Engine.Runtime runtime,
+    Engine.Loop<Game> loop,
     Turn turn,
     RNG rng,
     Objects objects
@@ -78,8 +79,8 @@ public record Game(
         return runtime.newNumbers().newNumbers(objects.properties).clear();
     }
 
-    public Marks newMarks() {
-        return runtime.newMarks().newMarks(objects.indicators);
+    public Tags newMarks() {
+        return runtime.newTags().newTags(objects.indicators);
     }
 
     @Override

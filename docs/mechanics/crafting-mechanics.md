@@ -58,6 +58,7 @@
     * apply population growth (section)
     * => compute and update available staff
     * apply ship movement
+    * evaluate indicators (those gained based on outputs)
     * zero turn numbers
 
 4. Battles

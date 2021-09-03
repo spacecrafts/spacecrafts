@@ -3,6 +3,7 @@ package se.jbee.spacecrafts.sim;
 import se.jbee.spacecrafts.sim.Conquering.Fleet;
 import se.jbee.spacecrafts.sim.Resourcing.Influence;
 import se.jbee.spacecrafts.sim.Resourcing.Substance;
+import se.jbee.turnmaster.data.Any;
 import se.jbee.turnmaster.data.Any.Creation;
 import se.jbee.turnmaster.data.Any.Generated;
 import se.jbee.turnmaster.data.Flux;
@@ -65,4 +66,9 @@ public interface Exploring {
                 round(dy * factor));
         }
     }
+
+    record Sighting(
+        Coordinate at,
+        int inTurn
+    ) implements Any.Embedded {}
 }

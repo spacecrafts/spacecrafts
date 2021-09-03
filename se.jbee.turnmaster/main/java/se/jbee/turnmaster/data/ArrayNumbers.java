@@ -3,7 +3,6 @@ package se.jbee.turnmaster.data;
 import se.jbee.turnmaster.data.Any.Property;
 
 import static java.lang.Math.min;
-import static se.jbee.turnmaster.data.NumberPer.isUndefined;
 
 final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbers {
 
@@ -18,10 +17,10 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     }
 
     @Override
-    public void zero(Numbers zeros) {
+    public void zero(Constants zeros) {
         if (zeros instanceof ArrayNumbers anZeros) {
             for (int i = 0; i < values.length; i++)
-                if (!isUndefined(anZeros.values[i]))
+                if (!ConstantPer.isUndefined(anZeros.values[i]))
                     values[i] = anZeros.values[i];
         } else {
             zeros.forEach(this::set);
@@ -29,10 +28,10 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     }
 
     @Override
-    public void zero(Numbers zeros, Collection<Property> filter) {
+    public void zero(Constants zeros, Collection<Property> filter) {
         if (zeros instanceof ArrayNumbers anZeros) {
             for (int i = 0; i < values.length; i++)
-                if (!isUndefined(anZeros.values[i]) &&
+                if (!ConstantPer.isUndefined(anZeros.values[i]) &&
                     filter.contains(keys.get(i))) values[i] = anZeros.values[i];
         } else {
             zeros.forEach(
@@ -41,10 +40,10 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     }
 
     @Override
-    public void cap(Numbers at) {
+    public void cap(Constants at) {
         if (at instanceof ArrayNumbers anCap) {
             for (int i = 0; i < values.length; i++)
-                if (!isUndefined(anCap.values[i]))
+                if (!ConstantPer.isUndefined(anCap.values[i]))
                     values[i] = min(values[i], anCap.values[i]);
         } else {
             at.forEach(this::cap1);
@@ -57,10 +56,10 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     }
 
     @Override
-    public void add(Numbers added) {
+    public void add(Constants added) {
         if (added instanceof ArrayNumbers anAdded) {
             for (int i = 0; i < values.length; i++)
-                if (!isUndefined(anAdded.values[i]))
+                if (!ConstantPer.isUndefined(anAdded.values[i]))
                     values[i] += anAdded.values[i];
         } else {
             added.forEach(this::add1);
@@ -72,10 +71,10 @@ final class ArrayNumbers extends ArrayFixedNumbersPer<Property> implements Numbe
     }
 
     @Override
-    public void sub(Numbers subtracted) {
+    public void sub(Constants subtracted) {
         if (subtracted instanceof ArrayNumbers anSubtracted) {
             for (int i = 0; i < values.length; i++)
-                if (!isUndefined(anSubtracted.values[i]))
+                if (!ConstantPer.isUndefined(anSubtracted.values[i]))
                     values[i] -= anSubtracted.values[i];
         } else {
             subtracted.forEach(this::sub1);
