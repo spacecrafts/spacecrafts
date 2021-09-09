@@ -16,7 +16,7 @@ class build {
       bach.logCaption("Perform automated checks");
       var test = main.newDependentConventionalSpace("test").modulesAddModule("test.integration");
       test.grab(grabber, "org.junit.jupiter", "org.junit.platform.console");
-      test.compile(javac -> javac.add("-g").add("-parameters"), jar -> jar);
+      test.compile(javac -> javac.add("-g").add("-parameters"));
       test.runAllTests();
     }
   }
